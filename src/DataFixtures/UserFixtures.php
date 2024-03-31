@@ -2,13 +2,12 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Factory\UserFactory;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Generator;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class UserFixtures extends Fixture
 {
