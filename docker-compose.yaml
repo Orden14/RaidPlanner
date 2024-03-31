@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   db:
-    image: yobasystems/alpine-mariadb:10.4.17
+    image: yobasystems/alpine-mariadb:10.11.6
     container_name: db_raidplanner
     restart: no
     volumes:

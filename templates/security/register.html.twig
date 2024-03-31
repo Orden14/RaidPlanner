@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>S'enregistrer</h1>
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm, {'attr': {'class': 'form-group'}}) }}
+            <div class="form-group clargemarginbottom">
+                {{ form_row(registrationForm.username, {
+                    label: 'Nom de compte',
+                    'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(registrationForm.plainPassword.first, {
+                    label: 'Mot de passe',
+                    'attr': {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_row(registrationForm.plainPassword.second, {
+                    label: 'Confirmez le mot de passe',
+                    'attr': {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary cmargintop">S'enregistrer</button>
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

@@ -1,3 +1,19 @@
 body {
     background-color: skyblue;
 }
+
+.cmarginbottom {
+    margin-bottom: 10px;
+}
+
+.cmargintop {
+    margin-top: 10px;
+}
+
+.clargemarginbottom {
+    margin-bottom: 30px;
+}
+
+.clargemargintop {
+    margin-top: 30px;
+}
