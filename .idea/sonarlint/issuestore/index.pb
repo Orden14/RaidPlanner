@@ -28,3 +28,6 @@ I
 :
 
 .env.local,1\f\1fa30fea3e9ae270a3c38a6113a3689d8987d108
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
