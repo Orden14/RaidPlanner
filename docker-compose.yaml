@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  db:
+    image: yobasystems/alpine-mariadb:10.4.17
+    container_name: db_raidplanner
+    restart: no
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass123
+    ports:
+      - '3306:3306'
+    networks:
+      - dev
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_raidplanner
+    restart: no
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_raidplanner
+    restart: no
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  db-data:
