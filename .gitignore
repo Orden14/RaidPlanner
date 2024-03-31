@@ -20,6 +20,4 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ### PHPSTORM ###
-/.idea
-/.idea/*
-/vcs.xml
+.idea/
