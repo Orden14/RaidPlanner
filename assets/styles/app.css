@@ -3,11 +3,7 @@ body {
 }
 
 input[type="color"] {
-    border: none;
     padding: 0;
-    width: 70px;
-    height: 30px;
-    cursor: pointer;
 }
 
 .cmarginbottom {
