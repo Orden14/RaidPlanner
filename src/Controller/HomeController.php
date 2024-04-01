@@ -18,7 +18,7 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_guest');
         }
 
-        return $this->render('home/index.html.twig');
+        return $this->redirectToRoute('calendar_index');
     }
 
     #[Route('/guest', name: 'app_guest')]

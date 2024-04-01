@@ -1,8 +1,9 @@
 import { Calendar } from "@fullcalendar/core";
 import interactionPlugin from "@fullcalendar/interaction";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-
+import { addHours, formatISO } from 'date-fns';
 import "./index.css";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -40,9 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
         headerToolbar: {
             left: "prev,next today",
             center: "title",
-            right: "timeGridWeek,timeGridDay,listWeek"
+            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
         },
         buttonText: {
+            month: "Mois",
             today: "Aujourd\'hui",
             week: "Semaine",
             day: "Jour",
@@ -50,8 +52,33 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         initialView: initialView,
         navLinks: true,
-        plugins: [ interactionPlugin, timeGridPlugin, listPlugin ],
+        dateClick: function(info) {
+            // Open the modal
+            $('#newGuildEventModal').modal('show');
+
+            // Parse info.dateStr into a Date object
+            let startDate = new Date(info.dateStr);
+
+            // Add 2 hours to the Date object using date-fns
+            let endDate = addHours(startDate, 2);
+
+            // Create a new Date object without the timezone offset
+            let localDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000);
+
+            // Format the updated Date object back into a string
+            let endStr = localDate.toISOString().split('.')[0];
+
+            console.log(info.dateStr)
+            console.log(endStr)
+
+            $('#newGuildEventModal input[name="guild_event[start]"]').val(info.dateStr)
+            $('#newGuildEventModal input[name="guild_event[end]"]').val(endStr)
+
+        },
+
+        plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],
         timeZone: "Europe/Paris",
+
     })
 
     calendar.render()
