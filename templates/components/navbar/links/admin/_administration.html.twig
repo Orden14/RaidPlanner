@@ -1,11 +1,19 @@
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Administration
+        Gestion des utilisateurs
     </a>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Test</a></li>
-        <li><a class="dropdown-item" href="#">Test2</a></li>
+        <li><a class="dropdown-item" href="#">Liste des utilisateurs</a></li>
+        <li><a class="dropdown-item" href="#">Gérer les guests</a></li>
+    </ul>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Administration globale
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{{ path('job_index') }}">Paramètres de classes</a></li>
         <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Test3</a></li>
+        <li><a class="dropdown-item" href="#">Logs</a></li>
     </ul>
 </li>

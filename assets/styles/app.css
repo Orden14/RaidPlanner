@@ -25,3 +25,11 @@ input[type="color"] {
 .cpaddingbottom {
     padding-bottom: 15px;
 }
+
+.card {
+    width: 170px;
+}
+
+.cardIcon {
+    padding: 30px 30px 0px 30px;
+}

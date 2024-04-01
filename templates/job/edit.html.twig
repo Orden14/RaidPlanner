@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Edit Job</h1>
+
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+        <div class="mb-3">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.color, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.color, {'attr': {'class': 'form-control form-control-color'}}) }}
+            {{ form_errors(form.color) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.icon, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.icon) }}
+        </div>
+
+        <button class="btn btn-secondary" href="{{ path('job_index') }}">Retour</button>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

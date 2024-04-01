@@ -30,7 +30,7 @@ class GuildEventType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    final public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => GuildEvent::class,

@@ -13,8 +13,7 @@ class UserFixtures extends Fixture
 {
     public function __construct(
         private readonly UserFactory $userFactory,
-    )
-    {}
+    ) {}
 
     final public function load(ObjectManager $manager): void
     {
