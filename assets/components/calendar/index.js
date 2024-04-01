@@ -1,16 +1,17 @@
 import { Calendar } from "@fullcalendar/core";
 import interactionPlugin from "@fullcalendar/interaction";
-import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 
 import "./index.css";
 
 document.addEventListener("DOMContentLoaded", () => {
-    let calendarEl = document.getElementById("calendar-holder");
+    let calendarEl = document.getElementById("calendar-holder")
 
-    let viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    let calendarHeight = 0.8 * viewportHeight;
+    let viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    let calendarHeight = 0.8 * viewportHeight
+
+    let initialView = window.innerWidth < 600 ? 'listWeek' : 'timeGridWeek'
 
     let { eventsUrl } = calendarEl.dataset;
 
@@ -39,12 +40,18 @@ document.addEventListener("DOMContentLoaded", () => {
         headerToolbar: {
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+            right: "timeGridWeek,timeGridDay,listWeek"
         },
-        initialView: "timeGridWeek",
+        buttonText: {
+            today: "Aujourd\'hui",
+            week: "Semaine",
+            day: "Jour",
+            list: "Liste",
+        },
+        initialView: initialView,
         navLinks: true,
-        plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],
-        timeZone: "UTC",
+        plugins: [ interactionPlugin, timeGridPlugin, listPlugin ],
+        timeZone: "Europe/Paris",
     })
 
     calendar.render()

@@ -6,12 +6,6 @@
     margin: 15px auto 0;
 }
 
-@media screen and (max-width: 600px) {
-    #calendar-holder {
-        width: 100%; /* make the calendar take the full width on mobile screens */
-    }
-}
-
 .fc-toolbar h2,
 .fc th {
     font-weight: inherit;
@@ -20,4 +14,23 @@
 #calendar-holder a {
     color: inherit; /* changes the link color to the inherited color */
     text-decoration: none; /* removes the underline */
+}
+
+@media screen and (max-width: 600px) {
+    #calendar-holder {
+        width: 95%;
+    }
+
+    .fc-header-toolbar {
+        flex-direction: column; /* stack the toolbar sections vertically */
+    }
+
+    .fc-header-toolbar .fc-toolbar-chunk {
+        margin-bottom: 10px; /* add some space between the sections */
+    }
+
+    .fc-button {
+        font-size: 0.8em; /* reduce the font size of the buttons */
+        padding: 0.5em 1em; /* reduce the padding of the buttons */
+    }
 }
