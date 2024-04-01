@@ -20,7 +20,7 @@ class FileManager
                 $newFileName
             );
         } catch (FileException $e) {
-            throw new FileException('An error occurred while uploading the file');
+            throw new FileException('An error occurred while uploading the file', $e->getCode());
         }
 
         return $newFileName;
