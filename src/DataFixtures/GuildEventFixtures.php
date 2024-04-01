@@ -51,6 +51,23 @@ class GuildEventFixtures extends Fixture
         $futureGuildEvent->setColor('#db8b3b');
         $manager->persist($futureGuildEvent);
 
+        $futureIrl = new GuildEvent();
+        $futureIrl->setTitle('IRL zoumba');
+        $futureIrl->setStart((clone $now)->setISODate($now->format('o'), $now->format('W') + 1, 3)->setTime(9, 0));
+        $futureIrl->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W') + 1, 5)->setTime(18, 0));
+        $futureIrl->setType(GuildEventTypeEnum::IRL);
+        $futureIrl->setColor('#27703b');
+        $manager->persist($futureIrl);
+
+        $raidDuringIRL = new GuildEvent();
+        $raidDuringIRL->setTitle('Raid des ptiots avec l\'Alliance');
+        $raidDuringIRL->setStart((clone $now)->setISODate($now->format('o'), $now->format('W') + 1, 4)->setTime(15, 30));
+        $raidDuringIRL->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W') + 1, 4)->setTime(18, 0));
+        $raidDuringIRL->setType(GuildEventTypeEnum::RAID);
+        $raidDuringIRL->setColor('#15ad73');
+        $manager->persist($raidDuringIRL);
+
+
         $manager->flush();
     }
 
