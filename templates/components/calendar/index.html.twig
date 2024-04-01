@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div
+            id="calendar-holder"
+            data-events-url="{{ path('fc_load_events') }}"
+    ></div>
+{% endblock %}
+
+
+{% block calendarJs %}
+    {{ encore_entry_link_tags('calendar') }}
+    {{ encore_entry_script_tags('calendar') }}
+{% endblock %}
