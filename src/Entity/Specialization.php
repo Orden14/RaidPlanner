@@ -25,7 +25,7 @@ class Specialization
     #[Assert\NotNull()]
     #[ORM\ManyToOne(inversedBy: 'specializations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Job $job;
+    private ?Job $job = null;
 
     /** @var Collection<int, Build> $builds */
     #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'specialization', orphanRemoval: true)]
