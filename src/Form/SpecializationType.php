@@ -18,7 +18,7 @@ class SpecializationType extends AbstractType
             ->add('name')
             ->add('job', EntityType::class, [
                 'class' => Job::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
             ])
             ->add('icon', FileType::class, [
                 'mapped' => false,
@@ -28,7 +28,7 @@ class SpecializationType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    final public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Specialization::class,

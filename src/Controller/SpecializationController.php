@@ -6,6 +6,7 @@ use App\Entity\Job;
 use App\Entity\Specialization;
 use App\Enum\RolesEnum;
 use App\Form\SpecializationType;
+use App\Repository\JobRepository;
 use App\Repository\SpecializationRepository;
 use App\Util\FileManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,7 @@ class SpecializationController extends AbstractController
 {
     public function __construct(
         private readonly FileManager $fileManager,
+        private readonly JobRepository $jobRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly SpecializationRepository $specializationRepository
     ) {}
@@ -33,7 +35,7 @@ class SpecializationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show_by_job', methods: ['GET'])]
+    #[Route('/sort/{id}', name: 'show_by_job', methods: ['GET'])]
     final public function showByJob(Job $job): Response
     {
         $specializations = $this->specializationRepository->findBy(['job' => $job]);
@@ -45,7 +47,7 @@ class SpecializationController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
+    final public function add(Request $request): Response
     {
         $specialization = new Specialization();
         $form = $this->createForm(SpecializationType::class, $specialization);
