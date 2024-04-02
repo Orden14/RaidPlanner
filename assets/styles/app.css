@@ -1,7 +1,3 @@
-body {
-    background-color: skyblue;
-}
-
 input[type="color"] {
     padding: 0;
 }
@@ -32,4 +28,18 @@ input[type="color"] {
 
 .cardIcon {
     padding: 30px 30px 0px 30px;
+}
+
+@media screen and (max-width: 600px) {
+    .card {
+        width: 130px;
+    }
+
+    .card h5 {
+        font-size: 0.9em;
+    }
+
+    .card a {
+        font-size: 0.7em;
+    }
 }

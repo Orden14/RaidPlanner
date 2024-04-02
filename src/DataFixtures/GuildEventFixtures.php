@@ -26,7 +26,7 @@ class GuildEventFixtures extends Fixture
         $guildEventOne->setStart((clone $now)->setISODate($now->format('o'), $now->format('W'), 1)->setTime(14, 0));
         $guildEventOne->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W'), 1)->setTime(18, 30));
         $guildEventOne->setType(GuildEventTypeEnum::RAID);
-        $guildEventOne->setColor('#3bdb7b');
+        $guildEventOne->setColor('#15ad73');
         $manager->persist($guildEventOne);
 
         $guildEventTwo = new GuildEvent();
