@@ -13,7 +13,7 @@
 
         <h1>Spécialisations</h1>
         <div>
-            <a href="{{ path('specialization_new') }}" class="btn btn-primary mt-3 me-2">Ajouter une spécialisation</a>
+            <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newSpecializationModal">Ajouter une spécialisation</a>
             <a href="{{ path('job_index') }}" class="btn btn-secondary mt-3 me-2">Voir les classes</a>
             {% if fromJobView is defined and fromJobView %}
                 <a href="{{ path('specialization_index') }}" class="btn btn-secondary mt-3">Tout afficher</a>
@@ -60,4 +60,6 @@
             </table>
         </div>
     </div>
+
+    {{ include('specialization/_modal_new.html.twig') }}
 {% endblock %}
