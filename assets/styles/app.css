@@ -2,6 +2,11 @@ input[type="color"] {
     padding: 0;
 }
 
+.small-icon {
+    width: 30px;
+    height: 30px;
+}
+
 .cmarginbottom {
     margin-bottom: 10px;
 }

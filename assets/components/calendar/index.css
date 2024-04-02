@@ -10,7 +10,7 @@
 
 #calendar-holder {
     font-family: "Muli", sans-serif;
-    width: 75%;
+    width: 80%;
     margin: 15px auto 0;
 }
 
@@ -24,7 +24,7 @@
     text-decoration: none; /* removes the underline */
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
     #calendar-holder {
         width: 100%;
     }

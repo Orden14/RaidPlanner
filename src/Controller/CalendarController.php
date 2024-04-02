@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/planning', name: 'calendar_')]
 class CalendarController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     final public function index(): Response
     {
         $form = $this->createForm(GuildEventType::class, new GuildEvent());

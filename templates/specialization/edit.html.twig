@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Modifier une spécialisation</h1>
+
+        {{ form_start(form, {'attr': {'class': 'g-3'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.job, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.icon, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <a href="{{ path('specialization_index') }}" class="btn btn-secondary">Retour</a>
+        <button class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}

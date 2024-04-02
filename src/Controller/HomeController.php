@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[isGranted(RolesEnum::GUEST->value)]
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'app_home', methods: ['GET'])]
     final public function index(): Response
     {
         if (!$this->isGranted(RolesEnum::MEMBER->value)) {
@@ -21,7 +21,7 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('calendar_index');
     }
 
-    #[Route('/guest', name: 'app_guest')]
+    #[Route('/guest', name: 'app_guest', methods: ['GET'])]
     final public function guestPage(): Response
     {
         if ($this->isGranted(RolesEnum::MEMBER->value)) {

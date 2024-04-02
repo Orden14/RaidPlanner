@@ -14,7 +14,7 @@
                             <a type="button" class="btn btn-secondary cmarginbottom" href="{{ path('job_edit', {'id': job.id}) }}">
                                 Modifier
                             </a>
-                            <a href="#" class="btn btn-primary">Spécialisations</a>
+                            <a href="{{ path('specialization_show_by_job', {'id': job.id}) }}" class="btn btn-primary">Spécialisations</a>
                         </div>
                     </div>
                 </div>

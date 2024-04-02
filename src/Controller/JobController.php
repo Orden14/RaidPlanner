@@ -41,7 +41,9 @@ class JobController extends AbstractController
             $icon = $form->get('icon')->getData();
 
             if ($icon) {
-                $this->fileManager->removeFile($job->getIcon(), $this->getParameter('icon_directory'));
+                if ($job->getIcon()) {
+                    $this->fileManager->removeFile($job->getIcon(), $this->getParameter('icon_directory'));
+                }
 
                 $newFileName = $this->fileManager->uploadFile($icon, $this->getParameter('icon_directory'));
                 $job->setIcon($newFileName);
