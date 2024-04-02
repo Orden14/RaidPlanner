@@ -19,12 +19,13 @@ class Specialization
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Icon = null;
+    private ?string $icon = null;
 
     #[ORM\ManyToOne(inversedBy: 'specializations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Job $job = null;
 
+    /** @var Collection<int, Build> $builds */
     #[ORM\OneToMany(targetEntity: Build::class, mappedBy: 'specialization', orphanRemoval: true)]
     private Collection $builds;
 
@@ -33,7 +34,7 @@ class Specialization
         $this->builds = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    final public function getId(): ?int
     {
         return $this->id;
     }
@@ -52,12 +53,12 @@ class Specialization
 
     final public function getIcon(): ?string
     {
-        return $this->Icon;
+        return $this->icon;
     }
 
-    final public function setIcon(?string $Icon): self
+    final public function setIcon(?string $icon): self
     {
-        $this->Icon = $Icon;
+        $this->icon = $icon;
 
         return $this;
     }
@@ -77,12 +78,12 @@ class Specialization
     /**
      * @return Collection<int, Build>
      */
-    public function getBuilds(): Collection
+    final public function getBuilds(): Collection
     {
         return $this->builds;
     }
 
-    public function addBuild(Build $build): static
+    final public function addBuild(Build $build): self
     {
         if (!$this->builds->contains($build)) {
             $this->builds->add($build);
@@ -92,13 +93,10 @@ class Specialization
         return $this;
     }
 
-    public function removeBuild(Build $build): static
+    final public function removeBuild(Build $build): self
     {
-        if ($this->builds->removeElement($build)) {
-            // set the owning side to null (unless already changed)
-            if ($build->getSpecialization() === $this) {
-                $build->setSpecialization(null);
-            }
+        if ($this->builds->removeElement($build) && $build->getSpecialization() === $this) {
+            $build->setSpecialization(null);
         }
 
         return $this;

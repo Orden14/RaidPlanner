@@ -24,6 +24,7 @@ class Job
     #[ORM\Column(length: 255)]
     private ?string $icon = null;
 
+    /** @var Collection<int, Specialization> $specializations  */
     #[ORM\OneToMany(targetEntity: Specialization::class, mappedBy: 'job', orphanRemoval: true)]
     private Collection $specializations;
 
@@ -93,11 +94,8 @@ class Job
 
     final public function removeSpecialization(Specialization $specialization): self
     {
-        if ($this->specializations->removeElement($specialization)) {
-            // set the owning side to null (unless already changed)
-            if ($specialization->getJob() === $this) {
-                $specialization->setJob(null);
-            }
+        if ($this->specializations->removeElement($specialization) && $specialization->getJob() === $this) {
+            $specialization->setJob(null);
         }
 
         return $this;

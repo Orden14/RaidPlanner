@@ -2,13 +2,9 @@ parameters:
     level: 6
     paths:
         - src
-        - tests
     excludePaths:
         - 'src/Kernel.php'
-        - 'tests/bootstrap.php'
         - 'vendor/*'
     symfony:
         container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
         console_application_loader: console-loader.php
-    doctrine:
-        objectManagerLoader: doctrine-orm-bootstrap.php
