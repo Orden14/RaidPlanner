@@ -60,8 +60,7 @@ class UserFixtures extends Fixture
     {
         return $this->userFactory->createUser(
             'guest',
-            'guest',
-            RolesEnum::GUEST
+            'guest'
         );
     }
 }

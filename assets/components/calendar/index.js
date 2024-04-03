@@ -102,5 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     calendar.render()
-    document.querySelector('.fc-newGuildEvent-button').innerHTML = '<i class="bi bi-calendar-plus"></i>'
+
+    let button = document.querySelector('.fc-newGuildEvent-button');
+    let addEventIcon = document.createElement('i');
+    addEventIcon.className = 'bi bi-calendar-plus';
+    button.appendChild(addEventIcon);
 })

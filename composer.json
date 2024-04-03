@@ -103,6 +103,7 @@
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-doctrine": "^1.3",
         "phpstan/phpstan-symfony": "^1.3",
+        "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "7.0.*",
         "symfony/css-selector": "7.0.*",
         "symfony/debug-bundle": "7.0.*",

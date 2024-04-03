@@ -22,7 +22,7 @@ class Specialization
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $icon = null;
 
-    #[Assert\NotNull()]
+    #[Assert\NotNull]
     #[ORM\ManyToOne(inversedBy: 'specializations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Job $job = null;

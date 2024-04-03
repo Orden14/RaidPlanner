@@ -15,7 +15,7 @@ readonly class UserFactory
     final public function createUser(
         string $username,
         string $password,
-        RolesEnum $role = RolesEnum::MEMBER,
+        RolesEnum $role = RolesEnum::GUEST,
     ): User
     {
         $user = new User();

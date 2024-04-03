@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Specialization;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Specialization[]    findAll()
  * @method Specialization[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SpecializationRepository extends ServiceEntityRepository
+final class SpecializationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -25,7 +24,7 @@ class SpecializationRepository extends ServiceEntityRepository
     /**
      * @return Specialization[]
      */
-    final public function findAllOrderedByJob(): array
+    public function findAllOrderedByJob(): array
     {
         return $this->createQueryBuilder('s')
             ->orderBy('s.job', 'ASC')
