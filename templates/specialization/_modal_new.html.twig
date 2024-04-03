@@ -1,5 +1,5 @@
 <div class="modal fade" id="newSpecializationModal" tabindex="-1" aria-labelledby="newSpecializationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="newSpecializationModalLabel">Ajouter une spécialisation</h5>
@@ -13,11 +13,17 @@
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.job, {'attr': {'class': 'form-control' }}) }}
+                        {{ form_widget(form.job) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_label(form.icon, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(form.icon, null, {
+                            'label': 'Icone (format .png)',
+                            'label_attr': {'class': 'form-label'}
+                        }) }}
+                        {{ form_widget(form.icon, {
+                            'attr': {'class': 'form-control'},
+                            'required': true
+                        }) }}
                     </div>
             </div>
                     <div class="modal-footer">

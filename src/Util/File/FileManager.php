@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Util;
+namespace App\Util\File;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;

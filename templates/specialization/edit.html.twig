@@ -2,6 +2,15 @@
 
 {% block body %}
     <div class="container mt-5">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <h1>Modifier une spécialisation</h1>
 
         {{ form_start(form, {'attr': {'class': 'g-3'}}) }}
@@ -11,10 +20,13 @@
         </div>
         <div class="mb-3">
             {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
-            {{ form_widget(form.job, {'attr': {'class': 'form-control'}}) }}
+            {{ form_widget(form.job) }}
         </div>
         <div class="mb-3">
-            {{ form_label(form.icon, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_label(form.icon, null, {
+                'label': 'Modifier l\'icone (optionnel) (format .png)',
+                'label_attr': {'class': 'form-label'}
+            }) }}
             {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
         </div>
 

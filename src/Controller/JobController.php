@@ -6,7 +6,7 @@ use App\Entity\Job;
 use App\Enum\RolesEnum;
 use App\Form\JobType;
 use App\Repository\JobRepository;
-use App\Util\FileManager;
+use App\Util\File\FileManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -16,6 +16,7 @@ class Specialization
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

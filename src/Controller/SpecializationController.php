@@ -7,9 +7,12 @@ use App\Entity\Specialization;
 use App\Enum\RolesEnum;
 use App\Form\SpecializationType;
 use App\Repository\SpecializationRepository;
-use App\Util\FileManager;
+use App\Util\File\FileManager;
+use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,8 +22,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/specialisation', name: 'specialization_')]
 class SpecializationController extends AbstractController
 {
+    const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
+
     public function __construct(
         private readonly FileManager $fileManager,
+        private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
         private readonly SpecializationRepository $specializationRepository
     ) {}
@@ -35,7 +41,7 @@ class SpecializationController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        return $this->render('specialization/index.html.twig', [
+        return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'form' => $form->createView(),
             'specializations' => $this->specializationRepository->findAllOrderedByJob()
         ]);
@@ -52,14 +58,14 @@ class SpecializationController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        return $this->render('specialization/index.html.twig', [
+        return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'fromJobView' => true,
             'form' => $form->createView(),
             'specializations' => $specializations,
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['POST'])]
     final public function new(Request $request): Response
     {
         $specialization = new Specialization();
@@ -80,9 +86,13 @@ class SpecializationController extends AbstractController
             return $this->redirectToRoute('specialization_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('specialization/index.html.twig', [
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
+        return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'form' => $form,
-            'specialization' => $specialization,
+            'specializations' => $this->specializationRepository->findAllOrderedByJob()
         ]);
     }
 
@@ -112,6 +122,10 @@ class SpecializationController extends AbstractController
 
             return $this->redirectToRoute('specialization_index', [], Response::HTTP_SEE_OTHER);
         }
+
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('specialization/edit.html.twig', [
             'specialization' => $specialization,
