@@ -24,6 +24,10 @@
     text-decoration: none; /* removes the underline */
 }
 
+.fc-list-table .fc-list-event:hover td {
+    background-color: rgb(63, 58, 58);
+}
+
 @media screen and (max-width: 900px) {
     #calendar-holder {
         width: 100%;

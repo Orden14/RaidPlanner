@@ -9,26 +9,26 @@
             </div>
             <div class="modal-body">
                 {{ form_start(form) }}
-                <div class="form-group cpaddingbottom">
+                <div class="form-group mb-3">
                     {{ form_label(form.title, 'Event Title', {'label_attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="row">
-                    <div class="col-md-6 form-group cpaddingbottom">
+                    <div class="col-md-6 form-group mb-3">
                         {{ form_label(form.type, 'Event Type', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
                     </div>
-                    <div class="col-md-6 form-group cpaddingbottom">
+                    <div class="col-md-6 form-group mb-3">
                         {{ form_label(form.color, 'Event Color', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.color, {'attr': {'class': 'form-control form-control-color'}}) }}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 form-group cpaddingbottom">
+                    <div class="col-md-6 form-group mb-3">
                         {{ form_label(form.start, 'Start Time', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.start, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="col-md-6 form-group cpaddingbottom">
+                    <div class="col-md-6 form-group mb-3">
                         {{ form_label(form.end, 'End Time', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.end, {'attr': {'class': 'form-control'}}) }}
                     </div>

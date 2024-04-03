@@ -9,7 +9,7 @@
         {{ form_errors(registrationForm) }}
 
         {{ form_start(registrationForm, {'attr': {'class': 'form-group'}}) }}
-            <div class="form-group clargemarginbottom">
+            <div class="form-group mt-4">
                 {{ form_row(registrationForm.username, {
                     label: 'Nom de compte',
                     'attr': {'class': 'form-control'}}) }}
@@ -29,7 +29,7 @@
                 }) }}
             </div>
 
-            <button type="submit" class="btn btn-primary cmargintop">S'enregistrer</button>
+            <button type="submit" class="btn btn-primary mt-2">S'enregistrer</button>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}
