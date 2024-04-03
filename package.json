@@ -29,7 +29,7 @@
     "webpack-notifier": "^1.15.0"
   },
   "scripts": {
-    "start": "symfony server:start --port=8001",
+    "server-start": "symfony server:start --port=8001",
     "watch": "encore dev --watch",
     "build": "encore production --progress",
     "dependencies": "composer install && yarn install && yarn build",
