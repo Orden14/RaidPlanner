@@ -21,6 +21,7 @@
         </div>
         <div class="table-responsive mt-3">
             <table class="table table-striped table-hover border w-100">
+                <caption class="d-none">Table des spécialisations</caption>
                 <thead class="thead-dark">
                     <tr>
                         <th style="width: 45px"></th>
@@ -39,16 +40,18 @@
                         <td><div style="background-color: {{ specialization.job.color }}; width: 20px; height: 20px; border-radius: 50%; margin-left: 10px"></div></td>
                         <td>{{ specialization.job.name }}</td>
                         <td class="text-center">{{ specialization.builds.count }} {{ specialization.builds.count > 1 ? 'builds' : 'build' }}</td>
-                        <td class="d-flex justify-content-end">
-                            <a href="{{ path('specialization_edit', {'id': specialization.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
-                                <i class="bi-pencil"></i>
-                            </a>
-                            <form id="delete{{ specialization.id }}" method="post" action="{{ path('specialization_delete', {'id': specialization.id}) }}" data-controller="confirm">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ specialization.id) }}">
-                                <a type="button" class="btn btn-danger flex-shrink-0" id="{{ specialization.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
-                                    <i class="bi-trash"></i>
+                        <td>
+                            <div class="d-inline-flex float-end">
+                                <a href="{{ path('specialization_edit', {'id': specialization.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
+                                    <i class="bi-pencil"></i>
                                 </a>
-                            </form>
+                                <form id="delete{{ specialization.id }}" method="post" action="{{ path('specialization_delete', {'id': specialization.id}) }}" data-controller="confirm">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ specialization.id) }}">
+                                    <a type="button" class="btn btn-danger flex-shrink-0" id="{{ specialization.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                        <i class="bi-trash"></i>
+                                    </a>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 {% else %}
