@@ -3,24 +3,28 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\util\FileMockUploader;
 use App\DTO\Entity\JobDTO;
-use App\Entity\Job;
 use App\Factory\JobFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use FilesystemIterator;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class JobFixtures extends Fixture
 {
     public function __construct(
-        private readonly JobFactory $jobFactory
+        private readonly JobFactory $jobFactory,
+        private readonly FileMockUploader $fileMockUploader,
+        private readonly ParameterBagInterface $parameterBag
     ) {}
 
     final public function load(ObjectManager $manager): void
     {
+        $this->purgeIconDirectory();
+
         foreach ($this->getJobList() as $jobName => $jobColor) {
-            $filePath = __DIR__ . '/icon/' . strtolower($jobName) . '.png';
-            $file = new UploadedFile($filePath, basename($filePath), 'image/png');
+            $file = $this->fileMockUploader->mockFileUpload(strtolower($jobName));
             $jobDTO = (new JobDTO())
                 ->setName($jobName)
                 ->setIcon($file)
@@ -31,6 +35,17 @@ class JobFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    private function purgeIconDirectory(): void
+    {
+        $files = new FilesystemIterator($this->parameterBag->get('icon_directory'));
+
+        foreach ($files as $file) {
+            if ($file->isFile() && $file->getFilename() !== '.gitignore') {
+                unlink($file->getPathname());
+            }
+        }
     }
 
     /**

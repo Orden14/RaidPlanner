@@ -3,22 +3,27 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Specialization;
+use App\DataFixtures\util\FileMockUploader;
+use App\DTO\Entity\SpecializationDTO;
+use App\Factory\SpecializationFactory;
 use App\Repository\JobRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 
 class SpecializationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly JobRepository $jobRepository
+        private readonly JobRepository $jobRepository,
+        private readonly FileMockUploader $fileMockUploader,
+        private readonly SpecializationFactory $specializationFactory
     ){ }
 
     final public function load(ObjectManager $manager): void
     {
         foreach ($this->getSpecializationList() as $jobName => $specializations) {
-            $this->createSpecializationByJob($jobName, $specializations, $manager);
+            $this->createSpecializationsByJob($jobName, $specializations, $manager);
         }
 
         $manager->flush();
@@ -27,19 +32,26 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
 
     /**
      * @param string[] $specializations
+     *
+     * @throws UnexpectedValueException
      */
-    private function createSpecializationByJob(string $jobName, array $specializations, ObjectManager $manager): void
+    private function createSpecializationsByJob(string $jobName, array $specializations, ObjectManager $manager): void
     {
         $job = $this->jobRepository->findOneBy(['name' => $jobName]);
 
+        if ($job === null) {
+            throw new UnexpectedValueException('Expected entity of type Job, but got null.');
+        }
+
         foreach ($specializations as $specializationName) {
-            $specialization = new Specialization();
-            $specialization->setName($specializationName)
+            $file = $this->fileMockUploader->mockFileUpload(strtolower($specializationName));
+            $specializationDTO = (new SpecializationDTO())
+                ->setName($specializationName)
                 ->setJob($job)
-                ->setIcon(strtolower($specializationName) . '.png')
+                ->setIcon($file)
             ;
 
-            $manager->persist($specialization);
+            $manager->persist($this->specializationFactory->create($specializationDTO));
         }
 
         $manager->flush();

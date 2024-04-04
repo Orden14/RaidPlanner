@@ -10,13 +10,9 @@ class FileManager
     /**
      * @throws FileException
      */
-    final public function uploadFile(File $file, string $directory, string $definedFileName = null): string
+    final public function uploadFile(File $file, string $directory): string
     {
-        if ($definedFileName) {
-            $fileName = $definedFileName;
-        } else {
-            $fileName = uniqid('file', true).'.'. $file->guessExtension();
-        }
+        $fileName = uniqid('file', true).'.'. $file->guessExtension();
 
         try {
             $file->move(
@@ -32,6 +28,6 @@ class FileManager
 
     final public function removeFile(string $fileName, string $directory): void
     {
-        unlink($directory . '/' . $fileName);
+        unlink($directory . DIRECTORY_SEPARATOR . $fileName);
     }
 }

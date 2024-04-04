@@ -3,12 +3,12 @@
 namespace App\Factory;
 
 use App\DTO\Entity\EntityDTOInterface;
-use App\DTO\Entity\JobDTO;
-use App\Entity\Job;
+use App\DTO\Entity\SpecializationDTO;
+use App\Entity\Specialization;
 use App\Util\File\FileManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-final readonly class JobFactory implements FactoryInterface
+final readonly class SpecializationFactory implements FactoryInterface
 {
     public function __construct(
         private FileManager $fileManager,
@@ -16,17 +16,17 @@ final readonly class JobFactory implements FactoryInterface
     ) {}
 
     /**
-     * @param JobDTO $dto
+     * @param SpecializationDTO $dto
      */
-    public function create(EntityDTOInterface $dto): Job
+    public function create(EntityDTOInterface $dto): Specialization
     {
-        return (new Job())
+        return (new Specialization())
             ->setName($dto->getName())
+            ->setJob($dto->getJob())
             ->setIcon($this->fileManager->uploadFile(
                 $dto->getIcon(),
                 $this->parameterBag->get('icon_directory')
             ))
-            ->setColor($dto->getColor())
         ;
     }
 }
