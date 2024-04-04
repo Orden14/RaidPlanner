@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import {addHours, setHours} from 'date-fns';
 import "./index.css";
-import { setModalDates } from "../../util/Calendar/newEventModalHelper";
+import {setModalDates, setModalDatesForDateClick} from "../../util/Calendar/newEventModalHelper";
 
 document.addEventListener("DOMContentLoaded", () => {
     let calendarEl = document.getElementById("calendar-holder")
@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let { eventsUrl } = calendarEl.dataset;
 
-    let clickTimeout = null;
+    let touchStartTime = null;
+    let touchEndTime = null;
 
     let calendar = new Calendar(calendarEl, {
         locale: 'fr',
@@ -72,26 +73,30 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         initialView: initialView,
         navLinks: true,
+
         dateClick: function(info) {
-            $('#newGuildEventModal').modal('show')
+            if (window.matchMedia("(pointer: fine)").matches || touchEndTime - touchStartTime >= 400) {
+                $('#newGuildEventModal').modal('show')
 
-            let startDate = new Date(info.dateStr)
-            let endDate
-
-            if (info.dateStr.length === 10) {
-                startDate = setHours(startDate, 21)
-                endDate = addHours(startDate, 2)
-            } else {
-                endDate = addHours(startDate, 2)
+                setModalDatesForDateClick(info)
             }
-
-            setModalDates(startDate, endDate)
         },
 
         plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],
         timeZone: "Europe/Paris",
 
     })
+
+    if (window.matchMedia("(pointer: coarse)").matches) {
+        calendarEl.addEventListener('touchstart', function() {
+            console.log('test')
+            touchStartTime = new Date().getTime();
+        });
+
+        calendarEl.addEventListener('touchend', function() {
+            touchEndTime = new Date().getTime();
+        });
+    }
 
     calendar.render()
 
