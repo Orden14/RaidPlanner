@@ -2,12 +2,17 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\GuildEvent;
 use App\Enum\GuildEventTypeEnum;
 use DateTime;
-use App\Entity\GuildEvent;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Temporary fixtures for GuildEvent entity
+ * @TODO: remake this class when event system is ready
+
+ */
 class GuildEventFixtures extends Fixture
 {
     final public function load(ObjectManager $manager): void

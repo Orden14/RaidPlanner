@@ -105,7 +105,7 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
     final public function getDependencies(): array
     {
         return [
-            UserFixtures::class
+            JobFixtures::class
         ];
     }
 }

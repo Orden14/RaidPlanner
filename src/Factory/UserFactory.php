@@ -2,27 +2,27 @@
 
 namespace App\Factory;
 
+use App\DTO\Entity\EntityDTOInterface;
+use App\DTO\Entity\UserDTO;
 use App\Entity\User;
-use App\Enum\RolesEnum;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface as PasswordHasher;
 
-readonly class UserFactory
+final readonly class UserFactory implements FactoryInterface
 {
     public function __construct(
         private PasswordHasher $passwordHasher,
     ) {}
 
-    final public function createUser(
-        string $username,
-        string $password,
-        RolesEnum $role = RolesEnum::GUEST,
-    ): User
+    /**
+     * @param UserDTO $dto
+     */
+    public function create(EntityDTOInterface $dto): User
     {
         $user = new User();
 
-        $user->setUsername($username)
-            ->setPassword($this->passwordHasher->hashPassword($user, $password))
-            ->setRole($role)
+        $user->setUsername($dto->getUsername())
+            ->setPassword($this->passwordHasher->hashPassword($user, $dto->getPassword()))
+            ->setRole($dto->getRole())
         ;
 
         return $user;

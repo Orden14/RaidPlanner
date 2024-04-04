@@ -10,20 +10,24 @@ class FileManager
     /**
      * @throws FileException
      */
-    final public function uploadFile(File $file, string $directory): string
+    final public function uploadFile(File $file, string $directory, string $definedFileName = null): string
     {
-        $newFileName = uniqid('', true).'.'. $file->guessExtension();
+        if ($definedFileName) {
+            $fileName = $definedFileName;
+        } else {
+            $fileName = uniqid('file', true).'.'. $file->guessExtension();
+        }
 
         try {
             $file->move(
                 $directory,
-                $newFileName
+                $fileName
             );
         } catch (FileException $e) {
             throw new FileException('An error occurred while uploading the file', $e->getCode());
         }
 
-        return $newFileName;
+        return $fileName;
     }
 
     final public function removeFile(string $fileName, string $directory): void

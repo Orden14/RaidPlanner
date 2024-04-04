@@ -41,7 +41,7 @@ final class SpecializationType extends AbstractType
                 'choice_attr' => function($job) {
                     $name = $job->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $job->getIcon());
-                    return ['data-content' => "<img src='$iconPath' class='select-icon'></img> $name"];
+                    return ['data-content' => "<img src='$iconPath' class='select-icon' alt='$name'/> $name"];
                 }
             ])
             ->add('icon', FileType::class, [

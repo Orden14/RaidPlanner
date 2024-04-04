@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/specialisation', name: 'specialization_')]
 class SpecializationController extends AbstractController
 {
-    const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
+    private const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
 
     public function __construct(
         private readonly FileManager $fileManager,
