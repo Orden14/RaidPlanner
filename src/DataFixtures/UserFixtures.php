@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\DTO\Entity\UserDTO;
 use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Factory\UserFactory;
@@ -22,12 +23,13 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < 30; $i++) {
             $username = $faker->userName();
 
-            $user = $this->userFactory->createUser(
-                $username,
-                $username
-            );
+            $userDTO = (new UserDTO())
+                ->setUsername($username)
+                ->setPassword($username)
+                ->setRole(RolesEnum::MEMBER)
+            ;
 
-            $manager->persist($user);
+            $manager->persist($this->userFactory->create($userDTO));
         }
 
         $manager->persist($this->generateAdmin());
@@ -40,27 +42,34 @@ class UserFixtures extends Fixture
 
     private function generateAdmin(): User
     {
-        return $this->userFactory->createUser(
-            'admin',
-            'admin',
-            RolesEnum::ADMIN
-        );
+        $adminDTO = (new UserDTO())
+            ->setUsername('admin')
+            ->setPassword('admin')
+            ->setRole(RolesEnum::ADMIN)
+        ;
+
+        return $this->userFactory->create($adminDTO);
     }
 
     private function generateMember(): User
     {
-        return $this->userFactory->createUser(
-            'member',
-            'member',
-            RolesEnum::MEMBER
-        );
+        $memberDTO = (new UserDTO())
+            ->setUsername('member')
+            ->setPassword('member')
+            ->setRole(RolesEnum::MEMBER)
+        ;
+
+        return $this->userFactory->create($memberDTO);
     }
 
     private function generateGuest(): User
     {
-        return $this->userFactory->createUser(
-            'guest',
-            'guest'
-        );
+        $guestDTO = (new UserDTO())
+            ->setUsername('guest')
+            ->setPassword('guest')
+            ->setRole(RolesEnum::GUEST)
+        ;
+
+        return $this->userFactory->create($guestDTO);
     }
 }
