@@ -5,6 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import {addHours, setHours} from 'date-fns';
 import "./index.css";
+import { setModalDates } from "../../util/Calendar/newEventModalHelper";
 
 document.addEventListener("DOMContentLoaded", () => {
     let calendarEl = document.getElementById("calendar-holder")
@@ -16,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let { eventsUrl } = calendarEl.dataset;
 
+    let clickTimeout = null;
+
     let calendar = new Calendar(calendarEl, {
         locale: 'fr',
         firstDay: 1,
@@ -24,8 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
         allDaySlot: false,
         slotMinTime: '09:00',
         slotMaxTime: '24:00',
-        editable: true,
+        editable: false,
         contentHeight: calendarHeight,
+        nowIndicator: true,
         eventSources: [
             {
                 url: eventsUrl,
@@ -48,15 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     date.setSeconds(0)
                     date.setMinutes(0)
                     let startDate = setHours(date, 21)
-                    let endDate = addHours(startDate, 2);
+                    let endDate = addHours(startDate, 2)
 
-                    let localDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-                    let startStr = localDate.toISOString().split('.')[0]
-                    localDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
-                    let endStr = localDate.toISOString().split('.')[0]
-
-                    $('#newGuildEventModal input[name="guild_event[start]"]').val(startStr)
-                    $('#newGuildEventModal input[name="guild_event[end]"]').val(endStr)
+                    setModalDates(startDate, endDate)
                 }
             }
         },
@@ -87,13 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 endDate = addHours(startDate, 2)
             }
 
-            let localDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-            let startStr = localDate.toISOString().split('.')[0]
-            localDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
-            let endStr = localDate.toISOString().split('.')[0]
-
-            $('#newGuildEventModal input[name="guild_event[start]"]').val(startStr)
-            $('#newGuildEventModal input[name="guild_event[end]"]').val(endStr)
+            setModalDates(startDate, endDate)
         },
 
         plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],

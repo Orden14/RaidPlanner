@@ -2,6 +2,8 @@
 
 namespace App\DTO\Entity;
 
+use App\Entity\EntityInterface;
+use App\Entity\User;
 use App\Enum\RolesEnum;
 
 final class UserDTO implements EntityDTOInterface
@@ -10,6 +12,17 @@ final class UserDTO implements EntityDTOInterface
     private string $password;
     private RolesEnum $role = RolesEnum::GUEST;
 
+    /**
+     * @param User $object
+     */
+    public function setFromObject(EntityInterface $object):self
+    {
+        $this->username = $object->getUsername();
+        $this->password = $object->getPassword();
+        $this->role = RolesEnum::getRoleFromValue($object->getRole());
+
+        return $this;
+    }
     public function setUsername(string $username): self
     {
         $this->username = $username;

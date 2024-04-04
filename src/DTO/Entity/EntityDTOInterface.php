@@ -2,9 +2,9 @@
 
 namespace App\DTO\Entity;
 
-/**
- * Marker interface for entity DTOs
- */
+use App\Entity\EntityInterface;
+
 interface EntityDTOInterface
 {
+    public function setFromObject(EntityInterface $object): self;
 }

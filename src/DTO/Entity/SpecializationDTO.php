@@ -2,7 +2,10 @@
 
 namespace App\DTO\Entity;
 
+use App\Entity\EntityInterface;
 use App\Entity\Job;
+use App\Entity\Specialization;
+use LogicException;
 use Symfony\Component\HttpFoundation\File\File;
 
 final class SpecializationDTO implements EntityDTOInterface
@@ -10,6 +13,19 @@ final class SpecializationDTO implements EntityDTOInterface
     private string $name;
     private Job $job;
     private File $icon;
+
+    /**
+     * @param Specialization $object
+     *
+     * @throws LogicException
+     */
+    public function setFromObject(EntityInterface $object): self
+    {
+        $this->name = $object->getName();
+        $this->job = $object->getJob();
+
+        return $this;
+    }
 
     public function setName(string $name): self
     {

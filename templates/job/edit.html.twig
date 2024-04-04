@@ -2,25 +2,31 @@
 
 {% block body %}
     <div class="container mt-5">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <h1>Modifier une classe</h1>
 
         {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
         <div class="mb-3">
             {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
             {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.name) }}
         </div>
 
         <div class="mb-3">
             {{ form_label(form.color, null, {'label_attr': {'class': 'form-label'}}) }}
             {{ form_widget(form.color, {'attr': {'class': 'form-control form-control-color'}}) }}
-            {{ form_errors(form.color) }}
         </div>
 
         <div class="mb-3">
             {{ form_label(form.icon, null, {'label_attr': {'class': 'form-label'}}) }}
             {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.icon) }}
         </div>
 
 

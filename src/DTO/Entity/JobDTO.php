@@ -2,6 +2,8 @@
 
 namespace App\DTO\Entity;
 
+use App\Entity\EntityInterface;
+use App\Entity\Job;
 use Symfony\Component\HttpFoundation\File\File;
 
 final class JobDTO implements EntityDTOInterface
@@ -9,6 +11,17 @@ final class JobDTO implements EntityDTOInterface
     private string $name;
     private File $icon;
     private string $color;
+
+    /**
+     * @param Job $object
+     */
+    public function setFromObject(EntityInterface $object): self
+    {
+        $this->name = $object->getName();
+        $this->color = $object->getColor();
+
+        return $this;
+    }
 
     public function setName(string $name): self
     {

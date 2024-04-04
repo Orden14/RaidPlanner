@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, EntityInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     /**
-     * @var list<string> The user roles
+     * @var string[] The user roles
      */
     #[ORM\Column]
     private array $roles = [];
