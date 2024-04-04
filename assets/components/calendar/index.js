@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.matchMedia("(pointer: coarse)").matches) {
         calendarEl.addEventListener('touchstart', function() {
-            console.log('test')
             touchStartTime = new Date().getTime();
         });
 
