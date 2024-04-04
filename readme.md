@@ -5,8 +5,8 @@ Orden14
 https://github.com/Orden14/RaidPlanner
 
 ## About
-RaidPlanner is a tool for planning Guild Wars 2 instanced content.
-I have no plan to made an english translation of the app for now.
+RaidPlanner is a tool for planning Guild Wars 2 instanced content.  
+I have no plan to made an english translation of the app for now.  
 /!\ Application is still in early-stage development /!\
 
 ## Project startup
