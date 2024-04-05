@@ -14,35 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method BuildCategory[]    findAll()
  * @method BuildCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BuildCategoryRepository extends ServiceEntityRepository
+final class BuildCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, BuildCategory::class);
     }
-
-    //    /**
-    //     * @return BuildCategory[] Returns an array of BuildCategory objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?BuildCategory
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
