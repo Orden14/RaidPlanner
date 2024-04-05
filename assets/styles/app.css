@@ -13,6 +13,11 @@ form .form-control:focus{
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
 }
 
+form .form-check-input:checked {
+    background-color: #22A39F !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
+}
+
 .customColor {
     color: #22A39F !important;
 }
@@ -20,6 +25,14 @@ form .form-control:focus{
 .nav-item .img-profile {
     height: 2rem;
     width: 2rem;
+}
+
+.dropdown-item:active {
+    background-color: #22A39F !important;
+}
+
+.bootstrap-select button.dropdown-toggle:focus {
+    outline: none !important;
 }
 
 footer .nav-link:hover {
