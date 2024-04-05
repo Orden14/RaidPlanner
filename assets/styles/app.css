@@ -47,6 +47,7 @@ input[type="color"] {
 
 .jobCard {
     width: 170px;
+    height: 255px !important;
 }
 
 .cardIcon {
@@ -56,6 +57,7 @@ input[type="color"] {
 @media screen and (max-width: 600px) {
     .jobCard {
         width: 130px;
+        height: 195px !important;
     }
 
     .jobCard h5 {
