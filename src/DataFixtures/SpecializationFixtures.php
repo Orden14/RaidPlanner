@@ -4,8 +4,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\util\FileMockUploader;
-use App\DTO\Entity\SpecializationDTO;
-use App\Factory\SpecializationFactory;
+use App\Entity\Specialization;
 use App\Repository\JobRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -16,9 +15,8 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
 {
     public function __construct(
         private readonly JobRepository $jobRepository,
-        private readonly FileMockUploader $fileMockUploader,
-        private readonly SpecializationFactory $specializationFactory
-    ){ }
+        private readonly FileMockUploader $fileMockUploader
+    ) {}
 
     final public function load(ObjectManager $manager): void
     {
@@ -44,14 +42,14 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
         }
 
         foreach ($specializations as $specializationName) {
-            $file = $this->fileMockUploader->mockFileUpload(strtolower($specializationName));
-            $specializationDTO = (new SpecializationDTO())
+            $filename = $this->fileMockUploader->mockFileUpload(strtolower($specializationName));
+
+            $specialization = (new Specialization())
                 ->setName($specializationName)
                 ->setJob($job)
-                ->setIcon($file)
-            ;
+                ->setIcon($filename);
 
-            $manager->persist($this->specializationFactory->create($specializationDTO));
+            $manager->persist($specialization);
         }
 
         $manager->flush();

@@ -53,6 +53,7 @@ exclude:
 
   # Règles phpstan désactivées car duplicat avec analyse Qodana
   -   name: PhpPropertyOnlyWrittenInspection
+  - name: GrazieInspection
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)

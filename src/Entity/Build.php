@@ -6,7 +6,7 @@ use App\Repository\BuildRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BuildRepository::class)]
-class Build implements EntityInterface
+class Build
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

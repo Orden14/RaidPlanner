@@ -32,7 +32,6 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
     {
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
-        $filters = $calendar->getFilters();
 
         /** @var GuildEvent[] $guildEvents */
         $guildEvents = $this->guildEventRepository

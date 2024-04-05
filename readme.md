@@ -6,11 +6,11 @@ https://github.com/Orden14/RaidPlanner
 
 ## About
 RaidPlanner is a tool for planning Guild Wars 2 instanced content.  
-I have no plan to made an english translation of the app for now.  
+I have no plan to make an english translation of the app for now.  
 /!\ Application is still in early-stage development /!\
 
 ## Project startup
-This is a Symfony project running on Symfony 7. In order to run the project easily, you need the following tools :
+This is a Symfony project running on Symfony 7. To run the project easily, you need the following tools :
 - Php 8.3
 - Symfony CLI
 - Composer
@@ -27,13 +27,14 @@ Project will be accessible on http://localhost:8001
 MailDev will be accessible on http://localhost:1080/
 
 ###### These are custom commands to help you during development :
-- yarn build (builds css and js with Webpack Encore)
-- yarn watch (constantly watches for changes in css and js files and compile them on the go)
+- yarn build (builds CSS and JS with Webpack Encore)
+- yarn watch (constantly watches for changes in CSS and JS files and compile them on the go)
 
 ## Test users
 Among all the generated users, there are default users available for easier testing :
 - Admin (username : admin / password : admin)
 - Member (username : member / password : member)
+- Old Member (username : oldmember / password : oldmember)
 - Guest (username : guest / password : guest)
 
 # Contact

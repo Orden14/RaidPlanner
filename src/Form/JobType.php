@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\Entity\JobDTO;
+use App\Entity\Job;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -41,7 +41,7 @@ final class JobType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => JobDTO::class,
+            'data_class' => Job::class,
         ]);
     }
 }

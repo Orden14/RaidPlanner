@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\DTO\Entity\UserDTO;
-use App\Factory\UserFactory;
+use App\Entity\User;
+use App\Enum\RolesEnum;
 use App\Form\RegistrationType;
 use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -38,8 +39,8 @@ class SecurityController extends AbstractController
     #[Route('/register', name: 'app_register')]
     final public function register(
         Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
         Security $security,
-        UserFactory $userFactory,
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -47,19 +48,25 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        $userDto = new UserDTO();
-        $form = $this->createForm(RegistrationType::class, $userDto);
+        $user = new User();
+        $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userDto->setPassword($form->get('plainPassword')->getData());
-            $user = $userFactory->create($userDto);
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $user->setRole(RolesEnum::GUEST);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
             return $security->login($user, AppAuthenticator::class, 'main');
         }
-
 
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form,

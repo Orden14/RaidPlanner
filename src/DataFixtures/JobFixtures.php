@@ -4,8 +4,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\util\FileMockUploader;
-use App\DTO\Entity\JobDTO;
-use App\Factory\JobFactory;
+use App\Entity\Job;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use FilesystemIterator;
@@ -14,7 +13,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class JobFixtures extends Fixture
 {
     public function __construct(
-        private readonly JobFactory $jobFactory,
         private readonly FileMockUploader $fileMockUploader,
         private readonly ParameterBagInterface $parameterBag
     ) {}
@@ -24,14 +22,7 @@ class JobFixtures extends Fixture
         $this->purgeIconDirectory();
 
         foreach ($this->getJobList() as $jobName => $jobColor) {
-            $file = $this->fileMockUploader->mockFileUpload(strtolower($jobName));
-            $jobDTO = (new JobDTO())
-                ->setName($jobName)
-                ->setIcon($file)
-                ->setColor($jobColor)
-            ;
-
-            $manager->persist($this->jobFactory->create($jobDTO));
+            $manager->persist($this->createJob($jobName, $jobColor));
         }
 
         $manager->flush();
@@ -46,6 +37,15 @@ class JobFixtures extends Fixture
                 unlink($file->getPathname());
             }
         }
+    }
+
+    private function createJob(string $name, string $color): Job
+    {
+        $filename = $this->fileMockUploader->mockFileUpload(strtolower($name));
+
+        return (new Job())->setName($name)
+            ->setIcon($filename)
+            ->setColor($color);
     }
 
     /**

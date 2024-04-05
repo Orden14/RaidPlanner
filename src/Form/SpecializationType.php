@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\DTO\Entity\SpecializationDTO;
 use App\Entity\Job;
+use App\Entity\Specialization;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
@@ -63,7 +63,7 @@ final class SpecializationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SpecializationDTO::class,
+            'data_class' => Specialization::class,
         ]);
     }
 }

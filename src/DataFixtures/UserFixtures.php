@@ -2,18 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\DTO\Entity\UserDTO;
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
     public function __construct(
-        private readonly UserFactory $userFactory,
+        private readonly UserPasswordHasherInterface $userPasswordHasher
     ) {}
 
     final public function load(ObjectManager $manager): void
@@ -21,55 +20,26 @@ class UserFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         for ($i = 0; $i < 30; $i++) {
-            $username = $faker->userName();
-
-            $userDTO = (new UserDTO())
-                ->setUsername($username)
-                ->setPassword($username)
-                ->setRole(RolesEnum::MEMBER)
-            ;
-
-            $manager->persist($this->userFactory->create($userDTO));
+            $manager->persist($this->generateUser($faker->userName, RolesEnum::MEMBER));
         }
 
-        $manager->persist($this->generateAdmin());
-        $manager->persist($this->generateMember());
-        $manager->persist($this->generateGuest());
+        $manager->persist($this->generateUser('admin', RolesEnum::ADMIN));
+        $manager->persist($this->generateUser('member', RolesEnum::MEMBER));
+        $manager->persist($this->generateUser('old_member', RolesEnum::OLD_MEMBER));
+        $manager->persist($this->generateUser('guest', RolesEnum::GUEST));
 
         $manager->flush();
     }
 
 
-    private function generateAdmin(): User
+    private function generateUser(string $username, RolesEnum $role): User
     {
-        $adminDTO = (new UserDTO())
-            ->setUsername('admin')
-            ->setPassword('admin')
-            ->setRole(RolesEnum::ADMIN)
-        ;
-
-        return $this->userFactory->create($adminDTO);
-    }
-
-    private function generateMember(): User
-    {
-        $memberDTO = (new UserDTO())
-            ->setUsername('member')
-            ->setPassword('member')
-            ->setRole(RolesEnum::MEMBER)
-        ;
-
-        return $this->userFactory->create($memberDTO);
-    }
-
-    private function generateGuest(): User
-    {
-        $guestDTO = (new UserDTO())
-            ->setUsername('guest')
-            ->setPassword('guest')
-            ->setRole(RolesEnum::GUEST)
-        ;
-
-        return $this->userFactory->create($guestDTO);
+        $user = new User();
+        return $user->setUsername($username)
+            ->setRole($role)
+            ->setPassword($this->userPasswordHasher->hashPassword(
+                $user,
+                $username
+            ));
     }
 }

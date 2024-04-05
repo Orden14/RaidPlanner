@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SpecializationRepository::class)]
-class Specialization implements EntityInterface
+class Specialization
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\DTO\Entity\JobDTO;
 use App\Entity\Job;
 use App\Enum\RolesEnum;
 use App\Form\JobType;
@@ -39,8 +38,7 @@ class JobController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, Job $job): Response
     {
-        $jobDto = (new JobDTO())->setFromObject($job);
-        $form = $this->createForm(JobType::class, $jobDto);
+        $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,10 +48,7 @@ class JobController extends AbstractController
                 $job->setIcon($this->fileManager->uploadFile($icon, $this->getParameter('icon_directory')));
             }
 
-            $job->setName($jobDto->getName())
-                ->setColor($jobDto->getColor())
-            ;
-
+            $this->entityManager->persist($job);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('job_index', [], Response::HTTP_SEE_OTHER);
