@@ -32,6 +32,7 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_MEMBER
+        ROLE_OLDMEMBER: ROLE_MEMBER
         ROLE_MEMBER: ROLE_GUEST
 
     access_control:

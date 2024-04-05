@@ -8,7 +8,7 @@ enum RolesEnum: string
 {
     case ADMIN = 'ROLE_ADMIN';
     case MEMBER = 'ROLE_MEMBER';
-    case OLD_MEMBER = 'ROLE_OLD_MEMBER';
+    case OLD_MEMBER = 'ROLE_OLDMEMBER';
     case GUEST = 'ROLE_GUEST';
 
     public static function getRoleDisplayName(self $role): string
