@@ -28,6 +28,12 @@ class Job
     #[ORM\OneToMany(targetEntity: Specialization::class, mappedBy: 'job', orphanRemoval: true)]
     private Collection $specializations;
 
+    /**
+     * Allows to display default general builds that are not dependent on a specific job/specialization
+     */
+    #[ORM\Column]
+    private ?bool $isDefault = false;
+
     public function __construct()
     {
         $this->specializations = new ArrayCollection();
@@ -97,6 +103,18 @@ class Job
         if ($this->specializations->removeElement($specialization) && $specialization->getJob() === $this) {
             $specialization->setJob(null);
         }
+
+        return $this;
+    }
+
+    final public function isDefault(): ?bool
+    {
+        return $this->isDefault;
+    }
+
+    final public function setIsDefault(bool $isDefault): self
+    {
+        $this->isDefault = $isDefault;
 
         return $this;
     }

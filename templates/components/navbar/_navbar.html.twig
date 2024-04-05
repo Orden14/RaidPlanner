@@ -12,7 +12,7 @@
                 {% if app.user %}
                     {%  if is_granted('ROLE_MEMBER') %}
                         {%  include 'components/navbar/links/_calendar.html.twig' %}
-                        {% include 'components/navbar/links/_example_link_2.html.twig' %}
+                        {% include 'components/navbar/links/_builds.html.twig' %}
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}

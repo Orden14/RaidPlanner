@@ -27,6 +27,8 @@ final class SpecializationRepository extends ServiceEntityRepository
     public function findAllOrderedByJob(): array
     {
         return $this->createQueryBuilder('s')
+            ->join('s.job', 'j')
+            ->andWhere('j.isDefault = false') // This is the new line that filters out the default job
             ->orderBy('s.job', 'ASC')
             ->getQuery()
             ->getResult()

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BuildRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BuildRepository::class)]
@@ -15,10 +17,6 @@ class Build
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
     #[ORM\Column(length: 255)]
     private ?string $link = null;
 
@@ -28,6 +26,15 @@ class Build
     #[ORM\ManyToOne(inversedBy: 'builds')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Specialization $specialization = null;
+
+    /** @var Collection<int, BuildCategory> $categories  */
+    #[ORM\ManyToMany(targetEntity: BuildCategory::class, inversedBy: 'builds')]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     final public function getId(): ?int
     {
@@ -42,18 +49,6 @@ class Build
     final public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    final public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    final public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -92,5 +87,44 @@ class Build
         $this->specialization = $specialization;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, BuildCategory>
+     */
+    final public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param Collection<int, BuildCategory> $categories
+     */
+    final public function setCategories(Collection $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    final public function addCategory(BuildCategory $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    final public function removeCategory(BuildCategory $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    final public function isDefault(): bool
+    {
+        return $this->specialization->getJob()?->isDefault();
     }
 }

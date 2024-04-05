@@ -20,4 +20,15 @@ final class JobRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Job::class);
     }
+
+    /**
+     * @return Job[]
+     */
+    public function findAllWithoutDefault(): array
+    {
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.isDefault = false')
+            ->getQuery()
+            ->getResult();
+    }
 }

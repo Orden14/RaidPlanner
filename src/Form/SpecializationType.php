@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Job;
 use App\Entity\Specialization;
+use App\Repository\JobRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +17,8 @@ use Symfony\Component\Validator\Constraints\File;
 final class SpecializationType extends AbstractType
 {
     public function __construct(
-        private readonly Packages $packages
+        private readonly Packages $packages,
+        private readonly JobRepository $jobRepository
     ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -30,6 +32,7 @@ final class SpecializationType extends AbstractType
             ])
             ->add('job', EntityType::class, [
                 'class' => Job::class,
+                'choices' => $this->jobRepository->findAllWithoutDefault(),
                 'choice_label' => 'name',
                 'attr' => [
                     'class' => 'selectpicker',
