@@ -21,4 +21,8 @@
         {% block body %}{% endblock %}
         {% block calendarJs %}{% endblock %}
     </body>
+
+    {% block footer %}
+        {{ include('components/footer/_footer.html.twig') }}
+    {% endblock %}
 </html>

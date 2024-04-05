@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block header %} {%  endblock %}
+{% block body %}
+    <div class="container mt-5 text-center">
+        <img src="{{ asset('logo/VirtualSquirrelsLogo.png') }}" alt="logo" class="img-fluid mt-4">
+        <h1 class="display-4">Oops! Erreur 500</h1>
+        <p class="lead">Le développeur a probablement fait n'importe quoi dans le code.</p>
+        <p class="mt-4">
+            Nous vous invitons à faire un rapport d'erreur à un administrateur afin que le problème soit corrigé.
+            Vous pouvez <a href="{{ path('app_home') }}">retourner à la page d'accueil</a>.
+        </p>
+    </div>
+{% endblock %}
