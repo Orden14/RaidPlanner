@@ -22,6 +22,10 @@ form .form-control:focus{
     width: 2rem;
 }
 
+footer .nav-link:hover {
+    color: #ffffff !important;
+}
+
 .dropdown.no-arrow .dropdown-toggle::after {
     display: none;
 }
