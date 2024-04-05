@@ -7,14 +7,13 @@
         <div class="row row-cols-auto d-flex justify-content-center">
             {% for job in jobs %}
                 <div>
-                    <div class="card text-center mb-3">
-                        <img src="{{ asset('icon/' ~ job.icon) }}" class="card-img-top cardIcon" alt="{{ job.name }}">
+                    <div class="card jobCard text-center mb-3">
+                        <img src="{{ asset('icon/' ~ job.icon) }}" class="card-img-top cardIcon" alt="{{ job.name }} icon" title="{{ job.name }}">
                         <div class="card-body">
                             <h5 class="card-title" style="color:{{ job.color }}">{{ job.name }}</h5>
-                            <a type="button" class="btn btn-secondary mb-2" href="{{ path('job_edit', {'id': job.id}) }}">
+                            <a type="button" class="btn btn-primary mb-2" href="{{ path('job_edit', {'id': job.id}) }}">
                                 Modifier
                             </a>
-                            <a href="{{ path('specialization_show_by_job', {'id': job.id}) }}" class="btn btn-primary">Spécialisations</a>
                         </div>
                     </div>
                 </div>

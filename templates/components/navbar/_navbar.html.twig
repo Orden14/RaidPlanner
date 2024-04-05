@@ -22,9 +22,7 @@
             </ul>
 
             {% if app.user %}
-                {% include 'components/navbar/links/responsive_buttons/_authenticated_buttons.html.twig' %}
-            {% else %}
-                {% include 'components/navbar/links/responsive_buttons/_unauthenticated_buttons.html.twig' %}
+                {% include 'components/navbar/links/_profile.html.twig' %}
             {% endif %}
         </div>
     </div>

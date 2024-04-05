@@ -4,14 +4,19 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use App\Enum\RolesEnum;
+use App\Service\User\UserService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use FilesystemIterator;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
     public function __construct(
+        private readonly UserService $userService,
+        private readonly ParameterBagInterface $parameterBag,
         private readonly UserPasswordHasherInterface $userPasswordHasher
     ) {}
 
@@ -19,7 +24,9 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 30; $i++) {
+        $this->purgeProfilePictureDirectory();
+
+        for ($i = 0; $i < 10; $i++) {
             $manager->persist($this->generateUser($faker->userName, RolesEnum::MEMBER));
         }
 
@@ -35,11 +42,25 @@ class UserFixtures extends Fixture
     private function generateUser(string $username, RolesEnum $role): User
     {
         $user = new User();
-        return $user->setUsername($username)
+        $user->setUsername($username)
             ->setRole($role)
             ->setPassword($this->userPasswordHasher->hashPassword(
                 $user,
                 $username
             ));
+        $this->userService->setDefaultProfilePicture($user);
+
+        return $user;
+    }
+
+    private function purgeProfilePictureDirectory(): void
+    {
+        $files = new FilesystemIterator($this->parameterBag->get('profile_picture_directory'));
+
+        foreach ($files as $file) {
+            if ($file->isFile() && $file->getFilename() !== '.gitignore') {
+                unlink($file->getPathname());
+            }
+        }
     }
 }

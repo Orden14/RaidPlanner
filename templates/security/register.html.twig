@@ -4,32 +4,45 @@
 
 {% block body %}
     <div class="container mt-5">
-        <h1>S'enregistrer</h1>
+        <div class="row justify-content-center">
+            <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
+                <div class="card rounded-0">
+                    <div class="card-header text-center">
+                        <img src="{{ asset('logo/VirtualSquirrelsLogo.png') }}" alt="Logo" style="height: 70px;">
+                        <h4>Créer un compte</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ form_errors(registrationForm) }}
+                        {{ form_start(registrationForm, {'attr': {'class': 'form-group'}}) }}
+                        <div class="form-group mt-3">
+                            {{ form_row(registrationForm.username, {
+                                label: 'Nom de compte',
+                                'attr': {'class': 'form-control'}}) }}
+                        </div>
 
-        {{ form_errors(registrationForm) }}
+                        <div class="form-group mt-2">
+                            {{ form_row(registrationForm.plainPassword.first, {
+                                label: 'Mot de passe',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                        </div>
 
-        {{ form_start(registrationForm, {'attr': {'class': 'form-group'}}) }}
-            <div class="form-group mt-4">
-                {{ form_row(registrationForm.username, {
-                    label: 'Nom de compte',
-                    'attr': {'class': 'form-control'}}) }}
+                        <div class="form-group">
+                            {{ form_row(registrationForm.plainPassword.second, {
+                                label: 'Confirmez le mot de passe',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary btn-block mt-2">S'enregistrer</button>
+                        </div>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <p>Vous avez déjà un compte? <a href="{{ path('app_login') }}" class="customColor">Connectez-vous</a></p>
+                </div>
             </div>
-
-            <div class="form-group">
-                {{ form_row(registrationForm.plainPassword.first, {
-                    label: 'Mot de passe',
-                    'attr': {'class': 'form-control'}
-                }) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_row(registrationForm.plainPassword.second, {
-                    label: 'Confirmez le mot de passe',
-                    'attr': {'class': 'form-control'}
-                }) }}
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-2">S'enregistrer</button>
-        {{ form_end(registrationForm) }}
+        </div>
     </div>
 {% endblock %}

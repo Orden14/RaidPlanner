@@ -22,6 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $username = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $profilePicture = null;
+
     /**
      * @var string[] The user roles
      */
@@ -54,6 +57,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     final public function getUserIdentifier(): string
     {
         return (string) $this->username;
+    }
+
+    final public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    final public function setProfilePicture(string $profilePicture): static
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
     }
 
     /**
@@ -111,10 +126,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     *
      */
     final public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+
     }
 }

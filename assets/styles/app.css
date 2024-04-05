@@ -1,3 +1,36 @@
+.btn-primary {
+    background-color: #22A39F !important;
+    border-color: #22A39F !important;
+}
+
+.btn-primary:hover {
+    background-color: #147573 !important;
+    border-color: #147573 !important;
+}
+
+form .form-control:focus{
+    border-color: #22A39F !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
+}
+
+.customColor {
+    color: #22A39F !important;
+}
+
+.nav-item .img-profile {
+    height: 2rem;
+    width: 2rem;
+}
+
+.dropdown.no-arrow .dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
 input[type="color"] {
     padding: 0;
 }
@@ -12,7 +45,7 @@ input[type="color"] {
     height: 30px;
 }
 
-.card {
+.jobCard {
     width: 170px;
 }
 
@@ -21,15 +54,15 @@ input[type="color"] {
 }
 
 @media screen and (max-width: 600px) {
-    .card {
+    .jobCard {
         width: 130px;
     }
 
-    .card h5 {
+    .jobCard h5 {
         font-size: 0.9em;
     }
 
-    .card a {
+    .jobCard a {
         font-size: 0.7em;
     }
 }

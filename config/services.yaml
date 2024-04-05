@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     icon_directory: '%kernel.project_dir%/public/icon'
+    default_profile_picture: '%kernel.project_dir%/assets/images/default_profile_picture.jpg'
+    profile_picture_directory: '%kernel.project_dir%/public/profile_picture'
 
 services:
     # default configuration for services in *this* file
