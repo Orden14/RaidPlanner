@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\DataFixtures;
 
 use App\DataFixtures\util\FileMockUploader;
@@ -26,7 +25,6 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
 
         $manager->flush();
     }
-
 
     /**
      * @param string[] $specializations

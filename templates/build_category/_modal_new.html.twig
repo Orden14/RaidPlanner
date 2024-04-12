@@ -1,0 +1,36 @@
+<div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newCategoryModalLabel">Ajouter une spécialisation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {'action': path('build_category_new'), 'method': 'POST', 'attr': {'class': 'form-horizontal'}}) }}
+                <div class="mb-3">
+                    {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.builds, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.builds, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.icon, null, {
+                        'label': 'Icone (format .png)',
+                        'label_attr': {'class': 'form-label'}
+                    }) }}
+                    {{ form_widget(form.icon, {
+                        'attr': {'class': 'form-control'},
+                        'required': true
+                    }) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
