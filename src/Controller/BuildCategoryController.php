@@ -59,6 +59,10 @@ class BuildCategoryController extends AbstractController
                 $buildCategory->setIcon($newFileName);
             }
 
+            foreach ($form->get('builds')->getData() as $build) {
+                $build->addCategory($buildCategory);
+            }
+
             $this->entityManager->persist($buildCategory);
             $this->entityManager->flush();
 
@@ -87,6 +91,19 @@ class BuildCategoryController extends AbstractController
             if ($icon) {
                 $this->fileManager->removeFile($buildCategory->getIcon(), $this->getParameter('icon_directory'));
                 $buildCategory->setIcon($this->fileManager->uploadFile($icon, $this->getParameter('icon_directory')));
+            }
+
+            $formBuilds = $form->get('builds')->getData()->toArray();
+            $linkedBuilds = $buildCategory->getBuilds()->toArray();
+            foreach ($linkedBuilds as $linkedBuild) {
+                if (!in_array($linkedBuild, $formBuilds, true)) {
+                    $linkedBuild->removeCategory($buildCategory);
+                }
+            }
+            foreach ($formBuilds as $formBuild) {
+                if (!in_array($formBuild, $linkedBuilds, true)) {
+                    $formBuild->addCategory($buildCategory);
+                }
             }
 
             $this->entityManager->flush();
