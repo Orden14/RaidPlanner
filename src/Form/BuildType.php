@@ -69,7 +69,7 @@ final class BuildType extends AbstractType
                         class='select-icon'
                         alt='$name icon'
                         title='$name'
-                    /> $name"];
+                    > $name"];
                 }
             ])
             ->add('categories', EntityType::class, [
@@ -91,7 +91,7 @@ final class BuildType extends AbstractType
                         class='select-icon'
                         alt='$name icon'
                         title='$name'
-                    /> $name"];
+                    > $name"];
                 }
             ])
         ;

@@ -35,7 +35,7 @@
                 <tbody>
                 {% for specialization in specializations %}
                     <tr>
-                        <td class="text-start"><img src="{{ asset('/icon/' ~ specialization.icon) }}" alt="{{ specialization.name }} icon" title="{{ specialization.name }}" class="small-icon" /></td>
+                        <td class="text-start"><img src="{{ asset('/icon/' ~ specialization.icon) }}" alt="{{ specialization.name }} icon" title="{{ specialization.name }}" class="small-icon"></td>
                         <td class="text-start">{{ specialization.name }}</td>
                         <td><div style="background-color: {{ specialization.job.color }}; width: 20px; height: 20px; border-radius: 50%; margin-left: 10px"></div></td>
                         <td>{{ specialization.job.name }}</td>

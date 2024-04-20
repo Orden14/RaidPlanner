@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Build;
 use App\Enum\RolesEnum;
 use App\Form\BuildType;
+use App\Repository\BuildCategoryRepository;
 use App\Repository\BuildRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +26,8 @@ class BuildController extends AbstractController
     public function __construct(
         private readonly FormFlashHelper $formFlashHelper,
         private readonly BuildRepository $buildRepository,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly BuildCategoryRepository $buildCategoryRepository
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
@@ -42,6 +44,7 @@ class BuildController extends AbstractController
         return $this->render(self::BUILD_INDEX_TEMPLATE, [
             'form' => $form->createView(),
             'builds' => $this->buildRepository->findAll(),
+            'categories' => $this->buildCategoryRepository->findAll(),
         ]);
     }
 

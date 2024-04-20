@@ -53,7 +53,7 @@ final class BuildCategoryType extends AbstractType
                                     class='select-icon'
                                     alt='$name icon'
                                     title='$name'
-                                /> $name"];
+                                > $name"];
                 }
             ])
             ->add('icon', FileType::class, [

@@ -49,7 +49,7 @@ final class SpecializationType extends AbstractType
                         class='select-icon'
                         alt='$name icon'
                         title='$name'
-                    /> $name"];
+                    > $name"];
                 }
             ])
             ->add('icon', FileType::class, [

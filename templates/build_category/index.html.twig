@@ -29,7 +29,7 @@
                 <tbody>
                 {% for category in build_categories %}
                     <tr>
-                        <td><img src="{{ asset('/icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon" /></td>
+                        <td><img src="{{ asset('/icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon"></td>
                         <td>{{ category.name }}</td>
                         <td>{{ category.builds.count }} {{ category.builds.count > 1 ? 'builds' : 'build' }}</td>
                         <td>
