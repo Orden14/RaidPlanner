@@ -63,6 +63,11 @@ input[type="color"] {
     height: 30px;
 }
 
+.medium-icon {
+    width: 45px;
+    height: 45px;
+}
+
 .jobCard {
     width: 170px;
     height: 255px !important;
