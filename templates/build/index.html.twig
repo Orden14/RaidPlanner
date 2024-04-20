@@ -16,6 +16,12 @@
             <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newBuildModal">Créer un build</a>
         </div>
         <div class="mb-3">
+            <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
+                <option value="Meta">Meta</option>
+                <option value="Hors meta">Hors meta</option>
+                <option value="Outdated">Outdated</option>
+            </select>
+
             <select id="categoryFilter" class="selectpicker" data-style-base="form-control" title="Catégories" multiple>
                 {% for category in categories %}
                     <option value="{{ category.name }}" data-content="
@@ -33,19 +39,19 @@
             <table class="table table-striped table-hover border w-100" data-controller="build--table">
                 <caption class="d-none">Table des builds</caption>
                 <thead class="thead-dark">
-                <tr>
-                    <th>Status</th>
-                    <th>Spécialisation</th>
-                    <th>Nom</th>
-                    <th>Categories</th>
-                </tr>
+                    <tr>
+                        <th>Status</th>
+                        <th>Spécialisation</th>
+                        <th>Nom</th>
+                        <th>Categories</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {% for build in builds %}
                     <tr>
                         <td>
                             <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span>
-                            <span style="display: none;">{{ build.status }}</span>
+                            <span style="display: none">{{ build.status }}</span>
                         </td>
                         <td>
                             <img src="{{ asset('/icon/' ~ build.specialization.icon) }}" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}" class="small-icon">
@@ -55,7 +61,7 @@
                         <td>
                             {% for category in build.categories %}
                                 <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
-                                <span style="display: none;">{{ category.name }}</span>
+                                <span style="display: none">{{ category.name }}</span>
                             {% endfor %}
                         </td>
                     </tr>

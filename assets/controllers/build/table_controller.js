@@ -18,21 +18,21 @@ export default class extends Controller {
 
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
-                let selectedCategories = $('#categoryFilter').val();
+                let selectedCategories = $('#categoryFilter').val()
                 if (selectedCategories.length === 0) {
-                    return true;
+                    return true
                 }
 
                 let rowCategories = data[3].split(' ');
 
                 return selectedCategories.every(function (category) {
-                    return rowCategories.includes(category);
-                });
+                    return rowCategories.includes(category)
+                })
             }
-        );
+        )
 
         $('#categoryFilter').on('change', function () {
-            table.draw();
-        });
+            table.draw()
+        })
     }
 }
