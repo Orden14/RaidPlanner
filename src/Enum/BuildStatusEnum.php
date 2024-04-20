@@ -10,19 +10,6 @@ enum BuildStatusEnum: string
     case OUTDATED = 'Outdated';
     case NOT_META = 'Hors meta';
 
-    /**
-     * @throws InvalidArgumentException
-     */
-    public static function getStatusFromValue(string $status): self
-    {
-        return match($status) {
-            self::META->value => self::META,
-            self::OUTDATED->value => self::OUTDATED,
-            self::NOT_META->value => self::NOT_META,
-            default => throw new InvalidArgumentException('Invalid status value provided.'),
-        };
-    }
-
     public static function getStatusStyleClassName(string $status): string
     {
         return match($status) {
