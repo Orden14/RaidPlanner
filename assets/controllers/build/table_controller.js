@@ -2,6 +2,7 @@ import {Controller} from "stimulus"
 import $ from 'jquery'
 import 'datatables.net-bs5'
 import 'datatables.net-select-bs5'
+import { filterRow } from "../../util/build/table_filter_manager"
 
 export default class extends Controller {
     initialize() {
@@ -18,29 +19,11 @@ export default class extends Controller {
 
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
-                let selectedStatus = $('#statusFilter').val()
-                let selectedCategories = $('#categoryFilter').val()
-
-                if (selectedStatus === 0 && selectedCategories.length === 0) {
-                    return true
-                }
-
-                let rowStatus = data[0].trim()
-                let rowCategories = data[3].trim()
-
-                let matchingByStatus = selectedStatus.length === 0 ? true : selectedStatus.every(
-                    function (status) { return rowStatus === status }
-                )
-
-                let matchingByCategory = selectedCategories.length === 0 ? true : selectedCategories.every(
-                    function (category) { return rowCategories.includes(category) }
-                )
-
-                return matchingByStatus && matchingByCategory
+                return filterRow(settings, data)
             }
         )
 
-        $('#categoryFilter, #statusFilter').on('change', function () {
+        $('#categoryFilter, #statusFilter, #specializationFilter').on('change', function () {
             table.draw()
         })
     }

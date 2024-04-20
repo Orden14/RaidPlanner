@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import {addHours, setHours} from 'date-fns';
 import "./index.css";
-import {setModalDates, setModalDatesForDateClick} from "../../util/Calendar/newEventModalHelper";
+import {setModalDates, setModalDatesForDateClick} from "../../util/Calendar/new_event_modal_helper";
 
 document.addEventListener("DOMContentLoaded", () => {
     let calendarEl = document.getElementById("calendar-holder")
