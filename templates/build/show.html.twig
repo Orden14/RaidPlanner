@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Build{% endblock %}
+
+{% block body %}
+    <h1>Build</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ build.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ build.name }}</td>
+            </tr>
+            <tr>
+                <th>Link</th>
+                <td>{{ build.link }}</td>
+            </tr>
+            <tr>
+                <th>Meta</th>
+                <td>{{ build.meta ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('build_index') }}">back to list</a>
+
+    <a href="{{ path('build_edit', {'id': build.id}) }}">edit</a>
+{% endblock %}

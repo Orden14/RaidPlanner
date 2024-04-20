@@ -31,9 +31,14 @@ class Build
     #[ORM\ManyToMany(targetEntity: BuildCategory::class, inversedBy: 'builds')]
     private Collection $categories;
 
+    /** @var Collection<int, BuildMessage> $buildMessages  */
+    #[ORM\OneToMany(targetEntity: BuildMessage::class, mappedBy: 'build', orphanRemoval: true)]
+    private Collection $buildMessages;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->buildMessages = new ArrayCollection();
     }
 
     final public function getId(): ?int
@@ -126,5 +131,35 @@ class Build
     final public function isDefault(): bool
     {
         return $this->specialization->getJob()?->isDefault();
+    }
+
+    /**
+     * @return Collection<int, BuildMessage>
+     */
+    public function getBuildMessages(): Collection
+    {
+        return $this->buildMessages;
+    }
+
+    public function addBuildMessage(BuildMessage $buildMessage): static
+    {
+        if (!$this->buildMessages->contains($buildMessage)) {
+            $this->buildMessages->add($buildMessage);
+            $buildMessage->setBuild($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuildMessage(BuildMessage $buildMessage): static
+    {
+        if ($this->buildMessages->removeElement($buildMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($buildMessage->getBuild() === $this) {
+                $buildMessage->setBuild(null);
+            }
+        }
+
+        return $this;
     }
 }

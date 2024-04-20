@@ -24,14 +24,17 @@ final class SpecializationRepository extends ServiceEntityRepository
     /**
      * @return Specialization[]
      */
-    public function findAllOrderedByJob(): array
+    public function findAllOrderedByJob(bool $showDefault): array
     {
-        return $this->createQueryBuilder('s')
-            ->join('s.job', 'j')
-            ->andWhere('j.isDefault = false') // This is the new line that filters out the default job
-            ->orderBy('s.job', 'ASC')
+        $query = $this->createQueryBuilder('s')
+            ->join('s.job', 'j');
+
+        if (!$showDefault) {
+            $query->andWhere('j.isDefault = false');
+        }
+
+        return $query->orderBy('s.job', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }
