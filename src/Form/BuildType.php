@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Build;
 use App\Entity\BuildCategory;
 use App\Entity\Specialization;
+use App\Enum\BuildStatusEnum;
 use App\Repository\SpecializationRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Asset\Packages;
@@ -32,11 +33,12 @@ final class BuildType extends AbstractType
                 'label' => 'Lien externe',
                 'required' => false
             ])
-            ->add('meta', ChoiceType::class, [
-                'label' => 'Meta',
+            ->add('status', ChoiceType::class, [
+                'label' => 'Status',
                 'choices' => [
-                    'Build meta' => true,
-                    'Build hors meta' => false,
+                    'Meta' => BuildStatusEnum::META,
+                    'Hors meta' => BuildStatusEnum::NOT_META,
+                    'Outdated' => BuildStatusEnum::OUTDATED,
                 ],
             ])
             ->add('specialization', EntityType::class, [

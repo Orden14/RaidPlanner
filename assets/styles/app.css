@@ -1,25 +1,30 @@
+:root {
+    --primary-color: #22A39F;
+    --primary-focus-color: #147573;
+}
+
 .btn-primary {
-    background-color: #22A39F !important;
-    border-color: #22A39F !important;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
 }
 
 .btn-primary:hover {
-    background-color: #147573 !important;
-    border-color: #147573 !important;
+    background-color: var(--primary-focus-color) !important;
+    border-color: var(--primary-focus-color) !important;
 }
 
 form .form-control:focus{
-    border-color: #22A39F !important;
+    border-color: var(--primary-color) !important;
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
 }
 
 form .form-check-input:checked {
-    background-color: #22A39F !important;
+    background-color: var(--primary-color) !important;
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
 }
 
 .customColor {
-    color: #22A39F !important;
+    color: var(--primary-color) !important;
 }
 
 .nav-item .img-profile {
@@ -28,11 +33,7 @@ form .form-check-input:checked {
 }
 
 .dropdown-item:active {
-    background-color: #22A39F !important;
-}
-
-.bootstrap-select button.dropdown-toggle:focus {
-    outline: none !important;
+    background-color: var(--primary-color) !important;
 }
 
 footer .nav-link:hover {
@@ -86,11 +87,37 @@ input[type="color"] {
     }
 }
 
-/*bootstrap-select restyling*/
+.bootstrap-select button.dropdown-toggle:focus {
+    outline: none !important;
+}
+
 .bootstrap-select .no-results {
     background: rgb(33, 37, 41) !important;
 }
 
 .bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:active {
     background-color: rgb(46, 53, 56) !important;
+}
+
+/*Build status icons*/
+.build-status-meta {
+    width: 14px;
+    height: 14px;
+    background-color: #2fa82f;
+    border-radius: 50%;
+    display: inline-block;
+}
+.build-status-not-meta {
+    width: 14px;
+    height: 14px;
+    background-color: #e37f00;
+    border-radius: 50%;
+    display: inline-block;
+}
+.build-status-outdated {
+    width: 14px;
+    height: 14px;
+    background-color: #9f1919;
+    border-radius: 50%;
+    display: inline-block;
 }

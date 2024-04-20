@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\BuildStatusEnum;
 use App\Repository\BuildRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,11 +18,11 @@ class Build
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
     #[ORM\Column]
-    private bool $meta = true;
+    private string $status = BuildStatusEnum::META->value;
 
     #[ORM\ManyToOne(inversedBy: 'builds')]
     #[ORM\JoinColumn(nullable: false)]
@@ -70,14 +71,14 @@ class Build
         return $this;
     }
 
-    final public function isMeta(): ?bool
+    final public function getStatus(): string
     {
-        return $this->meta;
+        return $this->status;
     }
 
-    final public function setMeta(bool $meta): self
+    final public function setStatus(BuildStatusEnum $status): self
     {
-        $this->meta = $meta;
+        $this->status = $status->value;
 
         return $this;
     }
@@ -136,12 +137,12 @@ class Build
     /**
      * @return Collection<int, BuildMessage>
      */
-    public function getBuildMessages(): Collection
+    final public function getBuildMessages(): Collection
     {
         return $this->buildMessages;
     }
 
-    public function addBuildMessage(BuildMessage $buildMessage): static
+    final public function addBuildMessage(BuildMessage $buildMessage): static
     {
         if (!$this->buildMessages->contains($buildMessage)) {
             $this->buildMessages->add($buildMessage);
@@ -151,13 +152,10 @@ class Build
         return $this;
     }
 
-    public function removeBuildMessage(BuildMessage $buildMessage): static
+    final public function removeBuildMessage(BuildMessage $buildMessage): static
     {
-        if ($this->buildMessages->removeElement($buildMessage)) {
-            // set the owning side to null (unless already changed)
-            if ($buildMessage->getBuild() === $this) {
-                $buildMessage->setBuild(null);
-            }
+        if ($this->buildMessages->removeElement($buildMessage) && $buildMessage->getBuild() === $this) {
+            $buildMessage->setBuild(null);
         }
 
         return $this;

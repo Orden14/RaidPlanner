@@ -21,6 +21,9 @@ enum RolesEnum: string
         };
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function getRoleFromValue(string $role): self
     {
         return match($role) {

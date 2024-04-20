@@ -2116,6 +2116,38 @@ csso@^5.0.5:
   dependencies:
     css-tree "~2.2.0"
 
+datatables.net-bs5@^2, datatables.net-bs5@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs5/-/datatables.net-bs5-2.0.5.tgz#31d1b1e05af0d2e1f998960cb1cc1ea24963fb0b"
+  integrity sha512-Etuw3aDHE+A91m/2XLhEUdn47LxzNbSYN/pMdkhBo8B6bfKnkH5lwR+aUSUpFTFrtadulcClwYmjrx45NqPfVw==
+  dependencies:
+    datatables.net "2.0.5"
+    jquery ">=1.7"
+
+datatables.net-select-bs5@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-select-bs5/-/datatables.net-select-bs5-2.0.1.tgz#3c1372ebc738a4b17863103d4f008a58c8d7023a"
+  integrity sha512-fMgqYBN+4Zy26vaCnHy9P+fTyswcwxjjnt18oSZKhRW9jHwrifFjubs4YwVcQYBV36Hmf72wrPzY3h1J6kslkA==
+  dependencies:
+    datatables.net-bs5 "^2"
+    datatables.net-select "2.0.1"
+    jquery ">=1.7"
+
+datatables.net-select@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-2.0.1.tgz#37d52fe7e6e0c5076a5529cbe6954e2c278ca930"
+  integrity sha512-ZrVseEmu+9cNd0PtuKpqRagwwp1K9P/JNaG6kdveCm5RzDYOqdulSB6owuIoIZwI59g9H4/d3paNl2q/wrYHZg==
+  dependencies:
+    datatables.net "^2"
+    jquery ">=1.7"
+
+datatables.net@2.0.5, datatables.net@^2:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-2.0.5.tgz#e9fdaa6a1a859705f448fa67d8b202615b566838"
+  integrity sha512-Eu7z0ErFyr44hopfLQ7kyIWRdfqH2zFG93aHcnGKGrt/ICWXUsLrjUwghuN5b1pktnKzXCFYsl6Ad9WypiSNeA==
+  dependencies:
+    jquery ">=1.7"
+
 date-fns@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
@@ -2965,7 +2997,7 @@ jquery-confirm@^3.3.4:
   dependencies:
     jquery ">=1.6"
 
-jquery@>=1.6, jquery@^3.7.1:
+jquery@>=1.6, jquery@>=1.7, jquery@^3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
