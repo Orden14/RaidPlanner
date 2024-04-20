@@ -7,6 +7,7 @@ use App\Enum\RolesEnum;
 use App\Form\BuildType;
 use App\Repository\BuildCategoryRepository;
 use App\Repository\BuildRepository;
+use App\Repository\SpecializationRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,13 +22,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/build', name: 'build_')]
 class BuildController extends AbstractController
 {
-    private const string BUILD_INDEX_TEMPLATE = 'build/index.html.twig';
-
     public function __construct(
         private readonly FormFlashHelper $formFlashHelper,
         private readonly BuildRepository $buildRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly BuildCategoryRepository $buildCategoryRepository
+        private readonly BuildCategoryRepository $buildCategoryRepository,
+        private readonly SpecializationRepository $specializationRepository
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
@@ -41,10 +41,11 @@ class BuildController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        return $this->render(self::BUILD_INDEX_TEMPLATE, [
+        return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
             'builds' => $this->buildRepository->findAll(),
             'categories' => $this->buildCategoryRepository->findAll(),
+            'specializations' => $this->specializationRepository->findAllOrderedByJob(false),
         ]);
     }
 

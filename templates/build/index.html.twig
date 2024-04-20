@@ -15,11 +15,32 @@
         <div class="mb-3">
             <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newBuildModal">Créer un build</a>
         </div>
+
+        {# Build filter div #}
         <div class="mb-3">
             <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
-                <option value="Meta">Meta</option>
-                <option value="Hors meta">Hors meta</option>
-                <option value="Outdated">Outdated</option>
+                <option value="Meta" data-content="
+                    <div class='build-status-meta align-middle' title='Meta'></div> Meta
+                "></option>
+                <option value="Hors meta" data-content="
+                    <div class='build-status-not-meta align-middle' title='Hors meta'></div> Hors meta
+                ">></option>
+                <option value="Outdated" data-content="
+                    <div class='build-status-outdated align-middle' title='Outdated'></div> Outdated
+                ">></option>
+            </select>
+
+            <select id="specializationFilter" class="selectpicker" data-style-base="form-control" data-live-search="true" data-live-search-placeholder="Rechercher une spé..." title="Spécialisations" multiple>
+                {% for specialization in specializations %}
+                    <option value="{{ specialization.name }}" data-content="
+                        <img
+                            src='{{ asset('icon/' ~ specialization.icon) }}'
+                            class='select-icon'
+                            alt='{{ specialization.name }} icon'
+                            title='{{ specialization.name }}'
+                        > {{ specialization.name }}
+                    "></option>
+                {% endfor %}
             </select>
 
             <select id="categoryFilter" class="selectpicker" data-style-base="form-control" title="Catégories" multiple>
@@ -35,6 +56,7 @@
                 {% endfor %}
             </select>
         </div>
+
         <div class="table-responsive mt-3">
             <table class="table table-striped table-hover border w-100" data-controller="build--table">
                 <caption class="d-none">Table des builds</caption>
@@ -50,7 +72,7 @@
                 {% for build in builds %}
                     <tr>
                         <td>
-                            <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span>
+                            <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
                             <span style="display: none">{{ build.status }}</span>
                         </td>
                         <td>

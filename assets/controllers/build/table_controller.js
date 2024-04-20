@@ -18,20 +18,29 @@ export default class extends Controller {
 
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
+                let selectedStatus = $('#statusFilter').val()
                 let selectedCategories = $('#categoryFilter').val()
-                if (selectedCategories.length === 0) {
+
+                if (selectedStatus === 0 && selectedCategories.length === 0) {
                     return true
                 }
 
-                let rowCategories = data[3].split(' ');
+                let rowStatus = data[0].trim()
+                let rowCategories = data[3].trim()
 
-                return selectedCategories.every(function (category) {
-                    return rowCategories.includes(category)
-                })
+                let matchingByStatus = selectedStatus.length === 0 ? true : selectedStatus.every(
+                    function (status) { return rowStatus === status }
+                )
+
+                let matchingByCategory = selectedCategories.length === 0 ? true : selectedCategories.every(
+                    function (category) { return rowCategories.includes(category) }
+                )
+
+                return matchingByStatus && matchingByCategory
             }
         )
 
-        $('#categoryFilter').on('change', function () {
+        $('#categoryFilter, #statusFilter').on('change', function () {
             table.draw()
         })
     }
