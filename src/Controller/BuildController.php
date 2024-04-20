@@ -9,6 +9,7 @@ use App\Repository\BuildCategoryRepository;
 use App\Repository\BuildRepository;
 use App\Repository\SpecializationRepository;
 use App\Util\Form\FormFlashHelper;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -57,6 +58,8 @@ class BuildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $build->setLastEditedAt(new DateTime());
+
             $this->entityManager->persist($build);
             $this->entityManager->flush();
 
@@ -84,6 +87,8 @@ class BuildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $build->setLastEditedAt(new DateTime());
+
             $this->entityManager->flush();
 
             $this->addFlash(

@@ -72,6 +72,10 @@ input[type="color"] {
     padding: 30px 30px 0 30px;
 }
 
+.table-hover tbody tr {
+    cursor: pointer !important;
+}
+
 @media screen and (max-width: 600px) {
     .jobCard {
         width: 130px;

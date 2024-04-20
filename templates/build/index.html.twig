@@ -58,33 +58,39 @@
         </div>
 
         <div class="table-responsive mt-3">
-            <table class="table table-striped table-hover border w-100" data-controller="build--table">
+            <table class="nowrap table table-striped table-hover border w-100" data-controller="build--table">
                 <caption class="d-none">Table des builds</caption>
                 <thead class="thead-dark">
                     <tr>
-                        <th>Status</th>
-                        <th>Spécialisation</th>
-                        <th>Nom</th>
-                        <th>Categories</th>
+                        <th></th>
+                        <th>Build</th>
+                        <th></th>
+                        <th>Dernière modification</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for build in builds %}
-                    <tr>
+                    <tr data-url="{{ path('build_show', {'id': build.id}) }}">
+                        <td>
+                            <div class="d-inline-flex float-end">
+                                <img src="{{ asset('/icon/' ~ build.specialization.icon) }}" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}" class="small-icon">
+                                <span style="display: none">{{ build.specialization.name }}</span>
+                            </div>
+                        </td>
+                        <td>{{ build.name }}</td>
                         <td>
                             <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
                             <span style="display: none">{{ build.status }}</span>
                         </td>
+                        <td>{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
                         <td>
-                            <img src="{{ asset('/icon/' ~ build.specialization.icon) }}" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}" class="small-icon">
-                            <span style="display: none">{{ build.specialization.name }}</span>
-                        </td>
-                        <td>{{ build.name }}</td>
-                        <td>
-                            {% for category in build.categories %}
-                                <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
-                                <span style="display: none">{{ category.name }}</span>
-                            {% endfor %}
+                            <div class="d-inline-flex float-end">
+                                {% for category in build.categories %}
+                                    <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
+                                    <span style="display: none">{{ category.name }}</span>
+                                {% endfor %}
+                            </div>
                         </td>
                     </tr>
                 {% else %}

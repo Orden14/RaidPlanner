@@ -31,6 +31,7 @@ final class SpecializationType extends AbstractType
                 ]
             ])
             ->add('job', EntityType::class, [
+                'label' => 'Classe',
                 'class' => Job::class,
                 'choices' => $this->jobRepository->findAllWithoutDefault(),
                 'choice_label' => 'name',

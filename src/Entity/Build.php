@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\BuildStatusEnum;
 use App\Repository\BuildRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,6 +36,9 @@ class Build
     /** @var Collection<int, BuildMessage> $buildMessages  */
     #[ORM\OneToMany(targetEntity: BuildMessage::class, mappedBy: 'build', orphanRemoval: true)]
     private Collection $buildMessages;
+
+    #[ORM\Column]
+    private ?DateTime $lastEditedAt = null;
 
     public function __construct()
     {
@@ -142,7 +146,7 @@ class Build
         return $this->buildMessages;
     }
 
-    final public function addBuildMessage(BuildMessage $buildMessage): static
+    final public function addBuildMessage(BuildMessage $buildMessage): self
     {
         if (!$this->buildMessages->contains($buildMessage)) {
             $this->buildMessages->add($buildMessage);
@@ -152,11 +156,23 @@ class Build
         return $this;
     }
 
-    final public function removeBuildMessage(BuildMessage $buildMessage): static
+    final public function removeBuildMessage(BuildMessage $buildMessage): self
     {
         if ($this->buildMessages->removeElement($buildMessage) && $buildMessage->getBuild() === $this) {
             $buildMessage->setBuild(null);
         }
+
+        return $this;
+    }
+
+    final public function getLastEditedAt(): ?DateTime
+    {
+        return $this->lastEditedAt;
+    }
+
+    final public function setLastEditedAt(DateTime $lastEditedAt): self
+    {
+        $this->lastEditedAt = $lastEditedAt;
 
         return $this;
     }

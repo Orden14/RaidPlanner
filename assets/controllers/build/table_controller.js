@@ -7,6 +7,7 @@ import { filterRow } from "../../util/build/table_filter_manager"
 export default class extends Controller {
     initialize() {
         let table = $(this.element).DataTable({
+            responsive: true,
             language: {
                 "lengthMenu": "Afficher _MENU_ builds par page",
                 "zeroRecords": "Aucun build trouvé",
@@ -14,7 +15,20 @@ export default class extends Controller {
                 "infoEmpty": "Aucun build trouvé",
                 "infoFiltered": "(filtré à partir de _MAX_ builds total)",
             },
-            select: true,
+            columnDefs: [
+                { width: '1%', targets: 0 },
+                { width: '30%', targets: 1, orderable: false },
+                { width: '1%', targets: 2, orderable: false },
+                { width: '15%', targets: 3 },
+                { width: '47%', targets: 4, orderable: false },
+            ],
+        })
+
+        $(table.rows().nodes()).on('click', function () {
+            let url = $(this).data('url')
+            if (url) {
+                window.location.href = url
+            }
         })
 
         $.fn.dataTable.ext.search.push(

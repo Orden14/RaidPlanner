@@ -51,6 +51,7 @@ final class BuildType extends AbstractType
                 }
             ])
             ->add('specialization', EntityType::class, [
+                'label' => 'Spécialisation',
                 'class' => Specialization::class,
                 'choices' => $this->specializationRepository->findAllOrderedByJob(false),
                 'choice_label' => 'name',
@@ -73,6 +74,7 @@ final class BuildType extends AbstractType
                 }
             ])
             ->add('categories', EntityType::class, [
+                'label' => 'Catégories',
                 'class' => BuildCategory::class,
                 'choice_label' => 'name',
                 'multiple' => true,
