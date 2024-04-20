@@ -21,11 +21,6 @@ class BuildStatusExtension extends AbstractExtension
      */
     final public function getStatusStyleClassName(string $status): string
     {
-        return match($status) {
-            BuildStatusEnum::META->value => 'build-status-meta',
-            BuildStatusEnum::NOT_META->value => 'build-status-not-meta',
-            BuildStatusEnum::OUTDATED->value => 'build-status-outdated',
-            default => throw new InvalidArgumentException('Invalid status value provided.'),
-        };
+        return BuildStatusEnum::getStatusStyleClassName($status);
     }
 }

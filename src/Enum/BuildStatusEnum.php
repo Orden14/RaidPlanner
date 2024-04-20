@@ -22,4 +22,14 @@ enum BuildStatusEnum: string
             default => throw new InvalidArgumentException('Invalid status value provided.'),
         };
     }
+
+    public static function getStatusStyleClassName(string $status): string
+    {
+        return match($status) {
+            self::META->value => 'build-status-meta',
+            self::NOT_META->value => 'build-status-not-meta',
+            self::OUTDATED->value => 'build-status-outdated',
+            default => throw new InvalidArgumentException('Invalid status value provided.'),
+        };
+    }
 }

@@ -40,6 +40,15 @@ final class BuildType extends AbstractType
                     'Hors meta' => BuildStatusEnum::NOT_META,
                     'Outdated' => BuildStatusEnum::OUTDATED,
                 ],
+                'attr' => [
+                    'class' => 'selectpicker',
+                    'data-style-base' => 'form-control',
+                    'data-width' => '100%',
+                ],
+                'choice_attr' => function($status) {
+                    $styleClass = BuildStatusEnum::getStatusStyleClassName($status->value) . ' ' . 'align-middle';
+                    return ['data-content' => "<span class='$styleClass'></span> " . $status->value];
+                }
             ])
             ->add('specialization', EntityType::class, [
                 'class' => Specialization::class,

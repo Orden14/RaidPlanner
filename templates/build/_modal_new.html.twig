@@ -7,17 +7,15 @@
             </div>
             <div class="modal-body">
                 {{ form_start(form, {'action': path('build_new'), 'method': 'POST', 'attr': {'class': 'form-horizontal'}}) }}
-                    <div class="mb-3">
-                        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_label(form.link, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="mb-3">
-                        {{ form_label(form.status, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+                    <div class="row mb-3">
+                        <div class="col">
+                            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col">
+                            {{ form_label(form.status, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.status) }}
+                        </div>
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.specialization, null, {'label_attr': {'class': 'form-label'}}) }}
@@ -26,6 +24,10 @@
                     <div class="mb-3">
                         {{ form_label(form.categories, null, {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.categories) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.link, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
                     </div>
             </div>
                     <div class="modal-footer">
