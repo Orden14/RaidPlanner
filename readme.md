@@ -34,6 +34,7 @@ MailDev will be accessible on http://localhost:1080/
 Among all the generated users, there are default users available for easier testing :
 - Admin (username : admin / password : admin)
 - Member (username : member / password : member)
+- Trial (username : trial / password : trial)
 - Old Member (username : oldmember / password : oldmember)
 - Guest (username : guest / password : guest)
 

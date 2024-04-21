@@ -14,25 +14,29 @@ class BuildMessage
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $message = null;
+    private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'buildMessages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Build $build = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     final public function getId(): ?int
     {
         return $this->id;
     }
 
-    final public function getMessage(): ?string
+    final public function getContent(): ?string
     {
-        return $this->message;
+        return $this->content;
     }
 
-    final public function setMessage(string $message): static
+    final public function setContent(string $content): self
     {
-        $this->message = $message;
+        $this->content = $content;
 
         return $this;
     }
@@ -42,9 +46,21 @@ class BuildMessage
         return $this->build;
     }
 
-    final public function setBuild(?Build $build): static
+    final public function setBuild(?Build $build): self
     {
         $this->build = $build;
+
+        return $this;
+    }
+
+    final public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    final public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

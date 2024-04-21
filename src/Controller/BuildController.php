@@ -8,6 +8,7 @@ use App\Enum\BuildStatusEnum;
 use App\Enum\RolesEnum;
 use App\Form\BuildType;
 use App\Repository\BuildCategoryRepository;
+use App\Repository\BuildMessageRepository;
 use App\Repository\BuildRepository;
 use App\Repository\SpecializationRepository;
 use App\Util\Form\FormFlashHelper;
@@ -29,6 +30,7 @@ class BuildController extends AbstractController
         private readonly FormFlashHelper $formFlashHelper,
         private readonly BuildRepository $buildRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly BuildMessageRepository $buildMessageRepository,
         private readonly BuildCategoryRepository $buildCategoryRepository,
         private readonly SpecializationRepository $specializationRepository
     ) {}
@@ -92,6 +94,7 @@ class BuildController extends AbstractController
         return $this->render('build/show.html.twig', [
             'form' => $form->createView(),
             'build' => $build,
+            'messages' => $this->buildMessageRepository->findBy(['build' => $build])
         ]);
     }
 
@@ -123,7 +126,8 @@ class BuildController extends AbstractController
 
         return $this->render('build/show.html.twig', [
             'form' => $form,
-            'build' => $build
+            'build' => $build,
+            'messages' => $this->buildMessageRepository->findBy(['build' => $build])
         ]);
     }
 
