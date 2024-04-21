@@ -32,4 +32,16 @@ enum BuildStatusEnum: string
             default => throw new InvalidArgumentException('Invalid status value provided.'),
         };
     }
+
+    /**
+     * @return String[]
+     */
+    public static function toArray(): array
+    {
+        return [
+            self::META->value,
+            self::OUTDATED->value,
+            self::NOT_META->value,
+        ];
+    }
 }
