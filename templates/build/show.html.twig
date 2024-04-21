@@ -1,0 +1,114 @@
+{% if build.link %}
+    {% set link = build.link starts with 'http://' or build.link starts with 'https://' ? build.link : 'http://' ~ build.link %}
+{% else %}
+    {% set link = '#' %}
+{% endif %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Build{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <a href="{{ path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="row border rounded ms-1 me-1">
+            <div class="col-lg-6 parent-div responsive-border-right p-3 build-sheet overflow-auto">
+                <h2><img src='{{ asset('icon/' ~ build.specialization.icon) }}'
+                         class='medium-icon'
+                         alt='{{ build.specialization.name }} icon'
+                         title='{{ build.specialization.name }}'
+                    > <span class="align-middle">{{ build.name }}</span></h2>
+
+                <hr/>
+
+                {% if is_granted("ROLE_MEMBER") %}
+                <div class="mt-2 bg-dark-subtle p-2 border rounded-1">
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editBuildModal"><i class="bi bi-pencil h5"></i></a>
+                    {% if build.status != "Meta" %}
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Meta'}) }}" class="btn btn-success" title="Passer en méta"><i class="bi bi-check2-square h5"></i></a>
+                    {% else %}
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Hors meta'}) }}" class="btn btn-warning" title="Archiver hors méta"><i class="bi bi-folder-x h5"></i></a>
+                    {% endif %}
+                    {% if build.status != "Outdated" %}
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Outdated'}) }}" class="btn btn-danger" title="Passer en outdated"><i class="bi bi-patch-exclamation-fill h5"></i></a>
+                    {% endif %}
+                    <div class="float-end">
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <form id="delete{{ build.id }}" method="post" action="{{ path('build_delete', {'id': build.id}) }}" data-controller="confirm">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
+                                <a type="button" class="btn btn-danger" id="{{ build.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                    <i class="bi bi-trash h5"></i>
+                                </a>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="border rounded mt-3 p-2">
+                    <p><Strong>Status : </Strong> {{ build.status }} <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span></p>
+                    <p><strong>Classe :</strong> <img src="{{ asset('icon/' ~ build.specialization.job.icon) }}" class="small-icon" alt="{{ build.specialization.job.name }} icon" title="{{ build.specialization.job.name }}"> {{ build.specialization.job.name }}</p>
+                    <p><strong>Spécialisation : </strong> <img src="{{ asset('icon/' ~ build.specialization.icon) }}" class="small-icon" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}"> {{ build.specialization.name }} </p>
+                    <p><strong>Lien :</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ link ~  '</a>')|raw : 'Pas de lien disponible' }}</p>
+
+                </div>
+                <div class="bottom-div mb-3">
+                    <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.creator.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
+                    <br/>
+                    <span class="small-text">Dernière modification le {{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</span>
+                </div>
+            </div>
+
+            <div class="col-lg-6 pt-2 ps-2 pe-2 parent-div build-sheet d-flex flex-column">
+                <h2>Conversation</h2>
+                <div class="border rounded-1 overflow-auto flex-grow-1 mb-3">
+                    {% for message in messages %}
+                        <div class="{{ app.user == message.author ? 'bg-secondary' : 'background-primary' }} rounded mt-3 mb-3 ms-2 me-2 p-2">
+                            <div class="mb-5">
+                                <div class="float-start">
+                                    <span class="small-text">Publié par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ message.author.profilePicture) }}" alt="Profile"> {{ message.author.username }} le {{ message.postedAt|date('d/m/Y') }} à {{ message.postedAt|date('H:i') }}</span>
+                                </div>
+                                {% if is_granted("ROLE_ADMIN") or message.author == app.user %}
+                                    <div class="float-end">
+                                        <form id="delete{{ message.id }}" method="post" action="{{ path('build_message_delete', {'id': message.id}) }}" data-controller="confirm">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
+                                            <a id="{{ message.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                                <i class="bi bi-trash cursor-pointer"></i>
+                                            </a>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div style="word-wrap: break-word;">
+                                <span>{{ message.content|nl2br }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="m-3">Aucun message n'a été posté pour le moment</p>
+                    {% endfor %}
+                </div>
+
+                <div class="row full-width mb-2">
+                    <form method="post" action="{{ path('build_message_post', {'id': build.id}) }}" class="row">
+                        <div class="col-11">
+                            <textarea class="form-control" id="messageContent" name="messageContent" placeholder="Ecrire un message..." rows="3"></textarea>
+                        </div>
+                        <div class="col-1 d-flex align-items-center">
+                            <button type="submit" class="btn btn-primary ps-3 pe-3 pt-2 pb-2"><i class="bi bi-send h3"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ include('build/_modal_edit.html.twig') }}
+{% endblock %}

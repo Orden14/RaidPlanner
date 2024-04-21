@@ -31,6 +31,7 @@ final class SpecializationType extends AbstractType
                 ]
             ])
             ->add('job', EntityType::class, [
+                'label' => 'Classe',
                 'class' => Job::class,
                 'choices' => $this->jobRepository->findAllWithoutDefault(),
                 'choice_label' => 'name',
@@ -49,7 +50,7 @@ final class SpecializationType extends AbstractType
                         class='select-icon'
                         alt='$name icon'
                         title='$name'
-                    /> $name"];
+                    > $name"];
                 }
             ])
             ->add('icon', FileType::class, [

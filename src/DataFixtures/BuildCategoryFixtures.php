@@ -38,11 +38,11 @@ class BuildCategoryFixtures extends Fixture implements DependentFixtureInterface
     private function getBuildCategoryList(): array
     {
         return [
-            'Heal',
-            'Alacrity',
-            'Quickness',
+            'Pdps',
             'Cdps',
-            'Pdps'
+            'Heal',
+            'Quickness',
+            'Alacrity'
         ];
     }
 

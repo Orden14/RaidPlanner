@@ -32,6 +32,7 @@ class UserFixtures extends Fixture
 
         $manager->persist($this->generateUser('admin', RolesEnum::ADMIN));
         $manager->persist($this->generateUser('member', RolesEnum::MEMBER));
+        $manager->persist($this->generateUser('trial', RolesEnum::TRIAL));
         $manager->persist($this->generateUser('old_member', RolesEnum::OLD_MEMBER));
         $manager->persist($this->generateUser('guest', RolesEnum::GUEST));
 

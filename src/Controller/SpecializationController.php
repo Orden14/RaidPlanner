@@ -43,7 +43,7 @@ class SpecializationController extends AbstractController
 
         return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'form' => $form->createView(),
-            'specializations' => $this->specializationRepository->findAllOrderedByJob()
+            'specializations' => $this->specializationRepository->findAllOrderedByJob(false)
         ]);
     }
 
@@ -91,7 +91,7 @@ class SpecializationController extends AbstractController
 
         return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'form' => $form,
-            'specializations' => $this->specializationRepository->findAllOrderedByJob()
+            'specializations' => $this->specializationRepository->findAllOrderedByJob(false)
         ]);
     }
 
@@ -123,8 +123,8 @@ class SpecializationController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('specialization/edit.html.twig', [
-            'specialization' => $specialization,
             'form' => $form,
+            'specialization' => $specialization
         ]);
     }
 
