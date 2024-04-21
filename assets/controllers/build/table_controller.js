@@ -13,7 +13,7 @@ export default class extends Controller {
                 "zeroRecords": "Aucun build trouvé",
                 "info": "Page _PAGE_ sur _PAGES_",
                 "infoEmpty": "Aucun build trouvé",
-                "infoFiltered": "(filtré à partir de _MAX_ builds total)",
+                "infoFiltered": "(filtré à partir de _MAX_ builds)",
             },
             columnDefs: [
                 { width: '1%', targets: 0 },

@@ -27,8 +27,8 @@ form .form-check-input:checked {
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
 }
 
-.background-primary {
-    background-color: var(--primary-color) !important;
+.background-message {
+    background-color: var(--primary-focus-color) !important;
 }
 
 .customColor {
