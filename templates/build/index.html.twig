@@ -12,9 +12,11 @@
         {% endfor %}
 
         <h1>Builds</h1>
-        <div class="mb-3">
-            <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newBuildModal">Créer un build</a>
-        </div>
+        {% if is_granted("ROLE_MEMBER") %}
+            <div class="mb-3">
+                <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
+            </div>
+        {% endif %}
 
         {# Build filter div #}
         <div class="mb-3">

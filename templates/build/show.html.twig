@@ -10,28 +10,54 @@
 
 {% block body %}
     <div class="container mt-5">
-    <div>
-        <div class="card">
-            <div class="card-header p-2">
+        <a href="{{ path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
+        <div class="row border rounded ms-1 me-1">
+            <div class="col-lg-6 parent-div responsive-border-right p-3 build-sheet overflow-auto">
                 <h2><img src='{{ asset('icon/' ~ build.specialization.icon) }}'
-                        class='medium-icon'
-                        alt='{{ build.specialization.name }} icon'
-                        title='{{ build.specialization.name }}'
+                         class='medium-icon'
+                         alt='{{ build.specialization.name }} icon'
+                         title='{{ build.specialization.name }}'
                     > <span class="align-middle">{{ build.name }}</span></h2>
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    <strong>Link:</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ link ~  '</a>')|raw : 'Pas de lien disponible' }}
-                    <strong>Status:</strong> {{ build.status }}
-                </p>
-                <a href="{{ path('build_index') }}" class="btn btn-primary">Back to list</a>
-                <a href="{{ path('build_edit', {'id': build.id}) }}" class="btn btn-secondary">Edit</a>
-            </div>
-        </div>
 
-        <div class="mt-5">
-            <h2>Discussion</h2>
-            <div>
+                <hr/>
+
+                <div class="mt-2 bg-dark-subtle p-2 border rounded-1">
+                    <a href="{{ path('build_edit', {'id': build.id}) }}" class="btn btn-primary" title="Modifier"><i class="bi bi-pencil h5"></i></a>
+                    {% if build.status != "Meta" %}
+                        <a href="#" class="btn btn-success" title="Passer en méta"><i class="bi bi-check2-square h5"></i></a>
+                    {% else %}
+                        <a href="#" class="btn btn-warning" title="Archiver hors méta"><i class="bi bi-folder-x h5"></i></a>
+                    {% endif %}
+                    {% if build.status != "Outdated" %}
+                        <a href="#" class="btn btn-danger" title="Passer en outdated"><i class="bi bi-patch-exclamation-fill h5"></i></a>
+                    {% endif %}
+                    <div class="float-end">
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <form id="delete{{ build.id }}" method="post" action="{{ path('build_delete', {'id': build.id}) }}" data-controller="confirm">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
+                                <a type="button" class="btn btn-danger" id="{{ build.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                    <i class="bi bi-trash h5"></i>
+                                </a>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="border rounded mt-3 p-2">
+                    <p><Strong>Status : </Strong> {{ build.status }} <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span></p>
+                    <p><strong>Classe :</strong> <img src="{{ asset('icon/' ~ build.specialization.job.icon) }}" class="small-icon" alt="{{ build.specialization.job.name }} icon" title="{{ build.specialization.job.name }}"> {{ build.specialization.job.name }}</p>
+                    <p><strong>Spécialisation : </strong> <img src="{{ asset('icon/' ~ build.specialization.icon) }}" class="small-icon" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}"> {{ build.specialization.name }} </p>
+                    <p><strong>Lien :</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ link ~  '</a>')|raw : 'Pas de lien disponible' }}</p>
+
+                </div>
+                <div class="bottom-div mb-1">
+                    <span class="small-text">Créé par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ app.user.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
+                    <br/>
+                    <span class="small-text">Modifié le {{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</span>
+                </div>
+            </div>
+
+            <div class="col-lg-6 p-3 build-sheet overflow-auto">
+                <h2>Conversation</h2>
             </div>
         </div>
     </div>

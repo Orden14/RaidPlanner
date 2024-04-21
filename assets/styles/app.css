@@ -81,6 +81,15 @@ input[type="color"] {
     cursor: pointer !important;
 }
 
+.parent-div {
+    position: relative;
+}
+
+.bottom-div {
+    position: absolute;
+    bottom: 0;
+}
+
 @media screen and (max-width: 600px) {
     .jobCard {
         width: 130px;
@@ -106,6 +115,23 @@ input[type="color"] {
 
 .bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:active {
     background-color: rgb(46, 53, 56) !important;
+}
+
+/*Build sheet*/
+.build-sheet {
+    height: 75vh;
+}
+.responsive-border-right {
+    border-right: 1px solid rgb(62, 70, 74);
+}
+.small-text {
+    font-size: 0.8em !important;
+}
+@media screen and (max-width: 600px) {
+    .responsive-border-right {
+        border-right: none;
+        border-bottom: 1px solid rgb(62, 70, 74);
+    }
 }
 
 /*Build status icons*/

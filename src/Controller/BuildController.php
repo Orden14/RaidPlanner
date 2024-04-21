@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Build;
+use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Form\BuildType;
 use App\Repository\BuildCategoryRepository;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted(RolesEnum::MEMBER->value)]
+#[IsGranted(RolesEnum::TRIAL->value)]
 #[Route('/build', name: 'build_')]
 class BuildController extends AbstractController
 {
@@ -50,6 +51,7 @@ class BuildController extends AbstractController
         ]);
     }
 
+    #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     final public function new(Request $request): Response
     {
@@ -58,7 +60,11 @@ class BuildController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $currentUser */
+            $currentUser = $this->getUser();
+
             $build->setLastEditedAt(new DateTime());
+            $build->setCreator($currentUser);
 
             $this->entityManager->persist($build);
             $this->entityManager->flush();
@@ -80,6 +86,7 @@ class BuildController extends AbstractController
         ]);
     }
 
+    #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, Build $build): Response
     {
@@ -109,6 +116,7 @@ class BuildController extends AbstractController
         ]);
     }
 
+    #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, Build $build): Response
     {
