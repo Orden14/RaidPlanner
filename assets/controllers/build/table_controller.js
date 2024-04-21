@@ -40,5 +40,7 @@ export default class extends Controller {
         $('#categoryFilter, #statusFilter, #specializationFilter').on('change', function () {
             table.draw()
         })
+
+        $('#statusFilter').trigger('change');
     }
 }
