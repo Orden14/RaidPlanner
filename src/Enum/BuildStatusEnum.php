@@ -19,4 +19,17 @@ enum BuildStatusEnum: string
             default => throw new InvalidArgumentException('Invalid status value provided.'),
         };
     }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public static function getStatusFromValue(string $status): self
+    {
+        return match($status) {
+            self::META->value => self::META,
+            self::NOT_META->value => self::NOT_META,
+            self::OUTDATED->value => self::OUTDATED,
+            default => throw new InvalidArgumentException('Invalid status value provided.'),
+        };
+    }
 }

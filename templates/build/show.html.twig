@@ -11,6 +11,14 @@
 {% block body %}
     <div class="container mt-5">
         <a href="{{ path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
         <div class="row border rounded ms-1 me-1">
             <div class="col-lg-6 parent-div responsive-border-right p-3 build-sheet overflow-auto">
                 <h2><img src='{{ asset('icon/' ~ build.specialization.icon) }}'
@@ -21,15 +29,16 @@
 
                 <hr/>
 
+                {% if is_granted("ROLE_MEMBER") %}
                 <div class="mt-2 bg-dark-subtle p-2 border rounded-1">
-                    <a href="{{ path('build_edit', {'id': build.id}) }}" class="btn btn-primary" title="Modifier"><i class="bi bi-pencil h5"></i></a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editBuildModal"><i class="bi bi-pencil h5"></i></a>
                     {% if build.status != "Meta" %}
-                        <a href="#" class="btn btn-success" title="Passer en méta"><i class="bi bi-check2-square h5"></i></a>
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Meta'}) }}" class="btn btn-success" title="Passer en méta"><i class="bi bi-check2-square h5"></i></a>
                     {% else %}
-                        <a href="#" class="btn btn-warning" title="Archiver hors méta"><i class="bi bi-folder-x h5"></i></a>
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Hors meta'}) }}" class="btn btn-warning" title="Archiver hors méta"><i class="bi bi-folder-x h5"></i></a>
                     {% endif %}
                     {% if build.status != "Outdated" %}
-                        <a href="#" class="btn btn-danger" title="Passer en outdated"><i class="bi bi-patch-exclamation-fill h5"></i></a>
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Outdated'}) }}" class="btn btn-danger" title="Passer en outdated"><i class="bi bi-patch-exclamation-fill h5"></i></a>
                     {% endif %}
                     <div class="float-end">
                         {% if is_granted("ROLE_ADMIN") %}
@@ -42,6 +51,8 @@
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+
                 <div class="border rounded mt-3 p-2">
                     <p><Strong>Status : </Strong> {{ build.status }} <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span></p>
                     <p><strong>Classe :</strong> <img src="{{ asset('icon/' ~ build.specialization.job.icon) }}" class="small-icon" alt="{{ build.specialization.job.name }} icon" title="{{ build.specialization.job.name }}"> {{ build.specialization.job.name }}</p>
@@ -50,9 +61,9 @@
 
                 </div>
                 <div class="bottom-div mb-1">
-                    <span class="small-text">Créé par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ app.user.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
+                    <span class="small-text">Publié par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ app.user.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
                     <br/>
-                    <span class="small-text">Modifié le {{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</span>
+                    <span class="small-text">Dernière modification le {{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</span>
                 </div>
             </div>
 
@@ -61,4 +72,6 @@
             </div>
         </div>
     </div>
+
+    {{ include('build/_modal_edit.html.twig') }}
 {% endblock %}

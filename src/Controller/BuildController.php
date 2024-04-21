@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Build;
 use App\Entity\User;
+use App\Enum\BuildStatusEnum;
 use App\Enum\RolesEnum;
 use App\Form\BuildType;
 use App\Repository\BuildCategoryRepository;
@@ -78,10 +79,18 @@ class BuildController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    final public function show(Build $build): Response
+    #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
+    final public function show(Request $request, Build $build): Response
     {
+        $form = $this->createForm(BuildType::class, $build, [
+            'action' => $this->generateUrl('build_new'),
+            'method' => 'POST',
+
+        ]);
+        $form->handleRequest($request);
+
         return $this->render('build/show.html.twig', [
+            'form' => $form->createView(),
             'build' => $build,
         ]);
     }
@@ -103,14 +112,16 @@ class BuildController extends AbstractController
                 "Le build {$build->getName()} a bien été modifiée"
             );
 
-            return $this->redirectToRoute('build_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('build_show', [
+                'id' => $build->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
         $formErrors = $form->getErrors(true, false);
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
-        return $this->render('build/edit.html.twig', [
+        return $this->render('build/show.html.twig', [
             'form' => $form,
             'build' => $build
         ]);
@@ -131,5 +142,23 @@ class BuildController extends AbstractController
         );
 
         return $this->redirectToRoute('build_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted(RolesEnum::MEMBER->value)]
+    #[Route('/status/{id}/{statusString}', name: 'status', methods: ['GET', 'POST'])]
+    final public function setStatus(int $id, string $statusString): Response
+    {
+        $build = $this->buildRepository->find($id);
+
+        if (!$build) {
+            throw $this->createNotFoundException('No build found for id '.$id);
+        }
+
+        $status = BuildStatusEnum::getStatusFromValue($statusString);
+
+        $build->setStatus($status);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('build_show', ['id' => $id], Response::HTTP_SEE_OTHER);
     }
 }
