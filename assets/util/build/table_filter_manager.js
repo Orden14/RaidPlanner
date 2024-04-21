@@ -1,9 +1,9 @@
 import $ from "jquery";
 
 export function filterRow (settings, data) {
-    let matchingByStatus = statusFilter(data[2].trim())
+    let matchingByStatus = statusFilter(data[3].trim())
     let matchingBySpecialization = specializationFilter(data[0].trim())
-    let matchingByCategory = categoryFilter(data[4].trim())
+    let matchingByCategory = categoryFilter(data[7].trim())
 
     return matchingByStatus && matchingBySpecialization && matchingByCategory
 }

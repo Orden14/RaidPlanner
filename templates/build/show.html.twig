@@ -3,6 +3,11 @@
 {% else %}
     {% set link = '#' %}
 {% endif %}
+{% if build.benchmarkLink %}
+    {% set benchmarkLink = build.benchmarkLink starts with 'http://' or build.benchmarkLink starts with 'https://' ? build.benchmarkLink : 'http://' ~ build.benchmarkLink %}
+{% else %}
+    {% set benchmarkLink = '#' %}
+{% endif %}
 
 {% extends 'base.html.twig' %}
 
@@ -31,20 +36,20 @@
 
                 {% if is_granted("ROLE_MEMBER") %}
                 <div class="mt-2 bg-dark-subtle p-2 border rounded-1">
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editBuildModal"><i class="bi bi-pencil h5"></i></a>
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editBuildModal" title="Modifier"><i class="bi bi-pencil h5"></i></a>
                     {% if build.status != "Meta" %}
-                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Meta'}) }}" class="btn btn-success" title="Passer en méta"><i class="bi bi-check2-square h5"></i></a>
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Meta'}) }}" class="btn btn-success" title="Passer méta"><i class="bi bi-check2-square h5"></i></a>
                     {% else %}
-                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Hors meta'}) }}" class="btn btn-warning" title="Archiver hors méta"><i class="bi bi-folder-x h5"></i></a>
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Hors meta'}) }}" class="btn btn-warning" title="Passer hors méta"><i class="bi bi-folder-x h5"></i></a>
                     {% endif %}
                     {% if build.status != "Outdated" %}
-                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Outdated'}) }}" class="btn btn-danger" title="Passer en outdated"><i class="bi bi-patch-exclamation-fill h5"></i></a>
+                        <a href="{{ path('build_status', {'id': build.id, 'statusString': 'Outdated'}) }}" class="btn btn-danger" title="Passer outdated"><i class="bi bi-patch-exclamation-fill h5"></i></a>
                     {% endif %}
                     <div class="float-end">
                         {% if is_granted("ROLE_ADMIN") %}
                             <form id="delete{{ build.id }}" method="post" action="{{ path('build_delete', {'id': build.id}) }}" data-controller="confirm">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
-                                <a type="button" class="btn btn-danger" id="{{ build.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                <a type="button" class="btn btn-danger" id="{{ build.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
                                     <i class="bi bi-trash h5"></i>
                                 </a>
                             </form>
@@ -57,8 +62,9 @@
                     <p><Strong>Status : </Strong> {{ build.status }} <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span></p>
                     <p><strong>Classe :</strong> <img src="{{ asset('icon/' ~ build.specialization.job.icon) }}" class="small-icon" alt="{{ build.specialization.job.name }} icon" title="{{ build.specialization.job.name }}"> {{ build.specialization.job.name }}</p>
                     <p><strong>Spécialisation : </strong> <img src="{{ asset('icon/' ~ build.specialization.icon) }}" class="small-icon" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}"> {{ build.specialization.name }} </p>
-                    <p><strong>Lien :</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ link ~  '</a>')|raw : 'Pas de lien disponible' }}</p>
-
+                    <p><strong>Lien</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
+                    <p><strong>Benchmark :</strong> {{ build.benchmark is not null ? build.benchmark : 'Benchmark non spécifié' }}</p>
+                    <p><strong>Lien du benchmark</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                 </div>
                 <div class="bottom-div mb-3">
                     <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.creator.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
@@ -80,7 +86,7 @@
                                     <div class="float-end">
                                         <form id="delete{{ message.id }}" method="post" action="{{ path('build_message_delete', {'id': message.id}) }}" data-controller="confirm">
                                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
-                                            <a id="{{ message.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                            <a id="{{ message.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
                                                 <i class="bi bi-trash cursor-pointer"></i>
                                             </a>
                                         </form>
@@ -88,7 +94,7 @@
                                 {% endif %}
                             </div>
                             <div style="word-wrap: break-word;">
-                                <span>{{ message.content|nl2br }}</span>
+                                <span>{{ message.content|nl2br|auto_link|raw }}</span>
                             </div>
                         </div>
                     {% else %}
@@ -98,10 +104,10 @@
 
                 <div class="row full-width mb-2">
                     <form method="post" action="{{ path('build_message_post', {'id': build.id}) }}" class="row">
-                        <div class="col-11">
+                        <div class="col-10 col-md-11">
                             <textarea class="form-control" id="messageContent" name="messageContent" placeholder="Ecrire un message..." rows="3"></textarea>
                         </div>
-                        <div class="col-1 d-flex align-items-center">
+                        <div class="col-2 col-md-1 d-flex align-items-center m-0">
                             <button type="submit" class="btn btn-primary ps-3 pe-3 pt-2 pb-2"><i class="bi bi-send h3"></i></button>
                         </div>
                     </form>

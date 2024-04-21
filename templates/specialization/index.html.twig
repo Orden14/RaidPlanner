@@ -47,7 +47,7 @@
                                 </a>
                                 <form id="delete{{ specialization.id }}" method="post" action="{{ path('specialization_delete', {'id': specialization.id}) }}" data-controller="confirm">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ specialization.id) }}">
-                                    <a type="button" class="btn btn-danger flex-shrink-0" id="{{ specialization.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                    <a type="button" class="btn btn-danger flex-shrink-0" id="{{ specialization.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
                                         <i class="bi-trash"></i>
                                     </a>
                                 </form>

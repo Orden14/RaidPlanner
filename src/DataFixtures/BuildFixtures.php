@@ -59,8 +59,10 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
             ->setCreator($user)
             ->setSpecialization($specialization)
             ->setLastEditedAt($faker->dateTimeBetween('-1 year', 'now'))
-            ->setStatus($this->getRandomStatus());
-
+            ->setStatus($this->getRandomStatus())
+            ->setBenchmark($faker->numberBetween(20000, 50000))
+            ->setLink($faker->optional()->url)
+            ->setBenchmarkLink($faker->optional()->url);
         $randomKeys = array_rand($categories, 2);
         foreach ($randomKeys as $key) {
             $build->addCategory($categories[$key]);

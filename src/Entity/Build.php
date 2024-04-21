@@ -28,6 +28,12 @@ class Build
     #[ORM\Column]
     private ?DateTime $lastEditedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $benchmark = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $benchmarkLink = null;
+
     use BuildRelationalPropertiesTrait;
 
     final public function getId(): ?int
@@ -52,7 +58,7 @@ class Build
         return $this->link;
     }
 
-    final public function setLink(string $link): self
+    final public function setLink(?string $link): self
     {
         $this->link = $link;
 
@@ -79,6 +85,30 @@ class Build
     final public function setLastEditedAt(DateTime $lastEditedAt): self
     {
         $this->lastEditedAt = $lastEditedAt;
+
+        return $this;
+    }
+
+    final public function getBenchmark(): ?int
+    {
+        return $this->benchmark;
+    }
+
+    final public function setBenchmark(?int $benchmark): self
+    {
+        $this->benchmark = $benchmark;
+
+        return $this;
+    }
+
+    final public function getBenchmarkLink(): ?string
+    {
+        return $this->benchmarkLink;
+    }
+
+    final public function setBenchmarkLink(?string $benchmarkLink): self
+    {
+        $this->benchmarkLink = $benchmarkLink;
 
         return $this;
     }

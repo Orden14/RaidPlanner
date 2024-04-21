@@ -12,14 +12,13 @@
         {% endfor %}
 
         <h1>Builds</h1>
-        {% if is_granted("ROLE_MEMBER") %}
-            <div class="mb-3">
-                <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
-            </div>
-        {% endif %}
 
         {# Build filter div #}
         <div class="mb-3">
+            {% if is_granted("ROLE_MEMBER") %}
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
+            {% endif %}
+
             <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
                 <option value="Meta" data-content="
                     <div class='build-status-meta align-middle' title='Meta'></div> Meta
@@ -66,13 +65,27 @@
                     <tr>
                         <th></th>
                         <th>Build</th>
+                        <th>Benchmark</th>
                         <th></th>
                         <th>Dernière modification</th>
+                        <th>Lien</th>
+                        <th>Lien du benchmark</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for build in builds %}
+                    {% if build.link %}
+                        {% set link = build.link starts with 'http://' or build.link starts with 'https://' ? build.link : 'http://' ~ build.link %}
+                    {% else %}
+                        {% set link = '#' %}
+                    {% endif %}
+                    {% if build.benchmarkLink %}
+                        {% set benchmarkLink = build.benchmarkLink starts with 'http://' or build.benchmarkLink starts with 'https://' ? build.benchmarkLink : 'http://' ~ build.benchmarkLink %}
+                    {% else %}
+                        {% set benchmarkLink = '#' %}
+                    {% endif %}
+
                     <tr data-url="{{ path('build_show', {'id': build.id}) }}">
                         <td>
                             <div class="d-inline-flex float-end">
@@ -81,11 +94,16 @@
                             </div>
                         </td>
                         <td>{{ build.name }}</td>
+                        <td class="text-center">
+                            <span>{{ build.benchmark }}</span>
+                        </td>
                         <td>
                             <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
                             <span style="display: none">{{ build.status }}</span>
                         </td>
-                        <td>{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
+                        <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
+                        <td class="text-center">{{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
+                        <td class="text-center">{{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
                         <td>
                             <div class="d-inline-flex float-end">
                                 {% for category in build.categories %}

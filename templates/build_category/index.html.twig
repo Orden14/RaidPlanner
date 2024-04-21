@@ -34,12 +34,12 @@
                         <td>{{ category.builds.count }} {{ category.builds.count > 1 ? 'builds' : 'build' }}</td>
                         <td>
                             <div class="d-inline-flex float-end">
-                                <a href="{{ path('build_category_edit', {'id': category.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
+                                <a href="{{ path('buildcategory_edit', {'id': category.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
                                     <i class="bi-pencil"></i>
                                 </a>
-                                <form id="delete{{ category.id }}" method="post" action="{{ path('build_category_delete', {'id': category.id}) }}" data-controller="confirm">
+                                <form id="delete{{ category.id }}" method="post" action="{{ path('buildcategory_delete', {'id': category.id}) }}" data-controller="confirm">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
-                                    <a type="button" class="btn btn-danger flex-shrink-0" id="{{ category.id }}" data-action="confirm#confirmDeletion" title="Attention, la suppression est définitive" data-bs-toggle="tooltip">
+                                    <a type="button" class="btn btn-danger flex-shrink-0" id="{{ category.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
                                         <i class="bi-trash"></i>
                                     </a>
                                 </form>

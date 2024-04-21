@@ -18,10 +18,14 @@ export default class extends Controller {
             columnDefs: [
                 { width: '1%', targets: 0 },
                 { width: '30%', targets: 1, orderable: false },
-                { width: '1%', targets: 2, orderable: false },
-                { width: '15%', targets: 3 },
-                { width: '47%', targets: 4, orderable: false },
+                { width: '10%', targets: 2 },
+                { width: '1%', targets: 3, orderable: false },
+                { width: '10%', targets: 4 },
+                { width: '5%', targets: 5, orderable: true},
+                { width: '5%', targets: 6, orderable: true},
+                { width: '20%', targets: 7, orderable: false },
             ],
+            order: [[2, 'desc']]
         })
 
         $(table.rows().nodes()).on('click', function () {

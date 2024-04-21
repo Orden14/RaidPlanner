@@ -140,6 +140,10 @@ input[type="color"] {
     font-size: 0.8em !important;
 }
 @media screen and (max-width: 600px) {
+    .build-sheet {
+        height: 110vh;
+    }
+
     .responsive-border-right {
         border-right: none;
         border-bottom: 1px solid rgb(62, 70, 74);

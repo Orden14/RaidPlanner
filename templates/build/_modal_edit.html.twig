@@ -29,6 +29,16 @@
                     {{ form_label(form.link, null, {'label_attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
                 </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form_label(form.benchmark, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.benchmark, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="col">
+                        {{ form_label(form.benchmarkLink, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.benchmarkLink, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
-#[Route('/category', name: 'build_category_')]
+#[Route('/category', name: 'buildcategory_')]
 class BuildCategoryController extends AbstractController
 {
     private const string BUILD_CATEGORY_INDEX_TEMPLATE = 'build_category/index.html.twig';
@@ -35,7 +35,7 @@ class BuildCategoryController extends AbstractController
     {
         $buildCategory = new BuildCategory();
         $form = $this->createForm(BuildCategoryType::class, $buildCategory, [
-            'action' => $this->generateUrl('build_category_new'),
+            'action' => $this->generateUrl('buildcategory_new'),
             'method' => 'POST',
         ]);
 
@@ -66,7 +66,7 @@ class BuildCategoryController extends AbstractController
             $this->entityManager->persist($buildCategory);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('build_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('buildcategory_index', [], Response::HTTP_SEE_OTHER);
         }
 
         /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
@@ -108,7 +108,7 @@ class BuildCategoryController extends AbstractController
 
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('build_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('buildcategory_index', [], Response::HTTP_SEE_OTHER);
         }
 
         /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
@@ -133,6 +133,6 @@ class BuildCategoryController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('build_category_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('buildcategory_index', [], Response::HTTP_SEE_OTHER);
     }
 }
