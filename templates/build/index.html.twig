@@ -11,51 +11,59 @@
             {% endfor %}
         {% endfor %}
 
-        <h1>Builds</h1>
+        <h1 class="mb-4">Builds</h1>
 
         {# Build filter div #}
-        <div class="mb-3">
+        <div class="mb-3 row">
             {% if is_granted("ROLE_MEMBER") %}
-                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
+                <div class="col-12 col-md-auto mb-2 mb-md-0">
+                    <a href="#" class="btn btn-primary me-md-4" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
+                </div>
             {% endif %}
 
-            <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
-                <option value="Meta" data-content="
-                    <div class='build-status-meta align-middle' title='Meta'></div> Meta
-                " selected></option>
-                <option value="Hors meta" data-content="
-                    <div class='build-status-not-meta align-middle' title='Hors meta'></div> Hors meta
-                ">></option>
-                <option value="Outdated" data-content="
-                    <div class='build-status-outdated align-middle' title='Outdated'></div> Outdated
-                ">></option>
-            </select>
+            <div class="col-12 col-md-auto mb-2 mb-md-0 pe-0">
+                <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
+                    <option value="Meta" data-content="
+                        <div class='build-status-meta align-middle' title='Meta'></div> Meta
+                    " selected></option>
+                    <option value="Hors meta" data-content="
+                        <div class='build-status-not-meta align-middle' title='Hors meta'></div> Hors meta
+                    ">></option>
+                    <option value="Outdated" data-content="
+                        <div class='build-status-outdated align-middle' title='Outdated'></div> Outdated
+                    ">></option>
+                </select>
+            </div>
 
-            <select id="specializationFilter" class="selectpicker" data-style-base="form-control" data-live-search="true" data-live-search-placeholder="Rechercher une spé..." title="Spécialisations" multiple>
-                {% for specialization in specializations %}
-                    <option value="{{ specialization.name }}" data-content="
-                        <img
-                            src='{{ asset('icon/' ~ specialization.icon) }}'
-                            class='select-icon'
-                            alt='{{ specialization.name }} icon'
-                            title='{{ specialization.name }}'
-                        > {{ specialization.name }}
-                    "></option>
-                {% endfor %}
-            </select>
+            <div class="col-12 col-md-auto mb-2 mb-md-0 pe-0">
+                <select id="specializationFilter" class="selectpicker" data-style-base="form-control" data-live-search="true" data-live-search-placeholder="Rechercher une spé..." title="Spécialisations" multiple>
+                    {% for specialization in specializations %}
+                        <option value="{{ specialization.name }}" data-content="
+                            <img
+                                src='{{ asset('icon/' ~ specialization.icon) }}'
+                                class='select-icon'
+                                alt='{{ specialization.name }} icon'
+                                title='{{ specialization.name }}'
+                            > {{ specialization.name }}
+                        "></option>
+                    {% endfor %}
+                </select>
+            </div>
 
-            <select id="categoryFilter" class="selectpicker" data-style-base="form-control" title="Catégories" multiple>
-                {% for category in categories %}
-                    <option value="{{ category.name }}" data-content="
-                        <img
-                            src='{{ asset('icon/' ~ category.icon) }}'
-                            class='select-icon'
-                            alt='{{ category.name }} icon'
-                            title='{{ category.name }}'
-                        > {{ category.name }}
-                    "></option>
-                {% endfor %}
-            </select>
+            <div class="col-12 col-md-auto mb-2 mb-md-0">
+                <select id="categoryFilter" class="selectpicker" data-style-base="form-control" title="Catégories" multiple>
+                    {% for category in categories %}
+                        <option value="{{ category.name }}" data-content="
+                            <img
+                                src='{{ asset('icon/' ~ category.icon) }}'
+                                class='select-icon'
+                                alt='{{ category.name }} icon'
+                                title='{{ category.name }}'
+                            > {{ category.name }}
+                        "></option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
 
         <div class="table-responsive mt-3">
