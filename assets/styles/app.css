@@ -3,6 +3,10 @@
     --primary-focus-color: #147573;
 }
 
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
 .btn-primary {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
@@ -21,6 +25,10 @@ form .form-control:focus{
 form .form-check-input:checked {
     background-color: var(--primary-color) !important;
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
+}
+
+.background-primary {
+    background-color: var(--primary-color) !important;
 }
 
 .customColor {

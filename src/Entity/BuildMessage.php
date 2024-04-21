@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BuildMessageRepository;
+use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BuildMessageRepository::class)]
@@ -23,6 +25,9 @@ class BuildMessage
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?DateTime $postedAt = null;
 
     final public function getId(): ?int
     {
@@ -61,6 +66,18 @@ class BuildMessage
     final public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPostedAt(): ?DateTime
+    {
+        return $this->postedAt;
+    }
+
+    public function setPostedAt(DateTime $postedAt): static
+    {
+        $this->postedAt = $postedAt;
 
         return $this;
     }

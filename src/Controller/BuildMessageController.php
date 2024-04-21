@@ -6,6 +6,7 @@ use App\Entity\Build;
 use App\Entity\BuildMessage;
 use App\Entity\User;
 use App\Enum\RolesEnum;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class BuildMessageController extends AbstractController
     ) {}
 
     #[Route('/post/{id}', name: 'post', methods: ['POST'])]
-    final public function postMessage(Build $build, Request $request): Response
+    final public function post(Build $build, Request $request): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -31,6 +32,7 @@ class BuildMessageController extends AbstractController
         $message->setAuthor($currentUser);
         $message->setContent($request->request->get('messageContent'));
         $message->setBuild($build);
+        $message->setPostedAt(new DateTime());
 
         $this->entityManager->persist($message);
         $this->entityManager->flush();
@@ -38,5 +40,34 @@ class BuildMessageController extends AbstractController
         $this->addFlash('success', 'Votre message a été publié.');
 
         return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
+    final public function delete(Request $request, BuildMessage $buildMessage): Response
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        /** @var Build $build */
+        $build = $buildMessage->getBuild();
+
+        if ($currentUser->getRole() !== RolesEnum::ADMIN || $currentUser !== $buildMessage->getAuthor()) {
+            $this->addFlash('danger', 'Vous n\'avez pas les droits pour supprimer ce message.');
+            return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$buildMessage->getId(), $request->getPayload()->get('_token'))) {
+            $this->entityManager->remove($buildMessage);
+            $this->entityManager->flush();
+        }
+
+        $this->addFlash(
+            'success',
+            "Message supprimé avec succès"
+        );
+
+        return $this->redirectToRoute('build_show', [
+            'id' => $build->getId(),
+        ], Response::HTTP_SEE_OTHER);
     }
 }
