@@ -25,7 +25,7 @@
             {% endfor %}
         {% endfor %}
         <div class="row border rounded ms-1 me-1">
-            <div class="col-lg-6 parent-div responsive-border-right p-3 build-sheet overflow-auto">
+            <div class="col-lg-6 build-parent-div responsive-border-right p-3 build-sheet overflow-auto">
                 <h2><img src='{{ asset('icon/' ~ build.specialization.icon) }}'
                          class='medium-icon'
                          alt='{{ build.specialization.name }} icon'
@@ -66,14 +66,14 @@
                     <p><strong>Benchmark :</strong> {{ build.benchmark is not null ? build.benchmark : 'Benchmark non spécifié' }}</p>
                     <p><strong>Lien du benchmark</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                 </div>
-                <div class="bottom-div mb-3">
+                <div class="build-child-bottom-div mb-3">
                     <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.creator.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
                     <br/>
                     <span class="small-text">Dernière modification le {{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</span>
                 </div>
             </div>
 
-            <div class="col-lg-6 pt-2 ps-2 pe-2 parent-div build-sheet d-flex flex-column">
+            <div class="col-lg-6 pt-2 ps-2 pe-2 build-parent-div build-sheet d-flex flex-column">
                 <h2>Conversation</h2>
                 <div class="border rounded-1 overflow-auto flex-grow-1 mb-3">
                     {% for message in messages %}
