@@ -70,12 +70,12 @@ class BuildMessage
         return $this;
     }
 
-    public function getPostedAt(): ?DateTime
+    final public function getPostedAt(): ?DateTime
     {
         return $this->postedAt;
     }
 
-    public function setPostedAt(DateTime $postedAt): static
+    final public function setPostedAt(DateTime $postedAt): self
     {
         $this->postedAt = $postedAt;
 

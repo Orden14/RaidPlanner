@@ -58,7 +58,7 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
         $build->setName($faker->sentence(3))
             ->setCreator($user)
             ->setSpecialization($specialization)
-            ->setLastEditedAt($faker->dateTimeBetween('-1 year', 'now'))
+            ->setLastEditedAt($faker->dateTimeBetween('-1 year'))
             ->setStatus($this->getRandomStatus())
             ->setBenchmark($faker->numberBetween(20000, 50000))
             ->setLink($faker->optional()->url)

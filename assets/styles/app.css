@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #22A39F;
-    --primary-focus-color: #147573;
+    --primary-color: rgb(34, 163, 159);
+    --primary-focus-color: rgb(20, 117, 115);
 }
 
 .cursor-pointer {
@@ -45,7 +45,7 @@ form .form-check-input:checked {
 }
 
 footer .nav-link:hover {
-    color: #ffffff !important;
+    color: rgb(255, 255, 255) !important;
 }
 
 .dropdown.no-arrow .dropdown-toggle::after {

@@ -28,16 +28,16 @@ class GuildEventFixtures extends Fixture
 
         $guildEventOne = new GuildEvent();
         $guildEventOne->setTitle('Raid des ptiots');
-        $guildEventOne->setStart((clone $now)->setISODate($now->format('o'), $now->format('W'), 1)->setTime(14, 0));
-        $guildEventOne->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W'), 1)->setTime(18, 30));
+        $guildEventOne->setStart((clone $now)->setISODate($now->format('o'), $now->format('W'))->setTime(14, 0));
+        $guildEventOne->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W'))->setTime(18, 30));
         $guildEventOne->setType(GuildEventTypeEnum::RAID);
         $guildEventOne->setColor('#15ad73');
         $manager->persist($guildEventOne);
 
         $guildEventTwo = new GuildEvent();
         $guildEventTwo->setTitle('GRAID Sabir');
-        $guildEventTwo->setStart((clone $now)->setISODate($now->format('o'), $now->format('W'), 1)->setTime(21, 0));
-        $guildEventTwo->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W'), 1)->setTime(23, 15));
+        $guildEventTwo->setStart((clone $now)->setISODate($now->format('o'), $now->format('W'))->setTime(21, 0));
+        $guildEventTwo->setEnd((clone $now)->setISODate($now->format('o'), $now->format('W'))->setTime(23, 15));
         $guildEventTwo->setType(GuildEventTypeEnum::GUILDRAID);
         $manager->persist($guildEventTwo);
 
@@ -75,5 +75,4 @@ class GuildEventFixtures extends Fixture
 
         $manager->flush();
     }
-
 }

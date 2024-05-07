@@ -4,7 +4,7 @@ import 'datatables.net-select-bs5'
 
 export default class extends Controller {
     initialize() {
-        let table = $(this.element).DataTable({
+        $(this.element).DataTable({
             responsive: true,
             language: {
                 "lengthMenu": "Afficher _MENU_ résultat par page",
