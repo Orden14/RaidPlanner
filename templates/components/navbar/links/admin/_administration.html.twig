@@ -1,3 +1,7 @@
+{% set route = app.request.attributes.get('_route') %}
+{% set admin_routes = ['specialization_', 'job_', 'buildcategory_', 'instance_', 'encounter_'] %}
+{% set is_on_admin_page = admin_routes|filter(routeName => route starts with routeName)|length > 0 %}
+
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Gestion des utilisateurs
@@ -8,7 +12,7 @@
     </ul>
 </li>
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle {{ (app.request.attributes.get('_route') starts with 'specialization_' or app.request.attributes.get('_route') starts with 'job_' or app.request.attributes.get('_route') starts with 'buildcategory_') ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle {{ is_on_admin_page ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         Administration globale
     </a>
     <ul class="dropdown-menu">
@@ -17,6 +21,7 @@
         <li><a class="dropdown-item" href="{{ path('buildcategory_index') }}">Catégories de build</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{{ path('instance_index') }}">Liste des instances</a></li>
+        <li><a class="dropdown-item" href="{{ path('encounter_index') }}">Liste des encounters</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="#">Logs</a></li>
     </ul>

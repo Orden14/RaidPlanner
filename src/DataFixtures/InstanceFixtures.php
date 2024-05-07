@@ -10,7 +10,7 @@ class InstanceFixtures extends Fixture
 {
     final public function load(ObjectManager $manager): void
     {
-        foreach ($this->getRaidWings() as $tag => $name) {
+        foreach ($this->getRaidWingsList() as $tag => $name) {
             $instance = (new Instance())
                 ->setName($name)
                 ->setTag($tag);
@@ -24,7 +24,7 @@ class InstanceFixtures extends Fixture
     /**
      * @return array<string, string>
      */
-    private function getRaidWings(): array
+    private function getRaidWingsList(): array
     {
         return [
             'w1' => 'Spirit Vale',

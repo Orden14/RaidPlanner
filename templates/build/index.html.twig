@@ -97,7 +97,7 @@
                     </td>
                     <td>
                         <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
-                        <span style="display: none">{{ build.status }}</span>
+                        <span class="d-none">{{ build.status }}</span>
                     </td>
                     <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
                     <td class="text-center">{{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>

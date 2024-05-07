@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Les encounters</h1>
+
+    <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newEncounterModal">Ajouter un encounter</a>
+
+    <div class="table-responsive mt-3">
+        <table class="nowrap table table-striped table-hover border w-100" data-controller="datatable">
+            <caption class="d-none">Table des encounters</caption>
+            <thead class="thead-dark">
+            <tr>
+                <th>Instance</th>
+                <th>Nom</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for encounter in encounters %}
+                <tr>
+                    <td>
+                        {{ encounter.instance.name }}
+                        <span class="d-none">{{ encounter.instance.tag }}</span>
+                    </td>
+                    <td>{{ encounter.name }}</td>
+                    <td>
+                        <div class="d-inline-flex float-end">
+                            <a href="{{ path('encounter_edit', {'id': encounter.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
+                                <i class="bi-pencil"></i>
+                            </a>
+                            <form id="delete{{ encounter.id }}" method="post" action="{{ path('encounter_delete', {'id': encounter.id}) }}" data-controller="confirm">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ encounter.id) }}">
+                                <a type="button" class="btn btn-danger flex-shrink-0" id="{{ encounter.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
+                                    <i class="bi-trash"></i>
+                                </a>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun résultat</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ include('encounter/_modal_new.html.twig') }}
+{% endblock %}
