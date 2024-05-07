@@ -83,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],
         timeZone: "Europe/Paris",
-
     })
 
     if (window.matchMedia("(pointer: coarse)").matches) {
