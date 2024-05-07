@@ -9,28 +9,28 @@
                 </div>
                 <div class="card-body">
                     {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
-                    <div class="form-group">
-                        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                    </div>
+                        <div class="form-group">
+                            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
 
-                    <div class="form-group mt-2">
-                        {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.job) }}
-                    </div>
+                        <div class="form-group mt-2">
+                            {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.job) }}
+                        </div>
 
-                    <div class="form-group mt-2">
-                        {{ form_label(form.icon, null, {
-                            'label': 'Modifier l\'icone (optionnel, format .png)',
-                            'label_attr': {'class': 'form-label'}
-                        }) }}
-                        {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
-                    </div>
+                        <div class="form-group mt-2">
+                            {{ form_label(form.icon, null, {
+                                'label': 'Modifier l\'icone (optionnel, format .png)',
+                                'label_attr': {'class': 'form-label'}
+                            }) }}
+                            {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+                        </div>
 
-                    <div class="d-flex justify-content-end mt-2">
-                        <a class="btn btn-secondary me-2" href="{{ path('specialization_index') }}">Retour</a>
-                        <button type="submit" class="btn btn-primary">Modifier</button>
-                    </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <a class="btn btn-secondary me-2" href="{{ path('specialization_index') }}">Retour</a>
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </div>
                     {{ form_end(form) }}
                 </div>
             </div>

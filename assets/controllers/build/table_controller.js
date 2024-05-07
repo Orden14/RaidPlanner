@@ -1,5 +1,4 @@
 import {Controller} from "stimulus"
-import $ from 'jquery'
 import 'datatables.net-bs5'
 import 'datatables.net-select-bs5'
 import { filterRow } from "../../util/build/table_filter_manager"

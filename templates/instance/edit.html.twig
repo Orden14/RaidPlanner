@@ -1,11 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Edit Instance</h1>
+    <div class="row justify-content-center">
+        <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
+            <div class="card rounded-0">
+                <div class="card-header text-center">
+                    <h4>Modifier une instance</h4>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+                        <div class="form-group mt-2">
+                            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
 
-    {{ include('instance/_form.html.twig', {'button_label': 'Update'}) }}
+                        <div class="form-group mt-2">
+                            {{ form_label(form.tag, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.tag, {'attr': {'class': 'form-control'}}) }}
+                        </div>
 
-    <a href="{{ path('instance_index') }}">back to list</a>
-
-    {{ include('instance/_delete_form.html.twig') }}
+                        <div class="d-flex justify-content-end mt-2">
+                            <a class="btn btn-secondary me-2" href="{{ path('instance_index') }}">Retour</a>
+                            <button type="submit" class="btn btn-primary">Modifier</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

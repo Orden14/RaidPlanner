@@ -98,7 +98,7 @@ class InstanceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'instance_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, Instance $instance): Response
     {
         if ($this->isCsrfTokenValid('delete'.$instance->getId(), $request->getPayload()->get('_token'))) {
