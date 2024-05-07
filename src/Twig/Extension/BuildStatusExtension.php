@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Extension;
+namespace App\Twig\Extension;
 
 use App\Enum\BuildStatusEnum;
 use InvalidArgumentException;
