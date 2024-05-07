@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block container %} {% endblock %}
+{% block container_end %} {% endblock %}
+
 {% block body %}
     <div
-            id="calendar-holder"
-            data-events-url="{{ path('fc_load_events') }}"
+        id="calendar-holder"
+        data-events-url="{{ path('fc_load_events') }}"
     ></div>
 
     {{ include('components/calendar/modal/_guild_event_modal.html.twig') }}
 {% endblock %}
 
-
-
-{% block calendarJs %}
+{% block optional_script %}
     {{ encore_entry_link_tags('calendar') }}
     {{ encore_entry_script_tags('calendar') }}
 {% endblock %}

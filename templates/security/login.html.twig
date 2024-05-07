@@ -3,51 +3,49 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
-                <div class="card rounded-0">
-                    <div class="card-header text-center">
-                        <h4>Connexion</h4>
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-                            {% if error %}
-                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                            {% endif %}
-
-                            {% if app.user %}
-                                <div class="mb-3">
-                                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                                </div>
-                            {% endif %}
-
-                            <div class="form-group mt-3">
-                                <label for="inputUsername">Nom de compte</label>
-                                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-                            </div>
-
-                            <div class="form-group mt-2">
-                                <label for="inputPassword">Mot de passe</label>
-                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-                            </div>
-
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                            <div class="form-group form-check mt-2">
-                                <input type="checkbox" class="form-check-input" name="_remember_me" id="rememberMeCheck">
-                                <label class="form-check-label" for="rememberMeCheck">Se souvenir de moi</label>
-                            </div>
-                            <div class="text-end">
-
-                                <button class="btn btn-primary btn-block mt-2" type="submit">Connexion</button>
-                            </div>
-                        </form>
-                    </div>
+    <div class="row justify-content-center">
+        <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
+            <div class="card rounded-0">
+                <div class="card-header text-center">
+                    <h4>Connexion</h4>
                 </div>
-                <div class="text-center mt-3">
-                    <p>Vous n'avez pas de compte? <a href="{{ path('app_register') }}" class="customColor">Inscrivez-vous</a></p>
+                <div class="card-body">
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        {% endif %}
+
+                        <div class="form-group mt-3">
+                            <label for="inputUsername">Nom de compte</label>
+                            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+                        </div>
+
+                        <div class="form-group mt-2">
+                            <label for="inputPassword">Mot de passe</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="form-group form-check mt-2">
+                            <input type="checkbox" class="form-check-input" name="_remember_me" id="rememberMeCheck">
+                            <label class="form-check-label" for="rememberMeCheck">Se souvenir de moi</label>
+                        </div>
+                        <div class="text-end">
+
+                            <button class="btn btn-primary btn-block mt-2" type="submit">Connexion</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+            <div class="text-center mt-3">
+                <p>Vous n'avez pas de compte? <a href="{{ path('app_register') }}" class="customColor">Inscrivez-vous</a></p>
             </div>
         </div>
     </div>

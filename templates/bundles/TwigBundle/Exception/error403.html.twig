@@ -1,12 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block header %} {%  endblock %}
-{% block body %}
+
+{% block container %}
     <div class="container mt-5 text-center">
-        <img src="{{ asset('logo/VirtualSquirrelsLogo.png') }}" alt="logo" class="img-fluid mt-4">
-        <h1 class="display-4">Oops! Erreur 403</h1>
-        <p class="lead">Vous n'avez pas les permissions requises pour accéder à cette page.</p>
-        <p class="mt-4">
-            Vous êtes certainement un petit malin, mais nous vous recommandons de <a href="{{ path('app_home') }}">retourner à la page d'accueil</a>.
-        </p>
+{% endblock %}
+
+{% block body %}
+    <img src="{{ asset('logo/VirtualSquirrelsLogo.png') }}" alt="logo" class="img-fluid mt-4">
+    <h1 class="display-4">Oops! Erreur 403</h1>
+    <p class="lead">Vous n'avez pas les permissions requises pour accéder à cette page.</p>
+    <p class="mt-4">
+        Vous êtes certainement un petit malin, mais nous vous recommandons de <a href="{{ path('app_home') }}">retourner à la page d'accueil</a>.
+    </p>
+{% endblock %}
+
+{% block container_end %}
     </div>
 {% endblock %}

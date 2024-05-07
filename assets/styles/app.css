@@ -60,7 +60,3 @@ footer .nav-link:hover {
 input[type="color"] {
     padding: 0;
 }
-
-.table-hover tbody tr {
-    cursor: pointer !important;
-}

@@ -1,19 +1,18 @@
+{% extends 'base.html.twig' %}
+
 {% if build.link %}
     {% set link = build.link starts with 'http://' or build.link starts with 'https://' ? build.link : 'http://' ~ build.link %}
 {% else %}
     {% set link = '#' %}
 {% endif %}
+
 {% if build.benchmarkLink %}
     {% set benchmarkLink = build.benchmarkLink starts with 'http://' or build.benchmarkLink starts with 'https://' ? build.benchmarkLink : 'http://' ~ build.benchmarkLink %}
 {% else %}
     {% set benchmarkLink = '#' %}
 {% endif %}
 
-{% extends 'base.html.twig' %}
-
-{% block title %}Build{% endblock %}
-
-{% block body %}
+{% block container %}
     <div class="container mt-4">
         <a href="{{ path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
         {% for label, messages in app.flashes %}
@@ -24,6 +23,9 @@
                 </div>
             {% endfor %}
         {% endfor %}
+{% endblock %}
+
+{% block body %}
         <div class="row border rounded ms-1 me-1">
             <div class="col-lg-6 build-parent-div responsive-border-right p-3 build-sheet overflow-auto">
                 <h2><img src='{{ asset('icon/' ~ build.specialization.icon) }}'
@@ -114,7 +116,10 @@
                 </div>
             </div>
         </div>
-    </div>
 
     {{ include('build/_modal_edit.html.twig') }}
+{% endblock %}
+
+{% block container_end %}
+    </div>
 {% endblock %}
