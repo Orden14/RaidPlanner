@@ -33,12 +33,14 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
         $specializations = $this->specializationRepository->findAll();
 
         for ($i = 0; $i < 40; $i++) {
-            $manager->persist($this->generateBuild(
+            $build = $this->generateBuild(
                 $faker,
                 $users[array_rand($users)],
                 $categories,
                 $specializations[array_rand($specializations)]
-            ));
+            );
+
+            $manager->persist($build);
         }
 
         $manager->flush();

@@ -6,6 +6,7 @@ use App\Entity\Trait\BuildRelationalPropertiesTrait;
 use App\Enum\BuildStatusEnum;
 use App\Repository\BuildRepository;
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BuildRepository::class)]
@@ -27,7 +28,7 @@ class Build
     #[ORM\Column]
     private string $status = BuildStatusEnum::META->value;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTime $lastEditedAt = null;
 
     #[ORM\Column(nullable: true)]
