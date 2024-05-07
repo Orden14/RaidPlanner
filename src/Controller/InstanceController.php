@@ -66,7 +66,7 @@ class InstanceController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('build/index.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'instances' => $this->instanceRepository->findAll(),
         ]);
     }
@@ -93,7 +93,7 @@ class InstanceController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('instance/edit.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'instance' => $instance,
         ]);
     }

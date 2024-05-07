@@ -95,7 +95,7 @@ class SpecializationController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
-            'form' => $form,
+            'form' => $form->createView(),
             'specializations' => $this->specializationRepository->findAllOrderedByJob(false)
         ]);
     }
@@ -128,7 +128,7 @@ class SpecializationController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('specialization/edit.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'specialization' => $specialization
         ]);
     }

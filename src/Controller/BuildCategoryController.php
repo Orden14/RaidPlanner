@@ -79,7 +79,7 @@ class BuildCategoryController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render(self::BUILD_CATEGORY_INDEX_TEMPLATE, [
-            'form' => $form,
+            'form' => $form->createView(),
             'build_categories' => $this->buildCategoryRepository->findAll()
         ]);
     }
@@ -127,7 +127,7 @@ class BuildCategoryController extends AbstractController
 
         return $this->render('build_category/edit.html.twig', [
             'build_category' => $buildCategory,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

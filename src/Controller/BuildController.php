@@ -80,7 +80,7 @@ class BuildController extends AbstractController
         }
 
         return $this->render('build/index.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'builds' => $this->buildRepository->findAll(),
         ]);
     }
@@ -129,7 +129,7 @@ class BuildController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('build/show.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'build' => $build,
             'messages' => $this->buildMessageRepository->findBy(['build' => $build])
         ]);

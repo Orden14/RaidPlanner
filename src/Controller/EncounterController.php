@@ -66,7 +66,7 @@ class EncounterController extends AbstractController
         }
 
         return $this->render('encounter/index.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'instances' => $this->encounterRepository->findAll(),
         ]);
     }
@@ -93,7 +93,7 @@ class EncounterController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('encounter/edit.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'encounter' => $encounter,
         ]);
     }

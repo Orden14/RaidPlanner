@@ -44,7 +44,7 @@ class GuildEventController extends AbstractController
 
         return $this->render('guild_event/new.html.twig', [
             'guild_event' => $guildEvent,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -56,7 +56,7 @@ class GuildEventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, GuildEvent $guildEvent): Response
     {
         $form = $this->createForm(GuildEventType::class, $guildEvent);
@@ -69,12 +69,12 @@ class GuildEventController extends AbstractController
         }
 
         return $this->render('guild_event/edit.html.twig', [
+            'form' => $form->createView(),
             'guild_event' => $guildEvent,
-            'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, GuildEvent $guildEvent): Response
     {
         if ($this->isCsrfTokenValid('delete'.$guildEvent->getId(), $request->getPayload()->get('_token'))) {

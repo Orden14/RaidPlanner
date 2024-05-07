@@ -20,7 +20,7 @@ class CalendarController extends AbstractController
         $form = $this->createForm(GuildEventType::class, new GuildEvent());
 
         return $this->render('components/calendar/index.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 }

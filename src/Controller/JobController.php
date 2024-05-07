@@ -64,8 +64,8 @@ class JobController extends AbstractController
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('job/edit.html.twig', [
+            'form' => $form->createView(),
             'job' => $job,
-            'form' => $form,
         ]);
     }
 }

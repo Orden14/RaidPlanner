@@ -33,10 +33,12 @@ exclude:
         - rector.php
         - src/Kernel.php
         - config/preload.php
+        - src\DataFixtures\GuildEventFixtures.php
   -   name: HttpUrlsUsage
   -   name: JSUnusedGlobalSymbols
       paths:
         - assets/controllers
+        - assets\components\calendar\index.js
   -   name: JSUnresolvedReference
   -   name: LongInheritanceChainInspection
       paths:
@@ -54,6 +56,14 @@ exclude:
   # Règles phpstan désactivées car duplicat avec analyse Qodana
   -   name: PhpPropertyOnlyWrittenInspection
   - name: GrazieInspection
+  - name: HtmlUnknownTarget
+    paths:
+      - src\Twig\Extension\UrlExtension.php
+  - name: JSCheckFunctionSignatures
+    paths:
+      - assets\components\calendar\index.js
+      - assets\controllers\datatable_controller.js
+      - assets\controllers\build\table_controller.js
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)
@@ -86,7 +96,6 @@ include:
   -   name: BadExceptionsProcessingInspection
   -   name: ClassOverridesFieldOfSuperClassInspection
   -   name: CompositionAndInheritanceInspection
-  #  - name: EfferentObjectCouplingInspection # Règle qui relève une interdépendance élevée d'une classe avec d'autres. À traiter en temps voulu.
   -   name: LongInheritanceChainInspection
   -   name: PropertyCanBeStaticInspection
   -   name: PhpAssetMissingInspection

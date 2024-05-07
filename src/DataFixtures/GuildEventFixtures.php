@@ -10,8 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 /**
  * Temporary fixtures for GuildEvent entity
- * @TODO: remake this class when event system is ready
-
+ * @TODO: remake this class when event system is ready && remove qodana exclusion
  */
 class GuildEventFixtures extends Fixture
 {
@@ -71,7 +70,6 @@ class GuildEventFixtures extends Fixture
         $raidDuringIRL->setType(GuildEventTypeEnum::RAID);
         $raidDuringIRL->setColor('#15ad73');
         $manager->persist($raidDuringIRL);
-
 
         $manager->flush();
     }
