@@ -27,10 +27,6 @@ form .form-check-input:checked {
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
 }
 
-.background-message {
-    background-color: var(--primary-focus-color) !important;
-}
-
 .customColor {
     color: var(--primary-color) !important;
 }
@@ -65,110 +61,6 @@ input[type="color"] {
     padding: 0;
 }
 
-.select-icon {
-    width: 21px;
-    height: 21px;
-}
-
-.small-icon {
-    width: 30px;
-    height: 30px;
-}
-
-.medium-icon {
-    width: 45px;
-    height: 45px;
-}
-
-.jobCard {
-    width: 170px;
-    height: 255px !important;
-}
-
-.cardIcon {
-    padding: 30px 30px 0 30px;
-}
-
 .table-hover tbody tr {
     cursor: pointer !important;
-}
-
-.parent-div {
-    position: relative;
-}
-
-.bottom-div {
-    position: absolute;
-    bottom: 0;
-}
-
-@media screen and (max-width: 600px) {
-    .jobCard {
-        width: 130px;
-        height: 195px !important;
-    }
-
-    .jobCard h5 {
-        font-size: 0.9em;
-    }
-
-    .jobCard a {
-        font-size: 0.7em;
-    }
-}
-
-.bootstrap-select button.dropdown-toggle:focus {
-    outline: none !important;
-}
-
-.bootstrap-select .no-results {
-    background: rgb(33, 37, 41) !important;
-}
-
-.bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:active {
-    background-color: rgb(46, 53, 56) !important;
-}
-
-/*Build sheet*/
-.build-sheet {
-    height: 78vh;
-}
-.responsive-border-right {
-    border-right: 1px solid rgb(62, 70, 74);
-}
-.small-text {
-    font-size: 0.8em !important;
-}
-@media screen and (max-width: 600px) {
-    .build-sheet {
-        height: 110vh;
-    }
-
-    .responsive-border-right {
-        border-right: none;
-        border-bottom: 1px solid rgb(62, 70, 74);
-    }
-}
-
-/*Build status icons*/
-.build-status-meta {
-    width: 14px;
-    height: 14px;
-    background-color: #2fa82f;
-    border-radius: 50%;
-    display: inline-block;
-}
-.build-status-not-meta {
-    width: 14px;
-    height: 14px;
-    background-color: #e37f00;
-    border-radius: 50%;
-    display: inline-block;
-}
-.build-status-outdated {
-    width: 14px;
-    height: 14px;
-    background-color: #9f1919;
-    border-radius: 50%;
-    display: inline-block;
 }

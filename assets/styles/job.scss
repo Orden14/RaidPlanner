@@ -1,0 +1,23 @@
+@media screen and (max-width: 600px) {
+  .jobCard {
+    width: 130px;
+    height: 195px !important;
+  }
+
+  .jobCard h5 {
+    font-size: 0.9em;
+  }
+
+  .jobCard a {
+    font-size: 0.7em;
+  }
+}
+
+.jobCard {
+  width: 170px;
+  height: 255px !important;
+}
+
+.cardIcon {
+  padding: 30px 30px 0 30px;
+}

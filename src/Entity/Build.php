@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BuildRepository::class)]
 class Build
 {
+    use BuildRelationalPropertiesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -33,8 +35,6 @@ class Build
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $benchmarkLink = null;
-
-    use BuildRelationalPropertiesTrait;
 
     final public function getId(): ?int
     {

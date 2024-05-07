@@ -1,0 +1,55 @@
+.build-sheet {
+  height: 78vh;
+}
+
+.responsive-border-right {
+  border-right: 1px solid rgb(62, 70, 74);
+}
+
+.small-text {
+  font-size: 0.8em !important;
+}
+
+@media screen and (max-width: 600px) {
+  .build-sheet {
+    height: 110vh;
+  }
+
+  .responsive-border-right {
+    border-right: none;
+    border-bottom: 1px solid rgb(62, 70, 74);
+  }
+}
+
+.build-status-meta {
+  width: 14px;
+  height: 14px;
+  background-color: #2fa82f;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.build-status-not-meta {
+  width: 14px;
+  height: 14px;
+  background-color: #e37f00;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.build-status-outdated {
+  width: 14px;
+  height: 14px;
+  background-color: #9f1919;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.build-parent-div {
+  position: relative;
+}
+
+.build-child-bottom-div {
+  position: absolute;
+  bottom: 0;
+}
