@@ -41,8 +41,7 @@ class BuildController extends AbstractController
         $build = new Build();
         $form = $this->createForm(BuildType::class, $build, [
             'action' => $this->generateUrl('build_new'),
-            'method' => 'POST',
-
+            'method' => 'POST'
         ]);
         $form->handleRequest($request);
 
@@ -71,6 +70,11 @@ class BuildController extends AbstractController
 
             $this->entityManager->persist($build);
             $this->entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                "Le build {$build->getName()} a bien été créé"
+            );
 
             return $this->redirectToRoute('build_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -112,7 +116,7 @@ class BuildController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Le build {$build->getName()} a bien été modifiée"
+                "Le build {$build->getName()} a bien été modifié"
             );
 
             return $this->redirectToRoute('build_show', [
@@ -142,7 +146,7 @@ class BuildController extends AbstractController
 
         $this->addFlash(
             'success',
-            "Le build {$build->getName()} a bien été supprimée"
+            "Le build {$build->getName()} a bien été supprimé"
         );
 
         return $this->redirectToRoute('build_index', [], Response::HTTP_SEE_OTHER);

@@ -3,64 +3,94 @@
 namespace App\Controller;
 
 use App\Entity\Instance;
+use App\Enum\RolesEnum;
 use App\Form\InstanceType;
 use App\Repository\InstanceRepository;
+use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/instance')]
+#[IsGranted(RolesEnum::ADMIN->value)]
+#[Route('/instance', name: 'instance_')]
 class InstanceController extends AbstractController
 {
-    #[Route('/', name: 'app_instance_index', methods: ['GET'])]
-    public function index(InstanceRepository $instanceRepository): Response
+    public function __construct(
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly InstanceRepository $instanceRepository
+    ) {}
+
+    #[Route('/', name: 'index', methods: ['GET', 'POST'])]
+    final public function index(Request $request): Response
     {
+        $instance = new Instance();
+        $form = $this->createForm(InstanceType::class, $instance, [
+            'action' => $this->generateUrl('instance_new'),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
         return $this->render('instance/index.html.twig', [
-            'instances' => $instanceRepository->findAll(),
+            'form' => $form->createView(),
+            'instances' => $this->instanceRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'app_instance_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    final public function new(Request $request): Response
     {
         $instance = new Instance();
         $form = $this->createForm(InstanceType::class, $instance);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($instance);
-            $entityManager->flush();
+            $this->entityManager->persist($instance);
+            $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_instance_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash(
+                'success',
+                "L'instance {$instance->getName()} a bien été créée"
+            );
+
+            return $this->redirectToRoute('instance_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('instance/new.html.twig', [
-            'instance' => $instance,
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
+        return $this->render('build/index.html.twig', [
             'form' => $form,
+            'instances' => $this->instanceRepository->findAll(),
         ]);
     }
 
-    #[Route('/{id}', name: 'app_instance_show', methods: ['GET'])]
-    public function show(Instance $instance): Response
-    {
-        return $this->render('instance/show.html.twig', [
-            'instance' => $instance,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_instance_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Instance $instance, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    final public function edit(Request $request, Instance $instance): Response
     {
         $form = $this->createForm(InstanceType::class, $instance);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_instance_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash(
+                'success',
+                "L'instance {$instance->getName()} a bien été modifiée"
+            );
+
+            return $this->redirectToRoute('instance_index', [], Response::HTTP_SEE_OTHER);
         }
+
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('instance/edit.html.twig', [
             'instance' => $instance,
@@ -68,14 +98,14 @@ class InstanceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_instance_delete', methods: ['POST'])]
-    public function delete(Request $request, Instance $instance, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'instance_delete', methods: ['POST'])]
+    final public function delete(Request $request, Instance $instance): Response
     {
         if ($this->isCsrfTokenValid('delete'.$instance->getId(), $request->getPayload()->get('_token'))) {
-            $entityManager->remove($instance);
-            $entityManager->flush();
+            $this->entityManager->remove($instance);
+            $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_instance_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('instance_index', [], Response::HTTP_SEE_OTHER);
     }
 }

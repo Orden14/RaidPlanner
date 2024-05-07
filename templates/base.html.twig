@@ -18,8 +18,23 @@
         {% block header %}
             {{ include('components/navbar/_navbar.html.twig') }}
         {% endblock %}
+        {% block container %}
+            <div class="container mt-5">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+        {% endblock %}
         {% block body %}{% endblock %}
-        {% block calendarJs %}{% endblock %}
+        {% block container_end %}
+            </div>
+        {% endblock %}
+
+        {% block optional_script %}{% endblock %}
     </body>
 
     {% block footer %}

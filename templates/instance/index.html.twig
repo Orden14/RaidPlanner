@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Instance index{% endblock %}
-
 {% block body %}
     <h1>Instance index</h1>
 
@@ -21,8 +19,7 @@
                 <td>{{ instance.name }}</td>
                 <td>{{ instance.tag }}</td>
                 <td>
-                    <a href="{{ path('app_instance_show', {'id': instance.id}) }}">show</a>
-                    <a href="{{ path('app_instance_edit', {'id': instance.id}) }}">edit</a>
+                    <a href="{{ path('instance_edit', {'id': instance.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +30,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_instance_new') }}">Create new</a>
+    <a href="{{ path('instance_new') }}">Create new</a>
 {% endblock %}

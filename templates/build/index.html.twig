@@ -1,134 +1,123 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container mt-5">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endfor %}
+    <h1 class="mb-4">Les builds</h1>
 
-        <h1 class="mb-4">Builds</h1>
-
-        {# Build filter div #}
-        <div class="mb-3 row">
-            {% if is_granted("ROLE_MEMBER") %}
-                <div class="col-12 col-md-auto mb-2 mb-md-0">
-                    <a href="#" class="btn btn-primary me-md-4" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
-                </div>
-            {% endif %}
-
-            <div class="col-12 col-md-auto mb-2 mb-md-0 pe-0">
-                <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
-                    <option value="Meta" data-content="
-                        <div class='build-status-meta align-middle' title='Meta'></div> Meta
-                    " selected></option>
-                    <option value="Hors meta" data-content="
-                        <div class='build-status-not-meta align-middle' title='Hors meta'></div> Hors meta
-                    ">></option>
-                    <option value="Outdated" data-content="
-                        <div class='build-status-outdated align-middle' title='Outdated'></div> Outdated
-                    ">></option>
-                </select>
-            </div>
-
-            <div class="col-12 col-md-auto mb-2 mb-md-0 pe-0">
-                <select id="specializationFilter" class="selectpicker" data-style-base="form-control" data-live-search="true" data-live-search-placeholder="Rechercher une spé..." title="Spécialisations" multiple>
-                    {% for specialization in specializations %}
-                        <option value="{{ specialization.name }}" data-content="
-                            <img
-                                src='{{ asset('icon/' ~ specialization.icon) }}'
-                                class='select-icon'
-                                alt='{{ specialization.name }} icon'
-                                title='{{ specialization.name }}'
-                            > {{ specialization.name }}
-                        "></option>
-                    {% endfor %}
-                </select>
-            </div>
-
+    {# Build filter div #}
+    <div class="mb-3 row">
+        {% if is_granted("ROLE_MEMBER") %}
             <div class="col-12 col-md-auto mb-2 mb-md-0">
-                <select id="categoryFilter" class="selectpicker" data-style-base="form-control" title="Catégories" multiple>
-                    {% for category in categories %}
-                        <option value="{{ category.name }}" data-content="
-                            <img
-                                src='{{ asset('icon/' ~ category.icon) }}'
-                                class='select-icon'
-                                alt='{{ category.name }} icon'
-                                title='{{ category.name }}'
-                            > {{ category.name }}
-                        "></option>
-                    {% endfor %}
-                </select>
+                <a href="#" class="btn btn-primary me-md-4" data-bs-toggle="modal" data-bs-target="#newBuildModal">Ajouter un build</a>
             </div>
+        {% endif %}
+
+        <div class="col-12 col-md-auto mb-2 mb-md-0 pe-0">
+            <select id="statusFilter" class="selectpicker" data-style-base="form-control" title="Status" multiple>
+                <option value="Meta" data-content="
+                    <div class='build-status-meta align-middle' title='Meta'></div> Meta
+                " selected></option>
+                <option value="Hors meta" data-content="
+                    <div class='build-status-not-meta align-middle' title='Hors meta'></div> Hors meta
+                ">></option>
+                <option value="Outdated" data-content="
+                    <div class='build-status-outdated align-middle' title='Outdated'></div> Outdated
+                ">></option>
+            </select>
         </div>
 
-        <div class="table-responsive mt-3">
-            <table class="nowrap table table-striped table-hover border w-100" data-controller="build--table">
-                <caption class="d-none">Table des builds</caption>
-                <thead class="thead-dark">
-                    <tr>
-                        <th></th>
-                        <th>Build</th>
-                        <th>Benchmark</th>
-                        <th></th>
-                        <th>Dernière modification</th>
-                        <th>Lien</th>
-                        <th>Lien du benchmark</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for build in builds %}
-                    {% if build.link %}
-                        {% set link = build.link starts with 'http://' or build.link starts with 'https://' ? build.link : 'http://' ~ build.link %}
-                    {% else %}
-                        {% set link = '#' %}
-                    {% endif %}
-                    {% if build.benchmarkLink %}
-                        {% set benchmarkLink = build.benchmarkLink starts with 'http://' or build.benchmarkLink starts with 'https://' ? build.benchmarkLink : 'http://' ~ build.benchmarkLink %}
-                    {% else %}
-                        {% set benchmarkLink = '#' %}
-                    {% endif %}
-
-                    <tr data-url="{{ path('build_show', {'id': build.id}) }}">
-                        <td>
-                            <div class="d-inline-flex float-end">
-                                <img src="{{ asset('/icon/' ~ build.specialization.icon) }}" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}" class="small-icon">
-                                <span style="display: none">{{ build.specialization.name }}</span>
-                            </div>
-                        </td>
-                        <td>{{ build.name }}</td>
-                        <td class="text-center">
-                            <span>{{ build.benchmark }}</span>
-                        </td>
-                        <td>
-                            <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
-                            <span style="display: none">{{ build.status }}</span>
-                        </td>
-                        <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
-                        <td class="text-center">{{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
-                        <td class="text-center">{{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
-                        <td>
-                            <div class="d-inline-flex float-end">
-                                {% for category in build.categories %}
-                                    <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
-                                    <span style="display: none">{{ category.name }}</span>
-                                {% endfor %}
-                            </div>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4">Aucun build trouvé</td>
-                    </tr>
+        <div class="col-12 col-md-auto mb-2 mb-md-0 pe-0">
+            <select id="specializationFilter" class="selectpicker" data-style-base="form-control" data-live-search="true" data-live-search-placeholder="Rechercher une spé..." title="Spécialisations" multiple>
+                {% for specialization in specializations %}
+                    <option value="{{ specialization.name }}" data-content="
+                        <img
+                            src='{{ asset('icon/' ~ specialization.icon) }}'
+                            class='select-icon'
+                            alt='{{ specialization.name }} icon'
+                            title='{{ specialization.name }}'
+                        > {{ specialization.name }}
+                    "></option>
                 {% endfor %}
-                </tbody>
-            </table>
+            </select>
         </div>
+
+        <div class="col-12 col-md-auto mb-2 mb-md-0">
+            <select id="categoryFilter" class="selectpicker" data-style-base="form-control" title="Catégories" multiple>
+                {% for category in categories %}
+                    <option value="{{ category.name }}" data-content="
+                        <img
+                            src='{{ asset('icon/' ~ category.icon) }}'
+                            class='select-icon'
+                            alt='{{ category.name }} icon'
+                            title='{{ category.name }}'
+                        > {{ category.name }}
+                    "></option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="table-responsive mt-3">
+        <table class="nowrap table table-striped table-hover border w-100" data-controller="build--table">
+            <caption class="d-none">Table des builds</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th></th>
+                    <th>Build</th>
+                    <th>Benchmark</th>
+                    <th></th>
+                    <th>Dernière modification</th>
+                    <th>Lien</th>
+                    <th>Lien du benchmark</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for build in builds %}
+                {% if build.link %}
+                    {% set link = build.link starts with 'http://' or build.link starts with 'https://' ? build.link : 'http://' ~ build.link %}
+                {% else %}
+                    {% set link = '#' %}
+                {% endif %}
+                {% if build.benchmarkLink %}
+                    {% set benchmarkLink = build.benchmarkLink starts with 'http://' or build.benchmarkLink starts with 'https://' ? build.benchmarkLink : 'http://' ~ build.benchmarkLink %}
+                {% else %}
+                    {% set benchmarkLink = '#' %}
+                {% endif %}
+
+                <tr data-url="{{ path('build_show', {'id': build.id}) }}">
+                    <td>
+                        <div class="d-inline-flex float-end">
+                            <img src="{{ asset('/icon/' ~ build.specialization.icon) }}" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}" class="small-icon">
+                            <span style="display: none">{{ build.specialization.name }}</span>
+                        </div>
+                    </td>
+                    <td>{{ build.name }}</td>
+                    <td class="text-center">
+                        <span>{{ build.benchmark }}</span>
+                    </td>
+                    <td>
+                        <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
+                        <span style="display: none">{{ build.status }}</span>
+                    </td>
+                    <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
+                    <td class="text-center">{{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
+                    <td class="text-center">{{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
+                    <td>
+                        <div class="d-inline-flex float-end">
+                            {% for category in build.categories %}
+                                <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
+                                <span style="display: none">{{ category.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun build trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     {{ include('build/_modal_new.html.twig') }}

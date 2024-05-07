@@ -66,6 +66,11 @@ class BuildCategoryController extends AbstractController
             $this->entityManager->persist($buildCategory);
             $this->entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                "La catégorie {$buildCategory->getName()} a bien été créée"
+            );
+
             return $this->redirectToRoute('buildcategory_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -108,6 +113,11 @@ class BuildCategoryController extends AbstractController
 
             $this->entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                "La catégorie {$buildCategory->getName()} a bien été modifiée"
+            );
+
             return $this->redirectToRoute('buildcategory_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -132,6 +142,11 @@ class BuildCategoryController extends AbstractController
             $this->entityManager->remove($buildCategory);
             $this->entityManager->flush();
         }
+
+        $this->addFlash(
+            'success',
+            "La catégorie {$buildCategory->getName()} a bien été supprimée"
+        );
 
         return $this->redirectToRoute('buildcategory_index', [], Response::HTTP_SEE_OTHER);
     }

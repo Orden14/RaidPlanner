@@ -82,6 +82,11 @@ class SpecializationController extends AbstractController
             $this->entityManager->persist($specialization);
             $this->entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                "La spécialisation {$specialization->getName()} a bien été créée"
+            );
+
             return $this->redirectToRoute('specialization_index', [], Response::HTTP_SEE_OTHER);
         }
 

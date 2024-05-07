@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Instance{% endblock %}
-
 {% block body %}
     <h1>Create new Instance</h1>
 
     {{ include('instance/_form.html.twig') }}
 
-    <a href="{{ path('app_instance_index') }}">back to list</a>
+    <a href="{{ path('instance_index') }}">back to list</a>
 {% endblock %}

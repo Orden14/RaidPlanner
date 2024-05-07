@@ -1,48 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container mt-5">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="row justify-content-center">
+        <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
+            <div class="card rounded-0">
+                <div class="card-header text-center">
+                    <h4>Modifier une spécialisation</h4>
                 </div>
-            {% endfor %}
-        {% endfor %}
-
-        <div class="row justify-content-center">
-            <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
-                <div class="card rounded-0">
-                    <div class="card-header text-center">
-                        <h4>Modifier une spécialisation</h4>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+                    <div class="form-group">
+                        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="card-body">
-                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
-                        <div class="form-group">
-                            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                        </div>
 
-                        <div class="form-group mt-2">
-                            {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.job) }}
-                        </div>
-
-                        <div class="form-group mt-2">
-                            {{ form_label(form.icon, null, {
-                                'label': 'Modifier l\'icone (optionnel, format .png)',
-                                'label_attr': {'class': 'form-label'}
-                            }) }}
-                            {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        <div class="d-flex justify-content-end mt-2">
-                            <a class="btn btn-secondary me-2" href="{{ path('specialization_index') }}">Retour</a>
-                            <button type="submit" class="btn btn-primary">Modifier</button>
-                        </div>
-                        {{ form_end(form) }}
+                    <div class="form-group mt-2">
+                        {{ form_label(form.job, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.job) }}
                     </div>
+
+                    <div class="form-group mt-2">
+                        {{ form_label(form.icon, null, {
+                            'label': 'Modifier l\'icone (optionnel, format .png)',
+                            'label_attr': {'class': 'form-label'}
+                        }) }}
+                        {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-2">
+                        <a class="btn btn-secondary me-2" href="{{ path('specialization_index') }}">Retour</a>
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

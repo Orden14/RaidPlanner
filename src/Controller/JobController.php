@@ -51,6 +51,11 @@ class JobController extends AbstractController
             $this->entityManager->persist($job);
             $this->entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                "La classe {$job->getName()} a bien été modifiée"
+            );
+
             return $this->redirectToRoute('job_index', [], Response::HTTP_SEE_OTHER);
         }
 
