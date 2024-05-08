@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Enum\LogTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\RegistrationType;
 use App\Security\AppAuthenticator;
 use App\Service\User\UserService;
-use App\Util\Log\LogManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,7 +20,6 @@ final class SecurityController extends AbstractController
 {
     public function __construct(
         private readonly Security $security,
-        private readonly LogManager $logManager,
         private readonly UserService $userService,
         private readonly EntityManagerInterface $entityManager,
         private readonly AuthenticationUtils $authenticationUtils,
@@ -73,7 +70,6 @@ final class SecurityController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            $this->logManager->log(LogTypeEnum::REGISTER, $user->getId());
             return $this->security->login($user, AppAuthenticator::class, 'main');
         }
 

@@ -5,9 +5,7 @@ namespace App\Controller;
 use App\Entity\Build;
 use App\Entity\BuildMessage;
 use App\Entity\User;
-use App\Enum\LogTypeEnum;
 use App\Enum\RolesEnum;
-use App\Util\Log\LogManager;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +19,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class BuildMessageController extends AbstractController
 {
     public function __construct(
-        private readonly LogManager $logManager,
         private readonly EntityManagerInterface $entityManager
     ) {}
 
@@ -40,7 +37,6 @@ class BuildMessageController extends AbstractController
         $this->entityManager->persist($message);
         $this->entityManager->flush();
 
-        $this->logManager->log(LogTypeEnum::BUILD_MESSAGE_NEW, $message->getBuild()?->getId());
         $this->addFlash('success', 'Votre message a été publié.');
 
         return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
@@ -55,8 +51,7 @@ class BuildMessageController extends AbstractController
         /** @var Build $build */
         $build = $buildMessage->getBuild();
 
-
-        if ($currentUser->getRole() !== RolesEnum::ADMIN && $currentUser !== $buildMessage->getAuthor()) {
+        if ($currentUser->getRole() !== RolesEnum::ADMIN || $currentUser !== $buildMessage->getAuthor()) {
             $this->addFlash('danger', 'Vous n\'avez pas les droits pour supprimer ce message.');
             return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
         }
@@ -65,7 +60,6 @@ class BuildMessageController extends AbstractController
             $this->entityManager->remove($buildMessage);
             $this->entityManager->flush();
 
-            $this->logManager->log(LogTypeEnum::BUILD_MESSAGE_DELETE, $buildMessage->getAuthor()?->getId(), $buildMessage->getBuild()?->getName());
             $this->addFlash(
                 'success',
                 "Message supprimé avec succès"

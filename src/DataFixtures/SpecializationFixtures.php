@@ -23,8 +23,6 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
             $this->createSpecializationsByJob($jobName, $specializations, $manager);
         }
 
-
-
         $manager->flush();
     }
 

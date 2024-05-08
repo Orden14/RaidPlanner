@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Build;
 use App\Entity\User;
 use App\Enum\BuildStatusEnum;
-use App\Enum\LogTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\BuildType;
 use App\Repository\BuildCategoryRepository;
@@ -13,7 +12,6 @@ use App\Repository\BuildMessageRepository;
 use App\Repository\BuildRepository;
 use App\Repository\SpecializationRepository;
 use App\Util\Form\FormFlashHelper;
-use App\Util\Log\LogManager;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,9 +27,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class BuildController extends AbstractController
 {
     public function __construct(
-        private readonly LogManager $logManager,
-        private readonly BuildRepository $buildRepository,
         private readonly FormFlashHelper $formFlashHelper,
+        private readonly BuildRepository $buildRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly BuildMessageRepository $buildMessageRepository,
         private readonly BuildCategoryRepository $buildCategoryRepository,
@@ -74,7 +71,6 @@ class BuildController extends AbstractController
             $this->entityManager->persist($build);
             $this->entityManager->flush();
 
-            $this->logManager->log(LogTypeEnum::BUILD_CREATE, $build->getId());
             $this->addFlash(
                 'success',
                 "Le build {$build->getName()} a bien été créé"
@@ -118,7 +114,6 @@ class BuildController extends AbstractController
 
             $this->entityManager->flush();
 
-            $this->logManager->log(LogTypeEnum::BUILD_UPDATE, $build->getId());
             $this->addFlash(
                 'success',
                 "Le build {$build->getName()} a bien été modifié"
@@ -149,7 +144,6 @@ class BuildController extends AbstractController
             $this->entityManager->flush();
         }
 
-        $this->logManager->log(LogTypeEnum::BUILD_DELETE, null, $build->getName());
         $this->addFlash(
             'success',
             "Le build {$build->getName()} a bien été supprimé"
@@ -172,7 +166,6 @@ class BuildController extends AbstractController
 
         $build->setStatus($status);
         $this->entityManager->flush();
-        $this->logManager->log(LogTypeEnum::BUILD_STATUS_UPDATE, $build->getId(), $status->value);
 
         return $this->redirectToRoute('build_show', ['id' => $id], Response::HTTP_SEE_OTHER);
     }
