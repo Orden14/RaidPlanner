@@ -1,6 +1,4 @@
 import {Controller} from "stimulus"
-import 'datatables.net-bs5'
-import 'datatables.net-select-bs5'
 import {filterRow} from "../../util/user_activity_log/table_filter_manager";
 
 export default class extends Controller {

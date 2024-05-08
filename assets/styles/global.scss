@@ -1,8 +1,8 @@
 @import "bootstrap";
 @import "bootstrap/scss/utilities/api";
-@import 'bootstrap-select/sass/bootstrap-select.scss';
-@import "~datatables.net-bs5/css/dataTables.bootstrap5.min.css";
-@import "~datatables.net-select-bs5/css/select.bootstrap5.min.css";
+@import "bootstrap-select/sass/bootstrap-select.scss";
+@import "datatables.net-bs5";
+@import "datatables.net-select-bs5";
 
 @import "fullcalendar.scss";
 @import "datatables.scss";
