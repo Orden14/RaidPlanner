@@ -64,6 +64,10 @@ exclude:
       - assets\components\calendar\index.js
       - assets\controllers\datatable_controller.js
       - assets\controllers\build\table_controller.js
+      - assets\controllers\user_activity_log\table_controller.js
+  - name: MethodVisibilityInspection
+    paths:
+      - src\Command\DeleteOldLogsCommand.php
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)

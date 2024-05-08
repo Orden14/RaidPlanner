@@ -69,7 +69,7 @@
                     <p><strong>Lien du benchmark</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ benchmarkLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                 </div>
                 <div class="build-child-bottom-div mb-3">
-                    <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.creator.profilePicture) }}" alt="Profile"> {{ build.creator.username }}</span>
+                    <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.author.profilePicture) }}" alt="Profile"> {{ build.author.username }}</span>
                     <br/>
                     <span class="small-text">Dernière modification le {{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</span>
                 </div>

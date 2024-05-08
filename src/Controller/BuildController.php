@@ -66,7 +66,7 @@ class BuildController extends AbstractController
             $currentUser = $this->getUser();
 
             $build->setLastEditedAt(new DateTime());
-            $build->setCreator($currentUser);
+            $build->setAuthor($currentUser);
 
             $this->entityManager->persist($build);
             $this->entityManager->flush();

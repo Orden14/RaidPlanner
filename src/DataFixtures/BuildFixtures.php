@@ -55,8 +55,8 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
     ): Build
     {
         $build = new Build();
-        $build->setName($faker->sentence(3))
-            ->setCreator($user)
+        $build->setName($faker->words(2, true))
+            ->setAuthor($user)
             ->setSpecialization($specialization)
             ->setLastEditedAt($faker->dateTimeBetween('-1 year'))
             ->setStatus($this->getRandomStatus())

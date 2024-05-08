@@ -51,7 +51,7 @@ class BuildMessageController extends AbstractController
         /** @var Build $build */
         $build = $buildMessage->getBuild();
 
-        if ($currentUser->getRole() !== RolesEnum::ADMIN || $currentUser !== $buildMessage->getAuthor()) {
+        if ($currentUser->getRole() !== RolesEnum::ADMIN && $currentUser !== $buildMessage->getAuthor()) {
             $this->addFlash('danger', 'Vous n\'avez pas les droits pour supprimer ce message.');
             return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
         }
@@ -59,12 +59,12 @@ class BuildMessageController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$buildMessage->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($buildMessage);
             $this->entityManager->flush();
-        }
 
-        $this->addFlash(
-            'success',
-            "Message supprimé avec succès"
-        );
+            $this->addFlash(
+                'success',
+                "Message supprimé avec succès"
+            );
+        }
 
         return $this->redirectToRoute('build_show', [
             'id' => $build->getId(),

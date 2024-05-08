@@ -1,6 +1,4 @@
 import {Controller} from "stimulus"
-import 'datatables.net-bs5'
-import 'datatables.net-select-bs5'
 import { filterRow } from "../../util/build/table_filter_manager"
 
 export default class extends Controller {
@@ -44,6 +42,7 @@ export default class extends Controller {
             table.draw()
         })
 
+        // Allows the Status filter to be triggered on page load
         $('#statusFilter').trigger('change');
     }
 }

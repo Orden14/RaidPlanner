@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 export function filterRow (settings, data) {
     let matchingByStatus = statusFilter(data[3].trim())
     let matchingBySpecialization = specializationFilter(data[0].trim())
