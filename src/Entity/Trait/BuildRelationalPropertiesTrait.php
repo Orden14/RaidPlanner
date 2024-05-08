@@ -26,7 +26,7 @@ trait BuildRelationalPropertiesTrait
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $creator = null;
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -112,14 +112,14 @@ trait BuildRelationalPropertiesTrait
         return $this;
     }
 
-    final public function getCreator(): ?User
+    final public function getAuthor(): ?User
     {
-        return $this->creator;
+        return $this->author;
     }
 
-    final public function setCreator(?User $user): self
+    final public function setAuthor(?User $user): self
     {
-        $this->creator = $user;
+        $this->author = $user;
 
         return $this;
     }

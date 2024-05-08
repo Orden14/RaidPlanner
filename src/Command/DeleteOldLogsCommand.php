@@ -28,7 +28,7 @@ class DeleteOldLogsCommand extends Command
 
         $this->entityManager->createQueryBuilder()
             ->delete(UserActivityLog::class, 'log')
-            ->where('log.createdAt < :date')
+            ->where('log.date < :date')
             ->setParameter('date', $date)
             ->getQuery()
             ->execute();

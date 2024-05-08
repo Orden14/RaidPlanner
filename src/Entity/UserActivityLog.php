@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Enum\UserActivityLogTypeEnum;
 use App\Repository\UserActivityLogRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,14 +18,34 @@ class UserActivityLog
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $logMessage = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $date = null;
+    private ?DateTimeInterface $date;
+
+    public function __construct()
+    {
+        $this->date = new DateTime();
+    }
 
     final public function getId(): ?int
     {
         return $this->id;
+    }
+
+    final public function getType(): ?UserActivityLogTypeEnum
+    {
+        return UserActivityLogTypeEnum::getLogTypeFromValue($this->type);
+    }
+
+    final public function setType(UserActivityLogTypeEnum $type): self
+    {
+        $this->type = $type->value;
+
+        return $this;
     }
 
     final public function getLogMessage(): ?string

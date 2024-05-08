@@ -51,7 +51,7 @@ class BuildMessageController extends AbstractController
         /** @var Build $build */
         $build = $buildMessage->getBuild();
 
-        if ($currentUser->getRole() !== RolesEnum::ADMIN || $currentUser !== $buildMessage->getAuthor()) {
+        if ($currentUser->getRole() !== RolesEnum::ADMIN && $currentUser !== $buildMessage->getAuthor()) {
             $this->addFlash('danger', 'Vous n\'avez pas les droits pour supprimer ce message.');
             return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
         }
