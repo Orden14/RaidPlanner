@@ -20,4 +20,16 @@ final class UserActivityLogRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserActivityLog::class);
     }
+
+    /**
+     * @return UserActivityLog[]
+     */
+    public function findLatestLogs(): array
+    {
+        return $this->createQueryBuilder('log')
+            ->orderBy('log.date', 'DESC')
+            ->setMaxResults(1000)
+            ->getQuery()
+            ->getResult();
+    }
 }

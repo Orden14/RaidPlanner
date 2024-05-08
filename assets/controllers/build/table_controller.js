@@ -44,6 +44,7 @@ export default class extends Controller {
             table.draw()
         })
 
+        // Allows the Status filter to be triggered on page load
         $('#statusFilter').trigger('change');
     }
 }

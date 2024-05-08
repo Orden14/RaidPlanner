@@ -19,4 +19,16 @@ enum UserActivityLogTypeEnum: string
             default => throw new InvalidArgumentException("Invalid log type value provided.")
         };
     }
+
+    /**
+     * @return string[]
+     */
+    public static function getLogTypesAsArray(): array
+    {
+        return [
+            self::USER->value,
+            self::GUILD_EVENT->value,
+            self::BUILD->value
+        ];
+    }
 }
