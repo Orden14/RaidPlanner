@@ -39,8 +39,9 @@ Among all the generated users, there are default users available for easier test
 - Guest
 
 ## Test using Codeception
-This app uses Codeception for acceptance, functional and unit tests.
-For Acceptance testing, it is required to have Fireefox installed on your computer. If you experience a binary error upon testing, please refer to line 25 in Acceptance.suite.yml.
+This app uses Codeception for acceptance, functional and unit tests.  
+For acceptance testing, it is required to have Firefox installed on your computer. If you experience a binary error upon testing, please refer to line 25 in Acceptance.suite.yml.  
+The Webdriver currently set up in the project is for windows x64. If you are using another OS, remove geckodriver.exe in the root directory of the project and use the corresponding geckodriver from https://github.com/mozilla/geckodriver/releases.
 
 ###### Custom commands related to tests :
 - vendor/bin/codecept build (runs the build command for Codeception)
