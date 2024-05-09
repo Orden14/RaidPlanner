@@ -31,12 +31,21 @@ MailDev will be accessible on http://localhost:1080/
 - yarn watch (constantly watches for changes in CSS and JS files and compile them on the go)
 
 ## Test users
-Among all the generated users, there are default users available for easier testing :
-- Admin (username : admin / password : admin)
-- Member (username : member / password : member)
-- Trial (username : trial / password : trial)
-- Old Member (username : oldmember / password : oldmember)
-- Guest (username : guest / password : guest)
+Among all the generated users, there are default users available for easier testing (passwords are the same as usernames) :
+- Admin
+- Member
+- Trial
+- Old Member
+- Guest
+
+## Test using Codeception
+This app uses Codeception for acceptance, functional and unit tests.
+For Acceptance testing, it is required to have Fireefox installed on your computer. If you experience a binary error upon testing, please refer to line 25 in Acceptance.suite.yml.
+
+###### Custom commands related to tests :
+- vendor/bin/codecept build (runs the build command for Codeception)
+- yarn test (executes all tests)
+- yarn test Acceptance/Functional/Unit (executes a specific test suite)
 
 # Contact
 * Discord : orden14

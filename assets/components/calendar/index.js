@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     filters: JSON.stringify({}),
                 },
                 failure: () => {
-                    alert("There was an error while fetching the planning!")
+                    console.log("There was an error while fetching the planning!")
                 },
             },
         ],

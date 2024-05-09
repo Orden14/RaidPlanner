@@ -35,7 +35,9 @@
     "watch": "encore dev --watch",
     "build": "encore production --progress",
     "dependencies": "composer install && yarn install && yarn build",
-    "truncate-database": "symfony console d:d:d --if-exists --force && symfony console d:d:c && symfony console d:s:u --force --complete && symfony console d:f:l -n"
+    "truncate-database": "symfony console d:d:d --if-exists --force && symfony console d:d:c && symfony console d:s:u --force --complete && symfony console d:f:l -n",
+    "truncate-database-test": "symfony console --env=test d:d:d --if-exists --force && symfony console --env=test d:d:c && symfony console --env=test d:s:u --force --complete && symfony console --env=test d:f:l -n",
+    "test": "symfony server:stop && vendor/bin/codecept clean && yarn truncate-database-test && vendor/bin/codecept run --ext DotReporter"
   },
   "devDependencies": {
     "@hotwired/turbo": "^7.1.1 || ^8.0"
