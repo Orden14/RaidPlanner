@@ -18,9 +18,10 @@ export default class extends Controller {
                 { width: '10%', targets: 2 },
                 { width: '1%', targets: 3, orderable: false },
                 { width: '10%', targets: 4 },
-                { width: '5%', targets: 5, orderable: true},
-                { width: '5%', targets: 6, orderable: true},
-                { width: '20%', targets: 7, orderable: false },
+                { width: '5%', targets: 5, orderable: false },
+                { width: '5%', targets: 6, orderable: false },
+                { width: '5%', targets: 7, orderable: false },
+                { width: '20%', targets: 8, orderable: false },
             ],
             order: [[2, 'desc']]
         })

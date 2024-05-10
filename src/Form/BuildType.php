@@ -27,10 +27,14 @@ final class BuildType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('link', TextType::class, [
-                'label' => 'Lien externe',
+                'label' => 'Lien build',
+                'required' => false
+            ])
+            ->add('videoLink', TextType::class, [
+                'label' => 'Lien vidéo',
                 'required' => false
             ])
             ->add('status', ChoiceType::class, [
@@ -82,8 +86,6 @@ final class BuildType extends AbstractType
                     'class' => 'selectpicker',
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
-                    'data-live-search' => 'true',
-                    'data-live-search-placeholder' => 'Rechercher une spécialisation...'
                 ],
                 'choice_attr' => function($category) {
                     $name = $category->getName();
@@ -101,7 +103,7 @@ final class BuildType extends AbstractType
                 'required' => false
             ])
             ->add('benchmarkLink', TextType::class, [
-                'label' => 'Lien du benchmark',
+                'label' => 'Log du benchmark',
                 'required' => false
             ])
         ;

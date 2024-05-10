@@ -37,6 +37,9 @@ class Build
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $benchmarkLink = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $videoLink = null;
+
     final public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +113,18 @@ class Build
     final public function setBenchmarkLink(?string $benchmarkLink): self
     {
         $this->benchmarkLink = $benchmarkLink;
+
+        return $this;
+    }
+
+    final public function getVideoLink(): ?string
+    {
+        return $this->videoLink;
+    }
+
+    final public function setVideoLink(?string $videoLink): self
+    {
+        $this->videoLink = $videoLink;
 
         return $this;
     }

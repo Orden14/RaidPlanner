@@ -67,7 +67,8 @@
                     <th></th>
                     <th>Dernière modification</th>
                     <th>Lien</th>
-                    <th>Lien du benchmark</th>
+                    <th>Vidéo</th>
+                    <th>Log</th>
                     <th></th>
                 </tr>
             </thead>
@@ -78,10 +79,17 @@
                 {% else %}
                     {% set link = '#' %}
                 {% endif %}
+
                 {% if build.benchmarkLink %}
                     {% set benchmarkLink = build.benchmarkLink starts with 'http://' or build.benchmarkLink starts with 'https://' ? build.benchmarkLink : 'http://' ~ build.benchmarkLink %}
                 {% else %}
                     {% set benchmarkLink = '#' %}
+                {% endif %}
+
+                {% if build.videoLink %}
+                    {% set videoLink = build.videoLink starts with 'http://' or build.videoLink starts with 'https://' ? build.videoLink : 'http://' ~ build.videoLink %}
+                {% else %}
+                    {% set videoLink = '#' %}
                 {% endif %}
 
                 <tr data-url="{{ path('build_show', {'id': build.id}) }}">
@@ -101,6 +109,7 @@
                     </td>
                     <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
                     <td class="text-center">{{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
+                    <td class="text-center">{{ videoLink != '#' ? ('<a href="' ~ videoLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
                     <td class="text-center">{{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>
                     <td>
                         <div class="d-inline-flex float-end">

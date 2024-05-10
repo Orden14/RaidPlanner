@@ -62,7 +62,8 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
             ->setStatus($this->getRandomStatus())
             ->setBenchmark($faker->numberBetween(20000, 50000))
             ->setLink($faker->optional()->url)
-            ->setBenchmarkLink($faker->optional()->url);
+            ->setBenchmarkLink($faker->optional()->url)
+            ->setVideoLink($faker->optional()->url);
         $randomKeys = array_rand($categories, 2);
         foreach ($randomKeys as $key) {
             $build->addCategory($categories[$key]);

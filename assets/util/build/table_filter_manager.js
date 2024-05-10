@@ -1,7 +1,7 @@
 export function filterRow (settings, data) {
     let matchingByStatus = statusFilter(data[3].trim())
     let matchingBySpecialization = specializationFilter(data[0].trim())
-    let matchingByCategory = categoryFilter(data[7].trim())
+    let matchingByCategory = categoryFilter(data[8].trim())
 
     return matchingByStatus && matchingBySpecialization && matchingByCategory
 }

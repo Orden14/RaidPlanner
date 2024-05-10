@@ -12,6 +12,12 @@
     {% set benchmarkLink = '#' %}
 {% endif %}
 
+{% if build.videoLink %}
+    {% set videoLink = build.videoLink starts with 'http://' or build.videoLink starts with 'https://' ? build.videoLink : 'http://' ~ build.videoLink %}
+{% else %}
+    {% set videoLink = '#' %}
+{% endif %}
+
 {% block container %}
     <div class="container mt-4">
         <a href="{{ path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
@@ -65,8 +71,9 @@
                     <p><strong>Classe :</strong> <img src="{{ asset('icon/' ~ build.specialization.job.icon) }}" class="small-icon" alt="{{ build.specialization.job.name }} icon" title="{{ build.specialization.job.name }}"> {{ build.specialization.job.name }}</p>
                     <p><strong>Spécialisation : </strong> <img src="{{ asset('icon/' ~ build.specialization.icon) }}" class="small-icon" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}"> {{ build.specialization.name }} </p>
                     <p><strong>Lien</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ link|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
+                    <p><strong>Vidéo</strong> {{ videoLink != '#' ? ('<a href="' ~ videoLink ~ '"> ' ~ videoLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                     <p><strong>Benchmark :</strong> {{ build.benchmark is not null ? build.benchmark : 'Benchmark non spécifié' }}</p>
-                    <p><strong>Lien du benchmark</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ benchmarkLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
+                    <p><strong>Log</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ benchmarkLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                 </div>
                 <div class="build-child-bottom-div mb-3">
                     <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.author.profilePicture) }}" alt="Profile"> {{ build.author.username }}</span>

@@ -60,3 +60,8 @@ footer .nav-link:hover {
 input[type="color"] {
     padding: 0;
 }
+
+label.required:after {
+    content: " *";
+    color: rgb(255, 0, 0);
+}

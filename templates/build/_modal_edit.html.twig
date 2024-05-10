@@ -25,9 +25,15 @@
                     {{ form_label(form.categories, null, {'label_attr': {'class': 'form-label'}}) }}
                     {{ form_widget(form.categories) }}
                 </div>
-                <div class="mb-3">
-                    {{ form_label(form.link, null, {'label_attr': {'class': 'form-label'}}) }}
-                    {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form_label(form.link, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="col">
+                        {{ form_label(form.videoLink, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.videoLink, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col">
