@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\GuildEventRelation\GuildEventSlot;
+use App\Enum\GuildEventSlotTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,5 +20,16 @@ final class GuildEventSlotRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GuildEventSlot::class);
+    }
+
+    /**
+     * @return GuildEventSlot[]
+     */
+    public function findByIdAndType(int $id, GuildEventSlotTypeEnum $type): array
+    {
+        return $this->findBy([
+            'id' => $id,
+            'slotType' => $type
+        ]);
     }
 }

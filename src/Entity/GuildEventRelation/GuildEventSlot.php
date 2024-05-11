@@ -5,6 +5,7 @@ namespace App\Entity\GuildEventRelation;
 use App\Entity\Build;
 use App\Entity\GuildEvent;
 use App\Entity\User;
+use App\Enum\GuildEventSlotTypeEnum;
 use App\Repository\GuildEventSlotRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,14 +23,14 @@ class GuildEventSlot
     #[ORM\ManyToOne(inversedBy: 'guildEventSlots')]
     private ?GuildEvent $guildEvent = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slotType = GuildEventSlotTypeEnum::PLAYER->value;
+
     #[ORM\ManyToOne]
     private ?Build $build = null;
 
     #[ORM\Column]
     private bool $tank = false;
-
-    #[ORM\Column]
-    private bool $backup = false;
 
     final public function getId(): ?int
     {
@@ -60,6 +61,18 @@ class GuildEventSlot
         return $this;
     }
 
+    final public function getSlotType(): GuildEventSlotTypeEnum
+    {
+        return GuildEventSlotTypeEnum::getSlotTypeByValue($this->slotType);
+    }
+
+    final public function setSlotType(GuildEventSlotTypeEnum $slotType): self
+    {
+        $this->slotType = $slotType->value;
+
+        return $this;
+    }
+
     final public function getBuild(): ?Build
     {
         return $this->build;
@@ -80,18 +93,6 @@ class GuildEventSlot
     final public function setTank(bool $tank = true): self
     {
         $this->tank = $tank;
-
-        return $this;
-    }
-
-    final public function isBackup(): bool
-    {
-        return $this->backup;
-    }
-
-    final public function setBackup(bool $backup = true): self
-    {
-        $this->backup = $backup;
 
         return $this;
     }
