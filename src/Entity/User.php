@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\GuildEventRelation\GuildEventSlot;
+use App\Entity\GuildEventRelation\EventSlot;
 use App\Enum\RolesEnum;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,14 +41,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
-     * @var Collection<int, GuildEventSlot>
+     * @var Collection<int, EventSlot>
      */
-    #[ORM\OneToMany(targetEntity: GuildEventSlot::class, mappedBy: 'player')]
-    private Collection $guildEventSlots;
+    #[ORM\OneToMany(targetEntity: EventSlot::class, mappedBy: 'player')]
+    private Collection $eventSlots;
 
     public function __construct()
     {
-        $this->guildEventSlots = new ArrayCollection();
+        $this->eventSlots = new ArrayCollection();
     }
 
     final public function getId(): ?int
@@ -148,27 +148,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, GuildEventSlot>
+     * @return Collection<int, EventSlot>
      */
-    final public function getGuildEventSlots(): Collection
+    final public function getEventSlots(): Collection
     {
-        return $this->guildEventSlots;
+        return $this->eventSlots;
     }
 
-    final public function addGuildEventSlot(GuildEventSlot $guildEventSlot): self
+    final public function addEventSlot(EventSlot $eventSlot): self
     {
-        if (!$this->guildEventSlots->contains($guildEventSlot)) {
-            $this->guildEventSlots->add($guildEventSlot);
-            $guildEventSlot->setPlayer($this);
+        if (!$this->eventSlots->contains($eventSlot)) {
+            $this->eventSlots->add($eventSlot);
+            $eventSlot->setPlayer($this);
         }
 
         return $this;
     }
 
-    final public function removeGuildEventSlot(GuildEventSlot $guildEventSlot): self
+    final public function removeEventSlot(EventSlot $eventSlot): self
     {
-        if ($this->guildEventSlots->removeElement($guildEventSlot) && $guildEventSlot->getPlayer() === $this) {
-            $guildEventSlot->setPlayer(null);
+        if ($this->eventSlots->removeElement($eventSlot) && $eventSlot->getPlayer() === $this) {
+            $eventSlot->setPlayer(null);
         }
 
         return $this;

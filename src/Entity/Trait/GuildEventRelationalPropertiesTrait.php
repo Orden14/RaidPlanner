@@ -3,24 +3,17 @@
 namespace App\Entity\Trait;
 
 use App\Entity\CombatLog;
-use App\Entity\GuildEventRelation\GuildEventEncounter;
-use App\Entity\GuildEventRelation\GuildEventSlot;
+use App\Entity\GuildEventRelation\EventSlot;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 trait GuildEventRelationalPropertiesTrait
 {
     /**
-     * @var ?Collection<int, GuildEventEncounter>
+     * @var ?Collection<int, EventSlot>
      */
-    #[ORM\OneToMany(targetEntity: GuildEventEncounter::class, mappedBy: 'guildEvent', orphanRemoval: true)]
-    private ?Collection $guildEventEncounters;
-
-    /**
-     * @var ?Collection<int, GuildEventSlot>
-     */
-    #[ORM\OneToMany(targetEntity: GuildEventSlot::class, mappedBy: 'guildEvent', orphanRemoval: true)]
-    private ?Collection $guildEventSlots;
+    #[ORM\OneToMany(targetEntity: EventSlot::class, mappedBy: 'guildEvent', orphanRemoval: true)]
+    private ?Collection $eventSlots;
 
     /**
      * @var ?Collection<int, CombatLog>
@@ -29,54 +22,27 @@ trait GuildEventRelationalPropertiesTrait
     private ?Collection $combatLogs;
 
     /**
-     * @return Collection<int, GuildEventEncounter>
+     * @return Collection<int, EventSlot>
      */
-    final public function getGuildEventEncounters(): Collection
+    final public function getEventSlots(): Collection
     {
-        return $this->guildEventEncounters;
+        return $this->eventSlots;
     }
 
-    final public function addGuildEventEncounter(GuildEventEncounter $guildEventEncounter): self
+    final public function addEventSlot(EventSlot $eventSlot): self
     {
-        if (!$this->guildEventEncounters->contains($guildEventEncounter)) {
-            $this->guildEventEncounters->add($guildEventEncounter);
-            $guildEventEncounter->setGuildEvent($this);
+        if (!$this->eventSlots->contains($eventSlot)) {
+            $this->eventSlots->add($eventSlot);
+            $eventSlot->setGuildEvent($this);
         }
 
         return $this;
     }
 
-    final public function removeGuildEventEncounter(GuildEventEncounter $guildEventEncounter): self
+    final public function removeEventSlot(EventSlot $eventSlot): self
     {
-        if ($this->guildEventEncounters->removeElement($guildEventEncounter) && $guildEventEncounter->getGuildEvent() === $this) {
-            $guildEventEncounter->setGuildEvent(null);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, GuildEventSlot>
-     */
-    final public function getGuildEventSlots(): Collection
-    {
-        return $this->guildEventSlots;
-    }
-
-    final public function addGuildEventSlot(GuildEventSlot $guildEventSlot): self
-    {
-        if (!$this->guildEventSlots->contains($guildEventSlot)) {
-            $this->guildEventSlots->add($guildEventSlot);
-            $guildEventSlot->setGuildEvent($this);
-        }
-
-        return $this;
-    }
-
-    final public function removeGuildEventSlot(GuildEventSlot $guildEventSlot): self
-    {
-        if ($this->guildEventSlots->removeElement($guildEventSlot) && $guildEventSlot->getGuildEvent() === $this) {
-            $guildEventSlot->setGuildEvent(null);
+        if ($this->eventSlots->removeElement($eventSlot) && $eventSlot->getGuildEvent() === $this) {
+            $eventSlot->setGuildEvent(null);
         }
 
         return $this;

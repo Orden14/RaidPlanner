@@ -4,7 +4,7 @@ namespace App\Enum;
 
 use InvalidArgumentException;
 
-enum GuildEventSlotTypeEnum: string
+enum EventSlotTypeEnum: string
 {
     case PLAYER = "Joueur";
     case BACKUP = "Backup";
