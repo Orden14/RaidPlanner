@@ -22,12 +22,11 @@ class GuildEventFixtures extends Fixture
             ->setTitle('Test event')
             ->setStart((new DateTime())->setTime(10, 0))
             ->setEnd((new DateTime())->setTime(15, 0))
-            ->setType(GuildEventTypeEnum::RAID)
-            ->setMaxPlayers();
+            ->setType(GuildEventTypeEnum::RAID);
 
         $manager->persist($guildEvent);
 
-        for ($i = 0; $i < $guildEvent->getMaxPlayers(); $i++) {
+        for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
             $guildEventSlot = (new GuildEventSlot())
                 ->setGuildEvent($guildEvent);
 

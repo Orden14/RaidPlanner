@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\GuildEventSlot;
+use App\Enum\GuildEventTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
 use App\Util\Form\FormFlashHelper;
@@ -33,10 +34,9 @@ class GuildEventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $guildEvent->setMaxPlayers();
             $this->entityManager->persist($guildEvent);
 
-            for ($i = 0; $i < $guildEvent->getMaxPlayers(); $i++) {
+            for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
                 $guildEventSlot = (new GuildEventSlot())->setGuildEvent($guildEvent);
                 $this->entityManager->persist($guildEventSlot);
             }
@@ -48,7 +48,7 @@ class GuildEventController extends AbstractController
                 "L'évènement {$guildEvent->getTitle()} a bien été créé"
             );
 
-            return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
         /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */

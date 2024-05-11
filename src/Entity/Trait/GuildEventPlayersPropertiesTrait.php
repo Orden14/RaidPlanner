@@ -3,7 +3,6 @@
 namespace App\Entity\Trait;
 
 use App\Entity\GuildEventRelation\GuildEventSlot;
-use App\Enum\GuildEventTypeEnum;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,9 +13,6 @@ trait GuildEventPlayersPropertiesTrait
      */
     #[ORM\OneToMany(targetEntity: GuildEventSlot::class, mappedBy: 'guildEvent')]
     private ?Collection $guildEventSlots;
-
-    #[ORM\Column]
-    private ?int $maxPlayers = null;
 
     #[ORM\Column]
     private bool $oldMembersAllowed = false;
@@ -43,25 +39,6 @@ trait GuildEventPlayersPropertiesTrait
     {
         if ($this->guildEventSlots->removeElement($guildEventSlot) && $guildEventSlot->getGuildEvent() === $this) {
             $guildEventSlot->setGuildEvent(null);
-        }
-
-        return $this;
-    }
-
-    final public function getMaxPlayers(): ?int
-    {
-        return $this->maxPlayers;
-    }
-
-    /**
-     * @param int|null $maxPlayers Leave null to get default value by type
-     */
-    final public function setMaxPlayers(?int $maxPlayers = null): self
-    {
-        if ($maxPlayers) {
-            $this->maxPlayers = $maxPlayers;
-        } else {
-            $this->maxPlayers = GuildEventTypeEnum::getMaxPlayersByType($this->getType());
         }
 
         return $this;
