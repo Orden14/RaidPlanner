@@ -30,7 +30,7 @@ class GuildEvent
     private ?DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    private ?string $type = GuildEventTypeEnum::GUILDRAID->value;
 
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
