@@ -2,15 +2,19 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\GuildEventPlayersPropertiesTrait;
 use App\Enum\GuildEventTypeEnum;
 use App\Repository\GuildEventRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GuildEventRepository::class)]
 class GuildEvent
 {
+    use GuildEventPlayersPropertiesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -30,6 +34,11 @@ class GuildEvent
 
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
+
+    public function __construct()
+    {
+        $this->guildEventSlots = new ArrayCollection();
+    }
 
     final public function getId(): ?int
     {

@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     final public function index(): Response
     {
-        if (!$this->isGranted(RolesEnum::MEMBER->value)) {
+        if (!$this->isGranted(RolesEnum::OLD_MEMBER->value)) {
             return $this->redirectToRoute('app_guest');
         }
 

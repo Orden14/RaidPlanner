@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\GuildEventRelation\GuildEventSlot;
 use App\Enum\RolesEnum;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,6 +39,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, GuildEventSlot>
+     */
+    #[ORM\OneToMany(targetEntity: GuildEventSlot::class, mappedBy: 'player')]
+    private Collection $guildEventSlots;
+
+    public function __construct()
+    {
+        $this->guildEventSlots = new ArrayCollection();
+    }
 
     final public function getId(): ?int
     {
@@ -131,5 +145,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     final public function eraseCredentials(): void
     {
 
+    }
+
+    /**
+     * @return Collection<int, GuildEventSlot>
+     */
+    final public function getGuildEventSlots(): Collection
+    {
+        return $this->guildEventSlots;
+    }
+
+    final public function addGuildEventSlot(GuildEventSlot $guildEventSlot): self
+    {
+        if (!$this->guildEventSlots->contains($guildEventSlot)) {
+            $this->guildEventSlots->add($guildEventSlot);
+            $guildEventSlot->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    final public function removeGuildEventSlot(GuildEventSlot $guildEventSlot): self
+    {
+        if ($this->guildEventSlots->removeElement($guildEventSlot) && $guildEventSlot->getPlayer() === $this) {
+            $guildEventSlot->setPlayer(null);
+        }
+
+        return $this;
     }
 }

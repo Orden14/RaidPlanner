@@ -40,4 +40,13 @@ enum GuildEventTypeEnum: string
             default => throw new InvalidArgumentException("Invalid event type value provided.")
         };
     }
+
+    public static function getMaxPlayersByType(self $eventType): int
+    {
+        return match($eventType) {
+            self::GUILDRAID, self::RAID, self::STRIKE => 10,
+            self::FRACTAL, self::DUNGEON => 5,
+            self::IRL => 0,
+        };
+    }
 }
