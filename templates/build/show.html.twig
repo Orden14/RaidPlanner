@@ -70,10 +70,10 @@
                     <p><Strong>Status : </Strong> {{ build.status }} <span class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></span></p>
                     <p><strong>Classe :</strong> <img src="{{ asset('icon/' ~ build.specialization.job.icon) }}" class="small-icon" alt="{{ build.specialization.job.name }} icon" title="{{ build.specialization.job.name }}"> {{ build.specialization.job.name }}</p>
                     <p><strong>Spécialisation : </strong> <img src="{{ asset('icon/' ~ build.specialization.icon) }}" class="small-icon" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}"> {{ build.specialization.name }} </p>
-                    <p><strong>Lien</strong> {{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ link|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
-                    <p><strong>Vidéo</strong> {{ videoLink != '#' ? ('<a href="' ~ videoLink ~ '"> ' ~ videoLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
+                    <p><strong>Lien</strong> {{ link != '#' ? ('<a href="' ~ link ~ '" target="_blank"> ' ~ link|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
+                    <p><strong>Vidéo</strong> {{ videoLink != '#' ? ('<a href="' ~ videoLink ~ '" target="_blank"> ' ~ videoLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                     <p><strong>Benchmark :</strong> {{ build.benchmark is not null ? build.benchmark : 'Benchmark non spécifié' }}</p>
-                    <p><strong>Log</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '"> ' ~ benchmarkLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
+                    <p><strong>Log</strong> {{ benchmarkLink != '#' ? ('<a href="' ~ benchmarkLink ~ '" target="_blank"> ' ~ benchmarkLink|shorten_url ~  '</a>')|raw : ': Pas de lien disponible' }}</p>
                 </div>
                 <div class="build-child-bottom-div mb-3">
                     <span class="small-text">Ajouté par <img class="img-profile rounded-circle small-icon" src="{{ asset('profile_picture/' ~ build.author.profilePicture) }}" alt="Profile"> {{ build.author.username }}</span>

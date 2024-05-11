@@ -31,6 +31,7 @@ security:
                 #always_remember_me: true
 
     role_hierarchy:
+        ROLE_DEV: ROLE_ADMIN
         ROLE_ADMIN: ROLE_MEMBER
         ROLE_MEMBER: ROLE_TRIAL
         ROLE_TRIAL: ROLE_OLDMEMBER
