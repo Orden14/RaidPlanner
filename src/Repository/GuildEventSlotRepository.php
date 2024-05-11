@@ -25,10 +25,10 @@ final class GuildEventSlotRepository extends ServiceEntityRepository
     /**
      * @return GuildEventSlot[]
      */
-    public function findByIdAndType(int $id, GuildEventSlotTypeEnum $type): array
+    public function findByEventIdAndType(int $eventId, GuildEventSlotTypeEnum $type): array
     {
         return $this->findBy([
-            'id' => $id,
+            'guildEvent' => $eventId,
             'slotType' => $type
         ]);
     }

@@ -23,11 +23,17 @@ class GuildEventSlot
     #[ORM\ManyToOne(inversedBy: 'guildEventSlots')]
     private ?GuildEvent $guildEvent = null;
 
+    #[ORM\ManyToOne(inversedBy: 'guildEventSlots')]
+    private ?GuildEventEncounter $guildEventEncounter = null;
+
     #[ORM\Column(length: 255)]
     private ?string $slotType = GuildEventSlotTypeEnum::PLAYER->value;
 
     #[ORM\ManyToOne]
     private ?Build $build = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $comment = null;
 
     #[ORM\Column]
     private bool $tank = false;
@@ -61,6 +67,18 @@ class GuildEventSlot
         return $this;
     }
 
+    final public function getGuildEventEncounter(): ?GuildEventEncounter
+    {
+        return $this->guildEventEncounter;
+    }
+
+    final public function setGuildEventEncounter(?GuildEventEncounter $guildEventEncounter): self
+    {
+        $this->guildEventEncounter = $guildEventEncounter;
+
+        return $this;
+    }
+
     final public function getSlotType(): GuildEventSlotTypeEnum
     {
         return GuildEventSlotTypeEnum::getSlotTypeByValue($this->slotType);
@@ -81,6 +99,18 @@ class GuildEventSlot
     final public function setBuild(?Build $build): self
     {
         $this->build = $build;
+
+        return $this;
+    }
+
+    final public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    final public function setComment(string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

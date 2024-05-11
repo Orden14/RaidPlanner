@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\GuildEventPlayersPropertiesTrait;
+use App\Entity\Trait\GuildEventRelationalPropertiesTrait;
 use App\Enum\GuildEventTypeEnum;
 use App\Repository\GuildEventRepository;
 use DateTimeInterface;
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: GuildEventRepository::class)]
 class GuildEvent
 {
-    use GuildEventPlayersPropertiesTrait;
+    use GuildEventRelationalPropertiesTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,9 +35,14 @@ class GuildEvent
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
 
+    #[ORM\Column]
+    private bool $oldMembersAllowed = false;
+
     public function __construct()
     {
         $this->guildEventSlots = new ArrayCollection();
+        $this->guildEventEncounters = new ArrayCollection();
+        $this->combatLogs = new ArrayCollection();
     }
 
     final public function getId(): ?int
@@ -101,6 +106,18 @@ class GuildEvent
     final public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    final public function areOldMembersAllowed(): bool
+    {
+        return $this->oldMembersAllowed;
+    }
+
+    final public function setOldMembersAllowed(bool $oldMembersAllowed): self
+    {
+        $this->oldMembersAllowed = $oldMembersAllowed;
 
         return $this;
     }

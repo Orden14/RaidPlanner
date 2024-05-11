@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\GuildEventSlot;
 use App\Enum\GuildEventSlotTypeEnum;
-use App\Enum\GuildEventTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
 use App\Repository\GuildEventSlotRepository;
@@ -39,11 +37,6 @@ class GuildEventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($guildEvent);
 
-            for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
-                $guildEventSlot = (new GuildEventSlot())->setGuildEvent($guildEvent);
-                $this->entityManager->persist($guildEventSlot);
-            }
-
             $this->entityManager->flush();
 
             $this->addFlash(
@@ -69,9 +62,8 @@ class GuildEventController extends AbstractController
     {
         return $this->render('guild_event/show.html.twig', [
             'guild_event' => $guildEvent,
-            'players' => $this->guildEventSlotRepository->findByIdAndType($guildEvent->getId(), GuildEventSlotTypeEnum::PLAYER),
-            'backups' => $this->guildEventSlotRepository->findByIdAndType($guildEvent->getId(), GuildEventSlotTypeEnum::BACKUP),
-            'absents' => $this->guildEventSlotRepository->findByIdAndType($guildEvent->getId(), GuildEventSlotTypeEnum::ABSENT),
+            'backups' => $this->guildEventSlotRepository->findByEventIdAndType($guildEvent->getId(), GuildEventSlotTypeEnum::BACKUP),
+            'absents' => $this->guildEventSlotRepository->findByEventIdAndType($guildEvent->getId(), GuildEventSlotTypeEnum::ABSENT),
         ]);
     }
 
