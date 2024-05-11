@@ -79,6 +79,10 @@ class BuildController extends AbstractController
             return $this->redirectToRoute('build_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
         return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
             'builds' => $this->buildRepository->findAll(),

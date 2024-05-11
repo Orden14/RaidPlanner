@@ -1,0 +1,46 @@
+<div class="modal fade" id="newGuildEventModal" tabindex="-1" role="dialog" aria-labelledby="newGuildEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newGuildEventModalLabel">Nouvel évènement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form) }}
+                    <div class="form-group mb-3">
+                        {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            {{ form_label(form.color, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.color, {'attr': {'class': 'form-control form-control-color'}}) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            {{ form_label(form.start, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.start, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            {{ form_label(form.end, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.end, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_label(form.oldMembersAllowed, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.oldMembersAllowed, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

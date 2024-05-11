@@ -22,11 +22,14 @@ class GuildEventSlot
     #[ORM\ManyToOne(inversedBy: 'guildEventSlots')]
     private ?GuildEvent $guildEvent = null;
 
+    #[ORM\ManyToOne]
+    private ?Build $build = null;
+
     #[ORM\Column]
     private bool $tank = false;
 
-    #[ORM\ManyToOne]
-    private ?Build $build = null;
+    #[ORM\Column]
+    private bool $backup = false;
 
     final public function getId(): ?int
     {
@@ -57,6 +60,18 @@ class GuildEventSlot
         return $this;
     }
 
+    final public function getBuild(): ?Build
+    {
+        return $this->build;
+    }
+
+    final public function setBuild(?Build $build): self
+    {
+        $this->build = $build;
+
+        return $this;
+    }
+
     final public function isTank(): bool
     {
         return $this->tank;
@@ -69,14 +84,14 @@ class GuildEventSlot
         return $this;
     }
 
-    final public function getBuild(): ?Build
+    final public function isBackup(): bool
     {
-        return $this->build;
+        return $this->backup;
     }
 
-    final public function setBuild(?Build $build): self
+    final public function setBackup(bool $backup = true): self
     {
-        $this->build = $build;
+        $this->backup = $backup;
 
         return $this;
     }
