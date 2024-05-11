@@ -26,7 +26,7 @@ class GuildEvent
     private ?DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    private ?GuildEventTypeEnum $type = null;
+    private ?string $type = null;
 
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
@@ -72,14 +72,14 @@ class GuildEvent
         return $this;
     }
 
-    final public function getType(): ?GuildEventTypeEnum
+    final public function getType(): GuildEventTypeEnum
     {
-        return $this->type;
+        return GuildEventTypeEnum::getEventTypeFromValue($this->type);
     }
 
     final public function setType(GuildEventTypeEnum $type): self
     {
-        $this->type = $type;
+        $this->type = $type->value;
 
         return $this;
     }

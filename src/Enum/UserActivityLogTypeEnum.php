@@ -10,6 +10,9 @@ enum UserActivityLogTypeEnum: string
     case GUILD_EVENT = 'Evenements';
     case BUILD = 'Builds';
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function getLogTypeFromValue(string $value): self
     {
         return match ($value) {
