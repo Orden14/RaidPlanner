@@ -4,9 +4,9 @@ namespace App\Entity\Trait;
 
 use App\Entity\BuildCategory;
 use App\Entity\BuildMessage;
+use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\Specialization;
 use App\Entity\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,23 +16,24 @@ trait BuildRelationalPropertiesTrait
     #[ORM\JoinColumn(nullable: false)]
     private ?Specialization $specialization = null;
 
-    /** @var Collection<int, BuildCategory> $categories  */
+    /** @var ?Collection<int, BuildCategory> $categories  */
     #[ORM\ManyToMany(targetEntity: BuildCategory::class, inversedBy: 'builds')]
-    private Collection $categories;
+    private ?Collection $categories;
 
-    /** @var Collection<int, BuildMessage> $buildMessages  */
+    /** @var ?Collection<int, BuildMessage> $buildMessages  */
     #[ORM\OneToMany(targetEntity: BuildMessage::class, mappedBy: 'build', orphanRemoval: true)]
-    private Collection $buildMessages;
+    private ?Collection $buildMessages;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    public function __construct()
-    {
-        $this->categories = new ArrayCollection();
-        $this->buildMessages = new ArrayCollection();
-    }
+    /**
+     * @var ?Collection<int, PlayerSlot>
+     */
+    #[ORM\OneToMany(targetEntity: PlayerSlot::class, mappedBy: 'build')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Collection $playerSlots;
 
     final public function getSpecialization(): ?Specialization
     {
@@ -120,6 +121,33 @@ trait BuildRelationalPropertiesTrait
     final public function setAuthor(?User $user): self
     {
         $this->author = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlayerSlot>
+     */
+    final public function getPlayerSlots(): Collection
+    {
+        return $this->playerSlots;
+    }
+
+    final public function addPlayerSlot(PlayerSlot $playerSlot): self
+    {
+        if (!$this->playerSlots->contains($playerSlot)) {
+            $this->playerSlots->add($playerSlot);
+            $playerSlot->setBuild($this);
+        }
+
+        return $this;
+    }
+
+    final public function removePlayerSlot(PlayerSlot $playerSlot): self
+    {
+        if ($this->playerSlots->removeElement($playerSlot) && $playerSlot->getBuild() === $this) {
+            $playerSlot->setBuild(null);
+        }
 
         return $this;
     }

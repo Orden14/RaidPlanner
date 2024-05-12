@@ -5,28 +5,24 @@ namespace App\Controller;
 use App\Entity\GuildEvent;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
-use App\Repository\GuildEventRepository;
+use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted(RolesEnum::MEMBER->value)]
+#[IsGranted(RolesEnum::OLD_MEMBER->value)]
 #[Route('/event', name: 'guild_event_')]
 class GuildEventController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
-    #[Route('/', name: 'index', methods: ['GET'])]
-    final public function index(GuildEventRepository $guildEventRepository): Response
-    {
-        return $this->render('guild_event/index.html.twig', [
-            'guild_events' => $guildEventRepository->findAll(),
-        ]);
-    }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     final public function new(Request $request): Response
@@ -39,12 +35,21 @@ class GuildEventController extends AbstractController
             $this->entityManager->persist($guildEvent);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('guild_event_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash(
+                'success',
+                "L'évènement {$guildEvent->getTitle()} a bien été créé"
+            );
+
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('guild_event/new.html.twig', [
-            'guild_event' => $guildEvent,
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
+        return $this->render('components/calendar/index.html.twig', [
             'form' => $form->createView(),
+            'guild_event' => $guildEvent,
         ]);
     }
 
@@ -56,24 +61,7 @@ class GuildEventController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, GuildEvent $guildEvent): Response
-    {
-        $form = $this->createForm(GuildEventType::class, $guildEvent);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('guild_event_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('guild_event/edit.html.twig', [
-            'form' => $form->createView(),
-            'guild_event' => $guildEvent,
-        ]);
-    }
-
+    #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, GuildEvent $guildEvent): Response
     {
@@ -82,6 +70,6 @@ class GuildEventController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('guild_event_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
     }
 }

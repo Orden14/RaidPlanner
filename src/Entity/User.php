@@ -2,8 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\UserGuildEventPropertiesTrait;
 use App\Enum\RolesEnum;
 use App\Repository\UserRepository;
+use DateTime;
+use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -14,6 +19,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use UserGuildEventPropertiesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -36,6 +43,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?DateTimeInterface $joinedAt;
+
+    public function __construct()
+    {
+        $this->playerSlots = new ArrayCollection();
+        $this->nonPlayerSlots = new ArrayCollection();
+        $this->joinedAt = new DateTime();
+    }
 
     final public function getId(): ?int
     {
@@ -99,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     final public function getRole(): RolesEnum
     {
-        return RolesEnum::getRoleFromValue(reset($this->roles));
+        return RolesEnum::from(reset($this->roles));
     }
 
     final public function setRole(RolesEnum $role): self
@@ -131,5 +148,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     final public function eraseCredentials(): void
     {
 
+    }
+
+    final public function getJoinedAt(): DateTimeInterface
+    {
+        return $this->joinedAt;
+    }
+
+    final public function setJoinedAt(DateTimeInterface $joinedAt): self
+    {
+        $this->joinedAt = $joinedAt;
+
+        return $this;
     }
 }

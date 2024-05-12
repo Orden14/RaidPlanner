@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\GuildEventRelationalPropertiesTrait;
+use App\Enum\GuildEventStatusEnum;
 use App\Enum\GuildEventTypeEnum;
 use App\Repository\GuildEventRepository;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GuildEventRepository::class)]
 class GuildEvent
 {
+    use GuildEventRelationalPropertiesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,10 +31,23 @@ class GuildEvent
     private ?DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    private ?GuildEventTypeEnum $type = null;
+    private ?string $type = GuildEventTypeEnum::GUILDRAID->value;
 
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
+
+    #[ORM\Column]
+    private bool $oldMembersAllowed = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = GuildEventStatusEnum::OPEN->value;
+
+    public function __construct()
+    {
+        $this->eventEncounters = new ArrayCollection();
+        $this->nonPlayerSlots = new ArrayCollection();
+        $this->combatLogs = new ArrayCollection();
+    }
 
     final public function getId(): ?int
     {
@@ -72,14 +90,14 @@ class GuildEvent
         return $this;
     }
 
-    final public function getType(): ?GuildEventTypeEnum
+    final public function getType(): GuildEventTypeEnum
     {
-        return $this->type;
+        return GuildEventTypeEnum::from($this->type);
     }
 
     final public function setType(GuildEventTypeEnum $type): self
     {
-        $this->type = $type;
+        $this->type = $type->value;
 
         return $this;
     }
@@ -92,6 +110,30 @@ class GuildEvent
     final public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    final public function isOldMembersAllowed(): bool
+    {
+        return $this->oldMembersAllowed;
+    }
+
+    final public function setOldMembersAllowed(bool $oldMembersAllowed): self
+    {
+        $this->oldMembersAllowed = $oldMembersAllowed;
+
+        return $this;
+    }
+
+    final public function getStatus(): ?GuildEventStatusEnum
+    {
+        return GuildEventStatusEnum::from($this->status);
+    }
+
+    final public function setStatus(GuildEventStatusEnum $status): self
+    {
+        $this->status = $status->value;
 
         return $this;
     }

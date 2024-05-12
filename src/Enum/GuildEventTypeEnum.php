@@ -22,4 +22,13 @@ enum GuildEventTypeEnum: string
             self::IRL => 'Irl',
         };
     }
+
+    public static function getMaxPlayersByType(self $eventType): int
+    {
+        return match($eventType) {
+            self::GUILDRAID, self::RAID, self::STRIKE => 10,
+            self::FRACTAL, self::DUNGEON => 5,
+            self::IRL => 0,
+        };
+    }
 }
