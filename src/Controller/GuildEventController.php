@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\GuildEvent;
-use App\Enum\EventSlotTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
-use App\Repository\EventSlotRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,14 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted(RolesEnum::MEMBER->value)]
+#[IsGranted(RolesEnum::OLD_MEMBER->value)]
 #[Route('/event', name: 'guild_event_')]
 class GuildEventController extends AbstractController
 {
     public function __construct(
         private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly EventSlotRepository $guildEventSlotRepository
     ) {}
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
@@ -61,11 +58,10 @@ class GuildEventController extends AbstractController
     {
         return $this->render('guild_event/show.html.twig', [
             'guild_event' => $guildEvent,
-            'backups' => $this->guildEventSlotRepository->findByEventIdAndType($guildEvent->getId(), EventSlotTypeEnum::BACKUP),
-            'absents' => $this->guildEventSlotRepository->findByEventIdAndType($guildEvent->getId(), EventSlotTypeEnum::ABSENT),
         ]);
     }
 
+    #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, GuildEvent $guildEvent): Response
     {

@@ -3,7 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventSlot;
+use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Enum\GuildEventTypeEnum;
 use App\Repository\EncounterRepository;
 use DateTime;
@@ -32,12 +33,15 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($guildEvent);
 
-        $encounter = $this->encounterRepository->find(1);
+        $eventEncounter = (new EventEncounter())
+            ->setGuildEvent($guildEvent)
+            ->setEncounter($this->encounterRepository->find(1));
+
+        $manager->persist($eventEncounter);
 
         for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
-            $eventSlot = (new EventSlot())
-                ->setGuildEvent($guildEvent)
-                ->setEncounter($encounter);
+            $eventSlot = (new PlayerSlot())
+                ->setEventEncounter($eventEncounter);
 
             $manager->persist($eventSlot);
         }

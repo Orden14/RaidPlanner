@@ -166,9 +166,7 @@ class BuildController extends AbstractController
             throw $this->createNotFoundException('No build found for id '.$id);
         }
 
-        $status = BuildStatusEnum::getStatusFromValue($statusString);
-
-        $build->setStatus($status);
+        $build->setStatus(BuildStatusEnum::from($statusString));
         $this->entityManager->flush();
 
         return $this->redirectToRoute('build_show', ['id' => $id], Response::HTTP_SEE_OTHER);

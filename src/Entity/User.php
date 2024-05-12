@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Entity\GuildEventRelation\EventSlot;
+use App\Entity\Trait\UserGuildEventPropertiesTrait;
 use App\Enum\RolesEnum;
 use App\Repository\UserRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -17,6 +19,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use UserGuildEventPropertiesTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -40,15 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    /**
-     * @var Collection<int, EventSlot>
-     */
-    #[ORM\OneToMany(targetEntity: EventSlot::class, mappedBy: 'player')]
-    private Collection $eventSlots;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?DateTimeInterface $joinedAt;
 
     public function __construct()
     {
-        $this->eventSlots = new ArrayCollection();
+        $this->playerSlots = new ArrayCollection();
+        $this->nonPlayerSlots = new ArrayCollection();
+        $this->joinedAt = new DateTime();
     }
 
     final public function getId(): ?int
@@ -113,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     final public function getRole(): RolesEnum
     {
-        return RolesEnum::getRoleFromValue(reset($this->roles));
+        return RolesEnum::from(reset($this->roles));
     }
 
     final public function setRole(RolesEnum $role): self
@@ -147,29 +150,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     }
 
-    /**
-     * @return Collection<int, EventSlot>
-     */
-    final public function getEventSlots(): Collection
+    final public function getJoinedAt(): DateTimeInterface
     {
-        return $this->eventSlots;
+        return $this->joinedAt;
     }
 
-    final public function addEventSlot(EventSlot $eventSlot): self
+    final public function setJoinedAt(DateTimeInterface $joinedAt): self
     {
-        if (!$this->eventSlots->contains($eventSlot)) {
-            $this->eventSlots->add($eventSlot);
-            $eventSlot->setPlayer($this);
-        }
-
-        return $this;
-    }
-
-    final public function removeEventSlot(EventSlot $eventSlot): self
-    {
-        if ($this->eventSlots->removeElement($eventSlot) && $eventSlot->getPlayer() === $this) {
-            $eventSlot->setPlayer(null);
-        }
+        $this->joinedAt = $joinedAt;
 
         return $this;
     }

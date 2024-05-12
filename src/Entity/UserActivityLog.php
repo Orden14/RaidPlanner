@@ -38,7 +38,7 @@ class UserActivityLog
 
     final public function getType(): ?UserActivityLogTypeEnum
     {
-        return UserActivityLogTypeEnum::getLogTypeFromValue($this->type);
+        return UserActivityLogTypeEnum::from($this->type);
     }
 
     final public function setType(UserActivityLogTypeEnum $type): self

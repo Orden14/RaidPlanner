@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Trait\GuildEventRelationalPropertiesTrait;
+use App\Enum\GuildEventStatusEnum;
 use App\Enum\GuildEventTypeEnum;
 use App\Repository\GuildEventRepository;
 use DateTimeInterface;
@@ -38,9 +39,13 @@ class GuildEvent
     #[ORM\Column]
     private bool $oldMembersAllowed = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $status = GuildEventStatusEnum::OPEN->value;
+
     public function __construct()
     {
-        $this->eventSlots = new ArrayCollection();
+        $this->eventEncounters = new ArrayCollection();
+        $this->nonPlayerSlots = new ArrayCollection();
         $this->combatLogs = new ArrayCollection();
     }
 
@@ -87,7 +92,7 @@ class GuildEvent
 
     final public function getType(): GuildEventTypeEnum
     {
-        return GuildEventTypeEnum::getEventTypeFromValue($this->type);
+        return GuildEventTypeEnum::from($this->type);
     }
 
     final public function setType(GuildEventTypeEnum $type): self
@@ -109,7 +114,7 @@ class GuildEvent
         return $this;
     }
 
-    final public function areOldMembersAllowed(): bool
+    final public function isOldMembersAllowed(): bool
     {
         return $this->oldMembersAllowed;
     }
@@ -117,6 +122,18 @@ class GuildEvent
     final public function setOldMembersAllowed(bool $oldMembersAllowed): self
     {
         $this->oldMembersAllowed = $oldMembersAllowed;
+
+        return $this;
+    }
+
+    final public function getStatus(): ?GuildEventStatusEnum
+    {
+        return GuildEventStatusEnum::from($this->status);
+    }
+
+    final public function setStatus(GuildEventStatusEnum $status): self
+    {
+        $this->status = $status->value;
 
         return $this;
     }
