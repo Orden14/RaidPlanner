@@ -2,21 +2,56 @@
     {% set can_user_signup = not does_user_already_have_slot(event_encounter.id) %}
     {% set invalid_slots = 0 %}
 
-    <div class="row border rounded mt-3 ms-1 me-1 p-3">
-        <h3>{{ event_encounter.encounter.name }} <a href="#" class="text-decoration-none custom-link-primary"><span class="small-head-text">modifier</span></a></h3>
+    <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-3 overflow-auto">
+        <h3>{{ event_encounter.encounter.name }} {% if is_granted('ROLE_MEMBER') %} <a href="#" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
         <hr>
         <ul class="list-group list-group-flush">
             {% for player_slot in event_encounter.playerSlots %}
                 {% if player_slot.build %}
-                    <li class="list-group-item">
-                        <span>IconPlaceHolder</span>
-                        <span>{{ player_slot.build.name }}</span>
-                        <span>{{ player_slot.player.username ?? ''}}</span>
-                        {% if player_slot.player is null and can_user_signup %}
-                            <a class="custom-link-primary text-decoration-none" href="{{ path('player_slot_assign', {'eventEncounter': event_encounter.id, 'playerSlot': player_slot.id}) }}"><i class="bi bi-box-arrow-in-right"></i> prendre le slot</a>
-                        {% elseif player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
-                            <a class="link-danger text-decoration-none" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
-                        {% endif %}
+                    <li class="list-group-item text-nowrap">
+                        <div class="row">
+                            <div class="col">
+                                {% if player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
+                                    <a class="link-danger text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
+                                {% elseif player_slot.player is null and can_user_signup %}
+                                    <a class="custom-link-primary text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_assign', {'eventEncounter': event_encounter.id, 'playerSlot': player_slot.id}) }}" title="Prendre le slot"><i class="bi bi-box-arrow-in-right"></i></a>
+                                {% endif %}
+
+                                {% if player_slot.tank == true %}
+                                    <span class="me-1">
+                                        <img src="{{ asset('/guild_event/tank.png') }}" alt="Tank icon" title="Tank" class="small-icon">
+                                    </span>
+                                {% endif %}
+
+                                {% if player_slot.player is not null %}
+                                    <span class="me-3 ge-text {{ player_slot.player.username == app.user.username ? 'custom-link-primary' : ''}}">
+                                        <img class="small-icon rounded-circle" src="{{ asset('profile_picture/' ~ player_slot.player.profilePicture) }}" alt="Profile">
+                                        {{ player_slot.player.username }}
+                                    </span>
+                                {% endif %}
+
+                                {% if player_slot.player is not null %}
+                                    </div>
+                                    <div class="col-auto">
+                                {% endif %}
+
+                                <span>
+                                    <a href="{{ path('build_show', {'id': player_slot.build.id}) }}" title="{{ player_slot.build.name }}" class="text-decoration-none" style="color: {{ player_slot.build.specialization.job.color }}">
+                                        <img src="{{ asset('/icon/' ~ player_slot.build.specialization.icon) }}" alt="{{ player_slot.build.specialization.name }} icon" title="{{ player_slot.build.specialization.name }}" class="small-icon">
+                                        {{ player_slot.build.name }}
+                                    </a>
+                                </span>
+
+                                <span>
+                                    {% for category in player_slot.build.categories %}
+                                        <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
+                                    {% endfor %}
+                                </span>
+
+                                {% if player_slot.player is not null %}
+                                    </div>
+                                {% endif %}
+                        </div>
                     </li>
                 {% else %}
                     {% set invalid_slots = invalid_slots + 1 %}
@@ -24,7 +59,7 @@
             {% endfor %}
         </ul>
         {% if invalid_slots > 0 %}
-            <span class="mt-2"><i class="bi bi-exclamation-diamond text-warning"></i> Attention : il y a {{ invalid_slots }} slots invalides. Vous devez assigner un build à chaque slot.</span>
+            <span class="mt-3"><i class="bi bi-exclamation-diamond text-warning"></i> Attention : il y a {{ invalid_slots }} {{ invalid_slots == 1 ? 'slot invalide' : 'slots invalides' }}. Vous devez assigner un build à chaque slot.</span>
         {% endif %}
     </div>
 {% endfor %}

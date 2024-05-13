@@ -21,7 +21,7 @@ class PlayerSlotExtension extends AbstractExtension
     final public function getFunctions(): array
     {
         return [
-            new TwigFunction('does_user_already_have_slot', [$this, 'doesUserAlreadyHaveSlot']),
+            new TwigFunction('does_user_already_have_slot', $this->doesUserAlreadyHaveSlot(...)),
         ];
     }
 

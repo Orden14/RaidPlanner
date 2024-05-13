@@ -15,7 +15,7 @@ class BuildStatusExtension extends AbstractExtension
     final public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_status_style_class_name', [$this, 'getStatusStyleClassName']),
+            new TwigFunction('get_status_style_class_name', $this->getStatusStyleClassName(...)),
         ];
     }
 

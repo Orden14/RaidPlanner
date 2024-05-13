@@ -37,25 +37,31 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($guildEvent);
 
-        $eventEncounter = (new EventEncounter())
-            ->setGuildEvent($guildEvent)
-            ->setEncounter($this->encounterRepository->find(1));
+        for ($y = 0; $y < 2; $y++) {
+            $eventEncounter = (new EventEncounter())
+                ->setGuildEvent($guildEvent)
+                ->setEncounter($this->encounterRepository->find($y + 1));
 
-        $manager->persist($eventEncounter);
+            $manager->persist($eventEncounter);
 
-        for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
-            $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
+            for ($i = 1; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()) + 1; $i++) {
+                $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
 
-            if ($i <= 5 && $i !== 0) {
-                $eventSlot->setBuild($this->buildRepository->find($i));
+                if ($i === 1) {
+                    $eventSlot->setTank(true);
+                }
+
+                if ($i <= 5) {
+                    $eventSlot->setPlayer($this->userRepository->find($i))
+                        ->setBuild($this->buildRepository->find($i));
+                }
+
+                if ($i > 5 && $i !== GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType())) {
+                    $eventSlot->setBuild($this->buildRepository->find($i));
+                }
+
+                $manager->persist($eventSlot);
             }
-
-            if ($i > 5) {
-                $eventSlot->setPlayer($this->userRepository->find($i))
-                    ->setBuild($this->buildRepository->find($i));
-            }
-
-            $manager->persist($eventSlot);
         }
 
         $manager->flush();
