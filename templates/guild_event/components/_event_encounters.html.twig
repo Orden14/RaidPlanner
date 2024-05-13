@@ -1,27 +1,30 @@
 {% for event_encounter in event_encounters %}
+    {% set can_user_signup = not does_user_already_have_slot(event_encounter.id) %}
+    {% set invalid_slots = 0 %}
+
     <div class="row border rounded mt-3 ms-1 me-1 p-3">
-        <h3>{{ event_encounter.encounter.name }}</h3>
+        <h3>{{ event_encounter.encounter.name }} <a href="#" class="text-decoration-none custom-link-primary"><span class="small-head-text">modifier</span></a></h3>
         <hr>
-        <table>
-            <caption class ="d-none">Display encounter {{ event_encounter.encounter.name }}</caption>
-            <thead class="d-none">
-            <tr>
-                <th>Slot</th>
-                <th>Action</th>
-                <th>Player</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
+        <ul class="list-group list-group-flush">
             {% for player_slot in event_encounter.playerSlots %}
-                <tr>
-                    <td>IconPlaceHolder</td>
-                    <td>{{ player_slot.build.name ?? 'No build'}}</td>
-                    <td>{{ player_slot.player.username ?? 'Free slot'}}</td>
-                    <td>S'inscrire</td>
-                </tr>
+                {% if player_slot.build %}
+                    <li class="list-group-item">
+                        <span>IconPlaceHolder</span>
+                        <span>{{ player_slot.build.name }}</span>
+                        <span>{{ player_slot.player.username ?? ''}}</span>
+                        {% if player_slot.player is null and can_user_signup %}
+                            <a class="custom-link-primary text-decoration-none" href="{{ path('player_slot_assign', {'eventEncounter': event_encounter.id, 'playerSlot': player_slot.id}) }}"><i class="bi bi-box-arrow-in-right"></i> prendre le slot</a>
+                        {% elseif player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
+                            <a class="link-danger text-decoration-none" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    {% set invalid_slots = invalid_slots + 1 %}
+                {% endif %}
             {% endfor %}
-            </tbody>
-        </table>
+        </ul>
+        {% if invalid_slots > 0 %}
+            <span class="mt-2"><i class="bi bi-exclamation-diamond text-warning"></i> Attention : il y a {{ invalid_slots }} slots invalides. Vous devez assigner un build à chaque slot.</span>
+        {% endif %}
     </div>
 {% endfor %}

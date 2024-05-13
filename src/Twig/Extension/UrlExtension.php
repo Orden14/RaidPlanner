@@ -7,6 +7,9 @@ use Twig\TwigFilter;
 
 class UrlExtension extends AbstractExtension
 {
+    /**
+     * @return TwigFilter[]
+     */
     final public function getFilters(): array
     {
         return [

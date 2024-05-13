@@ -9,6 +9,9 @@ use Twig\TwigFunction;
 
 class BuildStatusExtension extends AbstractExtension
 {
+    /**
+     * @return TwigFunction[]
+     */
     final public function getFunctions(): array
     {
         return [

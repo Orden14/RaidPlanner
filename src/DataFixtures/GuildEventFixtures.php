@@ -46,7 +46,11 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
             $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
 
-            if ($i < 5) {
+            if ($i <= 5 && $i !== 0) {
+                $eventSlot->setBuild($this->buildRepository->find($i));
+            }
+
+            if ($i > 5) {
                 $eventSlot->setPlayer($this->userRepository->find($i))
                     ->setBuild($this->buildRepository->find($i));
             }

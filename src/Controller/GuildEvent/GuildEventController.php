@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Enum\RolesEnum;

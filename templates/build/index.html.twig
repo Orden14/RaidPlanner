@@ -104,8 +104,8 @@
                         <span>{{ build.benchmark }}</span>
                     </td>
                     <td>
-                        <div class="{{ get_status_style_class_name(build.status) }} align-middle" title="{{ build.status }}"></div>
-                        <span class="d-none">{{ build.status }}</span>
+                        <div class="{{ get_status_style_class_name(build.status.value) }} align-middle" title="{{ build.status.value }}"></div>
+                        <span class="d-none">{{ build.status.value }}</span>
                     </td>
                     <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
                     <td class="text-center">{{ link != '#' ? ('<a href="' ~ link ~ '"> ' ~ '<i class="bi bi-box-arrow-up-right"></i>' ~  '</a>')|raw : '<i class="bi bi-ban"></i>' }}</td>

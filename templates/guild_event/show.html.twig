@@ -5,7 +5,6 @@
 
     <div class="row border rounded ms-1 me-1 p-3">
         <h2>{{ guild_event.title }}  <span class="small-head-text">Le {{ guild_event.start|date('d') }} {{ ('month_names.' ~ guild_event.start|date('F'))|trans }} de {{ guild_event.start|date('H\\hi') }} à {{ guild_event.end|date('H\\hi') }}</span></h2>
-        <hr>
         {{ include('guild_event/components/_toolbar.html.twig') }}
 
         <p></p>

@@ -4,7 +4,7 @@
         {% if guild_event.status.value != "Ouvert" %}
             <a href="#" class="btn btn-success" title="Passer ouvert"><i class="bi bi-bookmark-check"></i></a>
         {% else %}
-            <a href="#" class="btn btn-warning" title="Annuler l'évènement"><i class="bi bi-x-octagon"></i></a>
+            <a href="#" class="btn btn-warning" title="Annuler l'évènement"><i class="bi bi-ban"></i></a>
         {% endif %}
         <div class="float-end">
             {% if is_granted("ROLE_ADMIN") %}
