@@ -6,7 +6,9 @@ use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Enum\GuildEventTypeEnum;
+use App\Repository\BuildRepository;
 use App\Repository\EncounterRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -15,7 +17,9 @@ use Doctrine\Persistence\ObjectManager;
 class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly EncounterRepository $encounterRepository
+        private readonly UserRepository $userRepository,
+        private readonly BuildRepository $buildRepository,
+        private readonly EncounterRepository $encounterRepository,
     ) {}
 
     final public function load(ObjectManager $manager): void
@@ -40,8 +44,12 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($eventEncounter);
 
         for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
-            $eventSlot = (new PlayerSlot())
-                ->setEventEncounter($eventEncounter);
+            $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
+
+            if ($i < 5) {
+                $eventSlot->setPlayer($this->userRepository->find($i))
+                    ->setBuild($this->buildRepository->find($i));
+            }
 
             $manager->persist($eventSlot);
         }
@@ -56,6 +64,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            BuildFixtures::class,
             EncounterFixtures::class
         ];
     }

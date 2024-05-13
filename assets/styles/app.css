@@ -65,3 +65,8 @@ label.required:after {
     content: " *";
     color: rgb(255, 0, 0);
 }
+
+.small-head-text {
+    font-size: 1rem;
+    padding-left: 5px;
+}

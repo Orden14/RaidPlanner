@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\GuildEvent;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
+use App\Repository\NonPlayerSlotRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,7 @@ class GuildEventController extends AbstractController
     public function __construct(
         private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
+        private readonly NonPlayerSlotRepository $nonPlayerSlotRepository
     ) {}
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
@@ -56,8 +58,12 @@ class GuildEventController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     final public function show(GuildEvent $guildEvent): Response
     {
+
         return $this->render('guild_event/show.html.twig', [
             'guild_event' => $guildEvent,
+            'event_encounters' => $guildEvent->getEventEncounters(),
+            'backups' => $this->nonPlayerSlotRepository->findBackupsByEvent($guildEvent->getId()),
+            'absents' => $this->nonPlayerSlotRepository->findAbsentsByEvent($guildEvent->getId()),
         ]);
     }
 

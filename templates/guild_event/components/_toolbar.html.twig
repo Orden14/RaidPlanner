@@ -1,0 +1,20 @@
+{% if is_granted("ROLE_MEMBER") %}
+    <div class="mt-2 bg-dark-subtle p-2 border rounded-1 mb-3">
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEventModal" title="Modifier"><i class="bi bi-pencil h5"></i></a>
+        {% if guild_event.status.value != "Ouvert" %}
+            <a href="#" class="btn btn-success" title="Passer ouvert"><i class="bi bi-bookmark-check"></i></a>
+        {% else %}
+            <a href="#" class="btn btn-warning" title="Annuler l'évènement"><i class="bi bi-x-octagon"></i></a>
+        {% endif %}
+        <div class="float-end">
+            {% if is_granted("ROLE_ADMIN") %}
+                <form id="delete{{ guild_event.id }}" method="post" action="{{ path('guild_event_delete', {'id': guild_event.id}) }}" data-controller="confirm">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ guild_event.id) }}">
+                    <a type="button" class="btn btn-danger" id="{{ guild_event.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
+                        <i class="bi bi-trash h5"></i>
+                    </a>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

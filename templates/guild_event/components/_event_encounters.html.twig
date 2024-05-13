@@ -1,0 +1,27 @@
+{% for event_encounter in event_encounters %}
+    <div class="row border rounded mt-3 ms-1 me-1 p-3">
+        <h3>{{ event_encounter.encounter.name }}</h3>
+        <hr>
+        <table>
+            <caption class ="d-none">Display encounter {{ event_encounter.encounter.name }}</caption>
+            <thead class="d-none">
+            <tr>
+                <th>Slot</th>
+                <th>Action</th>
+                <th>Player</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for player_slot in event_encounter.playerSlots %}
+                <tr>
+                    <td>IconPlaceHolder</td>
+                    <td>{{ player_slot.build.name ?? 'No build'}}</td>
+                    <td>{{ player_slot.player.username ?? 'Free slot'}}</td>
+                    <td>S'inscrire</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
