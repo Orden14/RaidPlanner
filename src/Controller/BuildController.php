@@ -144,6 +144,9 @@ class BuildController extends AbstractController
     final public function delete(Request $request, Build $build): Response
     {
         if ($this->isCsrfTokenValid('delete'.$build->getId(), $request->getPayload()->get('_token'))) {
+            foreach ($build->getPlayerSlots() as $playerSlot) {
+                $playerSlot->setBuild(null);
+            }
             $this->entityManager->remove($build);
             $this->entityManager->flush();
         }

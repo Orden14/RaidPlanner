@@ -1,3 +1,45 @@
 .ge-slot-icon {
   font-size: 1.5rem;
 }
+
+.ge-horizontal-center {
+  display: flex;
+  align-items: center;
+}
+
+.ge-md-horizontal-center {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .ge-secondary-text {
+    font-size: 0.8rem !important;
+  }
+
+  .ge-secondary-img {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .ge-md-horizontal-center {
+    display: block;
+    align-items: center;
+  }
+}
+
+@-webkit-keyframes redShade {
+  0% {
+    color: #701010;
+  }
+  50% {
+    color: #970303;
+  }
+  100% {
+    color: #701010;
+  }
+}
+
+.ge-txt-blocked {
+  -webkit-animation: redShade 1s infinite;
+}

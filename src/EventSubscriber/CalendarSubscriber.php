@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\GuildEvent;
+use App\Enum\GuildEventStatusEnum;
 use App\Repository\GuildEventRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
@@ -39,19 +40,27 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             ->setParameter('start', $start->format('Y-m-d H:i:s'))
             ->setParameter('end', $end->format('Y-m-d H:i:s'))
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
 
         foreach ($guildEvents as $guildEvent) {
+            $title = $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
+                ? $guildEvent->getTitle()
+                : "{$guildEvent->getTitle()} ({$guildEvent->getStatus()->value})";
+
             $event = new Event(
-                $guildEvent->getTitle(),
+                $title,
                 $guildEvent->getStart(),
-                $guildEvent->getEnd()
+                $guildEvent->getEnd(),
             );
 
+            $backgroundColor = $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
+                ? $guildEvent->getColor()
+                : '#701010';
+
             $event->setOptions([
-                'backgroundColor' => $guildEvent->getColor(),
-                'borderColor' => $guildEvent->getColor(),
+                'backgroundColor' => $backgroundColor,
+                'borderColor' => $backgroundColor,
+                'description' => 'wiwiwi',
             ]);
 
             $event->addOption(

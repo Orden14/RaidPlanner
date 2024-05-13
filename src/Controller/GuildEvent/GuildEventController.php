@@ -3,6 +3,7 @@
 namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
+use App\Enum\GuildEventStatusEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
 use App\Repository\NonPlayerSlotRepository;
@@ -77,5 +78,18 @@ class GuildEventController extends AbstractController
         }
 
         return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted(RolesEnum::ADMIN->value)]
+    #[Route('/toggle/{id}', name: 'toggle_status', methods: ['GET', 'POST'])]
+    final public function toggleStatus(GuildEvent $guildEvent): Response
+    {
+        $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
+            ? $guildEvent->setStatus(GuildEventStatusEnum::CANCELLED)
+            : $guildEvent->setStatus(GuildEventStatusEnum::OPEN);
+
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
     }
 }
