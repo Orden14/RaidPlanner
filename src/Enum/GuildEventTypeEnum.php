@@ -9,7 +9,6 @@ enum GuildEventTypeEnum: string
     case STRIKE = 'Strike';
     case FRACTAL = 'Fractal';
     case DUNGEON = 'Dungeon';
-    case IRL = 'Irl';
 
     public static function getEventDisplayName(self $eventType): string
     {
@@ -19,7 +18,6 @@ enum GuildEventTypeEnum: string
             self::STRIKE => 'Strike',
             self::FRACTAL => 'Fractale',
             self::DUNGEON => 'Donjon',
-            self::IRL => 'Irl',
         };
     }
 
@@ -28,7 +26,6 @@ enum GuildEventTypeEnum: string
         return match ($eventType) {
             self::GUILDRAID, self::RAID, self::STRIKE => 10,
             self::FRACTAL, self::DUNGEON => 5,
-            self::IRL => 0,
         };
     }
 }
