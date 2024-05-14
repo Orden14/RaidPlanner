@@ -90,6 +90,10 @@ class GuildEventController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, GuildEvent $guildEvent): Response
     {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(GuildEventType::class, $guildEvent);
         $form->handleRequest($request);
 
@@ -110,10 +114,7 @@ class GuildEventController extends AbstractController
         $formErrors = $form->getErrors(true, false);
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
-        return $this->render('build/show.html.twig', [
-            'form' => $form->createView(),
-            'guild_event' => $guildEvent,
-        ]);
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[IsGranted(RolesEnum::ADMIN->value)]
@@ -128,10 +129,14 @@ class GuildEventController extends AbstractController
         return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[IsGranted(RolesEnum::ADMIN->value)]
+    #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/toggle/{id}', name: 'toggle_status', methods: ['GET', 'POST'])]
     final public function toggleStatus(GuildEvent $guildEvent): Response
     {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
             ? $guildEvent->setStatus(GuildEventStatusEnum::CANCELLED)
             : $guildEvent->setStatus(GuildEventStatusEnum::OPEN);

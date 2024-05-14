@@ -1,10 +1,12 @@
+{% set can_edit_encounter = is_granted("ROLE_ADMIN") or (guild_event.type.value != "Guild Raid" and is_granted("ROLE_MEMBER")) %}
+
 {% for event_encounter in event_encounters %}
     {% set can_user_signup = not does_user_already_have_slot(event_encounter.id) %}
     {% set invalid_slots = 0 %}
 
     <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-0 overflow-auto">
         <div class="pt-3 ps-0 pe-0">
-            <h3 class="ps-3">{{ event_encounter.encounter.name }} {% if is_granted('ROLE_MEMBER') %} <a href="{{ path('guild_event_encounter_edit', {'id': event_encounter.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
+            <h3 class="ps-3">{{ event_encounter.encounter.instance.tag }} - {{ event_encounter.encounter.name }} {% if can_edit_encounter == true %} <a href="{{ path('guild_event_encounter_edit', {'id': event_encounter.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
             <hr>
         </div>
         <div class="ps-4 pe-4 pb-3">
@@ -63,7 +65,7 @@
             </ul>
         {% if invalid_slots > 0 %}
             <div class="mt-4">
-                <span><i class="bi bi-exclamation-diamond text-warning"></i> Attention : il y a {{ invalid_slots }} {{ invalid_slots == 1 ? 'slot invalide' : 'slots invalides' }}. Vous devez assigner un build à chaque slot.</span>
+                <span><i class="bi bi-exclamation-diamond text-warning"></i> Attention : il y a {{ invalid_slots }} {{ invalid_slots == 1 ? 'slot invalide' : 'slots invalides' }}. Un build doit être assigné à chaque slot.</span>
             </div>
         {% endif %}
         </div>
@@ -74,7 +76,7 @@
     </div>
 {% endfor %}
 
-{% if is_granted('ROLE_MEMBER') %}
+{% if can_edit_encounter == true %}
     <div class="row justify-content-center mt-4">
         <a href="#" class="text-decoration-none custom-link-primary h6" data-bs-toggle="modal" data-bs-target="#newEventEncounterModal" title="Ajouter un combat"><i class="bi bi-plus-lg"></i> Ajouter un combat</a>
     </div>

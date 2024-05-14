@@ -1,12 +1,12 @@
-{% if is_granted("ROLE_MEMBER") %}
+{% if is_granted("ROLE_ADMIN") or (guild_event.type.value != "Guild Raid" and is_granted("ROLE_MEMBER")) %}
     <div class="mt-2 bg-dark-subtle p-2 border rounded-1 mb-3 d-inline-flex">
         <a href="#" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#manageGuildEventModal" title="Modifier"><i class="bi bi-pencil h5"></i></a>
+        {% if guild_event.status.value != "Ouvert" %}
+            <a href="{{ path('guild_event_toggle_status', {'id': guild_event.id}) }}" class="btn btn-success me-1" title="Passer ouvert"><i class="bi bi-bookmark-check h5"></i></a>
+        {% else %}
+            <a href="{{ path('guild_event_toggle_status', {'id': guild_event.id}) }}" class="btn btn-warning me-1" title="Annuler l'évènement"><i class="bi bi-ban h5"></i></a>
+        {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
-            {% if guild_event.status.value != "Ouvert" %}
-                <a href="{{ path('guild_event_toggle_status', {'id': guild_event.id}) }}" class="btn btn-success me-1" title="Passer ouvert"><i class="bi bi-bookmark-check h5"></i></a>
-            {% else %}
-                <a href="{{ path('guild_event_toggle_status', {'id': guild_event.id}) }}" class="btn btn-warning me-1" title="Annuler l'évènement"><i class="bi bi-ban h5"></i></a>
-            {% endif %}
             <form id="delete{{ guild_event.id }}" method="post" action="{{ path('guild_event_delete', {'id': guild_event.id}) }}" data-controller="confirm">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ guild_event.id) }}">
                 <a type="button" class="btn btn-danger" id="{{ guild_event.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">

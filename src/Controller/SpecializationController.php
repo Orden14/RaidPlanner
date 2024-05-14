@@ -127,7 +127,7 @@ class SpecializationController extends AbstractController
         $formErrors = $form->getErrors(true, false);
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
-        return $this->render('edit_event_encounter.html.twig', [
+        return $this->render('specialization/edit.html.twig', [
             'form' => $form->createView(),
             'specialization' => $specialization
         ]);

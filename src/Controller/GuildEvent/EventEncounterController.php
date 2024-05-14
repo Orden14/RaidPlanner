@@ -4,10 +4,10 @@ namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
-use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Enum\GuildEventTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEvent\EventEncounterType;
+use App\Service\GuildEvent\SlotService;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,13 +23,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventEncounterController extends AbstractController
 {
     public function __construct(
+        private readonly SlotService            $slotService,
+        private readonly EntityManagerInterface $entityManager,
         private readonly FormFlashHelper        $formFlashHelper,
-        private readonly EntityManagerInterface $entityManager
     ) {}
 
     #[Route('/add/{guildEvent}', name: 'add', methods: ['GET', 'POST'])]
     final public function addToEvent(Request $request, GuildEvent $guildEvent): Response
     {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         $eventEncounter = (new EventEncounter())->setGuildEvent($guildEvent);
         $form = $this->createForm(EventEncounterType::class, $eventEncounter);
         $form->handleRequest($request);
@@ -37,15 +42,8 @@ class EventEncounterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($eventEncounter);
             $this->entityManager->flush();
+            $this->slotService->createSlotsForEncounter($eventEncounter, $this->slotService->getPlayerSlotsFromForm($form));
 
-            for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
-                /** @var PlayerSlot $playerSlot */
-                $playerSlot = $form->get("playerSlot$i")->getData();
-                $playerSlot->setEventEncounter($eventEncounter);
-                $this->entityManager->persist($playerSlot);
-            }
-
-            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
@@ -67,6 +65,12 @@ class EventEncounterController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function editForEvent(Request $request, EventEncounter $eventEncounter): Response
     {
+        /** @var GuildEvent $guildEvent */
+        $guildEvent = $eventEncounter->getGuildEvent();
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(EventEncounterType::class, $eventEncounter);
         $form->handleRequest($request);
 
