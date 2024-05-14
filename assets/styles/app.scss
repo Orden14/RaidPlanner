@@ -17,6 +17,14 @@
     border-color: var(--primary-focus-color) !important;
 }
 
+.custom-link-primary {
+    color: var(--primary-color) !important;
+}
+
+.custom-link-primary:hover {
+    color: var(--primary-focus-color) !important;
+}
+
 form .form-control:focus{
     border-color: var(--primary-color) !important;
     box-shadow: 0 0 0 0.2rem rgba(34, 163, 159, 0.1) !important;
@@ -64,4 +72,9 @@ input[type="color"] {
 label.required:after {
     content: " *";
     color: rgb(255, 0, 0);
+}
+
+.small-head-text {
+    font-size: 1rem;
+    padding-left: 5px;
 }

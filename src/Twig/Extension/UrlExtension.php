@@ -7,11 +7,14 @@ use Twig\TwigFilter;
 
 class UrlExtension extends AbstractExtension
 {
+    /**
+     * @return TwigFilter[]
+     */
     final public function getFilters(): array
     {
         return [
-            new TwigFilter('auto_link', [$this, 'autoLink']),
-            new TwigFilter('shorten_url', [$this, 'shortenUrl'])
+            new TwigFilter('auto_link', $this->autoLink(...)),
+            new TwigFilter('shorten_url', $this->shortenUrl(...))
         ];
     }
 

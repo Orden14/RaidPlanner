@@ -32,7 +32,7 @@ trait BuildRelationalPropertiesTrait
      * @var ?Collection<int, PlayerSlot>
      */
     #[ORM\OneToMany(targetEntity: PlayerSlot::class, mappedBy: 'build')]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Collection $playerSlots;
 
     final public function getSpecialization(): ?Specialization

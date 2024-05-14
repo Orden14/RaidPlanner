@@ -2126,6 +2126,14 @@ datatables.net-bs5@^2, datatables.net-bs5@^2.0.5:
     datatables.net "2.0.7"
     jquery ">=1.7"
 
+datatables.net-responsive@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-responsive/-/datatables.net-responsive-3.0.2.tgz#556edfb6c82dcceb37d65ea5cfecd1ef5e613605"
+  integrity sha512-OVsrTfcYvT8YtnOeCef51veKc+DABVPWOypvID+xFzCgyBDCIgcauTk+H5zItOscXw/CwSIbGN9zD6Sxa7lZPA==
+  dependencies:
+    datatables.net "^2"
+    jquery ">=1.7"
+
 datatables.net-select-bs5@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/datatables.net-select-bs5/-/datatables.net-select-bs5-2.0.2.tgz#25a916efc20f161f41848a285c61f47f042db43f"

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
+use App\Enum\GuildEventStatusEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEventType;
+use App\Repository\NonActiveSlotRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +24,7 @@ class GuildEventController extends AbstractController
     public function __construct(
         private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
+        private readonly NonActiveSlotRepository $nonActiveSlotRepository
     ) {}
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
@@ -56,8 +59,12 @@ class GuildEventController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     final public function show(GuildEvent $guildEvent): Response
     {
+
         return $this->render('guild_event/show.html.twig', [
             'guild_event' => $guildEvent,
+            'event_encounters' => $guildEvent->getEventEncounters(),
+            'backups' => $this->nonActiveSlotRepository->findBackupsByEvent($guildEvent->getId()),
+            'absents' => $this->nonActiveSlotRepository->findAbsentsByEvent($guildEvent->getId()),
         ]);
     }
 
@@ -71,5 +78,18 @@ class GuildEventController extends AbstractController
         }
 
         return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted(RolesEnum::ADMIN->value)]
+    #[Route('/toggle/{id}', name: 'toggle_status', methods: ['GET', 'POST'])]
+    final public function toggleStatus(GuildEvent $guildEvent): Response
+    {
+        $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
+            ? $guildEvent->setStatus(GuildEventStatusEnum::CANCELLED)
+            : $guildEvent->setStatus(GuildEventStatusEnum::OPEN);
+
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
     }
 }

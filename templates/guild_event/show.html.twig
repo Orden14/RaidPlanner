@@ -1,30 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>GuildEvent</h1>
+    <a href="{{ path('calendar_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ guild_event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ guild_event.title }}</td>
-            </tr>
-            <tr>
-                <th>Start</th>
-                <td>{{ guild_event.start ? guild_event.start|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End</th>
-                <td>{{ guild_event.end ? guild_event.end|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row border rounded ms-1 me-1 p-3">
+        <h2>
+            {% if guild_event.status.value == "Annulé" %}
+                <i class="bi bi-ban ge-txt-blocked me-2"> ANNULÉ</i>
+            {% endif %}
+            {{ guild_event.title }} <span class="small-head-text"><i>Le {{ guild_event.start|date('d') }} {{ ('month_names.' ~ guild_event.start|date('F'))|trans }} de {{ guild_event.start|date('H\\hi') }} à {{ guild_event.end|date('H\\hi') }}</i></span>
+        </h2>
+        {{ include('guild_event/components/_toolbar.html.twig') }}
 
-    <a href="#">back to list</a>
+        <p></p>
 
-    <a href="#">edit</a>
+        {{ include('guild_event/components/_event_encounters.html.twig') }}
+    </div>
 {% endblock %}

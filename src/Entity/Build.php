@@ -58,9 +58,9 @@ class Build
         return $this;
     }
 
-    final public function getStatus(): string
+    final public function getStatus(): BuildStatusEnum
     {
-        return $this->status;
+        return BuildStatusEnum::from($this->status);
     }
 
     final public function setStatus(BuildStatusEnum $status): self

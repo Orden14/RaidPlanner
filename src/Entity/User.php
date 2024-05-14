@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->playerSlots = new ArrayCollection();
-        $this->nonPlayerSlots = new ArrayCollection();
+        $this->nonActiveSlots = new ArrayCollection();
         $this->joinedAt = new DateTime();
     }
 

@@ -24,7 +24,7 @@ class JobFixtures extends Fixture
             $manager->persist($this->createJob($jobName, $jobColor));
         }
 
-        $manager->persist($this->createJob('General', '#000000')->setIsDefault(true));
+        $manager->persist($this->createJob('General', '#ffffff')->setIsDefault(true));
 
         $manager->flush();
     }
