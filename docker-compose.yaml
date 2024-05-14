@@ -24,15 +24,6 @@ services:
       PMA_HOST: db
     networks:
       - dev
-  maildev:
-    image: maildev/maildev
-    container_name: maildev_raidplanner
-    restart: no
-    ports:
-      - '1080:1080'
-      - '1025:1025'
-    networks:
-      - dev
 
 networks:
   dev:
