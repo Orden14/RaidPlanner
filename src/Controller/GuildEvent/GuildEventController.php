@@ -56,15 +56,51 @@ class GuildEventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    final public function show(GuildEvent $guildEvent): Response
+    #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
+    final public function show(Request $request, GuildEvent $guildEvent): Response
     {
+        $form = $this->createForm(GuildEventType::class, $guildEvent, [
+            'action' => $this->generateUrl('guild_event_edit', ['id' => $guildEvent->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
 
         return $this->render('guild_event/show.html.twig', [
+            'form' => $form->createView(),
             'guild_event' => $guildEvent,
             'event_encounters' => $guildEvent->getEventEncounters(),
             'backups' => $this->nonActiveSlotRepository->findBackupsByEvent($guildEvent->getId()),
             'absents' => $this->nonActiveSlotRepository->findAbsentsByEvent($guildEvent->getId()),
+        ]);
+    }
+
+    #[IsGranted(RolesEnum::MEMBER->value)]
+    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    final public function edit(Request $request, GuildEvent $guildEvent): Response
+    {
+        $form = $this->createForm(GuildEventType::class, $guildEvent);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                "L'évènement {$guildEvent->getTitle()} a bien été modifié"
+            );
+
+            return $this->redirectToRoute('guild_event_show', [
+                'id' => $guildEvent->getId()
+            ], Response::HTTP_SEE_OTHER);
+        }
+
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
+        return $this->render('build/show.html.twig', [
+            'form' => $form->createView(),
+            'guild_event' => $guildEvent,
         ]);
     }
 

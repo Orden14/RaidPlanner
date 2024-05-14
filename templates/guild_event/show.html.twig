@@ -10,10 +10,13 @@
             {% endif %}
             {{ guild_event.title }} <span class="small-head-text"><i>Le {{ guild_event.start|date('d') }} {{ ('month_names.' ~ guild_event.start|date('F'))|trans }} de {{ guild_event.start|date('H\\hi') }} à {{ guild_event.end|date('H\\hi') }}</i></span>
         </h2>
+
         {{ include('guild_event/components/_toolbar.html.twig') }}
 
         <p></p>
 
         {{ include('guild_event/components/_event_encounters.html.twig') }}
     </div>
+
+    {{ include('guild_event/_modal_manage.html.twig') }}
 {% endblock %}

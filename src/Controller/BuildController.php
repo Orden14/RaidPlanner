@@ -93,7 +93,7 @@ class BuildController extends AbstractController
     final public function show(Request $request, Build $build): Response
     {
         $form = $this->createForm(BuildType::class, $build, [
-            'action' => $this->generateUrl('build_new'),
+            'action' => $this->generateUrl('build_edit', ['id' => $build->getId()]),
             'method' => 'POST',
 
         ]);

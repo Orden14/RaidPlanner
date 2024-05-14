@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             newGuildEvent: {
                 text: "",
                 click: function () {
-                    $('#newGuildEventModal').modal('show');
+                    $('#manageGuildEventModal').modal('show');
 
                     let date = new Date()
                     date.setSeconds(0)
