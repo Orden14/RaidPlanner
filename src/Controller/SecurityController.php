@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Form\RegistrationType;
 use App\Security\AppAuthenticator;
-use App\Service\User\UserService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;

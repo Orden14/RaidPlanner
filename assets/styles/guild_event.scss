@@ -2,12 +2,12 @@
   font-size: 1.5rem;
 }
 
-.ge-horizontal-center {
+.ge-vertical-center {
   display: flex;
   align-items: center;
 }
 
-.ge-md-horizontal-center {
+.ge-md-vertical-center {
   display: inline-flex;
   align-items: center;
 }
@@ -22,7 +22,7 @@
     height: 20px !important;
   }
 
-  .ge-md-horizontal-center {
+  .ge-md-vertical-center {
     display: block;
     align-items: center;
   }

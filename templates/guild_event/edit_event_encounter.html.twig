@@ -9,25 +9,35 @@
                 </div>
                 <div class="card-body">
                     {{ form_start(form) }}
-                    <div class="form-group mb-3">
+                    <div class="form-group mb-5">
                         {{ form_label(form.encounter, null, {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(form.encounter) }}
                     </div>
                     {% for i in 0..(max_player_slots - 1) %}
-                        {% set playerSlot = form['playerSlot' ~ i] %}
-                        <div class="row">
+                        {% set form_player_slot = form['playerSlot' ~ i] %}
+                        <div class="row mb-4 ge-vertical-center">
+                            <div class="form-group col-12 mb-2">
+                                {% if form_player_slot.vars.data.player is not null %}
+                                    <span class="me-3 ge-text {{ form_player_slot.vars.data.player.username == app.user.username ? 'custom-link-primary' : ''}}">
+                                        <img class="small-icon rounded-circle" src="{{ asset('profile_picture/' ~ form_player_slot.vars.data.player.profilePicture) }}" alt="Profile">
+                                        {{ form_player_slot.vars.data.player.username }}
+                                    </span>
+                                {% else %}
+                                    <span>Slot libre</span>
+                                {% endif %}
+                            </div>
                             <div class="form-group col-auto">
-                                {{ form_label(playerSlot.tank, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(playerSlot.tank) }}
+                                {{ form_label(form_player_slot.tank, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form_player_slot.tank) }}
                             </div>
                             <div class="form-group col">
-                                {{ form_label(playerSlot.build, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(playerSlot.build) }}
+                                {{ form_label(form_player_slot.build, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form_player_slot.build) }}
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-                <div class="d-flex justify-content-end mt-2">
+                <div class="d-flex justify-content-end mt-2 mb-3 me-3">
                     <a class="btn btn-secondary me-2" href="{{ path('guild_event_show', {'id': guild_event.id}) }}">Retour</a>
                     <button type="submit" class="btn btn-primary">Modifier</button>
                 </div>
@@ -36,4 +46,3 @@
         </div>
     </div>
 {% endblock %}
-

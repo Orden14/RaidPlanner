@@ -5,8 +5,8 @@ namespace App\Form\GuildEvent;
 use App\Entity\Build;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Repository\BuildRepository;
+use App\Service\BuildDisplayService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,12 +15,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class PlayerSlotType extends AbstractType
 {
     public function __construct(
-        private readonly Packages        $packages,
-        private readonly BuildRepository $buildRepository,
+        private readonly BuildRepository     $buildRepository,
+        private readonly BuildDisplayService $buildDisplayService,
     ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var ?PlayerSlot $playerSlot */
+        $playerSlot = $options['data'];
+
         $builder
             ->add('tank', CheckboxType::class, [
                 'label' => 'Tank',
@@ -33,6 +36,9 @@ final class PlayerSlotType extends AbstractType
                 'label' => false,
                 'class' => Build::class,
                 'choices' => $this->buildRepository->findMetaBuilds(),
+                'placeholder' => 'Aucun build',
+                'data' => $playerSlot?->getBuild(),
+                'required' => false,
                 'choice_label' => 'name',
                 'attr' => [
                     'class' => 'selectpicker',
@@ -42,14 +48,7 @@ final class PlayerSlotType extends AbstractType
                     'data-live-search-placeholder' => 'Rechercher un build...'
                 ],
                 'choice_attr' => function ($build) {
-                    $name = $build->getName();
-                    $iconPath = $this->packages->getUrl('icon/' . $build->getSpecialization()->getIcon());
-                    return ['data-content' => "<img
-                            src='$iconPath'
-                            class='select-icon'
-                            alt='$name icon'
-                            title='$name'
-                        > $name"];
+                    return $this->buildDisplayService->getBuildSelectDisplay($build);
                 }
             ]);
     }

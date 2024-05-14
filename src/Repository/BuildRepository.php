@@ -30,6 +30,7 @@ final class BuildRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->andWhere('b.status = :status')
             ->setParameter('status', BuildStatusEnum::META->value)
+            ->orderBy('b.specialization', 'ASC')
             ->getQuery()
             ->getResult();
     }

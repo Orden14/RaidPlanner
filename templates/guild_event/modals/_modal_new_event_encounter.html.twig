@@ -13,7 +13,7 @@
                 </div>
             {% for i in 0..(max_player_slots - 1) %}
                 {% set playerSlot = form_add_encounter['playerSlot' ~ i] %}
-                <div class="row">
+                <div class="row mb-4 ge-vertical-center">
                     <div class="form-group col-auto">
                         {{ form_label(playerSlot.tank, null, {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(playerSlot.tank) }}

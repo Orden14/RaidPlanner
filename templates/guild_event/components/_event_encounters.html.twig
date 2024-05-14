@@ -13,7 +13,7 @@
                     {% if player_slot.build %}
                         <li class="list-group-item text-nowrap">
                             <div class="row">
-                                <div class="col ge-horizontal-center">
+                                <div class="col ge-vertical-center">
                                     {% if player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
                                         <a class="link-danger text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
                                     {% elseif player_slot.player is null and can_user_signup %}
@@ -35,7 +35,7 @@
 
                                     {% if player_slot.player is not null %}
                                         </div>
-                                        <div class="col-auto ge-md-horizontal-center">
+                                        <div class="col-auto ge-md-vertical-center">
                                     {% endif %}
 
                                     <span class="pe-md-2">
