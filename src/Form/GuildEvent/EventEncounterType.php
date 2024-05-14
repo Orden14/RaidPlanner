@@ -4,6 +4,7 @@ namespace App\Form\GuildEvent;
 
 use App\Entity\Encounter;
 use App\Entity\GuildEventRelation\EventEncounter;
+use App\Enum\GuildEventTypeEnum;
 use App\Repository\EncounterRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,6 +19,9 @@ final class EventEncounterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var EventEncounter $eventEncounter */
+        $eventEncounter = $options['data'];
+
         $builder->add('encounter', EntityType::class, [
             'label' => 'Combat',
             'class' => Encounter::class,
@@ -34,6 +38,14 @@ final class EventEncounterType extends AbstractType
                 return ['data-content' => "{$encounter->getInstance()->getTag()} - {$encounter->getName()}"];
             }
         ]);
+
+        for ($i = 0; $i < GuildEventTypeEnum::getMaxPlayersByType($eventEncounter->getGuildEvent()?->getType()); $i++) {
+            $builder->add("playerSlot$i", PlayerSlotType::class, [
+                'label' => false,
+                'mapped' => false,
+                'data' => $eventEncounter->getPlayerSlots()[$i] ?? null,
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

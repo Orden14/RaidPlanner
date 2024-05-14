@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
+            <div class="card rounded-0">
+                <div class="card-header text-center">
+                    <h5 class="modal-title">Modifier un combat</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="form-group mb-3">
+                        {{ form_label(form.encounter, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.encounter) }}
+                    </div>
+                    {% for i in 0..(max_player_slots - 1) %}
+                        {% set playerSlot = form['playerSlot' ~ i] %}
+                        <div class="row">
+                            <div class="form-group col-auto">
+                                {{ form_label(playerSlot.tank, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(playerSlot.tank) }}
+                            </div>
+                            <div class="form-group col">
+                                {{ form_label(playerSlot.build, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(playerSlot.build) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <a class="btn btn-secondary me-2" href="{{ path('guild_event_show', {'id': guild_event.id}) }}">Retour</a>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

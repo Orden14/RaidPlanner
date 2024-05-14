@@ -4,7 +4,7 @@
 
     <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-0 overflow-auto">
         <div class="pt-3 ps-0 pe-0">
-            <h3 class="ps-3">{{ event_encounter.encounter.name }} {% if is_granted('ROLE_MEMBER') %} <a href="#" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
+            <h3 class="ps-3">{{ event_encounter.encounter.name }} {% if is_granted('ROLE_MEMBER') %} <a href="{{ path('guild_event_encounter_edit', {'id': event_encounter.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
             <hr>
         </div>
         <div class="ps-4 pe-4 pb-3">

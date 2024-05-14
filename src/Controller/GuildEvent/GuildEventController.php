@@ -5,9 +5,10 @@ namespace App\Controller\GuildEvent;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Enum\GuildEventStatusEnum;
+use App\Enum\GuildEventTypeEnum;
 use App\Enum\RolesEnum;
-use App\Form\GuildEvent\EventEncounterType;
 use App\Form\GuildEvent\GuildEventType;
+use App\Form\GuildEvent\EventEncounterType;
 use App\Repository\NonActiveSlotRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,7 +68,8 @@ class GuildEventController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        $formAddEncounter = $this->createForm(EventEncounterType::class, new EventEncounter(), [
+        $eventEncounter = (new EventEncounter())->setGuildEvent($guildEvent);
+        $formAddEncounter = $this->createForm(EventEncounterType::class, $eventEncounter, [
             'action' => $this->generateUrl('guild_event_encounter_add', ['guildEvent' => $guildEvent->getId()]),
             'method' => 'POST'
         ]);
@@ -76,6 +78,7 @@ class GuildEventController extends AbstractController
         return $this->render('guild_event/show.html.twig', [
             'form' => $form->createView(),
             'form_add_encounter' => $formAddEncounter->createView(),
+            'max_player_slots' => GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_encounters' => $guildEvent->getEventEncounters(),
             'backups' => $this->nonActiveSlotRepository->findBackupsByEvent($guildEvent->getId()),
