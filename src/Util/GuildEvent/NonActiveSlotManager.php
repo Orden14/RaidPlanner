@@ -4,26 +4,26 @@ namespace App\Util\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Entity\User;
-use App\Repository\NonPlayerSlotRepository;
+use App\Repository\NonActiveSlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-final readonly class NonPlayerSlotManager
+final readonly class NonActiveSlotManager
 {
     public function __construct(
-        private Security $security,
-        private EntityManagerInterface $entityManager,
-        private NonPlayerSlotRepository $nonPlayerSlotRepository,
+        private Security                $security,
+        private EntityManagerInterface  $entityManager,
+        private NonActiveSlotRepository $nonActiveSlotRepository,
     ) {}
 
-    public function manageNonPlayerSlotsForUser(GuildEvent $guildEvent): void
+    public function manageNonActiveSlotsForUser(GuildEvent $guildEvent): void
     {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
-        $nonPlayerSlots = $this->nonPlayerSlotRepository->findBy(['guildEvent' => $guildEvent]);
+        $nonActiveSlots = $this->nonActiveSlotRepository->findBy(['guildEvent' => $guildEvent]);
 
-        foreach ($nonPlayerSlots as $slot) {
+        foreach ($nonActiveSlots as $slot) {
             if ($slot->getUser() === $currentUser) {
                 $this->entityManager->remove($slot);
             }

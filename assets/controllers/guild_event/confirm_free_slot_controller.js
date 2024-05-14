@@ -20,7 +20,7 @@ export default class extends Controller {
 
         $.confirm({
             icon: 'bi bi-exclamation-triangle-fill',
-            theme: 'dark',
+            theme: 'supervan',
             title: 'Libérer un slot',
             content: message,
             type: 'red',

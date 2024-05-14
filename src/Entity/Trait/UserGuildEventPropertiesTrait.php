@@ -2,7 +2,7 @@
 
 namespace App\Entity\Trait;
 
-use App\Entity\GuildEventRelation\NonPlayerSlot;
+use App\Entity\GuildEventRelation\NonActiveSlot;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,10 +18,10 @@ trait UserGuildEventPropertiesTrait
     private ?Collection $playerSlots;
 
     /**
-     * @var ?Collection<int, NonPlayerSlot>
+     * @var ?Collection<int, NonActiveSlot>
      */
-    #[ORM\OneToMany(targetEntity: NonPlayerSlot::class, mappedBy: 'user', orphanRemoval: true)]
-    private ?Collection $nonPlayerSlots;
+    #[ORM\OneToMany(targetEntity: NonActiveSlot::class, mappedBy: 'user', orphanRemoval: true)]
+    private ?Collection $nonActiveSlots;
 
     /**
      * @return Collection<int, PlayerSlot>
@@ -51,27 +51,27 @@ trait UserGuildEventPropertiesTrait
     }
 
     /**
-     * @return Collection<int, NonPlayerSlot>
+     * @return Collection<int, NonActiveSlot>
      */
-    final public function getNonPlayerSlots(): Collection
+    final public function getNonActiveSlots(): Collection
     {
-        return $this->nonPlayerSlots;
+        return $this->nonActiveSlots;
     }
 
-    final public function addNonPlayerSlot(NonPlayerSlot $nonPlayerSlot): self
+    final public function addNonActiveSlot(NonActiveSlot $nonActiveSlot): self
     {
-        if (!$this->nonPlayerSlots->contains($nonPlayerSlot)) {
-            $this->nonPlayerSlots->add($nonPlayerSlot);
-            $nonPlayerSlot->setUser($this);
+        if (!$this->nonActiveSlots->contains($nonActiveSlot)) {
+            $this->nonActiveSlots->add($nonActiveSlot);
+            $nonActiveSlot->setUser($this);
         }
 
         return $this;
     }
 
-    final public function removeNonPlayerSlot(NonPlayerSlot $nonPlayerSlot): self
+    final public function removeNonActiveSlot(NonActiveSlot $nonActiveSlot): self
     {
-        if ($this->nonPlayerSlots->removeElement($nonPlayerSlot) && $nonPlayerSlot->getUser() === $this) {
-            $nonPlayerSlot->setUser(null);
+        if ($this->nonActiveSlots->removeElement($nonActiveSlot) && $nonActiveSlot->getUser() === $this) {
+            $nonActiveSlot->setUser(null);
         }
 
         return $this;

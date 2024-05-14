@@ -6,12 +6,12 @@ use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Util\GuildEvent\NonPlayerSlotManager;
+use App\Util\GuildEvent\NonActiveSlotManager;
 use App\Util\GuildEvent\PlayerSlotChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::OLD_MEMBER->value)]
@@ -21,7 +21,7 @@ class PlayerSlotController extends AbstractController
     public function __construct(
         private readonly PlayerSlotChecker $playerSlotChecker,
         private readonly EntityManagerInterface $entityManager,
-        private readonly NonPlayerSlotManager $nonPlayerSlotManager
+        private readonly NonActiveSlotManager $nonActiveSlotManager
     ) {}
 
     #[Route('/event/{eventEncounter}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
@@ -34,7 +34,7 @@ class PlayerSlotController extends AbstractController
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        $this->nonPlayerSlotManager->manageNonPlayerSlotsForUser($eventEncounter->getGuildEvent());
+        $this->nonActiveSlotManager->manageNonActiveSlotsForUser($eventEncounter->getGuildEvent());
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
 

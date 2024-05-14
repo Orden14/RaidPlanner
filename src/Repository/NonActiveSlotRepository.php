@@ -2,28 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\GuildEventRelation\NonPlayerSlot;
-use App\Enum\NonPlayerSlotTypeEnum;
+use App\Entity\GuildEventRelation\NonActiveSlot;
+use App\Enum\NonActiveSlotTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<NonPlayerSlot>
+ * @extends ServiceEntityRepository<NonActiveSlot>
  *
- * @method NonPlayerSlot|null find($id, $lockMode = null, $lockVersion = null)
- * @method NonPlayerSlot|null findOneBy(array $criteria, array $orderBy = null)
- * @method NonPlayerSlot[]    findAll()
- * @method NonPlayerSlot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method NonActiveSlot|null find($id, $lockMode = null, $lockVersion = null)
+ * @method NonActiveSlot|null findOneBy(array $criteria, array $orderBy = null)
+ * @method NonActiveSlot[]    findAll()
+ * @method NonActiveSlot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NonPlayerSlotRepository extends ServiceEntityRepository
+final class NonActiveSlotRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, NonPlayerSlot::class);
+        parent::__construct($registry, NonActiveSlot::class);
     }
 
     /**
-     * @return NonPlayerSlot[]
+     * @return NonActiveSlot[]
      */
     public function findBackupsByEvent(int $eventId): array
     {
@@ -31,14 +31,14 @@ final class NonPlayerSlotRepository extends ServiceEntityRepository
             ->where('nps.guildEvent = :eventId')
             ->andWhere('nps.type = :type')
             ->setParameter('eventId', $eventId)
-            ->setParameter('type', NonPlayerSlotTypeEnum::BACKUP->value)
+            ->setParameter('type', NonActiveSlotTypeEnum::BACKUP->value)
             ->getQuery()
             ->getResult()
         ;
     }
 
     /**
-     * @return NonPlayerSlot[]
+     * @return NonActiveSlot[]
      */
     public function findAbsentsByEvent(int $eventId): array
     {
@@ -46,7 +46,7 @@ final class NonPlayerSlotRepository extends ServiceEntityRepository
             ->where('nps.guildEvent = :eventId')
             ->andWhere('nps.type = :type')
             ->setParameter('eventId', $eventId)
-            ->setParameter('type', NonPlayerSlotTypeEnum::ABSENT->value)
+            ->setParameter('type', NonActiveSlotTypeEnum::ABSENT->value)
             ->getQuery()
             ->getResult()
             ;

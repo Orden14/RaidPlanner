@@ -4,7 +4,7 @@ namespace App\Entity\Trait;
 
 use App\Entity\CombatLog;
 use App\Entity\GuildEventRelation\EventEncounter;
-use App\Entity\GuildEventRelation\NonPlayerSlot;
+use App\Entity\GuildEventRelation\NonActiveSlot;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,10 +17,10 @@ trait GuildEventRelationalPropertiesTrait
     private ?Collection $eventEncounters;
 
     /**
-     * @var ?Collection<int, NonPlayerSlot>
+     * @var ?Collection<int, NonActiveSlot>
      */
-    #[ORM\OneToMany(targetEntity: NonPlayerSlot::class, mappedBy: 'guildEvent', orphanRemoval: true)]
-    private ?Collection $nonPlayerSlots;
+    #[ORM\OneToMany(targetEntity: NonActiveSlot::class, mappedBy: 'guildEvent', orphanRemoval: true)]
+    private ?Collection $nonActiveSlots;
 
     /**
      * @var ?Collection<int, CombatLog>
@@ -56,27 +56,27 @@ trait GuildEventRelationalPropertiesTrait
     }
 
     /**
-     * @return Collection<int, NonPlayerSlot>
+     * @return Collection<int, NonActiveSlot>
      */
-    final public function getNonPlayerSlots(): Collection
+    final public function getNonActiveSlots(): Collection
     {
-        return $this->nonPlayerSlots;
+        return $this->nonActiveSlots;
     }
 
-    final public function addNonPlayerSlot(NonPlayerSlot $nonPlayerSlot): self
+    final public function addNonActiveSlot(NonActiveSlot $nonActiveSlot): self
     {
-        if (!$this->nonPlayerSlots->contains($nonPlayerSlot)) {
-            $this->nonPlayerSlots->add($nonPlayerSlot);
-            $nonPlayerSlot->setGuildEvent($this);
+        if (!$this->nonActiveSlots->contains($nonActiveSlot)) {
+            $this->nonActiveSlots->add($nonActiveSlot);
+            $nonActiveSlot->setGuildEvent($this);
         }
 
         return $this;
     }
 
-    final public function removeNonPlayerSlot(NonPlayerSlot $nonPlayerSlot): self
+    final public function removeNonActiveSlot(NonActiveSlot $nonActiveSlot): self
     {
-        if ($this->nonPlayerSlots->removeElement($nonPlayerSlot) && $nonPlayerSlot->getGuildEvent() === $this) {
-            $nonPlayerSlot->setGuildEvent(null);
+        if ($this->nonActiveSlots->removeElement($nonActiveSlot) && $nonActiveSlot->getGuildEvent() === $this) {
+            $nonActiveSlot->setGuildEvent(null);
         }
 
         return $this;
