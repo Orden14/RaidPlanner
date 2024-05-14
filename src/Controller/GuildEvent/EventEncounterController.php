@@ -4,7 +4,7 @@ namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
-use App\Enum\GuildEventTypeEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEvent\EventEncounterType;
 use App\Service\GuildEvent\SlotService;
@@ -31,7 +31,7 @@ class EventEncounterController extends AbstractController
     #[Route('/add/{guildEvent}', name: 'add', methods: ['GET', 'POST'])]
     final public function addToEvent(Request $request, GuildEvent $guildEvent): Response
     {
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,7 +67,7 @@ class EventEncounterController extends AbstractController
     {
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventEncounter->getGuildEvent();
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -94,7 +94,7 @@ class EventEncounterController extends AbstractController
         return $this->render('guild_event/edit_event_encounter.html.twig', [
             'form' => $form->createView(),
             'guild_event' => $eventEncounter->getGuildEvent(),
-            'max_player_slots' => GuildEventTypeEnum::getMaxPlayersByType($eventEncounter->getGuildEvent()?->getType())
+            'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($eventEncounter->getGuildEvent()?->getType())
         ]);
     }
 }

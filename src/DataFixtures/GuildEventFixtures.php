@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
-use App\Enum\GuildEventTypeEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Repository\BuildRepository;
 use App\Repository\EncounterRepository;
 use App\Repository\UserRepository;
@@ -33,7 +33,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
             ->setTitle('Test event')
             ->setStart((new DateTime())->setTime(10, 0))
             ->setEnd((new DateTime())->setTime(15, 0))
-            ->setType(GuildEventTypeEnum::RAID);
+            ->setType(InstanceTypeEnum::RAID);
 
         $manager->persist($guildEvent);
 
@@ -44,7 +44,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($eventEncounter);
 
-            for ($i = 1; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()) + 1; $i++) {
+            for ($i = 1; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()) + 1; $i++) {
                 $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
 
                 if ($i === 1) {
@@ -56,7 +56,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
                         ->setBuild($this->buildRepository->find($i));
                 }
 
-                if ($i > 5 && $i !== GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType())) {
+                if ($i > 5 && $i !== InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType())) {
                     $eventSlot->setBuild($this->buildRepository->find($i));
                 }
 

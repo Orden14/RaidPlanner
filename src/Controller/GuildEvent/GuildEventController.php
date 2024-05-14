@@ -5,7 +5,7 @@ namespace App\Controller\GuildEvent;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Enum\GuildEventStatusEnum;
-use App\Enum\GuildEventTypeEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEvent\GuildEventType;
 use App\Form\GuildEvent\EventEncounterType;
@@ -78,7 +78,7 @@ class GuildEventController extends AbstractController
         return $this->render('guild_event/show.html.twig', [
             'form' => $form->createView(),
             'form_add_encounter' => $formAddEncounter->createView(),
-            'max_player_slots' => GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()),
+            'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_encounters' => $guildEvent->getEventEncounters(),
             'backups' => $this->nonActiveSlotRepository->findBackupsByEvent($guildEvent->getId()),
@@ -90,7 +90,7 @@ class GuildEventController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, GuildEvent $guildEvent): Response
     {
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -133,7 +133,7 @@ class GuildEventController extends AbstractController
     #[Route('/toggle/{id}', name: 'toggle_status', methods: ['GET', 'POST'])]
     final public function toggleStatus(GuildEvent $guildEvent): Response
     {
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $guildEvent->getType() === GuildEventTypeEnum::GUILDRAID) {
+        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 

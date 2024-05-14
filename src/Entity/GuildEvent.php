@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\GuildEventPermissionPropertiesTrait;
 use App\Entity\Trait\GuildEventRelationalPropertiesTrait;
 use App\Enum\GuildEventStatusEnum;
-use App\Enum\GuildEventTypeEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Repository\GuildEventRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: GuildEventRepository::class)]
 class GuildEvent
 {
+    use GuildEventPermissionPropertiesTrait;
     use GuildEventRelationalPropertiesTrait;
 
     #[ORM\Id]
@@ -31,13 +33,10 @@ class GuildEvent
     private ?DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = GuildEventTypeEnum::GUILDRAID->value;
+    private ?string $type = InstanceTypeEnum::RAID->value;
 
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
-
-    #[ORM\Column]
-    private bool $oldMembersAllowed = false;
 
     #[ORM\Column(length: 255)]
     private ?string $status = GuildEventStatusEnum::OPEN->value;
@@ -90,12 +89,12 @@ class GuildEvent
         return $this;
     }
 
-    final public function getType(): GuildEventTypeEnum
+    final public function getType(): InstanceTypeEnum
     {
-        return GuildEventTypeEnum::from($this->type);
+        return InstanceTypeEnum::from($this->type);
     }
 
-    final public function setType(GuildEventTypeEnum $type): self
+    final public function setType(InstanceTypeEnum $type): self
     {
         $this->type = $type->value;
 
@@ -110,18 +109,6 @@ class GuildEvent
     final public function setColor(string $color): self
     {
         $this->color = $color;
-
-        return $this;
-    }
-
-    final public function isOldMembersAllowed(): bool
-    {
-        return $this->oldMembersAllowed;
-    }
-
-    final public function setOldMembersAllowed(bool $oldMembersAllowed): self
-    {
-        $this->oldMembersAllowed = $oldMembersAllowed;
 
         return $this;
     }

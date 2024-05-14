@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\InstanceTypeEnum;
 use App\Repository\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,6 +21,9 @@ class Instance
 
     #[ORM\Column(length: 255)]
     private ?string $tag = null;
+
+    #[ORM\Column(length: 255)]
+    private string $type = InstanceTypeEnum::RAID->value;
 
     /**
      * @var Collection<int, Encounter>
@@ -57,6 +61,18 @@ class Instance
     final public function setTag(string $tag): self
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    final public function getType(): InstanceTypeEnum
+    {
+        return InstanceTypeEnum::from($this->type);
+    }
+
+    final public function setType(InstanceTypeEnum $type): self
+    {
+        $this->type = $type->value;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Encounter;
+use App\Enum\InstanceTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,5 +20,20 @@ final class EncounterRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Encounter::class);
+    }
+
+    /**
+     * @param ?InstanceTypeEnum $type Default value = RAID
+     * @return Encounter[]
+     */
+    public function findAllByType(?InstanceTypeEnum $type = null): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.instance', 'i')
+            ->where('i.type = :type')
+            ->setParameter('type', $type->value ?? InstanceTypeEnum::RAID->value)
+            ->orderBy('i.tag', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -1,4 +1,4 @@
-{% if is_granted("ROLE_ADMIN") or (guild_event.type.value != "Guild Raid" and is_granted("ROLE_MEMBER")) %}
+{% if is_granted("ROLE_ADMIN") or (guild_event.canMembersManageEvent == true and is_granted("ROLE_MEMBER")) %}
     <div class="mt-2 bg-dark-subtle p-2 border rounded-1 mb-3 d-inline-flex">
         <a href="#" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#manageGuildEventModal" title="Modifier"><i class="bi bi-pencil h5"></i></a>
         {% if guild_event.status.value != "Ouvert" %}
