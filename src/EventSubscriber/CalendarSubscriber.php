@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Repository\GuildEventRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
@@ -69,6 +70,12 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
                     'id' => $guildEvent->getId(),
                 ])
             );
+
+            $event->addOption('eventId', $guildEvent->getId());
+            $event->addOption('eventType', $guildEvent->getType()->value);
+            /** @TODO MAKE MEMBERSCOUNT */
+            $event->addOption('membersCount', 0);
+            $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));
 
             $calendar->addEvent($event);
         }

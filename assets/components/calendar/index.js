@@ -1,25 +1,25 @@
-import {Calendar} from "@fullcalendar/core";
-import interactionPlugin from "@fullcalendar/interaction";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import {addHours, setHours} from 'date-fns';
-import {setModalDates, setModalDatesForDateClick} from "../../util/Calendar/new_event_modal_helper";
+import {Calendar} from "@fullcalendar/core"
+import interactionPlugin from "@fullcalendar/interaction"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import timeGridPlugin from "@fullcalendar/timegrid"
+import listPlugin from "@fullcalendar/list"
+import {addHours, setHours} from 'date-fns'
+import {setModalDates, setModalDatesForDateClick} from "../../util/Calendar/new_event_modal_helper"
 
-document.addEventListener("DOMContentLoaded", () => {
-    let calendarEl = document.getElementById("calendar-holder")
+$(document).ready(function () {
+    let calendarEl = $("#calendar-holder")
 
-    let viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+    let viewportHeight = $(window).height()
     let calendarHeight = 0.8 * viewportHeight
 
-    let initialView = window.innerWidth < 600 ? 'listWeek' : 'timeGridWeek'
+    let initialView = $(window).width() < 600 ? 'listWeek' : 'timeGridWeek'
 
-    let {eventsUrl} = calendarEl.dataset;
+    let {eventsUrl} = calendarEl.data()
 
-    let touchStartTime = null;
-    let touchEndTime = null;
+    let touchStartTime = null
+    let touchEndTime = null
 
-    let calendar = new Calendar(calendarEl, {
+    let calendar = new Calendar(calendarEl[0], {
         locale: 'fr',
         firstDay: 1,
         slotLabelFormat: {hour: '2-digit', minute: '2-digit', hour12: false},
@@ -30,23 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
         editable: false,
         contentHeight: calendarHeight,
         nowIndicator: true,
-        eventSources: [
-            {
-                url: eventsUrl,
-                method: "POST",
-                extraParams: {
-                    filters: JSON.stringify({}),
-                },
-                failure: () => {
-                    console.log("There was an error while fetching the planning!")
-                },
-            },
-        ],
         customButtons: {
             newGuildEvent: {
                 text: "",
                 click: function () {
-                    $('#manageGuildEventModal').modal('show');
+                    $('#manageGuildEventModal').modal('show')
 
                     let date = new Date()
                     date.setSeconds(0)
@@ -72,7 +60,33 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         initialView: initialView,
         navLinks: true,
+        eventContent: function (arg) {
+            let container
 
+            if (arg.view.type !== 'dayGridMonth' && arg.view.type !== 'listWeek') {
+                container = $('<div></div>')
+                let title = $('<div></div>').html(arg.event.title)
+                container.append(title)
+
+                let eventDetails = $(
+                    '<div></div>').html(`<br><small>${arg.event.extendedProps.eventType}</small>
+                    <br><small>${arg.event.extendedProps.membersCount}/${arg.event.extendedProps.maxSlots}</small>`
+                )
+
+                container.append(eventDetails)
+            } else {
+                container = $('<a></a>').attr("href", "/event/" + arg.event.extendedProps.eventId)
+                let title = `
+                    ${arg.event.extendedProps.eventType} -
+                    ${arg.event.title}  
+                    ${arg.event.extendedProps.membersCount}/${arg.event.extendedProps.maxSlots}
+                `
+
+                container.append(title)
+            }
+
+            return {domNodes: [container.get(0)]}
+        },
         dateClick: function (info) {
             if (window.matchMedia("(pointer: fine)").matches || touchEndTime - touchStartTime >= 400) {
                 $('#manageGuildEventModal').modal('show')
@@ -80,25 +94,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 setModalDatesForDateClick(info)
             }
         },
+        eventSources: [
+            {
+                url: eventsUrl,
+                method: "POST",
+                extraParams: {
+                    filters: JSON.stringify({}),
+                }
+            },
+        ],
 
         plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
         timeZone: "Europe/Paris",
     })
 
     if (window.matchMedia("(pointer: coarse)").matches) {
-        calendarEl.addEventListener('touchstart', function () {
-            touchStartTime = new Date().getTime();
-        });
+        calendarEl.on('touchstart', function () {
+            touchStartTime = new Date().getTime()
+        })
 
-        calendarEl.addEventListener('touchend', function () {
-            touchEndTime = new Date().getTime();
-        });
+        calendarEl.on('touchend', function () {
+            touchEndTime = new Date().getTime()
+        })
     }
 
     calendar.render()
 
-    let button = document.querySelector('.fc-newGuildEvent-button');
-    let addEventIcon = document.createElement('i');
-    addEventIcon.className = 'bi bi-calendar-plus';
-    button.appendChild(addEventIcon);
+    let button = $('.fc-newGuildEvent-button')
+    let addEventIcon = $('<i></i>').addClass('bi bi-calendar-plus')
+    button.append(addEventIcon)
 })

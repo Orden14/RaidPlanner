@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Build;
 use App\Entity\BuildMessage;
+use App\Entity\GuildEvent;
 use App\Entity\User;
 use App\Entity\UserActivityLog;
 use App\Enum\DoctrineEventTypeEnum;
@@ -58,6 +59,9 @@ final readonly class UserActivitySubscriber
         } elseif ($entity instanceof BuildMessage) {
             $log->setType(UserActivityLogTypeEnum::BUILD);
             $message = $this->getBuildMessageLogMessage($entity, $eventType);
+        } elseif ($entity instanceof GuildEvent) {
+            $log->setType(UserActivityLogTypeEnum::GUILD_EVENT);
+            $message = $this->getGuildEventLogMessage($entity, $eventType);
         } else {
             return;
         }
@@ -105,6 +109,19 @@ final readonly class UserActivitySubscriber
             DoctrineEventTypeEnum::POST_PERSIST => "Build {$message->getBuild()?->getName()} : nouveau message par {$message->getAuthor()?->getUsername()}",
             DoctrineEventTypeEnum::POST_UPDATE => "Build {$message->getBuild()?->getName()} : $currentUserName a modifié un message",
             DoctrineEventTypeEnum::POST_REMOVE => "Build {$message->getBuild()?->getName()} : $currentUserName a supprimé un message"
+        };
+    }
+
+    private function getGuildEventLogMessage(GuildEvent $event, DoctrineEventTypeEnum $eventType): string
+    {
+        /** @var ?User $currentUser */
+        $currentUser = $this->security->getUser();
+        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+
+        return match ($eventType) {
+            DoctrineEventTypeEnum::POST_PERSIST => "Nouvel événement de guilde : {$event->getTitle()}",
+            DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de l'événement de guilde {$event->getTitle()} par $currentUserName",
+            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de l'événement de guilde {$event->getTitle()} par $currentUserName"
         };
     }
 }
