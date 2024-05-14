@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let initialView = window.innerWidth < 600 ? 'listWeek' : 'timeGridWeek'
 
-    let { eventsUrl } = calendarEl.dataset;
+    let {eventsUrl} = calendarEl.dataset;
 
     let touchStartTime = null;
     let touchEndTime = null;
@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let calendar = new Calendar(calendarEl, {
         locale: 'fr',
         firstDay: 1,
-        slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
-        eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+        slotLabelFormat: {hour: '2-digit', minute: '2-digit', hour12: false},
+        eventTimeFormat: {hour: '2-digit', minute: '2-digit', hour12: false},
         allDaySlot: false,
         slotMinTime: '09:00',
         slotMaxTime: '24:00',
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         customButtons: {
             newGuildEvent: {
                 text: "",
-                click: function() {
+                click: function () {
                     $('#newGuildEventModal').modal('show');
 
                     let date = new Date()
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         initialView: initialView,
         navLinks: true,
 
-        dateClick: function(info) {
+        dateClick: function (info) {
             if (window.matchMedia("(pointer: fine)").matches || touchEndTime - touchStartTime >= 400) {
                 $('#newGuildEventModal').modal('show')
 
@@ -81,16 +81,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         },
 
-        plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin ],
+        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
         timeZone: "Europe/Paris",
     })
 
     if (window.matchMedia("(pointer: coarse)").matches) {
-        calendarEl.addEventListener('touchstart', function() {
+        calendarEl.addEventListener('touchstart', function () {
             touchStartTime = new Date().getTime();
         });
 
-        calendarEl.addEventListener('touchend', function() {
+        calendarEl.addEventListener('touchend', function () {
             touchEndTime = new Date().getTime();
         });
     }

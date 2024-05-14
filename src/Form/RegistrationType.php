@@ -22,7 +22,7 @@ final class RegistrationType extends AbstractType
                 'invalid_message' => 'Les mots de passent doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
+                'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Confirm Password'],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
@@ -36,8 +36,7 @@ final class RegistrationType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

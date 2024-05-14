@@ -33,8 +33,7 @@ final class NonActiveSlotRepository extends ServiceEntityRepository
             ->setParameter('eventId', $eventId)
             ->setParameter('type', NonActiveSlotTypeEnum::BACKUP->value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -48,7 +47,6 @@ final class NonActiveSlotRepository extends ServiceEntityRepository
             ->setParameter('eventId', $eventId)
             ->setParameter('type', NonActiveSlotTypeEnum::ABSENT->value)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

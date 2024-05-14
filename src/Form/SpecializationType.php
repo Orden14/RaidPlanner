@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\File;
 final class SpecializationType extends AbstractType
 {
     public function __construct(
-        private readonly Packages $packages,
+        private readonly Packages      $packages,
         private readonly JobRepository $jobRepository
     ) {}
 
@@ -42,7 +42,7 @@ final class SpecializationType extends AbstractType
                     'data-live-search' => 'true',
                     'data-live-search-placeholder' => 'Rechercher une classe...'
                 ],
-                'choice_attr' => function($job) {
+                'choice_attr' => function ($job) {
                     $name = $job->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $job->getIcon());
                     return ['data-content' => "<img
@@ -65,8 +65,7 @@ final class SpecializationType extends AbstractType
                         'maxSizeMessage' => 'Erreur : L\'icone uploadée ne doit pas dépasser 2Mo'
                     ])
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

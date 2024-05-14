@@ -1,7 +1,7 @@
-import { Controller } from '@hotwired/stimulus'
+import {Controller} from '@hotwired/stimulus'
 
 export default class extends Controller {
-    confirmDeletion (event) {
+    confirmDeletion(event) {
         event.preventDefault()
         $.confirm({
             icon: 'bi bi-exclamation-triangle-fill',

@@ -24,7 +24,7 @@ class Job
     #[ORM\Column(length: 255)]
     private ?string $icon = null;
 
-    /** @var Collection<int, Specialization> $specializations  */
+    /** @var Collection<int, Specialization> $specializations */
     #[ORM\OneToMany(targetEntity: Specialization::class, mappedBy: 'job', orphanRemoval: true)]
     private Collection $specializations;
 

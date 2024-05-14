@@ -19,19 +19,19 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly Security $security,
-        private readonly UserService $userService,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly AuthenticationUtils $authenticationUtils,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly Security                    $security,
+        private readonly UserService                 $userService,
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly AuthenticationUtils         $authenticationUtils,
     ) {}
 
     #[Route(path: '/login', name: 'app_login')]
     public function login(): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('app_home');
-         }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
 
         $error = $this->authenticationUtils->getLastAuthenticationError();
         $lastUsername = $this->authenticationUtils->getLastUsername();

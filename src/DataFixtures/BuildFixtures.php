@@ -19,8 +19,8 @@ use Faker\Generator;
 class BuildFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly BuildCategoryRepository $buildCategoryRepository,
+        private readonly UserRepository           $userRepository,
+        private readonly BuildCategoryRepository  $buildCategoryRepository,
         private readonly SpecializationRepository $specializationRepository
     ) {}
 
@@ -48,9 +48,9 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
      * @param BuildCategory[] $categories
      */
     private function generateBuild(
-        Generator $faker,
-        User $user,
-        array $categories,
+        Generator      $faker,
+        User           $user,
+        array          $categories,
         Specialization $specialization
     ): Build
     {

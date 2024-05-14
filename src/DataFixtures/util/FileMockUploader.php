@@ -9,9 +9,10 @@ use Symfony\Component\HttpFoundation\File\File;
 final readonly class FileMockUploader
 {
     public function __construct(
-        private FileManager $fileManager,
+        private FileManager           $fileManager,
         private ParameterBagInterface $parameterBag
     ) {}
+
     public function mockFileUpload(string $filename): string
     {
         $filePath = __DIR__ . DIRECTORY_SEPARATOR . 'icon' . DIRECTORY_SEPARATOR . $filename . '.png';

@@ -1,5 +1,5 @@
 import {Controller} from "stimulus"
-import { filterRow } from "../../util/build/table_filter_manager"
+import {filterRow} from "../../util/build/table_filter_manager"
 
 export default class extends Controller {
     initialize() {
@@ -13,15 +13,15 @@ export default class extends Controller {
                 "infoFiltered": "(filtré à partir de _MAX_ builds)",
             },
             columnDefs: [
-                { width: '1%', targets: 0, className: 'min-mobile-p' },
-                { width: '30%', targets: 1, orderable: false, className: 'min-mobile-p' },
-                { width: '10%', targets: 2, className: 'min-mobile-p' },
-                { width: '1%', targets: 3, orderable: false, className: 'min-mobile-p' },
-                { width: '10%', targets: 4, className: 'min-mobile-p' },
-                { width: '5%', targets: 5, orderable: false, className: 'min-tablet-l' },
-                { width: '5%', targets: 6, orderable: false, className: 'min-tablet-l' },
-                { width: '5%', targets: 7, orderable: false, className: 'min-tablet-l' },
-                { width: '20%', targets: 8, orderable: false, className: 'min-mobile-p' },
+                {width: '1%', targets: 0, className: 'min-mobile-p'},
+                {width: '30%', targets: 1, orderable: false, className: 'min-mobile-p'},
+                {width: '10%', targets: 2, className: 'min-mobile-p'},
+                {width: '1%', targets: 3, orderable: false, className: 'min-mobile-p'},
+                {width: '10%', targets: 4, className: 'min-mobile-p'},
+                {width: '5%', targets: 5, orderable: false, className: 'min-tablet-l'},
+                {width: '5%', targets: 6, orderable: false, className: 'min-tablet-l'},
+                {width: '5%', targets: 7, orderable: false, className: 'min-tablet-l'},
+                {width: '20%', targets: 8, orderable: false, className: 'min-mobile-p'},
             ],
             order: [[2, 'desc']]
         })
@@ -34,7 +34,7 @@ export default class extends Controller {
         })
 
         $.fn.dataTable.ext.search.push(
-            function(settings, data) {
+            function (settings, data) {
                 return filterRow(settings, data)
             }
         )

@@ -15,7 +15,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private UrlGeneratorInterface $router,
-        private GuildEventRepository $guildEventRepository
+        private GuildEventRepository  $guildEventRepository
     ) {}
 
     /**

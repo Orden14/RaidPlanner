@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 class SpecializationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly JobRepository $jobRepository,
+        private readonly JobRepository    $jobRepository,
         private readonly FileMockUploader $fileMockUploader
     ) {}
 

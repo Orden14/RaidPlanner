@@ -13,7 +13,7 @@ enum GuildEventTypeEnum: string
 
     public static function getEventDisplayName(self $eventType): string
     {
-        return match($eventType) {
+        return match ($eventType) {
             self::GUILDRAID => 'Guild Raid',
             self::RAID => 'Raid',
             self::STRIKE => 'Strike',
@@ -25,7 +25,7 @@ enum GuildEventTypeEnum: string
 
     public static function getMaxPlayersByType(self $eventType): int
     {
-        return match($eventType) {
+        return match ($eventType) {
             self::GUILDRAID, self::RAID, self::STRIKE => 10,
             self::FRACTAL, self::DUNGEON => 5,
             self::IRL => 0,

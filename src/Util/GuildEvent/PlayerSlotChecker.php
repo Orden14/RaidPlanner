@@ -5,16 +5,16 @@ namespace App\Util\GuildEvent;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
+use Symfony\Bundle\SecurityBundle\Security;
 use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Repository\PlayerSlotRepository;
-use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class PlayerSlotChecker
 {
     public function __construct(
-        private Security $security,
         private PlayerSlotRepository $playerSlotRepository,
+        private Security        $security,
     ) {}
 
     public function isUserAllowedToSignUp(EventEncounter $eventEncounter): bool

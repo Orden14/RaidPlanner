@@ -11,7 +11,7 @@ use Twig\TwigFunction;
 class PlayerSlotExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly PlayerSlotChecker $playerSlotChecker,
+        private readonly PlayerSlotChecker        $playerSlotChecker,
         private readonly EventEncounterRepository $eventEncounterRepository,
     ) {}
 

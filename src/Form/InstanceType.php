@@ -18,8 +18,7 @@ final class InstanceType extends AbstractType
             ])
             ->add('tag', TextType::class, [
                 'label' => 'Tag'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

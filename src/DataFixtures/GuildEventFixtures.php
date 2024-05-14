@@ -17,8 +17,8 @@ use Doctrine\Persistence\ObjectManager;
 class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly BuildRepository $buildRepository,
+        private readonly UserRepository      $userRepository,
+        private readonly BuildRepository     $buildRepository,
         private readonly EncounterRepository $encounterRepository,
     ) {}
 

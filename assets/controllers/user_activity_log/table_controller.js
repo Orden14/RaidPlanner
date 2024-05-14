@@ -16,7 +16,7 @@ export default class extends Controller {
         })
 
         $.fn.dataTable.ext.search.push(
-            function(settings, data) {
+            function (settings, data) {
                 return filterRow(settings, data)
             }
         )

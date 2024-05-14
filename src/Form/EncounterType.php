@@ -35,11 +35,10 @@ final class EncounterType extends AbstractType
                     'data-live-search' => 'true',
                     'data-live-search-placeholder' => 'Rechercher une instance...'
                 ],
-                'choice_attr' => function($instance) {
+                'choice_attr' => function ($instance) {
                     return ['data-content' => $instance->getName()];
                 }
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

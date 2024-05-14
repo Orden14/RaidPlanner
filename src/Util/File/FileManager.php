@@ -12,7 +12,7 @@ final readonly class FileManager
      */
     public function uploadFile(File $file, string $directory): string
     {
-        $fileName = uniqid('file', true).'.'. $file->guessExtension();
+        $fileName = uniqid('file', true) . '.' . $file->guessExtension();
 
         try {
             $file->move(

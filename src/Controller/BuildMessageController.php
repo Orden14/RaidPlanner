@@ -56,7 +56,7 @@ class BuildMessageController extends AbstractController
             return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
         }
 
-        if ($this->isCsrfTokenValid('delete'.$buildMessage->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $buildMessage->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($buildMessage);
             $this->entityManager->flush();
 

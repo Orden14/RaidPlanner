@@ -1,11 +1,11 @@
-import { Controller } from '@hotwired/stimulus'
+import {Controller} from '@hotwired/stimulus'
 
 export default class extends Controller {
     connect() {
         this.element.addEventListener('click', (event) => this.confirmDeletion(event))
     }
 
-    confirmDeletion (event) {
+    confirmDeletion(event) {
         event.preventDefault()
         const targetUrl = this.element.getAttribute('href')
         const slotUsername = this.element.dataset.slotUser;

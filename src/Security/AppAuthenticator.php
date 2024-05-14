@@ -22,9 +22,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const string LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator) {}
 
     final public function authenticate(Request $request): Passport
     {
@@ -43,9 +41,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     final public function onAuthenticationSuccess(
-        Request $request,
+        Request        $request,
         TokenInterface $token,
-        string $firewallName
+        string         $firewallName
     ): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {

@@ -18,7 +18,8 @@ class DeleteOldLogsCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
-    ) {
+    )
+    {
         parent::__construct();
     }
 

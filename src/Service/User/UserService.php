@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\File\File;
 final readonly class UserService
 {
     public function __construct(
-        private FileManager $fileManager,
+        private FileManager           $fileManager,
         private ParameterBagInterface $parameterBag
     ) {}
+
     public function setDefaultProfilePicture(User $user): void
     {
         $profilePictureDirectory = $this->parameterBag->get('profile_picture_directory');
@@ -26,7 +27,7 @@ final readonly class UserService
         $tempPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'default_profile_picture.jpg';
         copy($this->parameterBag->get('default_profile_picture'), $tempPath);
 
-        $defaultProfilePicture =  $this->fileManager->uploadFile(
+        $defaultProfilePicture = $this->fileManager->uploadFile(
             new File($tempPath, true),
             $profilePictureDirectory
         );

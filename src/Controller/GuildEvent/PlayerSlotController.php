@@ -19,9 +19,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PlayerSlotController extends AbstractController
 {
     public function __construct(
-        private readonly PlayerSlotChecker $playerSlotChecker,
         private readonly EntityManagerInterface $entityManager,
-        private readonly NonActiveSlotManager $nonActiveSlotManager
+        private readonly PlayerSlotChecker      $playerSlotChecker,
+        private readonly NonActiveSlotManager   $nonActiveSlotManager
     ) {}
 
     #[Route('/event/{eventEncounter}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]

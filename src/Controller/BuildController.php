@@ -27,11 +27,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class BuildController extends AbstractController
 {
     public function __construct(
-        private readonly FormFlashHelper $formFlashHelper,
-        private readonly BuildRepository $buildRepository,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly BuildMessageRepository $buildMessageRepository,
-        private readonly BuildCategoryRepository $buildCategoryRepository,
+        private readonly EntityManagerInterface   $entityManager,
+        private readonly FormFlashHelper          $formFlashHelper,
+        private readonly BuildRepository          $buildRepository,
+        private readonly BuildMessageRepository   $buildMessageRepository,
+        private readonly BuildCategoryRepository  $buildCategoryRepository,
         private readonly SpecializationRepository $specializationRepository
     ) {}
 
@@ -143,7 +143,7 @@ class BuildController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, Build $build): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$build->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $build->getId(), $request->getPayload()->get('_token'))) {
             foreach ($build->getPlayerSlots() as $playerSlot) {
                 $playerSlot->setBuild(null);
             }
@@ -166,7 +166,7 @@ class BuildController extends AbstractController
         $build = $this->buildRepository->find($id);
 
         if (!$build) {
-            throw $this->createNotFoundException('No build found for id '.$id);
+            throw $this->createNotFoundException('No build found for id ' . $id);
         }
 
         $build->setStatus(BuildStatusEnum::from($statusString));

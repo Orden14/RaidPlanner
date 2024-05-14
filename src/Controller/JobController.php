@@ -22,9 +22,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class JobController extends AbstractController
 {
     public function __construct(
-        private readonly FileManager $fileManager,
-        private readonly FormFlashHelper $formFlashHelper,
-        private readonly EntityManagerInterface $entityManager
+        private readonly FileManager            $fileManager,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FormFlashHelper        $formFlashHelper,
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET'])]

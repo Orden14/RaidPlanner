@@ -24,9 +24,9 @@ class BuildCategoryController extends AbstractController
     private const string BUILD_CATEGORY_INDEX_TEMPLATE = 'build_category/index.html.twig';
 
     public function __construct(
-        private readonly FileManager $fileManager,
-        private readonly FormFlashHelper $formFlashHelper,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly FileManager             $fileManager,
+        private readonly EntityManagerInterface  $entityManager,
+        private readonly FormFlashHelper         $formFlashHelper,
         private readonly BuildCategoryRepository $buildCategoryRepository
     ) {}
 
@@ -90,8 +90,7 @@ class BuildCategoryController extends AbstractController
         $form = $this->createForm(BuildCategoryType::class, $buildCategory);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $icon = $form->get('icon')->getData();
             if ($icon) {
                 $this->fileManager->removeFile($buildCategory->getIcon(), $this->getParameter('icon_directory'));
@@ -134,7 +133,7 @@ class BuildCategoryController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, BuildCategory $buildCategory): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$buildCategory->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $buildCategory->getId(), $request->getPayload()->get('_token'))) {
             if ($buildCategory->getIcon()) {
                 $this->fileManager->removeFile($buildCategory->getIcon(), $this->getParameter('icon_directory'));
             }

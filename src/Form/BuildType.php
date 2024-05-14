@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class BuildType extends AbstractType
 {
     public function __construct(
-        private readonly Packages $packages,
+        private readonly Packages                 $packages,
         private readonly SpecializationRepository $specializationRepository
     ) {}
 
@@ -49,7 +49,7 @@ final class BuildType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                 ],
-                'choice_attr' => function($status) {
+                'choice_attr' => function ($status) {
                     $styleClass = BuildStatusEnum::getStatusStyleClassName($status->value) . ' ' . 'align-middle';
                     return ['data-content' => "<span class='$styleClass'></span> " . $status->value];
                 }
@@ -66,7 +66,7 @@ final class BuildType extends AbstractType
                     'data-live-search' => 'true',
                     'data-live-search-placeholder' => 'Rechercher une spécialisation...'
                 ],
-                'choice_attr' => function($specialization) {
+                'choice_attr' => function ($specialization) {
                     $name = $specialization->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $specialization->getIcon());
                     return ['data-content' => "<img
@@ -87,7 +87,7 @@ final class BuildType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                 ],
-                'choice_attr' => function($category) {
+                'choice_attr' => function ($category) {
                     $name = $category->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $category->getIcon());
                     return ['data-content' => "<img
@@ -105,8 +105,7 @@ final class BuildType extends AbstractType
             ->add('benchmarkLink', TextType::class, [
                 'label' => 'Log du benchmark',
                 'required' => false
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

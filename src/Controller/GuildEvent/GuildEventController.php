@@ -22,8 +22,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GuildEventController extends AbstractController
 {
     public function __construct(
-        private readonly FormFlashHelper $formFlashHelper,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface  $entityManager,
+        private readonly FormFlashHelper         $formFlashHelper,
         private readonly NonActiveSlotRepository $nonActiveSlotRepository
     ) {}
 
@@ -72,7 +72,7 @@ class GuildEventController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, GuildEvent $guildEvent): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$guildEvent->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $guildEvent->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($guildEvent);
             $this->entityManager->flush();
         }

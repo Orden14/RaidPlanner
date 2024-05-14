@@ -12,8 +12,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class JobFixtures extends Fixture
 {
     public function __construct(
-        private readonly FileMockUploader $fileMockUploader,
-        private readonly ParameterBagInterface $parameterBag
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly FileMockUploader      $fileMockUploader,
     ) {}
 
     final public function load(ObjectManager $manager): void

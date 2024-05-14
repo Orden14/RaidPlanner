@@ -38,7 +38,6 @@ class EventEncounter
     private ?DateTimeInterface $createdAt;
 
 
-
     public function __construct()
     {
         $this->createdAt = new DateTime();

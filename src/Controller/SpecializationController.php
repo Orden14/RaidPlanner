@@ -25,10 +25,10 @@ class SpecializationController extends AbstractController
     private const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
 
     public function __construct(
-        private readonly FileManager $fileManager,
-        private readonly FormFlashHelper $formFlashHelper,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly SpecializationRepository $specializationRepository
+        private readonly FileManager              $fileManager,
+        private readonly EntityManagerInterface   $entityManager,
+        private readonly FormFlashHelper          $formFlashHelper,
+        private readonly SpecializationRepository $specializationRepository,
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
@@ -136,7 +136,7 @@ class SpecializationController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, Specialization $specialization): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$specialization->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $specialization->getId(), $request->getPayload()->get('_token'))) {
             if ($specialization->getIcon()) {
                 $this->fileManager->removeFile($specialization->getIcon(), $this->getParameter('icon_directory'));
             }

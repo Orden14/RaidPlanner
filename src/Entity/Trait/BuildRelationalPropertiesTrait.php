@@ -16,11 +16,11 @@ trait BuildRelationalPropertiesTrait
     #[ORM\JoinColumn(nullable: false)]
     private ?Specialization $specialization = null;
 
-    /** @var ?Collection<int, BuildCategory> $categories  */
+    /** @var ?Collection<int, BuildCategory> $categories */
     #[ORM\ManyToMany(targetEntity: BuildCategory::class, inversedBy: 'builds')]
     private ?Collection $categories;
 
-    /** @var ?Collection<int, BuildMessage> $buildMessages  */
+    /** @var ?Collection<int, BuildMessage> $buildMessages */
     #[ORM\OneToMany(targetEntity: BuildMessage::class, mappedBy: 'build', orphanRemoval: true)]
     private ?Collection $buildMessages;
 

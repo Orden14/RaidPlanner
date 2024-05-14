@@ -12,7 +12,7 @@ enum BuildStatusEnum: string
 
     public static function getStatusStyleClassName(string $status): string
     {
-        return match($status) {
+        return match ($status) {
             self::META->value => 'build-status-meta',
             self::NOT_META->value => 'build-status-not-meta',
             self::OUTDATED->value => 'build-status-outdated',

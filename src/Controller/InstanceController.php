@@ -21,9 +21,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class InstanceController extends AbstractController
 {
     public function __construct(
-        private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly InstanceRepository $instanceRepository
+        private readonly FormFlashHelper        $formFlashHelper,
+        private readonly InstanceRepository     $instanceRepository
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
@@ -101,7 +101,7 @@ class InstanceController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, Instance $instance): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$instance->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $instance->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($instance);
             $this->entityManager->flush();
         }

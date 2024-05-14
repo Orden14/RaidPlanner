@@ -45,7 +45,7 @@ final class BuildCategoryType extends AbstractType
                     'data-live-search' => 'true',
                     'data-live-search-placeholder' => 'Rechercher un build...'
                 ],
-                'choice_attr' => function($category) {
+                'choice_attr' => function ($category) {
                     $name = $category->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $category->getSpecialization()->getIcon());
                     return ['data-content' => "<img
@@ -68,8 +68,7 @@ final class BuildCategoryType extends AbstractType
                         'maxSizeMessage' => 'Erreur : L\'icone uploadée ne doit pas dépasser 2Mo'
                     ])
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

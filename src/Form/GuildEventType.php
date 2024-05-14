@@ -23,7 +23,7 @@ final class GuildEventType extends AbstractType
             ->add('type', EnumType::class, [
                 'class' => GuildEventTypeEnum::class,
                 'label' => 'Type d\'évènement',
-                'choice_label' => fn (GuildEventTypeEnum $enum) => $enum->value,
+                'choice_label' => fn(GuildEventTypeEnum $enum) => $enum->value,
             ])
             ->add('start', null, [
                 'widget' => 'single_text',
@@ -42,8 +42,7 @@ final class GuildEventType extends AbstractType
                     'Oui' => true,
                     'Non' => false,
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

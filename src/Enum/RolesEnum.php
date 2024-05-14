@@ -13,7 +13,7 @@ enum RolesEnum: string
 
     public static function getRoleDisplayName(self $role): string
     {
-        return match($role) {
+        return match ($role) {
             self::DEV => 'Développeur',
             self::ADMIN => 'Officier',
             self::MEMBER => 'Membre',

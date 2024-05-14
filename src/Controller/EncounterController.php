@@ -21,9 +21,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EncounterController extends AbstractController
 {
     public function __construct(
-        private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly EncounterRepository $encounterRepository
+        private readonly FormFlashHelper        $formFlashHelper,
+        private readonly EncounterRepository    $encounterRepository
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
@@ -101,7 +101,7 @@ class EncounterController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
     final public function delete(Request $request, Encounter $encounter): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$encounter->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $encounter->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($encounter);
             $this->entityManager->flush();
         }

@@ -15,7 +15,7 @@ use Random\RandomException;
 class BuildMessageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
+        private readonly UserRepository  $userRepository,
         private readonly BuildRepository $buildRepository
     ) {}
 
