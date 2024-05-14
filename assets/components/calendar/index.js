@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dateClick: function (info) {
             if (window.matchMedia("(pointer: fine)").matches || touchEndTime - touchStartTime >= 400) {
-                $('#newGuildEventModal').modal('show')
+                $('#manageGuildEventModal').modal('show')
 
                 setModalDatesForDateClick(info)
             }

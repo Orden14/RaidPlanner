@@ -1,0 +1,22 @@
+<div class="modal fade" id="newEventEncounterModal" tabindex="-1" role="dialog" aria-labelledby="newEventEncounterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newEventEncounterModalLabel">Ajouter un combat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form_add_encounter) }}
+                <div class="form-group mb-3">
+                    {{ form_label(form_add_encounter.encounter, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form_add_encounter.encounter) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </div>
+            {{ form_end(form_add_encounter) }}
+        </div>
+    </div>
+</div>

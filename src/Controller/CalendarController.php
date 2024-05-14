@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\GuildEvent;
 use App\Enum\RolesEnum;
-use App\Form\GuildEventType;
+use App\Form\GuildEvent\GuildEventType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
