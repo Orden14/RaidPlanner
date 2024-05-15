@@ -70,7 +70,7 @@ $(document).ready(function () {
 
                 let eventDetails = $(
                     '<div></div>').html(`<br><small>${arg.event.extendedProps.eventType}</small>
-                    <br><small>${arg.event.extendedProps.membersCount}/${arg.event.extendedProps.maxSlots}</small>`
+                    <br><small>${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}</small>`
                 )
 
                 container.append(eventDetails)
@@ -79,7 +79,7 @@ $(document).ready(function () {
                 let title = `
                     ${arg.event.extendedProps.eventType} -
                     ${arg.event.title}  
-                    ${arg.event.extendedProps.membersCount}/${arg.event.extendedProps.maxSlots}
+                    ${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}
                 `
 
                 container.append(title)

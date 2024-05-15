@@ -29,7 +29,7 @@ class GuildEventController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface    $entityManager,
         private readonly FormFlashHelper           $formFlashHelper,
-        private readonly EventParticipationChecker $eventPatricipationChecker,
+        private readonly EventParticipationChecker $eventParticipationChecker,
         private readonly EventAttendanceRepository $eventAttendanceRepository,
     ) {}
 
@@ -65,7 +65,7 @@ class GuildEventController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, GuildEvent $guildEvent): Response
     {
-        if (!$this->eventPatricipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+        if (!$this->eventParticipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 

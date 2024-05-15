@@ -7,6 +7,7 @@ use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Repository\GuildEventRepository;
+use App\Service\GuildEvent\EventAttendanceService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
@@ -18,6 +19,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
     public function __construct(
         private UrlGeneratorInterface     $router,
         private GuildEventRepository      $guildEventRepository,
+        private EventAttendanceService    $eventAttendanceService,
         private EventParticipationChecker $eventParticipationChecker,
     ) {}
 
@@ -67,7 +69,6 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             $event->setOptions([
                 'backgroundColor' => $backgroundColor,
                 'borderColor' => $backgroundColor,
-                'description' => 'wiwiwi',
             ]);
 
             $event->addOption(
@@ -79,7 +80,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
 
             $event->addOption('eventId', $guildEvent->getId());
             $event->addOption('eventType', $guildEvent->getType()->value);
-            $event->addOption('membersCount', count($guildEvent->getEventAttendances()));
+            $event->addOption('playerCount', $this->eventAttendanceService->getEventPlayerCount($guildEvent));
             $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));
 
             $calendar->addEvent($event);

@@ -5,8 +5,10 @@ namespace App\EventSubscriber;
 use App\Entity\Build;
 use App\Entity\BuildMessage;
 use App\Entity\GuildEvent;
+use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\User;
 use App\Entity\UserActivityLog;
+use App\Enum\AttendanceTypeEnum;
 use App\Enum\DoctrineEventTypeEnum;
 use App\Enum\UserActivityLogTypeEnum;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
@@ -62,6 +64,9 @@ final readonly class UserActivitySubscriber
         } elseif ($entity instanceof GuildEvent) {
             $log->setType(UserActivityLogTypeEnum::GUILD_EVENT);
             $message = $this->getGuildEventLogMessage($entity, $eventType);
+        } elseif ($entity instanceof EventAttendance) {
+            $log->setType(UserActivityLogTypeEnum::GUILD_EVENT);
+            $message = $this->getEventAttendanceLogMessage($entity, $eventType);
         } else {
             return;
         }
@@ -122,6 +127,29 @@ final readonly class UserActivitySubscriber
             DoctrineEventTypeEnum::POST_PERSIST => "Nouvel événement de guilde : {$event->getTitle()}",
             DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de l'événement de guilde {$event->getTitle()} par $currentUserName",
             DoctrineEventTypeEnum::POST_REMOVE => "Suppression de l'événement de guilde {$event->getTitle()} par $currentUserName"
+        };
+    }
+
+    private function getEventAttendanceLogMessage(EventAttendance $attendance, DoctrineEventTypeEnum $eventType): string
+    {
+        /** @var ?User $currentUser */
+        $currentUser = $this->security->getUser();
+        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+
+        return match ($eventType) {
+            DoctrineEventTypeEnum::POST_PERSIST => $this->getEventAttendancePersistMessage($attendance, $currentUserName),
+            DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de la participation de {$attendance->getUser()?->getUsername()} à l'événement {$attendance->getGuildEvent()?->getTitle()} : {$attendance->getType()->value}",
+            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de la participation à l'événement {$attendance->getGuildEvent()?->getTitle()} de {$attendance->getUser()?->getUsername()} par $currentUserName"
+        };
+    }
+
+    private function getEventAttendancePersistMessage(EventAttendance $attendance, string $currentUserName): string
+    {
+        return match ($attendance->getType()) {
+            AttendanceTypeEnum::PLAYER => "Nouvelle participation à l'événement {$attendance->getGuildEvent()?->getTitle()} par {$attendance->getUser()?->getUsername()}",
+            AttendanceTypeEnum::BACKUP => "{$attendance->getUser()?->getUsername()} est ajouté en tant que backup à l'événement {$attendance->getGuildEvent()?->getTitle()}",
+            AttendanceTypeEnum::ABSENT => "{$attendance->getUser()?->getUsername()} est ajouté en tant qu'absent à l'événement {$attendance->getGuildEvent()?->getTitle()}",
+            default => "$currentUserName a ajouté son status pour l'évènement {$attendance->getGuildEvent()?->getTitle()}"
         };
     }
 }

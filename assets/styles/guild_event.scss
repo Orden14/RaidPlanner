@@ -43,3 +43,21 @@
 .ge-txt-blocked {
   -webkit-animation: redShade 1s infinite;
 }
+
+.ge-attendance-title {
+    font-size: 1.2rem;
+}
+
+.ge-attendance-text {
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .ge-attendance-title {
+    font-size: 0.8rem;
+  }
+
+  .ge-attendance-text {
+    font-size: 0.6rem;
+  }
+}

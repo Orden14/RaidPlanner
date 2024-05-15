@@ -31,7 +31,7 @@ final class PlayerSlotRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ps')
             ->join('ps.eventEncounter', 'ee')
             ->where('ee.guildEvent = :guildEvent')
-            ->andWhere('ps.user = :user')
+            ->andWhere('ps.player = :user')
             ->setParameter('guildEvent', $guildEvent)
             ->setParameter('user', $user)
             ->getQuery()
