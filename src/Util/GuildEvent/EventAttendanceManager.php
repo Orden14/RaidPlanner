@@ -23,7 +23,7 @@ final readonly class EventAttendanceManager
         $eventAttendance = $this->eventAttendanceRepository->findOneBy([
             'guildEvent' => $guildEvent,
             'user' => $user
-        ]) ?? $this->createAttendanceForUser($user, $guildEvent);
+        ]) ?? $this->createAttendanceForUser($user, $guildEvent, $attendanceType);
 
         if ($eventAttendance->getUser() === $user) {
             if ($attendanceType !== AttendanceTypeEnum::PLAYER && $eventAttendance->getType() === AttendanceTypeEnum::PLAYER) {
@@ -35,9 +35,10 @@ final readonly class EventAttendanceManager
         }
     }
 
-    private function createAttendanceForUser(User $user, GuildEvent $guildEvent): EventAttendance
+    private function createAttendanceForUser(User $user, GuildEvent $guildEvent, AttendanceTypeEnum $type): EventAttendance
     {
         $eventAttendance = (new EventAttendance())
+            ->setType($type)
             ->setGuildEvent($guildEvent)
             ->setUser($user);
 

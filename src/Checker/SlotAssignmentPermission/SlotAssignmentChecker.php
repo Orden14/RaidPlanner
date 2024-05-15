@@ -21,6 +21,7 @@ final readonly class SlotAssignmentChecker
                 return false;
             }
         }
+
         return true;
     }
 }

@@ -1,7 +1,8 @@
 {% set can_edit_encounter = is_granted("ROLE_ADMIN") or (guild_event.canMembersManageEvent and is_granted("ROLE_MEMBER")) %}
 
 {% for event_encounter in event_encounters %}
-    {% set can_user_signup = not does_user_already_have_slot(event_encounter.id) %}
+    {% set can_user_signup = can_user_take_slot(event_encounter.id) %}
+
     {% set invalid_slots = 0 %}
 
     <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-0 overflow-auto">

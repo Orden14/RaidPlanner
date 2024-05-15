@@ -5,10 +5,13 @@ namespace App\DataFixtures;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
+use App\Entity\User;
+use App\Enum\AttendanceTypeEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Repository\BuildRepository;
 use App\Repository\EncounterRepository;
 use App\Repository\UserRepository;
+use App\Util\GuildEvent\EventAttendanceManager;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,9 +20,10 @@ use Doctrine\Persistence\ObjectManager;
 class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository      $userRepository,
-        private readonly BuildRepository     $buildRepository,
-        private readonly EncounterRepository $encounterRepository,
+        private readonly UserRepository         $userRepository,
+        private readonly BuildRepository        $buildRepository,
+        private readonly EncounterRepository    $encounterRepository,
+        private readonly EventAttendanceManager $eventAttendanceManager,
     ) {}
 
     final public function load(ObjectManager $manager): void
@@ -37,6 +41,22 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($guildEvent);
 
+        $users = [];
+        for ($i = 0; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
+            /** @var User $user */
+            $user = $this->userRepository->find($i +1);
+
+            if ($i < 6) {
+                $this->eventAttendanceManager->setEventAttendanceForUser($user, $guildEvent, AttendanceTypeEnum::PLAYER);
+            } elseif ($i < 8) {
+                $this->eventAttendanceManager->setEventAttendanceForUser($user, $guildEvent, AttendanceTypeEnum::BACKUP);
+            } else {
+                $this->eventAttendanceManager->setEventAttendanceForUser($user, $guildEvent, AttendanceTypeEnum::ABSENT);
+            }
+
+            $users[] = $user;
+        }
+
         for ($y = 0; $y < 2; $y++) {
             $eventEncounter = (new EventEncounter())
                 ->setGuildEvent($guildEvent)
@@ -44,20 +64,17 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($eventEncounter);
 
-            for ($i = 1; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()) + 1; $i++) {
+            for ($i = 0; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
                 $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
 
-                if ($i === 1) {
+                $eventSlot->setBuild($this->buildRepository->find($i + 1));
+
+                if ($i === 0) {
                     $eventSlot->setTank(true);
                 }
 
-                if ($i <= 5) {
-                    $eventSlot->setPlayer($this->userRepository->find($i))
-                        ->setBuild($this->buildRepository->find($i));
-                }
-
-                if ($i > 5 && $i !== InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType())) {
-                    $eventSlot->setBuild($this->buildRepository->find($i));
+                if ($i <= 4) {
+                    $eventSlot->setPlayer($users[$i]);
                 }
 
                 $manager->persist($eventSlot);

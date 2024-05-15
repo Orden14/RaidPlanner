@@ -2,6 +2,7 @@
 
 namespace App\Controller\GuildEvent;
 
+use App\Checker\EventParticipationPermission\EventParticipationChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Enum\AttendanceTypeEnum;
@@ -28,7 +29,8 @@ class GuildEventController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface    $entityManager,
         private readonly FormFlashHelper           $formFlashHelper,
-        private readonly EventAttendanceRepository $eventAttendanceRepository
+        private readonly EventParticipationChecker $eventPatricipationChecker,
+        private readonly EventAttendanceRepository $eventAttendanceRepository,
     ) {}
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
@@ -63,6 +65,10 @@ class GuildEventController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, GuildEvent $guildEvent): Response
     {
+        if (!$this->eventPatricipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(GuildEventType::class, $guildEvent, [
             'action' => $this->generateUrl('guild_event_edit', ['id' => $guildEvent->getId()]),
             'method' => 'POST'

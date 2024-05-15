@@ -15,7 +15,7 @@ final readonly class CheckUserIsAllowedStep implements EventParticipationPermiss
 
     public function check(GuildEvent $guildEvent): bool
     {
-        return $this->security->isGranted(RolesEnum::TRIAL)
-            || ($guildEvent->isOldMembersAllowed() && $this->security->isGranted(RolesEnum::OLD_MEMBER));
+        return $this->security->isGranted(RolesEnum::TRIAL->value)
+            || ($guildEvent->isOldMembersAllowed() && $this->security->isGranted(RolesEnum::OLD_MEMBER->value));
     }
 }

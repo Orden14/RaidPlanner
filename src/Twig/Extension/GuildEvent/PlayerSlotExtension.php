@@ -21,14 +21,14 @@ class PlayerSlotExtension extends AbstractExtension
     final public function getFunctions(): array
     {
         return [
-            new TwigFunction('does_user_already_have_slot', $this->doesUserAlreadyHaveSlot(...)),
+            new TwigFunction('can_user_take_slot', $this->canUserTakeSlot(...)),
         ];
     }
 
     /**
      * @throws EntityNotFoundException
      */
-    final public function doesUserAlreadyHaveSlot(int $eventEncounterId): bool
+    final public function canUserTakeSlot(int $eventEncounterId): bool
     {
         $eventEncounter = $this->eventEncounterRepository->find($eventEncounterId);
 

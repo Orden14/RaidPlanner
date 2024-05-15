@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Checker\EventParticipationPermission\EventParticipationChecker;
 use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
@@ -15,8 +16,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 readonly class CalendarSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UrlGeneratorInterface $router,
-        private GuildEventRepository  $guildEventRepository
+        private UrlGeneratorInterface     $router,
+        private GuildEventRepository      $guildEventRepository,
+        private EventParticipationChecker $eventParticipationChecker,
     ) {}
 
     /**
@@ -44,6 +46,10 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             ->getResult();
 
         foreach ($guildEvents as $guildEvent) {
+            if (!$this->eventParticipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+                continue;
+            }
+
             $title = $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
                 ? $guildEvent->getTitle()
                 : "{$guildEvent->getTitle()} ({$guildEvent->getStatus()->value})";
@@ -73,8 +79,9 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
 
             $event->addOption('eventId', $guildEvent->getId());
             $event->addOption('eventType', $guildEvent->getType()->value);
-            /** @TODO MAKE MEMBERSCOUNT */
-            $event->addOption('membersCount', 0);
+
+            $participatingUsersCount = count($guildEvent->getEventAttendances());
+            $event->addOption('membersCount', $participatingUsersCount);
             $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));
 
             $calendar->addEvent($event);
