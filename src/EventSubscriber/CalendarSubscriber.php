@@ -79,9 +79,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
 
             $event->addOption('eventId', $guildEvent->getId());
             $event->addOption('eventType', $guildEvent->getType()->value);
-
-            $participatingUsersCount = count($guildEvent->getEventAttendances());
-            $event->addOption('membersCount', $participatingUsersCount);
+            $event->addOption('membersCount', count($guildEvent->getEventAttendances()));
             $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));
 
             $calendar->addEvent($event);
