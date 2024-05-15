@@ -29,7 +29,7 @@ final class PlayerSlotRepository extends ServiceEntityRepository
     public function findSlotsByEventsForUser(GuildEvent $guildEvent, User $user): array
     {
         return $this->createQueryBuilder('ps')
-            ->join('ps.eventEncounter', 'ee')
+            ->join('ps.eventBattle', 'ee')
             ->where('ee.guildEvent = :guildEvent')
             ->andWhere('ps.player = :user')
             ->setParameter('guildEvent', $guildEvent)

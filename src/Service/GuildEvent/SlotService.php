@@ -3,7 +3,7 @@
 namespace App\Service\GuildEvent;
 
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Repository\PlayerSlotRepository;
@@ -20,10 +20,10 @@ final readonly class SlotService
     /**
      * @param PlayerSlot[] $playerSlots
      */
-    public function createSlotsForEncounter(EventEncounter $eventEncounter, array $playerSlots): void
+    public function createSlotsForEventBattle(EventBattle $eventBattle, array $playerSlots): void
     {
         foreach ($playerSlots as $playerSlot) {
-            $playerSlot->setEventEncounter($eventEncounter);
+            $playerSlot->setEventBattle($eventBattle);
             $this->entityManager->persist($playerSlot);
         }
 

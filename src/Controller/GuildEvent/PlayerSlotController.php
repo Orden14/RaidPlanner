@@ -3,7 +3,7 @@
 namespace App\Controller\GuildEvent;
 
 use App\Checker\SlotAssignmentPermission\SlotAssignmentChecker;
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\RolesEnum;
@@ -22,20 +22,20 @@ class PlayerSlotController extends AbstractController
         private readonly SlotAssignmentChecker  $slotAssignmentChecker,
     ) {}
 
-    #[Route('/event/{eventEncounter}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
-    final public function assignToSlot(EventEncounter $eventEncounter, PlayerSlot $playerSlot): Response
+    #[Route('/event/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
+    final public function assignToSlot(EventBattle $eventBattle, PlayerSlot $playerSlot): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if (!$this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventEncounter)) {
+        if (!$this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventBattle)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('guild_event_show', ['id' => $eventEncounter->getGuildEvent()?->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('guild_event_show', ['id' => $eventBattle->getGuildEvent()?->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
@@ -51,7 +51,7 @@ class PlayerSlotController extends AbstractController
 
         return $this->redirectToRoute(
             'guild_event_show',
-            ['id' => $playerSlot->getEventEncounter()?->getGuildEvent()?->getId()],
+            ['id' => $playerSlot->getEventBattle()?->getGuildEvent()?->getId()],
             Response::HTTP_SEE_OTHER
         );
     }

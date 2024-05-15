@@ -3,10 +3,10 @@
 namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
-use App\Form\GuildEvent\EventEncounterType;
+use App\Form\GuildEvent\EventBattleType;
 use App\Service\GuildEvent\SlotService;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,8 +19,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::MEMBER->value)]
-#[Route('/event-encounter', name: 'guild_event_encounter_')]
-class EventEncounterController extends AbstractController
+#[Route('/event-battle', name: 'guild_event_battle_')]
+class EventBattleController extends AbstractController
 {
     public function __construct(
         private readonly SlotService            $slotService,
@@ -35,14 +35,14 @@ class EventEncounterController extends AbstractController
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        $eventEncounter = (new EventEncounter())->setGuildEvent($guildEvent);
-        $form = $this->createForm(EventEncounterType::class, $eventEncounter);
+        $eventBattle = (new EventBattle())->setGuildEvent($guildEvent);
+        $form = $this->createForm(EventBattleType::class, $eventBattle);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($eventEncounter);
+            $this->entityManager->persist($eventBattle);
             $this->entityManager->flush();
-            $this->slotService->createSlotsForEncounter($eventEncounter, $this->slotService->getPlayerSlotsFromForm($form));
+            $this->slotService->createSlotsForEventBattle($eventBattle, $this->slotService->getPlayerSlotsFromForm($form));
 
 
             $this->addFlash(
@@ -63,15 +63,15 @@ class EventEncounterController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function editForEvent(Request $request, EventEncounter $eventEncounter): Response
+    final public function editForEvent(Request $request, EventBattle $eventBattle): Response
     {
         /** @var GuildEvent $guildEvent */
-        $guildEvent = $eventEncounter->getGuildEvent();
+        $guildEvent = $eventBattle->getGuildEvent();
         if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        $form = $this->createForm(EventEncounterType::class, $eventEncounter);
+        $form = $this->createForm(EventBattleType::class, $eventBattle);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +83,7 @@ class EventEncounterController extends AbstractController
             );
 
             return $this->redirectToRoute('guild_event_show', [
-                'id' => $eventEncounter->getGuildEvent()?->getId()
+                'id' => $eventBattle->getGuildEvent()?->getId()
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -91,10 +91,10 @@ class EventEncounterController extends AbstractController
         $formErrors = $form->getErrors(true, false);
         $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
-        return $this->render('guild_event/edit_event_encounter.html.twig', [
+        return $this->render('guild_event/edit_event_battle.html.twig', [
             'form' => $form->createView(),
-            'guild_event' => $eventEncounter->getGuildEvent(),
-            'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($eventEncounter->getGuildEvent()?->getType())
+            'guild_event' => $eventBattle->getGuildEvent(),
+            'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($eventBattle->getGuildEvent()?->getType())
         ]);
     }
 }

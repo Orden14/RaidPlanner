@@ -3,7 +3,7 @@
 namespace App\Entity\Trait;
 
 use App\Entity\CombatLog;
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\EventAttendance;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,10 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait GuildEventRelationalPropertiesTrait
 {
     /**
-     * @var ?Collection<int, EventEncounter>
+     * @var ?Collection<int, EventBattle>
      */
-    #[ORM\OneToMany(targetEntity: EventEncounter::class, mappedBy: 'guildEvent', orphanRemoval: true)]
-    private ?Collection $eventEncounters;
+    #[ORM\OneToMany(targetEntity: EventBattle::class, mappedBy: 'guildEvent', orphanRemoval: true)]
+    private ?Collection $eventBattles;
 
     /**
      * @var ?Collection<int, EventAttendance>
@@ -29,27 +29,27 @@ trait GuildEventRelationalPropertiesTrait
     private ?Collection $combatLogs;
 
     /**
-     * @return Collection<int, EventEncounter>
+     * @return Collection<int, EventBattle>
      */
-    final public function getEventEncounters(): Collection
+    final public function getEventBattles(): Collection
     {
-        return $this->eventEncounters;
+        return $this->eventBattles;
     }
 
-    final public function addEventEncounter(EventEncounter $eventEncounter): self
+    final public function addEventBattle(EventBattle $eventBattle): self
     {
-        if (!$this->eventEncounters->contains($eventEncounter)) {
-            $this->eventEncounters->add($eventEncounter);
-            $eventEncounter->setGuildEvent($this);
+        if (!$this->eventBattles->contains($eventBattle)) {
+            $this->eventBattles->add($eventBattle);
+            $eventBattle->setGuildEvent($this);
         }
 
         return $this;
     }
 
-    final public function removeEventEncounter(EventEncounter $eventEncounter): self
+    final public function removeEventBattle(EventBattle $eventBattle): self
     {
-        if ($this->eventEncounters->removeElement($eventEncounter) && $eventEncounter->getGuildEvent() === $this) {
-            $eventEncounter->setGuildEvent(null);
+        if ($this->eventBattles->removeElement($eventBattle) && $eventBattle->getGuildEvent() === $this) {
+            $eventBattle->setGuildEvent(null);
         }
 
         return $this;

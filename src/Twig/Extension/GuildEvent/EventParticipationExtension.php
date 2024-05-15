@@ -7,7 +7,7 @@ use App\Checker\SlotAssignmentPermission\SlotAssignmentChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventAttendance;
 use App\Enum\AttendanceTypeEnum;
-use App\Repository\EventEncounterRepository;
+use App\Repository\EventBattleRepository;
 use App\Repository\GuildEventRepository;
 use App\Service\GuildEvent\EventAttendanceService;
 use Doctrine\ORM\EntityNotFoundException;
@@ -17,11 +17,11 @@ use Twig\TwigFunction;
 class EventParticipationExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly EventSignupChecker       $eventSignupChecker,
-        private readonly GuildEventRepository     $guildEventRepository,
-        private readonly SlotAssignmentChecker    $slotAssignmentChecker,
-        private readonly EventAttendanceService   $eventAttendanceService,
-        private readonly EventEncounterRepository $eventEncounterRepository,
+        private readonly EventSignupChecker     $eventSignupChecker,
+        private readonly GuildEventRepository   $guildEventRepository,
+        private readonly EventBattleRepository  $eventBattleRepository,
+        private readonly SlotAssignmentChecker  $slotAssignmentChecker,
+        private readonly EventAttendanceService $eventAttendanceService,
     ) {}
 
     /**
@@ -41,15 +41,15 @@ class EventParticipationExtension extends AbstractExtension
     /**
      * @throws EntityNotFoundException
      */
-    final public function canUserTakeSlot(int $eventEncounterId): bool
+    final public function canUserTakeSlot(int $eventBattleId): bool
     {
-        $eventEncounter = $this->eventEncounterRepository->find($eventEncounterId);
+        $eventBattle = $this->eventBattleRepository->find($eventBattleId);
 
-        if (!$eventEncounter) {
-            throw new EntityNotFoundException(sprintf('Event encounter with id %d not found', $eventEncounterId));
+        if (!$eventBattle) {
+            throw new EntityNotFoundException(sprintf('Event battle with id %d not found', $eventBattleId));
         }
 
-        return $this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventEncounter);
+        return $this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventBattle);
     }
 
     final public function canUserSignup(int $guildEventId): bool

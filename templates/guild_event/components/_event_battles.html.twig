@@ -1,18 +1,18 @@
-{% set can_edit_encounter = is_granted("ROLE_ADMIN") or (guild_event.canMembersManageEvent and is_granted("ROLE_MEMBER")) %}
+{% set can_edit_battle = is_granted("ROLE_ADMIN") or (guild_event.canMembersManageEvent and is_granted("ROLE_MEMBER")) %}
 
-{% for event_encounter in event_encounters %}
-    {% set can_user_signup = can_user_take_slot(event_encounter.id) %}
+{% for event_battle in event_battles %}
+    {% set can_user_signup = can_user_take_slot(event_battle.id) %}
 
     {% set invalid_slots = 0 %}
 
     <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-0 overflow-auto">
         <div class="pt-3 ps-0 pe-0">
-            <h3 class="ps-3">{{ event_encounter.encounter.instance.tag }} - {{ event_encounter.encounter.name }} {% if can_edit_encounter == true %} <a href="{{ path('guild_event_encounter_edit', {'id': event_encounter.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
+            <h3 class="ps-3">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }} {% if can_edit_battle == true %} <a href="{{ path('guild_event_battle_edit', {'id': event_battle.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
             <hr>
         </div>
         <div class="ps-4 pe-4 pb-3">
             <ul class="list-group list-group-flush">
-                {% for player_slot in event_encounter.playerSlots %}
+                {% for player_slot in event_battle.playerSlots %}
                     {% if player_slot.build %}
                         <li class="list-group-item text-nowrap">
                             <div class="row">
@@ -20,7 +20,7 @@
                                     {% if player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
                                         <a class="link-danger text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
                                     {% elseif player_slot.player is null and can_user_signup %}
-                                        <a class="custom-link-primary text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_assign', {'eventEncounter': event_encounter.id, 'playerSlot': player_slot.id}) }}" title="Prendre le slot"><i class="bi bi-box-arrow-in-right"></i></a>
+                                        <a class="custom-link-primary text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_assign', {'eventBattle': event_battle.id, 'playerSlot': player_slot.id}) }}" title="Prendre le slot"><i class="bi bi-box-arrow-in-right"></i></a>
                                     {% endif %}
 
                                     {% if player_slot.tank == true %}
@@ -77,8 +77,8 @@
     </div>
 {% endfor %}
 
-{% if can_edit_encounter == true %}
+{% if can_edit_battle == true %}
     <div class="row justify-content-center mt-4 mb-3 ms-2">
-        <a href="#" class="text-decoration-none custom-link-primary h6" data-bs-toggle="modal" data-bs-target="#newEventEncounterModal" title="Ajouter un combat"><i class="bi bi-plus-lg"></i> Ajouter un combat</a>
+        <a href="#" class="text-decoration-none custom-link-primary h6" data-bs-toggle="modal" data-bs-target="#newEventBattleModal" title="Ajouter un combat"><i class="bi bi-plus-lg"></i> Ajouter un combat</a>
     </div>
 {% endif %}

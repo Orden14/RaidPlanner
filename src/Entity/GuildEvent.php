@@ -43,7 +43,7 @@ class GuildEvent
 
     public function __construct()
     {
-        $this->eventEncounters = new ArrayCollection();
+        $this->eventBattles = new ArrayCollection();
         $this->eventAttendances = new ArrayCollection();
         $this->combatLogs = new ArrayCollection();
     }

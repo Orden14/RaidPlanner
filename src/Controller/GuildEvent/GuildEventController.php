@@ -4,12 +4,12 @@ namespace App\Controller\GuildEvent;
 
 use App\Checker\EventParticipationPermission\EventParticipationChecker;
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
-use App\Form\GuildEvent\EventEncounterType;
+use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
 use App\Repository\EventAttendanceRepository;
 use App\Util\Form\FormFlashHelper;
@@ -75,19 +75,19 @@ class GuildEventController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        $eventEncounter = (new EventEncounter())->setGuildEvent($guildEvent);
-        $formAddEncounter = $this->createForm(EventEncounterType::class, $eventEncounter, [
-            'action' => $this->generateUrl('guild_event_encounter_add', ['guildEvent' => $guildEvent->getId()]),
+        $eventBattle = (new EventBattle())->setGuildEvent($guildEvent);
+        $formAddBattle = $this->createForm(EventBattleType::class, $eventBattle, [
+            'action' => $this->generateUrl('guild_event_battle_add', ['guildEvent' => $guildEvent->getId()]),
             'method' => 'POST'
         ]);
-        $formAddEncounter->handleRequest($request);
+        $formAddBattle->handleRequest($request);
 
         return $this->render('guild_event/show.html.twig', [
             'form' => $form->createView(),
-            'form_add_encounter' => $formAddEncounter->createView(),
+            'form_add_battle' => $formAddBattle->createView(),
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
-            'event_encounters' => $guildEvent->getEventEncounters(),
+            'event_battles' => $guildEvent->getEventBattles(),
             'backups' => $this->eventAttendanceRepository->findEventAttendancesByType($guildEvent, AttendanceTypeEnum::BACKUP),
             'absents' => $this->eventAttendanceRepository->findEventAttendancesByType($guildEvent, AttendanceTypeEnum::ABSENT),
         ]);
