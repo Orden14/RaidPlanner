@@ -7,7 +7,17 @@
 
     <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-0 overflow-auto">
         <div class="pt-3 ps-0 pe-0">
-            <h3 class="ps-3">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }} {% if can_edit_battle == true %} <a href="{{ path('guild_event_battle_edit', {'id': event_battle.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"><i class="bi bi-pencil-fill"></i> modifier</span></a> {% endif %}</h3>
+            <h3 class="ps-3">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }}
+                {% if can_edit_battle == true %}
+                    <a href="{{ path('guild_event_battle_edit', {'id': event_battle.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"> <i class="bi bi-pencil-fill"></i> <span class="d-none d-md-inline">modifier</span></span></a>
+                    <form id="delete{{ event_battle.id }}" method="post" action="{{ path('guild_event_battle_delete', {'id': event_battle.id}) }}" data-controller="confirm" class="d-inline float-end me-3">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event_battle.id) }}">
+                        <a type="button" class="text-decoration-none link-danger" id="{{ event_battle.id }}" data-action="confirm#confirmDeletion" title="Supprimer un combat" data-bs-toggle="tooltip">
+                            <span class="small-head-text"><i class="bi bi-trash"></i> <span class="d-none d-md-inline">supprimer</span></span>
+                        </a>
+                    </form>
+                {% endif %}
+            </h3>
             <hr>
         </div>
         <div class="ps-4 pe-4 pb-3">

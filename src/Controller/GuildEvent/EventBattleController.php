@@ -97,4 +97,26 @@ class EventBattleController extends AbstractController
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($eventBattle->getGuildEvent()?->getType())
         ]);
     }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['GET', 'POST'])]
+    final public function delete(Request $request, EventBattle $eventBattle): Response
+    {
+        /** @var GuildEvent $guildEvent */
+        $guildEvent = $eventBattle->getGuildEvent();
+
+        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $eventBattle->getId(), $request->getPayload()->get('_token'))) {
+            $this->entityManager->remove($eventBattle);
+            $this->entityManager->flush();
+            $this->addFlash(
+                'success',
+                "Le combat a bien été supprimé."
+            );
+        }
+
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+    }
 }
