@@ -2,9 +2,12 @@
 
 namespace App\EventSubscriber;
 
+use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Repository\GuildEventRepository;
+use App\Service\GuildEvent\EventAttendanceService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
@@ -14,8 +17,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 readonly class CalendarSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UrlGeneratorInterface $router,
-        private GuildEventRepository  $guildEventRepository
+        private UrlGeneratorInterface               $router,
+        private GuildEventRepository                $guildEventRepository,
+        private EventAttendanceService              $eventAttendanceService,
+        private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
     /**
@@ -43,6 +48,10 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             ->getResult();
 
         foreach ($guildEvents as $guildEvent) {
+            if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+                continue;
+            }
+
             $title = $guildEvent->getStatus() === GuildEventStatusEnum::OPEN
                 ? $guildEvent->getTitle()
                 : "{$guildEvent->getTitle()} ({$guildEvent->getStatus()->value})";
@@ -60,7 +69,6 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             $event->setOptions([
                 'backgroundColor' => $backgroundColor,
                 'borderColor' => $backgroundColor,
-                'description' => 'wiwiwi',
             ]);
 
             $event->addOption(
@@ -69,6 +77,11 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
                     'id' => $guildEvent->getId(),
                 ])
             );
+
+            $event->addOption('eventId', $guildEvent->getId());
+            $event->addOption('eventType', $guildEvent->getType()->value);
+            $event->addOption('playerCount', $this->eventAttendanceService->getEventPlayerCount($guildEvent));
+            $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));
 
             $calendar->addEvent($event);
         }

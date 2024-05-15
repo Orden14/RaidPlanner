@@ -3,9 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Entity\GuildEventRelation\EventAttendance;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
-use App\Enum\GuildEventTypeEnum;
+use App\Entity\User;
+use App\Enum\AttendanceTypeEnum;
+use App\Enum\InstanceTypeEnum;
 use App\Repository\BuildRepository;
 use App\Repository\EncounterRepository;
 use App\Repository\UserRepository;
@@ -30,34 +33,53 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
     private function createGuildEvent(ObjectManager $manager): void
     {
         $guildEvent = (new GuildEvent())
+            ->setOwner($this->userRepository->find(1))
             ->setTitle('Test event')
             ->setStart((new DateTime())->setTime(10, 0))
             ->setEnd((new DateTime())->setTime(15, 0))
-            ->setType(GuildEventTypeEnum::RAID);
+            ->setType(InstanceTypeEnum::RAID);
 
         $manager->persist($guildEvent);
 
+        $users = [];
+        for ($i = 0; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
+            /** @var User $user */
+            $user = $this->userRepository->find($i + 1);
+            $eventAttendance = (new EventAttendance())
+                ->setGuildEvent($guildEvent)
+                ->setUser($user);
+
+            if ($i < 6) {
+                $eventAttendance->setType(AttendanceTypeEnum::PLAYER);
+            } elseif ($i < 8) {
+                $eventAttendance->setType(AttendanceTypeEnum::BACKUP);
+            } else {
+                $eventAttendance->setType(AttendanceTypeEnum::ABSENT);
+            }
+
+            $manager->persist($eventAttendance);
+
+            $users[] = $user;
+        }
+
         for ($y = 0; $y < 2; $y++) {
-            $eventEncounter = (new EventEncounter())
+            $eventBattle = (new EventBattle())
                 ->setGuildEvent($guildEvent)
                 ->setEncounter($this->encounterRepository->find($y + 1));
 
-            $manager->persist($eventEncounter);
+            $manager->persist($eventBattle);
 
-            for ($i = 1; $i < GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType()) + 1; $i++) {
-                $eventSlot = (new PlayerSlot())->setEventEncounter($eventEncounter);
+            for ($i = 0; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
+                $eventSlot = (new PlayerSlot())->setEventBattle($eventBattle);
 
-                if ($i === 1) {
+                $eventSlot->setBuild($this->buildRepository->find($i + 1));
+
+                if ($i === 0) {
                     $eventSlot->setTank(true);
                 }
 
-                if ($i <= 5) {
-                    $eventSlot->setPlayer($this->userRepository->find($i))
-                        ->setBuild($this->buildRepository->find($i));
-                }
-
-                if ($i > 5 && $i !== GuildEventTypeEnum::getMaxPlayersByType($guildEvent->getType())) {
-                    $eventSlot->setBuild($this->buildRepository->find($i));
+                if ($i <= 4) {
+                    $eventSlot->setPlayer($users[$i]);
                 }
 
                 $manager->persist($eventSlot);

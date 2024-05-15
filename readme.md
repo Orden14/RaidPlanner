@@ -18,7 +18,7 @@ This is a Symfony project running on Symfony 7. To run the project easily, you n
 - Docker
 
 ###### These are custom commands to help you run the project for the first time :
-- docker-compose up (this docker-compose contains a MariaDB database, Phpmyadmin, and MailDev)
+- docker-compose up (this docker-compose contains a MariaDB database and phpmyadmin)
 - yarn dependencies (executes composer install, yarn install, and yarn build)
 - yarn truncate-database (clear database and loads data fixtures)
 - yarn server-start (starts a local dev server on port 8001)

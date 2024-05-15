@@ -2,12 +2,11 @@
 
 namespace App\Controller\GuildEvent;
 
-use App\Entity\GuildEventRelation\EventEncounter;
+use App\Checker\SlotAssignmentPermission\SlotAssignmentPermissionChecker;
+use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Util\GuildEvent\NonActiveSlotManager;
-use App\Util\GuildEvent\PlayerSlotChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,40 +18,40 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PlayerSlotController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly PlayerSlotChecker      $playerSlotChecker,
-        private readonly NonActiveSlotManager   $nonActiveSlotManager
+        private readonly EntityManagerInterface          $entityManager,
+        private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
     ) {}
 
-    #[Route('/event/{eventEncounter}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
-    final public function assignToSlot(EventEncounter $eventEncounter, PlayerSlot $playerSlot): Response
+    #[Route('/event/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
+    final public function assignToSlot(EventBattle $eventBattle, PlayerSlot $playerSlot): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if (!$this->playerSlotChecker->isUserAllowedToSignUp($eventEncounter)) {
+        if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        $this->nonActiveSlotManager->manageNonActiveSlotsForUser($eventEncounter->getGuildEvent());
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
 
-
-        return $this->redirectToRoute('guild_event_show', ['id' => $eventEncounter->getGuildEvent()?->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('guild_event_show', ['id' => $eventBattle->getGuildEvent()?->getId()], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
     final public function freeSlot(PlayerSlot $playerSlot): Response
     {
-        if ($this->playerSlotChecker->isUserAllowedToFreeSlot($playerSlot)) {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        if ($this->isGranted(RolesEnum::ADMIN->value) || $currentUser === $playerSlot->getPlayer()) {
             $playerSlot->setPlayer(null);
             $this->entityManager->flush();
         }
 
         return $this->redirectToRoute(
             'guild_event_show',
-            ['id' => $playerSlot->getEventEncounter()?->getGuildEvent()?->getId()],
+            ['id' => $playerSlot->getEventBattle()?->getGuildEvent()?->getId()],
             Response::HTTP_SEE_OTHER
         );
     }

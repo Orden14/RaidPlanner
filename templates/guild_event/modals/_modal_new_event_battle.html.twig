@@ -1,0 +1,35 @@
+<div class="modal fade" id="newEventBattleModal" tabindex="-1" role="dialog" aria-labelledby="newEventBattleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newEventBattleModalLabel">Ajouter un combat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form_add_battle) }}
+                <div class="form-group mb-3">
+                    {{ form_label(form_add_battle.encounter, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form_add_battle.encounter) }}
+                </div>
+            {% for i in 0..(max_player_slots - 1) %}
+                {% set playerSlot = form_add_battle['playerSlot' ~ i] %}
+                <div class="row mb-4 ge-vertical-center">
+                    <div class="form-group col-auto">
+                        {{ form_label(playerSlot.tank, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(playerSlot.tank) }}
+                    </div>
+                    <div class="form-group col">
+                        {{ form_label(playerSlot.build, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(playerSlot.build) }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </div>
+            {{ form_end(form_add_battle) }}
+        </div>
+    </div>
+</div>

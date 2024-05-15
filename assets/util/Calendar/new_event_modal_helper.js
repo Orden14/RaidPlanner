@@ -6,8 +6,8 @@ export function setModalDates(startDate, endDate) {
     localDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
     let endStr = localDate.toISOString().split('.')[0]
 
-    $('#newGuildEventModal input[name="guild_event[start]"]').val(startStr)
-    $('#newGuildEventModal input[name="guild_event[end]"]').val(endStr)
+    $('#manageGuildEventModal input[name="guild_event[start]"]').val(startStr)
+    $('#manageGuildEventModal input[name="guild_event[end]"]').val(endStr)
 }
 
 export function setModalDatesForDateClick(info) {

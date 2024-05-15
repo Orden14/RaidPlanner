@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Instance;
+use App\Enum\InstanceTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -10,10 +11,11 @@ class InstanceFixtures extends Fixture
 {
     final public function load(ObjectManager $manager): void
     {
-        foreach ($this->getRaidWingsList() as $tag => $name) {
+        foreach ($this->getInstanceList() as $name => [$tag, $type]) {
             $instance = (new Instance())
                 ->setName($name)
-                ->setTag($tag);
+                ->setTag($tag)
+                ->setType($type);
 
             $manager->persist($instance);
         }
@@ -22,18 +24,21 @@ class InstanceFixtures extends Fixture
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, array<int, string|InstanceTypeEnum>>
      */
-    private function getRaidWingsList(): array
+    private function getInstanceList(): array
     {
         return [
-            'w1' => 'Spirit Vale',
-            'w2' => 'Salvation Pass',
-            'w3' => 'Stronghold of the Faithful',
-            'w4' => 'Bastion of the Penitent',
-            'w5' => 'Hall of Chains',
-            'w6' => 'Mythwright Gambit',
-            'w7' => 'The Key of Ahdashim'
+            'Spirit Vale' => ['w1', InstanceTypeEnum::RAID],
+            'Salvation Pass' => ['w2', InstanceTypeEnum::RAID],
+            'Stronghold of the Faithful' => ['w3', InstanceTypeEnum::RAID],
+            'Bastion of the Penitent' => ['w4', InstanceTypeEnum::RAID],
+            'Hall of Chains' => ['w5', InstanceTypeEnum::RAID],
+            'Mythwright Gambit' => ['w6', InstanceTypeEnum::RAID],
+            'The Key of Ahdashim' => ['w7', InstanceTypeEnum::RAID],
+            'Fractal of the Mists' => ['fractal', InstanceTypeEnum::FRACTAL],
+            'Strike mission' => ['strike', InstanceTypeEnum::STRIKE],
+            'Dungeon' => ['donjon', InstanceTypeEnum::DUNGEON],
         ];
     }
 }

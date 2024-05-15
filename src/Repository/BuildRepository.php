@@ -30,6 +30,21 @@ final class BuildRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->andWhere('b.status = :status')
             ->setParameter('status', BuildStatusEnum::META->value)
+            ->orderBy('b.specialization', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Build[]
+     */
+    public function findAllExceptDefaults(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.specialization', 's')
+            ->join('s.job', 'j')
+            ->where('j.isDefault = :isDefault')
+            ->setParameter('isDefault', false)
             ->getQuery()
             ->getResult();
     }

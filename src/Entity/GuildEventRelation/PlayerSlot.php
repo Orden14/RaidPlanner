@@ -17,7 +17,7 @@ class PlayerSlot
 
     #[ORM\ManyToOne(inversedBy: 'playerSlots')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?EventEncounter $eventEncounter = null;
+    private ?EventBattle $eventBattle = null;
 
     #[ORM\ManyToOne(inversedBy: 'playerSlots')]
     private ?User $player = null;
@@ -33,14 +33,14 @@ class PlayerSlot
         return $this->id;
     }
 
-    final public function getEventEncounter(): ?EventEncounter
+    final public function getEventBattle(): ?EventBattle
     {
-        return $this->eventEncounter;
+        return $this->eventBattle;
     }
 
-    final public function setEventEncounter(?EventEncounter $eventEncounter): self
+    final public function setEventBattle(?EventBattle $eventBattle): self
     {
-        $this->eventEncounter = $eventEncounter;
+        $this->eventBattle = $eventBattle;
 
         return $this;
     }

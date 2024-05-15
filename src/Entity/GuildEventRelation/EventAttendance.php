@@ -4,28 +4,28 @@ namespace App\Entity\GuildEventRelation;
 
 use App\Entity\GuildEvent;
 use App\Entity\User;
-use App\Enum\NonActiveSlotTypeEnum;
-use App\Repository\NonActiveSlotRepository;
+use App\Enum\AttendanceTypeEnum;
+use App\Repository\EventAttendanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NonActiveSlotRepository::class)]
-class NonActiveSlot
+#[ORM\Entity(repositoryClass: EventAttendanceRepository::class)]
+class EventAttendance
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nonActiveSlots')]
+    #[ORM\ManyToOne(inversedBy: 'eventAttendances')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nonActiveSlots')]
+    #[ORM\ManyToOne(inversedBy: 'eventAttendances')]
     #[ORM\JoinColumn(nullable: false)]
     private ?GuildEvent $guildEvent = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = NonActiveSlotTypeEnum::BACKUP->value;
+    private ?string $type = AttendanceTypeEnum::BACKUP->value;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
@@ -59,12 +59,12 @@ class NonActiveSlot
         return $this;
     }
 
-    final public function getType(): ?NonActiveSlotTypeEnum
+    final public function getType(): ?AttendanceTypeEnum
     {
-        return NonActiveSlotTypeEnum::from($this->type);
+        return AttendanceTypeEnum::from($this->type);
     }
 
-    final public function setType(NonActiveSlotTypeEnum $type): self
+    final public function setType(AttendanceTypeEnum $type): self
     {
         $this->type = $type->value;
 

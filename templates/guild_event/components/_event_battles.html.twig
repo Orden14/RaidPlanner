@@ -1,0 +1,100 @@
+{% set can_manage_event = can_user_manage_event(guild_event.id) %}
+
+<div class="accordion mt-4" id="eventBattlesAccordion">
+    {% for event_battle in event_battles %}
+        {% set can_user_signup = can_user_take_slot(event_battle.id) %}
+        {% set invalid_slots = 0 %}
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ event_battle.id }}">
+                <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ event_battle.id }}" aria-expanded="true" aria-controls="collapse{{ event_battle.id }}">
+                    <span class="h4 p-1 m-0">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }}</span>
+                </button>
+            </h2>
+            <div id="collapse{{ event_battle.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ event_battle.id }}" data-bs-parent="#eventBattlesAccordion">
+                <div class="accordion-body">
+                    {% if can_manage_event == true %}
+                        <div class="mb-4 text-center text-md-start">
+                            <form id="delete{{ event_battle.id }}" method="post" action="{{ path('guild_event_battle_delete', {'id': event_battle.id}) }}" data-controller="confirm" class="d-inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event_battle.id) }}">
+                                <a type="button" class="text-decoration-none link-danger" id="{{ event_battle.id }}" data-action="confirm#confirmDeletion" title="Supprimer un combat" data-bs-toggle="tooltip">
+                                    <span class="small-head-text"><i class="bi bi-trash"></i> <span>supprimer</span></span>
+                                </a>
+                            </form>
+                            <a href="{{ path('guild_event_battle_edit', {'id': event_battle.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"> <i class="bi bi-pencil-fill"></i> <span>modifier</span></span></a>
+                        </div>
+                    {% endif %}
+
+                    <ul class="list-group list-group-flush">
+                        {% for player_slot in event_battle.playerSlots %}
+                            {% if player_slot.build %}
+                                <li class="list-group-item text-nowrap">
+                                    <div class="row">
+                                        <div class="col ge-vertical-center">
+                                            {% if player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
+                                                <a class="link-danger text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
+                                            {% elseif player_slot.player is null and can_user_signup %}
+                                                <a class="custom-link-primary text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_assign', {'eventBattle': event_battle.id, 'playerSlot': player_slot.id}) }}" title="Prendre le slot"><i class="bi bi-box-arrow-in-right"></i></a>
+                                            {% endif %}
+
+                                            {% if player_slot.tank == true %}
+                                                <span class="me-1">
+                                                    <img src="{{ asset('/guild_event/tank.png') }}" alt="Tank icon" title="Tank" class="small-icon">
+                                                </span>
+                                            {% endif %}
+
+                                            {% if player_slot.player is not null %}
+                                                <span class="me-3 ge-text {{ player_slot.player.username == app.user.username ? 'custom-link-primary' : ''}}">
+                                                    <img class="small-icon rounded-circle" src="{{ asset('profile_picture/' ~ player_slot.player.profilePicture) }}" alt="Profile">
+                                                    {{ player_slot.player.username }}
+                                                </span>
+                                            {% endif %}
+
+                                            {% if player_slot.player is not null %}
+                                                </div>
+                                                <div class="col-auto ge-md-vertical-center">
+                                            {% endif %}
+
+                                            <span class="pe-md-2">
+                                                <a href="{{ path('build_show', {'id': player_slot.build.id}) }}" title="{{ player_slot.build.name }}" class="text-decoration-none {{ player_slot.player is not null ? 'ge-secondary-text' : '' }}" style="color: {{ player_slot.build.specialization.job.color }}">
+                                                    <img src="{{ asset('/icon/' ~ player_slot.build.specialization.icon) }}" alt="{{ player_slot.build.specialization.name }} icon" title="{{ player_slot.build.specialization.name }}" class="small-icon {{ player_slot.player is not null ? 'ge-secondary-img' : '' }}">
+                                                    {{ player_slot.build.name }}
+                                                </a>
+                                            </span>
+
+                                            <span>
+                                                {% for category in player_slot.build.categories %}
+                                                    <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon {{ player_slot.player is not null ? 'ge-secondary-img' : '' }}">
+                                                {% endfor %}
+                                            </span>
+
+                                            {% if player_slot.player is not null %}
+                                                </div>
+                                            {% endif %}
+                                    </div>
+                                </li>
+                            {% else %}
+                                {% set invalid_slots = invalid_slots + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% if invalid_slots > 0 %}
+                <div class="mt-4">
+                    <span><i class="bi bi-exclamation-diamond text-warning"></i> Attention : il y a {{ invalid_slots }} {{ invalid_slots == 1 ? 'slot invalide' : 'slots invalides' }}. Un build doit être assigné à chaque slot.</span>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="row justify-content-center mt-2 mb-3">
+            Aucun combat n'est planifié pour le moment
+        </div>
+    {% endfor %}
+</div>
+
+{% if can_manage_event == true %}
+    <div class="row justify-content-center mt-4 mb-3 ms-2">
+        <a href="#" class="text-decoration-none custom-link-primary h6" data-bs-toggle="modal" data-bs-target="#newEventBattleModal" title="Ajouter un combat"><i class="bi bi-plus-lg"></i> Ajouter un combat</a>
+    </div>
+{% endif %}

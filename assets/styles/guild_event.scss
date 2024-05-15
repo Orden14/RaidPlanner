@@ -2,12 +2,12 @@
   font-size: 1.5rem;
 }
 
-.ge-horizontal-center {
+.ge-vertical-center {
   display: flex;
   align-items: center;
 }
 
-.ge-md-horizontal-center {
+.ge-md-vertical-center {
   display: inline-flex;
   align-items: center;
 }
@@ -22,7 +22,7 @@
     height: 20px !important;
   }
 
-  .ge-md-horizontal-center {
+  .ge-md-vertical-center {
     display: block;
     align-items: center;
   }
@@ -42,4 +42,22 @@
 
 .ge-txt-blocked {
   -webkit-animation: redShade 1s infinite;
+}
+
+.ge-attendance-title {
+    font-size: 1.2rem;
+}
+
+.ge-attendance-text {
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .ge-attendance-title {
+    font-size: 0.8rem;
+  }
+
+  .ge-attendance-text {
+    font-size: 0.6rem;
+  }
 }

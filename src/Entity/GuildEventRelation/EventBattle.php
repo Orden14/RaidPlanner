@@ -4,7 +4,7 @@ namespace App\Entity\GuildEventRelation;
 
 use App\Entity\Encounter;
 use App\Entity\GuildEvent;
-use App\Repository\EventEncounterRepository;
+use App\Repository\EventBattleRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,26 +12,26 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EventEncounterRepository::class)]
-class EventEncounter
+#[ORM\Entity(repositoryClass: EventBattleRepository::class)]
+class EventBattle
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'eventEncounters')]
+    #[ORM\ManyToOne(inversedBy: 'eventBattles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?GuildEvent $guildEvent = null;
 
-    #[ORM\ManyToOne(inversedBy: 'eventEncounters')]
+    #[ORM\ManyToOne(inversedBy: 'eventBattles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Encounter $encounter = null;
 
     /**
      * @var Collection<int, PlayerSlot>
      */
-    #[ORM\OneToMany(targetEntity: PlayerSlot::class, mappedBy: 'eventEncounter', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PlayerSlot::class, mappedBy: 'eventBattle', orphanRemoval: true)]
     private Collection $playerSlots;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -85,7 +85,7 @@ class EventEncounter
     {
         if (!$this->playerSlots->contains($playerSlot)) {
             $this->playerSlots->add($playerSlot);
-            $playerSlot->setEventEncounter($this);
+            $playerSlot->setEventBattle($this);
         }
 
         return $this;
@@ -93,8 +93,8 @@ class EventEncounter
 
     final public function removePlayerSlot(PlayerSlot $playerSlot): self
     {
-        if ($this->playerSlots->removeElement($playerSlot) && $playerSlot->getEventEncounter() === $this) {
-            $playerSlot->setEventEncounter(null);
+        if ($this->playerSlots->removeElement($playerSlot) && $playerSlot->getEventBattle() === $this) {
+            $playerSlot->setEventBattle(null);
         }
 
         return $this;

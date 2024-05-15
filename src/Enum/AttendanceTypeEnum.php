@@ -2,8 +2,9 @@
 
 namespace App\Enum;
 
-enum NonActiveSlotTypeEnum: string
+enum AttendanceTypeEnum: string
 {
+    case PLAYER = 'Inscrit';
     case BACKUP = 'Backup';
     case ABSENT = 'Absent';
 }

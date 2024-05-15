@@ -2,18 +2,23 @@
 
 {% block body %}
     <a href="{{ path('calendar_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
+    <div class="border rounded m-1 p-1">
+        <div class="row p-4">
+            <h2>
+                {% if guild_event.status.value == "Annulé" %}
+                    <i class="bi bi-ban ge-txt-blocked me-2"> ANNULÉ</i>
+                {% endif %}
+                {{ guild_event.title }} <span class="small-head-text"><i>Le {{ guild_event.start|date('d') }} {{ ('month_names.' ~ guild_event.start|date('F'))|trans }} de {{ guild_event.start|date('H\\hi') }} à {{ guild_event.end|date('H\\hi') }}</i></span>
+            </h2>
 
-    <div class="row border rounded ms-1 me-1 p-3">
-        <h2>
-            {% if guild_event.status.value == "Annulé" %}
-                <i class="bi bi-ban ge-txt-blocked me-2"> ANNULÉ</i>
-            {% endif %}
-            {{ guild_event.title }} <span class="small-head-text"><i>Le {{ guild_event.start|date('d') }} {{ ('month_names.' ~ guild_event.start|date('F'))|trans }} de {{ guild_event.start|date('H\\hi') }} à {{ guild_event.end|date('H\\hi') }}</i></span>
-        </h2>
-        {{ include('guild_event/components/_toolbar.html.twig') }}
-
-        <p></p>
-
-        {{ include('guild_event/components/_event_encounters.html.twig') }}
+            {{ include('guild_event/components/_toolbar.html.twig') }}
+        </div>
+        <div class="pt-1 ps-3 pe-3">
+            {{ include('guild_event/components/_event_attendance.html.twig') }}
+            {{ include('guild_event/components/_event_battles.html.twig') }}
+        </div>
     </div>
+
+    {{ include('guild_event/modals/_modal_manage.html.twig') }}
+    {{ include('guild_event/modals/_modal_new_event_battle.html.twig') }}
 {% endblock %}

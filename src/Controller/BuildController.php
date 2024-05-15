@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormErrorIterator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -48,7 +49,7 @@ class BuildController extends AbstractController
         return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
             'categories' => $this->buildCategoryRepository->findAll(),
-            'builds' => $this->buildRepository->findAll(),
+            'builds' => $this->buildRepository->findAllExceptDefaults(),
             'specializations' => $this->specializationRepository->findAllOrderedByJob(false),
         ]);
     }
@@ -85,15 +86,21 @@ class BuildController extends AbstractController
 
         return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
-            'builds' => $this->buildRepository->findAll(),
+            'builds' => $this->buildRepository->findAllExceptDefaults(),
         ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, Build $build): Response
     {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefault() === true) {
+            $referer = $request->headers->get('referer');
+
+            return new RedirectResponse($referer ?: $this->generateUrl('app_home'), Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(BuildType::class, $build, [
-            'action' => $this->generateUrl('build_new'),
+            'action' => $this->generateUrl('build_edit', ['id' => $build->getId()]),
             'method' => 'POST',
 
         ]);

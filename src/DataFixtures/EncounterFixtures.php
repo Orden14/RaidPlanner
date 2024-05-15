@@ -75,7 +75,40 @@ class EncounterFixtures extends Fixture implements DependentFixtureInterface
                 'Cardinal Adina',
                 'Cardinal Sabir',
                 'Qadim the Peerless',
-            ]
+            ],
+            'fractal' => [
+                'Sunqua Peak',
+                'Siren\'s Reef',
+                'Deepstone Fractal',
+                'Shattered Observatory',
+                'Twilight Oasis',
+                'Aetherblade Fractal',
+                'Chaos Fractal',
+            ],
+            'strike' => [
+                'Cold War',
+                'Voice of the Fallen and Claw of the Fallen',
+                'Fraenir of Jormag',
+                'Boneskinner',
+                'Whisper of Jormag',
+                'Shiverpeaks Pass',
+                'Cold War',
+                'Voice of the Fallen and Claw of the Fallen',
+                'Fraenir of Jormag',
+                'Boneskinner',
+                'Whisper of Jormag',
+                'Shiverpeaks Pass',
+            ],
+            'donjon' => [
+                'Ascalonian Catacombs',
+                'Caudecus\'s Manor',
+                'Twilight Arbor',
+                'Sorrow\'s Embrace',
+                'Citadel of Flame',
+                'Honor of the Waves',
+                'Crucible of Eternity',
+                'The Ruined City of Arah',
+            ],
         ];
     }
 

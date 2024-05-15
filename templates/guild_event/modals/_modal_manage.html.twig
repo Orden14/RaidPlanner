@@ -1,8 +1,17 @@
-<div class="modal fade" id="newGuildEventModal" tabindex="-1" role="dialog" aria-labelledby="newGuildEventModalLabel" aria-hidden="true">
+<div class="modal fade" id="manageGuildEventModal" tabindex="-1" role="dialog" aria-labelledby="manageGuildEventModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newGuildEventModalLabel">Nouvel évènement</h5>
+
+                {% if guild_event is defined %}
+                    {% set modal_title = 'Modifier un événement' %}
+                    {% set modal_submit_text = 'Modifier' %}
+                {% else %}
+                    {% set modal_title = 'Ajouter un événement' %}
+                    {% set modal_submit_text = 'Ajouter' %}
+                {% endif %}
+
+                <h5 class="modal-title" id="manageGuildEventModalLabel">{{ modal_title }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -12,10 +21,12 @@
                         {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="row">
-                        <div class="col-md-6 form-group mb-3">
-                            {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
-                        </div>
+                        {% if guild_event is not defined %}
+                            <div class="col-md-6 form-group mb-3">
+                                {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
+                            </div>
+                        {% endif %}
                         <div class="col-md-6 form-group mb-3">
                             {{ form_label(form.color, null, {'label_attr': {'class': 'form-label'}}) }}
                             {{ form_widget(form.color, {'attr': {'class': 'form-control form-control-color'}}) }}
@@ -31,14 +42,20 @@
                             {{ form_widget(form.end, {'attr': {'class': 'form-control'}}) }}
                         </div>
                     </div>
-                    <div class="form-group mb-3">
-                        {{ form_label(form.oldMembersAllowed, null, {'label_attr': {'class': 'form-label'}}) }}
-                        {{ form_widget(form.oldMembersAllowed, {'attr': {'class': 'form-control'}}) }}
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            {{ form_label(form.oldMembersAllowed, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.oldMembersAllowed, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            {{ form_label(form.membersManageEvent, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.membersManageEvent, {'attr': {'class': 'form-control'}}) }}
+                        </div>
                     </div>
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <button type="submit" class="btn btn-primary">{{ modal_submit_text }}</button>
                 </div>
             {{ form_end(form) }}
         </div>

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\GuildEvent;
 
 use App\Entity\GuildEvent;
-use App\Enum\GuildEventTypeEnum;
+use App\Enum\InstanceTypeEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
@@ -16,14 +16,11 @@ final class GuildEventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isEventNew = $options['data']->getId() === null;
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre',
-            ])
-            ->add('type', EnumType::class, [
-                'class' => GuildEventTypeEnum::class,
-                'label' => 'Type d\'évènement',
-                'choice_label' => fn(GuildEventTypeEnum $enum) => $enum->value,
             ])
             ->add('start', null, [
                 'widget' => 'single_text',
@@ -37,12 +34,27 @@ final class GuildEventType extends AbstractType
                 'label' => 'Couleur',
             ])
             ->add('oldMembersAllowed', ChoiceType::class, [
-                'label' => 'Les anciens membres sont-ils autorisés ?',
+                'label' => 'Anciens membres',
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+            ])
+            ->add('membersManageEvent', ChoiceType::class, [
+                'label' => 'Gestion par les membres',
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
             ]);
+
+        if ($isEventNew) {
+            $builder->add('type', EnumType::class, [
+                'class' => InstanceTypeEnum::class,
+                'label' => 'Type d\'évènement',
+                'choice_label' => fn(InstanceTypeEnum $enum) => $enum->value,
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
