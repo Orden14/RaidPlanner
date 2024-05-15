@@ -2,7 +2,7 @@
 
 namespace App\Entity\Trait;
 
-use App\Entity\GuildEventRelation\NonActiveSlot;
+use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,10 +18,10 @@ trait UserGuildEventPropertiesTrait
     private ?Collection $playerSlots;
 
     /**
-     * @var ?Collection<int, NonActiveSlot>
+     * @var ?Collection<int, EventAttendance>
      */
-    #[ORM\OneToMany(targetEntity: NonActiveSlot::class, mappedBy: 'user', orphanRemoval: true)]
-    private ?Collection $nonActiveSlots;
+    #[ORM\OneToMany(targetEntity: EventAttendance::class, mappedBy: 'user', orphanRemoval: true)]
+    private ?Collection $eventAttendances;
 
     /**
      * @return Collection<int, PlayerSlot>
@@ -51,27 +51,27 @@ trait UserGuildEventPropertiesTrait
     }
 
     /**
-     * @return Collection<int, NonActiveSlot>
+     * @return Collection<int, EventAttendance>
      */
-    final public function getNonActiveSlots(): Collection
+    final public function getEventAttendances(): Collection
     {
-        return $this->nonActiveSlots;
+        return $this->eventAttendances;
     }
 
-    final public function addNonActiveSlot(NonActiveSlot $nonActiveSlot): self
+    final public function addEventAttendance(EventAttendance $eventAttendance): self
     {
-        if (!$this->nonActiveSlots->contains($nonActiveSlot)) {
-            $this->nonActiveSlots->add($nonActiveSlot);
-            $nonActiveSlot->setUser($this);
+        if (!$this->eventAttendances->contains($eventAttendance)) {
+            $this->eventAttendances->add($eventAttendance);
+            $eventAttendance->setUser($this);
         }
 
         return $this;
     }
 
-    final public function removeNonActiveSlot(NonActiveSlot $nonActiveSlot): self
+    final public function removeEventAttendance(EventAttendance $eventAttendance): self
     {
-        if ($this->nonActiveSlots->removeElement($nonActiveSlot) && $nonActiveSlot->getUser() === $this) {
-            $nonActiveSlot->setUser(null);
+        if ($this->eventAttendances->removeElement($eventAttendance) && $eventAttendance->getUser() === $this) {
+            $eventAttendance->setUser(null);
         }
 
         return $this;

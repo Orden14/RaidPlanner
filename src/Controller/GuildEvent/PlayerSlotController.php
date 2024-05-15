@@ -6,7 +6,7 @@ use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Util\GuildEvent\NonActiveSlotManager;
+use App\Util\GuildEvent\EventAttendanceManager;
 use App\Util\GuildEvent\PlayerSlotChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +21,7 @@ class PlayerSlotController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly PlayerSlotChecker      $playerSlotChecker,
-        private readonly NonActiveSlotManager   $nonActiveSlotManager
+        private readonly EventAttendanceManager $eventAttendanceManager
     ) {}
 
     #[Route('/event/{eventEncounter}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
@@ -34,7 +34,7 @@ class PlayerSlotController extends AbstractController
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        $this->nonActiveSlotManager->manageNonActiveSlotsForUser($eventEncounter->getGuildEvent());
+        $this->eventAttendanceManager->removeNonActiveAttendanceForUser($eventEncounter->getGuildEvent());
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
 

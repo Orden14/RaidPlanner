@@ -4,12 +4,13 @@ namespace App\Controller\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventEncounter;
+use App\Enum\AttendanceTypeEnum;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
-use App\Form\GuildEvent\GuildEventType;
 use App\Form\GuildEvent\EventEncounterType;
-use App\Repository\NonActiveSlotRepository;
+use App\Form\GuildEvent\GuildEventType;
+use App\Repository\EventAttendanceRepository;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,9 +26,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GuildEventController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface  $entityManager,
-        private readonly FormFlashHelper         $formFlashHelper,
-        private readonly NonActiveSlotRepository $nonActiveSlotRepository
+        private readonly EntityManagerInterface    $entityManager,
+        private readonly FormFlashHelper           $formFlashHelper,
+        private readonly EventAttendanceRepository $eventAttendanceRepository
     ) {}
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
@@ -81,8 +82,8 @@ class GuildEventController extends AbstractController
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_encounters' => $guildEvent->getEventEncounters(),
-            'backups' => $this->nonActiveSlotRepository->findBackupsByEvent($guildEvent->getId()),
-            'absents' => $this->nonActiveSlotRepository->findAbsentsByEvent($guildEvent->getId()),
+            'backups' => $this->eventAttendanceRepository->findEventAttendanceByType($guildEvent, AttendanceTypeEnum::BACKUP),
+            'absents' => $this->eventAttendanceRepository->findEventAttendanceByType($guildEvent, AttendanceTypeEnum::ABSENT),
         ]);
     }
 
