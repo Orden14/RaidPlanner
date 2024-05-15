@@ -82,8 +82,8 @@ class GuildEventController extends AbstractController
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_encounters' => $guildEvent->getEventEncounters(),
-            'backups' => $this->eventAttendanceRepository->findEventAttendanceByType($guildEvent, AttendanceTypeEnum::BACKUP),
-            'absents' => $this->eventAttendanceRepository->findEventAttendanceByType($guildEvent, AttendanceTypeEnum::ABSENT),
+            'backups' => $this->eventAttendanceRepository->findEventAttendancesByType($guildEvent, AttendanceTypeEnum::BACKUP),
+            'absents' => $this->eventAttendanceRepository->findEventAttendancesByType($guildEvent, AttendanceTypeEnum::ABSENT),
         ]);
     }
 

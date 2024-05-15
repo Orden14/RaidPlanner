@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\PlayerSlot;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,5 +21,20 @@ final class PlayerSlotRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PlayerSlot::class);
+    }
+
+    /**
+     * @return PlayerSlot[]
+     */
+    public function findSlotsByEventsForUser(GuildEvent $guildEvent, User $user): array
+    {
+        return $this->createQueryBuilder('ps')
+            ->join('ps.eventEncounter', 'ee')
+            ->where('ee.guildEvent = :guildEvent')
+            ->andWhere('ps.user = :user')
+            ->setParameter('guildEvent', $guildEvent)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 }

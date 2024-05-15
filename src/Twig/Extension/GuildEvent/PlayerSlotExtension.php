@@ -2,8 +2,8 @@
 
 namespace App\Twig\Extension\GuildEvent;
 
+use App\Checker\SlotAssignmentPermission\SlotAssignmentChecker;
 use App\Repository\EventEncounterRepository;
-use App\Util\GuildEvent\PlayerSlotChecker;
 use Doctrine\ORM\EntityNotFoundException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -11,7 +11,7 @@ use Twig\TwigFunction;
 class PlayerSlotExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly PlayerSlotChecker        $playerSlotChecker,
+        private readonly SlotAssignmentChecker    $slotAssignmentChecker,
         private readonly EventEncounterRepository $eventEncounterRepository,
     ) {}
 
@@ -36,6 +36,6 @@ class PlayerSlotExtension extends AbstractExtension
             throw new EntityNotFoundException(sprintf('Event encounter with id %d not found', $eventEncounterId));
         }
 
-        return $this->playerSlotChecker->doesUserAlreadyHaveSlot($eventEncounter);
+        return $this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventEncounter);
     }
 }

@@ -27,7 +27,7 @@ final class EventAttendanceRepository extends ServiceEntityRepository
     /**
      * @return EventAttendance[]
      */
-    public function findEventAttendanceByType(GuildEvent $eventId, AttendanceTypeEnum $type): array
+    public function findEventAttendancesByType(GuildEvent $eventId, AttendanceTypeEnum $type): array
     {
         return $this->createQueryBuilder('nps')
             ->where('nps.guildEvent = :eventId')
@@ -39,14 +39,17 @@ final class EventAttendanceRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param AttendanceTypeEnum[] $types
+     *
      * @return EventAttendance[]
      */
-    public function findNonActiveAttendanceForPlayer(GuildEvent $guildEvent, User $user): array
+    public function findEventAttendancesByTypesForPlayer(GuildEvent $guildEvent, User $user, array $types): array
     {
         return $this->createQueryBuilder('ea')
-            ->where('ea.type IN (:types)')
+            ->where('ea.user = :user')
+            ->andWhere('ea.type IN (:types)')
             ->andWhere('ea.guildEvent = :guildEvent')
-            ->setParameter('types', [AttendanceTypeEnum::ABSENT->value, AttendanceTypeEnum::ABSENT->value])
+            ->setParameter('types', $types)
             ->setParameter('guildEvent', $guildEvent)
             ->setParameter('user', $user)
             ->getQuery()

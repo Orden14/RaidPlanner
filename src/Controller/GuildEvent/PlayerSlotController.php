@@ -2,12 +2,11 @@
 
 namespace App\Controller\GuildEvent;
 
+use App\Checker\SlotAssignmentPermission\SlotAssignmentChecker;
 use App\Entity\GuildEventRelation\EventEncounter;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Util\GuildEvent\EventAttendanceManager;
-use App\Util\GuildEvent\PlayerSlotChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +19,7 @@ class PlayerSlotController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly PlayerSlotChecker      $playerSlotChecker,
-        private readonly EventAttendanceManager $eventAttendanceManager
+        private readonly SlotAssignmentChecker  $slotAssignmentChecker,
     ) {}
 
     #[Route('/event/{eventEncounter}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
@@ -30,14 +28,12 @@ class PlayerSlotController extends AbstractController
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if (!$this->playerSlotChecker->isUserAllowedToSignUp($eventEncounter)) {
+        if (!$this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventEncounter)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        $this->eventAttendanceManager->removeNonActiveAttendanceForUser($eventEncounter->getGuildEvent());
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
-
 
         return $this->redirectToRoute('guild_event_show', ['id' => $eventEncounter->getGuildEvent()?->getId()], Response::HTTP_SEE_OTHER);
     }
@@ -45,7 +41,10 @@ class PlayerSlotController extends AbstractController
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
     final public function freeSlot(PlayerSlot $playerSlot): Response
     {
-        if ($this->playerSlotChecker->isUserAllowedToFreeSlot($playerSlot)) {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        if ($this->isGranted(RolesEnum::ADMIN->value) || $currentUser === $playerSlot->getPlayer()) {
             $playerSlot->setPlayer(null);
             $this->entityManager->flush();
         }
