@@ -78,3 +78,13 @@ label.required:after {
     font-size: 1rem;
     padding-left: 5px;
 }
+
+.cst-responsive-border-right {
+    border-right: 1px solid rgba(163, 163, 163, 0.32);
+}
+
+@media screen and (max-width: 600px) {
+    .cst-responsive-border-right {
+      border-right: none;
+    }
+}

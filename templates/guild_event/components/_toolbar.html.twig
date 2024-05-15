@@ -1,5 +1,5 @@
 {% if is_granted("ROLE_ADMIN") or can_user_manage_event(guild_event.id) %}
-    <div class="bg-dark-subtle p-2 border rounded-1 mt-2 mb-3 d-inline-flex">
+    <div class="bg-dark-subtle p-2 border rounded-1 mt-2 d-inline-flex">
         <a href="#" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#manageGuildEventModal" title="Modifier"><i class="bi bi-pencil h5"></i></a>
         {% if guild_event.status.value != "Ouvert" %}
             <a href="{{ path('guild_event_toggle_status', {'id': guild_event.id}) }}" class="btn btn-success me-1" title="Passer ouvert"><i class="bi bi-bookmark-check h5"></i></a>
