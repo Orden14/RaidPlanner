@@ -2,7 +2,7 @@
 
 namespace App\Util\GuildEvent;
 
-use App\Checker\EventSignupPermission\EventSignupChecker;
+use App\Checker\EventSignupPermission\EventSignupPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\User;
@@ -14,15 +14,15 @@ use Doctrine\ORM\EntityManagerInterface;
 final readonly class EventAttendanceManager
 {
     public function __construct(
-        private SlotService               $slotService,
-        private EntityManagerInterface    $entityManager,
-        private EventSignupChecker        $eventSignupChecker,
-        private EventAttendanceRepository $eventAttendanceRepository,
+        private SlotService                  $slotService,
+        private EntityManagerInterface       $entityManager,
+        private EventAttendanceRepository    $eventAttendanceRepository,
+        private EventSignupPermissionChecker $eventSignupPermissionChecker,
     ) {}
 
     public function setEventAttendanceForUser(User $user, GuildEvent $guildEvent, AttendanceTypeEnum $attendanceType): void
     {
-        if ($attendanceType === AttendanceTypeEnum::PLAYER && !$this->eventSignupChecker->checkIfUserCanSignup($guildEvent)) {
+        if ($attendanceType === AttendanceTypeEnum::PLAYER && !$this->eventSignupPermissionChecker->checkIfUserCanSignup($guildEvent)) {
             return;
         }
 

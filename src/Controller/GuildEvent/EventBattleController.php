@@ -2,6 +2,7 @@
 
 namespace App\Controller\GuildEvent;
 
+use App\Checker\EventManagementPermission\EventManagementPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Enum\InstanceTypeEnum;
@@ -23,15 +24,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventBattleController extends AbstractController
 {
     public function __construct(
-        private readonly SlotService            $slotService,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly FormFlashHelper        $formFlashHelper,
+        private readonly SlotService                      $slotService,
+        private readonly EntityManagerInterface           $entityManager,
+        private readonly FormFlashHelper                  $formFlashHelper,
+        private readonly EventManagementPermissionChecker $eventManagementPermissionChecker,
     ) {}
 
     #[Route('/add/{guildEvent}', name: 'add', methods: ['GET', 'POST'])]
     final public function addToEvent(Request $request, GuildEvent $guildEvent): Response
     {
-        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
+        if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,7 +69,7 @@ class EventBattleController extends AbstractController
     {
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();
-        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
+        if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -104,7 +106,7 @@ class EventBattleController extends AbstractController
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();
 
-        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
+        if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 

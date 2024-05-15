@@ -6,7 +6,7 @@ use App\Entity\GuildEventRelation\EventBattle;
 use App\Interface\SlotAssignmentPermissionStepInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
-final readonly class SlotAssignmentChecker
+final readonly class SlotAssignmentPermissionChecker
 {
     public function __construct(
         /** @var SlotAssignmentPermissionStepInterface[] $slotAssignmentPermissionStepInterfaces */

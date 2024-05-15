@@ -13,9 +13,10 @@
 
             {{ include('guild_event/components/_toolbar.html.twig') }}
         </div>
-
-        {{ include('guild_event/components/_event_attendance.html.twig') }}
-        {{ include('guild_event/components/_event_battles.html.twig') }}
+        <div class="pt-1 ps-3 pe-3">
+            {{ include('guild_event/components/_event_attendance.html.twig') }}
+            {{ include('guild_event/components/_event_battles.html.twig') }}
+        </div>
     </div>
 
     {{ include('guild_event/modals/_modal_manage.html.twig') }}

@@ -12,7 +12,6 @@ use App\Enum\InstanceTypeEnum;
 use App\Repository\BuildRepository;
 use App\Repository\EncounterRepository;
 use App\Repository\UserRepository;
-use App\Util\GuildEvent\EventAttendanceManager;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -21,10 +20,9 @@ use Doctrine\Persistence\ObjectManager;
 class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository         $userRepository,
-        private readonly BuildRepository        $buildRepository,
-        private readonly EncounterRepository    $encounterRepository,
-        private readonly EventAttendanceManager $eventAttendanceManager,
+        private readonly UserRepository      $userRepository,
+        private readonly BuildRepository     $buildRepository,
+        private readonly EncounterRepository $encounterRepository,
     ) {}
 
     final public function load(ObjectManager $manager): void
@@ -35,6 +33,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
     private function createGuildEvent(ObjectManager $manager): void
     {
         $guildEvent = (new GuildEvent())
+            ->setOwner($this->userRepository->find(1))
             ->setTitle('Test event')
             ->setStart((new DateTime())->setTime(10, 0))
             ->setEnd((new DateTime())->setTime(15, 0))
@@ -45,7 +44,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
         $users = [];
         for ($i = 0; $i < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()); $i++) {
             /** @var User $user */
-            $user = $this->userRepository->find($i +1);
+            $user = $this->userRepository->find($i + 1);
             $eventAttendance = (new EventAttendance())
                 ->setGuildEvent($guildEvent)
                 ->setUser($user);

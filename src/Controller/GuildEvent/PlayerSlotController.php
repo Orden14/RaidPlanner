@@ -2,7 +2,7 @@
 
 namespace App\Controller\GuildEvent;
 
-use App\Checker\SlotAssignmentPermission\SlotAssignmentChecker;
+use App\Checker\SlotAssignmentPermission\SlotAssignmentPermissionChecker;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
@@ -18,8 +18,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PlayerSlotController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly SlotAssignmentChecker  $slotAssignmentChecker,
+        private readonly EntityManagerInterface          $entityManager,
+        private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
     ) {}
 
     #[Route('/event/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
@@ -28,7 +28,7 @@ class PlayerSlotController extends AbstractController
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if (!$this->slotAssignmentChecker->checkIfUserCanTakeSlot($eventBattle)) {
+        if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 

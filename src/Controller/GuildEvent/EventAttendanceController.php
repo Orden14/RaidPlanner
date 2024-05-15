@@ -2,7 +2,7 @@
 
 namespace App\Controller\GuildEvent;
 
-use App\Checker\EventParticipationPermission\EventParticipationChecker;
+use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
@@ -20,7 +20,7 @@ class EventAttendanceController extends AbstractController
 {
     public function __construct(
         private readonly EventAttendanceManager    $eventAttendanceManager,
-        private readonly EventParticipationChecker $eventParticipationChecker
+        private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker
     ) {}
 
     #[Route('/event/{guildEvent}/set_user/{attendanceType}', name: 'add_user', methods: ['GET', 'POST'])]
@@ -29,7 +29,7 @@ class EventAttendanceController extends AbstractController
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if (!$this->eventParticipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+        if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 

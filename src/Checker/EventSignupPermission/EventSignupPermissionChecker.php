@@ -6,7 +6,7 @@ use App\Entity\GuildEvent;
 use App\Interface\EventAttendancePermissionStepInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
-final readonly class EventSignupChecker
+final readonly class EventSignupPermissionChecker
 {
     public function __construct(
         /** @var EventAttendancePermissionStepInterface[] $eventSignupPermissionStepInterfaces */

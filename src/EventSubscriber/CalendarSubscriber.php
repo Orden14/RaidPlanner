@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Checker\EventParticipationPermission\EventParticipationChecker;
+use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
@@ -17,10 +17,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 readonly class CalendarSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UrlGeneratorInterface     $router,
-        private GuildEventRepository      $guildEventRepository,
-        private EventAttendanceService    $eventAttendanceService,
-        private EventParticipationChecker $eventParticipationChecker,
+        private UrlGeneratorInterface               $router,
+        private GuildEventRepository                $guildEventRepository,
+        private EventAttendanceService              $eventAttendanceService,
+        private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
     /**
@@ -48,7 +48,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             ->getResult();
 
         foreach ($guildEvents as $guildEvent) {
-            if (!$this->eventParticipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+            if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
                 continue;
             }
 

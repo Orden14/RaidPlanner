@@ -1,4 +1,4 @@
-<div class="border rounded mt-1 mb-3 ms-1 me-1">
+<div class="border rounded mt-1 mb-5 ms-2 me-2">
     <div class="row pt-4 pb-4">
         <div class="col text-center">
             <span class="ge-attendance-title">Participants</span>
@@ -6,7 +6,6 @@
                 <li class="mb-3"><span class="ge-attendance-title">{{ get_event_player_count(guild_event.id) }} / {{ max_player_slots }}</span></li>
                 {% for event_attendance in get_attendance_list_by_type(guild_event.id, 'Inscrit') %}
                     <li>
-                        <img class="select-icon rounded-circle d-none d-md-inline" src="{{ asset('profile_picture/' ~ event_attendance.user.profilePicture) }}" alt="Profile">
                         <span class="ge-attendance-text {{ event_attendance.user.username == app.user.username ? 'custom-link-primary' : ''}}">{{ event_attendance.user.username }}</span>
                     </li>
                 {% endfor %}
@@ -17,7 +16,6 @@
             <ul class="list-group list-unstyled mt-3">
                 {% for event_attendance in get_attendance_list_by_type(guild_event.id, 'Backup') %}
                     <li>
-                        <img class="select-icon rounded-circle d-none d-md-inline" src="{{ asset('profile_picture/' ~ event_attendance.user.profilePicture) }}" alt="Profile">
                         <span class="ge-attendance-text {{ event_attendance.user.username == app.user.username ? 'custom-link-primary' : ''}}">{{ event_attendance.user.username }}</span>
                     </li>
                 {% endfor %}
@@ -28,7 +26,6 @@
             <ul class="list-group list-unstyled mt-3">
                 {% for event_attendance in get_attendance_list_by_type(guild_event.id, 'Absent') %}
                     <li>
-                        <img class="select-icon rounded-circle d-none d-md-inline" src="{{ asset('profile_picture/' ~ event_attendance.user.profilePicture) }}" alt="Profile">
                         <span class="ge-attendance-text {{ event_attendance.user.username == app.user.username ? 'custom-link-primary' : ''}}">{{ event_attendance.user.username }}</span>
                     </li>
                 {% endfor %}

@@ -1,4 +1,4 @@
-{% set can_edit_battle = is_granted("ROLE_ADMIN") or (guild_event.canMembersManageEvent and is_granted("ROLE_MEMBER")) %}
+{% set can_manage_event = can_user_manage_event(guild_event.id) %}
 
 {% for event_battle in event_battles %}
     {% set can_user_signup = can_user_take_slot(event_battle.id) %}
@@ -8,7 +8,7 @@
     <div class="row border rounded mt-3 mb-3 ms-1 me-1 p-0 overflow-auto">
         <div class="pt-3 ps-0 pe-0">
             <h3 class="ps-3">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }}
-                {% if can_edit_battle == true %}
+                {% if can_manage_event == true %}
                     <a href="{{ path('guild_event_battle_edit', {'id': event_battle.id}) }}" class="text-decoration-none custom-link-primary"><span class="small-head-text"> <i class="bi bi-pencil-fill"></i> <span class="d-none d-md-inline">modifier</span></span></a>
                     <form id="delete{{ event_battle.id }}" method="post" action="{{ path('guild_event_battle_delete', {'id': event_battle.id}) }}" data-controller="confirm" class="d-inline float-end me-3">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event_battle.id) }}">
@@ -87,7 +87,7 @@
     </div>
 {% endfor %}
 
-{% if can_edit_battle == true %}
+{% if can_manage_event == true %}
     <div class="row justify-content-center mt-4 mb-3 ms-2">
         <a href="#" class="text-decoration-none custom-link-primary h6" data-bs-toggle="modal" data-bs-target="#newEventBattleModal" title="Ajouter un combat"><i class="bi bi-plus-lg"></i> Ajouter un combat</a>
     </div>

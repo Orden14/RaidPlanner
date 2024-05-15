@@ -2,13 +2,15 @@
 
 namespace App\Controller\GuildEvent;
 
-use App\Checker\EventParticipationPermission\EventParticipationChecker;
+use App\Checker\EventManagementPermission\EventManagementPermissionChecker;
+use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Factory\GuildEventFactory;
 use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
 use App\Repository\EventAttendanceRepository;
@@ -27,16 +29,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class GuildEventController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface    $entityManager,
-        private readonly FormFlashHelper           $formFlashHelper,
-        private readonly EventParticipationChecker $eventParticipationChecker,
-        private readonly EventAttendanceRepository $eventAttendanceRepository,
+        private readonly EntityManagerInterface              $entityManager,
+        private readonly FormFlashHelper                     $formFlashHelper,
+        private readonly GuildEventFactory                   $guildEventFactory,
+        private readonly EventAttendanceRepository           $eventAttendanceRepository,
+        private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
+        private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     final public function new(Request $request): Response
     {
-        $guildEvent = new GuildEvent();
+        $guildEvent = $this->guildEventFactory->generateGuildEvent();
+
         $form = $this->createForm(GuildEventType::class, $guildEvent);
         $form->handleRequest($request);
 
@@ -65,7 +70,7 @@ class GuildEventController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, GuildEvent $guildEvent): Response
     {
-        if (!$this->eventParticipationChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+        if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -97,7 +102,7 @@ class GuildEventController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, GuildEvent $guildEvent): Response
     {
-        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
+        if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -140,7 +145,7 @@ class GuildEventController extends AbstractController
     #[Route('/toggle/{id}', name: 'toggle_status', methods: ['GET', 'POST'])]
     final public function toggleStatus(GuildEvent $guildEvent): Response
     {
-        if (!$guildEvent->canMembersManageEvent() && !$this->isGranted(RolesEnum::ADMIN->value)) {
+        if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
         }
 
