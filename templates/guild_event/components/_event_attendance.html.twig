@@ -4,15 +4,15 @@
 
     <div class="col text-center text-md-start mb-2">
         {% if can_user_signup(guild_event.id) %}
-            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Inscrit'}) }}" class="btn btn-primary ge-attendance-text ps-1 pe-1 ms-1 me-1">S'inscrire</a>
+            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Inscrit'}) }}" class="btn btn-primary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="S'inscrire à l'évènement">S'inscrire</a>
         {% endif %}
 
         {% if not user_is_backup %}
-            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Backup'}) }}" class="btn btn-secondary ge-attendance-text ps-1 pe-1 ms-1 me-1">Passer backup</a>
+            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Backup'}) }}" class="btn btn-secondary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Passer en backup">Passer backup</a>
         {% endif %}
 
         {% if not user_is_absent %}
-            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Absent'}) }}" class="btn btn-danger ge-attendance-text ps-1 pe-1 ms-1 me-1">Passer absent</a>
+            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Absent'}) }}" class="btn btn-danger ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Se déclarer absent">Passer absent</a>
         {% endif %}
     </div>
 </div>
