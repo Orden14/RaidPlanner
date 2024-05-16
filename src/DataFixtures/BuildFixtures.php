@@ -36,6 +36,7 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($this->generateBuild(
                 $faker,
                 $users[array_rand($users)],
+                $this->getStatus($i),
                 $categories,
                 $specializations[array_rand($specializations)]
             ));
@@ -48,10 +49,11 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
      * @param BuildCategory[] $categories
      */
     private function generateBuild(
-        Generator      $faker,
-        User           $user,
-        array          $categories,
-        Specialization $specialization
+        Generator       $faker,
+        User            $user,
+        BuildStatusEnum $status,
+        array           $categories,
+        Specialization  $specialization
     ): Build
     {
         $build = new Build();
@@ -59,7 +61,7 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
             ->setAuthor($user)
             ->setSpecialization($specialization)
             ->setLastEditedAt($faker->dateTimeBetween('-1 year'))
-            ->setStatus($this->getRandomStatus())
+            ->setStatus($status)
             ->setBenchmark($faker->numberBetween(20000, 50000))
             ->setLink($faker->optional()->url)
             ->setBenchmarkLink($faker->optional()->url)
@@ -72,11 +74,17 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
         return $build;
     }
 
-    private function getRandomStatus(): BuildStatusEnum
+    private function getStatus(int $i): BuildStatusEnum
     {
-        $statuses = BuildStatusEnum::toArray();
+        if ($i < 25) {
+            $status = BuildStatusEnum::META;
+        } elseif ($i < 35) {
+            $status = BuildStatusEnum::NOT_META;
+        } else {
+            $status = BuildStatusEnum::OUTDATED;
+        }
 
-        return BuildStatusEnum::from($statuses[array_rand($statuses)]);
+        return $status;
     }
 
     /**
