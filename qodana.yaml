@@ -75,6 +75,10 @@ exclude:
   - name: JSValidateTypes
     paths:
       - assets\controllers\datetime_picker_controller.js
+  - name: ConstructorTwigExtensionHeavyConstructor
+    paths:
+      - src\Twig\Extension\GuildEvent\EventParticipationExtension.php
+      - src\Twig\Extension\GuildEvent\EventPermissionExtension.php
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)
