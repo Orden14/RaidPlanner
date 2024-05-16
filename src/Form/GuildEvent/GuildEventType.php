@@ -4,6 +4,8 @@ namespace App\Form\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Enum\InstanceTypeEnum;
+use App\Enum\RolesEnum;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
@@ -16,9 +18,14 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class GuildEventType extends AbstractType
 {
+    public function __construct(
+        private readonly Security $security
+    ) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $isEventNew = $options['data']->getId() === null;
+        $isUserAdmin = $this->security->isGranted(RolesEnum::ADMIN->value);
 
         $builder
             ->add('title', TextType::class, [
@@ -63,6 +70,8 @@ final class GuildEventType extends AbstractType
                     'Oui' => true,
                     'Non' => false,
                 ],
+                'data' => $isUserAdmin && $isEventNew,
+                'disabled' => !$isUserAdmin
             ]);
 
         if ($isEventNew) {

@@ -23,10 +23,6 @@ class GuildEvent
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
-
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -58,18 +54,6 @@ class GuildEvent
     final public function getId(): ?int
     {
         return $this->id;
-    }
-
-    final public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    final public function setOwner(?User $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
     }
 
     final public function getTitle(): ?string

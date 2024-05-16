@@ -7,6 +7,8 @@
             <h2>
                 {% if guild_event.status.value == "Annulé" %}
                     <i class="bi bi-ban ge-txt-blocked me-2"> ANNULÉ</i>
+                {% elseif guild_event.guildRaid == true %}
+                    <span class="me-2 text-success"><i class="bi bi-bookmark-star-fill"></i> GRAID</span>
                 {% endif %}
                 {{ guild_event.title }} <span class="small-head-text"><i>Le {{ guild_event.start|date('d') }} {{ ('month_names.' ~ guild_event.start|date('F'))|trans }} de {{ guild_event.start|date('H\\hi') }} à {{ guild_event.end|date('H\\hi') }}</i></span>
             </h2>

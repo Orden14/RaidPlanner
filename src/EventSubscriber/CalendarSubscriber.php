@@ -79,6 +79,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             );
 
             $event->addOption('eventId', $guildEvent->getId());
+            $event->addOption('guildRaid', $guildEvent->isGuildRaid());
             $event->addOption('eventType', $guildEvent->getType()->value);
             $event->addOption('playerCount', $this->eventAttendanceService->getEventPlayerCount($guildEvent));
             $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));

@@ -10,7 +10,10 @@ export default class extends Controller {
             dateFormat: "Y-m-d H:i",
             enableTime: true,
             time_24hr: true,
-            plugins: [new confirmDatePlugin({})]
+            plugins: [new confirmDatePlugin({})],
+            onOpen: function(selectedDates, dateStr, instance) {
+                instance.setDate(this.element.value, false)
+            }
         });
     }
 }

@@ -69,6 +69,12 @@ exclude:
   - name: MethodVisibilityInspection
     paths:
       - src\Command\DeleteOldLogsCommand.php
+  - name: JSFileReferences
+    paths:
+      - assets\controllers\datetime_picker_controller.js
+  - name: JSValidateTypes
+    paths:
+      - assets\controllers\datetime_picker_controller.js
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)
