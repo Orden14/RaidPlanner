@@ -15,8 +15,8 @@ export default class extends Controller {
             url: url,
             method: 'GET',
             success: (response) => {
-                // const eventBattleId = $(this.element).data('slot-assign-event-battle-id')
-                // $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).not(this.element).remove()
+                const eventBattleId = $(this.element).data('slot-assign-event-battle-id')
+                $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).not(this.element).remove()
 
                 this.element.parentElement.outerHTML = response
             },

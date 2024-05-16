@@ -11,8 +11,6 @@ final readonly class PlayerSlotHtmlGenerator
     public function generateTakenSlotHtml(User $user, PlayerSlot $playerSlot): string
     {
         $userDiv = $this->getUserDivHtml($user, $playerSlot);
-
-
         $buildDiv = $this->getBuildDivHtml($playerSlot->getBuild());
 
         return "$userDiv $buildDiv";
@@ -78,7 +76,7 @@ final readonly class PlayerSlotHtmlGenerator
     {
         if ($playerSlot->isTank()) {
             return "<span class='me-1'>
-                <img src=''/guild_event/tank.png'' alt='Tank icon' title='Tank' class='small-icon'>
+                <img src='/guild_event/tank.png' alt='Tank icon' title='Tank' class='small-icon'>
             </span>";
         }
 
