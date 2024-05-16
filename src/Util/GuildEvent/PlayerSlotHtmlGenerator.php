@@ -11,9 +11,14 @@ final readonly class PlayerSlotHtmlGenerator
     public function generateTakenSlotHtml(User $user, PlayerSlot $playerSlot): string
     {
         $userDiv = $this->getUserDivHtml($user, $playerSlot);
-        $buildDiv = $this->getBuildDivHtml($playerSlot->getBuild());
+        $buildDiv = $this->getBuildDivHtml($playerSlot->getBuild(), true);
 
         return "$userDiv $buildDiv";
+    }
+
+    public function generateFreeSlotHtml(PlayerSlot $playerSlot): string
+    {
+        return $this->getBuildDivHtml($playerSlot->getBuild(), false);
     }
 
     private function getUserDivHtml(User $user, PlayerSlot $playerSlot): string
@@ -36,9 +41,10 @@ final readonly class PlayerSlotHtmlGenerator
         ";
     }
 
-    private function getBuildDivHtml(Build $build): string
+    private function getBuildDivHtml(Build $build, bool $slotHasUser): string
     {
         $specialization = $build->getSpecialization();
+        $buildTextSecondaryClass = $slotHasUser ? 'ge-secondary-text' : '';
 
         return "
             <div class='col-auto ge-md-vertical-center'>
@@ -46,7 +52,7 @@ final readonly class PlayerSlotHtmlGenerator
                 <span class='pe-md-2'>
                     <a href='/build/{$build->getId()}'
                         title='{$build->getName()}'
-                        class='text-decoration-none ge-secondary-text'
+                        class='text-decoration-none $buildTextSecondaryClass'
                         style='color: {$specialization?->getJob()?->getColor()}'
                     >
                         <img src='/icon/{$specialization?->getIcon()}' alt='{$specialization?->getName()} icon' title='{$specialization?->getName()}' class='small-icon ge-secondary-img'>
@@ -55,18 +61,19 @@ final readonly class PlayerSlotHtmlGenerator
                 </span>
                 
                 <span>
-                    {$this->getBuildCategoryIconsHtml($build)}
+                    {$this->getBuildCategoryIconsHtml($build, $slotHasUser)}
                 </span>
             </div>
         ";
     }
 
-    private function getBuildCategoryIconsHtml(Build $build): string
+    private function getBuildCategoryIconsHtml(Build $build, bool $slotHasUser): string
     {
         $categoryIconsHtml = '';
+        $buildImgSecondaryClass = $slotHasUser ? 'ge-secondary-img' : '';
 
         foreach ($build->getCategories() as $type) {
-            $categoryIconsHtml .= "<img src='/icon/{$type->getIcon()}' alt='{$type->getName()} icon' title='{$type->getName()}' class='small-icon ge-secondary-img'>";
+            $categoryIconsHtml .= "<img src='/icon/{$type->getIcon()}' alt='{$type->getName()} icon' title='{$type->getName()}' class='small-icon $buildImgSecondaryClass'>";
         }
 
         return $categoryIconsHtml;

@@ -21,7 +21,7 @@ export default class extends Controller {
                 this.element.parentElement.outerHTML = response
             },
             error: (error) => {
-                console.error("Error assigning slot:", error)
+                alert(error.responseText)
             }
         })
     }

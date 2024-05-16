@@ -32,7 +32,7 @@ class PlayerSlotController extends AbstractController
         $currentUser = $this->getUser();
 
         if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
-            return new JsonResponse("cant take slot {$playerSlot->getId()}", Response::HTTP_OK);
+            return new JsonResponse("Erreur : vous ne pouvez pas modifier ce slot", Response::HTTP_FORBIDDEN);
         }
 
         $playerSlot->setPlayer($currentUser);
