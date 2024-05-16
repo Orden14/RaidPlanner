@@ -44,8 +44,11 @@ export default class extends Controller {
 
                                 $(this.element).parent().parent().html(response);
                             },
-                            error: () => {
-                                toastr.error('Erreur lors de la libération du slot', 'Erreur')
+                            error: (jqXHR, textStatus, errorThrown) => {
+                                toastr.options = {
+                                    "timeOut": "4000",
+                                }
+                                toastr.error(jqXHR.responseText || errorThrown, textStatus)
                             }
                         })
                     }

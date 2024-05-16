@@ -18,11 +18,15 @@ export default class extends Controller {
             success: (response) => {
                 const eventBattleId = $(this.element).data('slot-assign-event-battle-id')
                 $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).not(this.element).addClass('d-none')
+                $("[data-id='signUpButton']").addClass("d-none")
 
                 $(this.element).parent().replaceWith(response);
             },
-            error: () => {
-                toastr.error('Erreur lors de la modification du slot', 'Erreur')
+            error: (jqXHR, textStatus, errorThrown) => {
+                toastr.options = {
+                    "timeOut": "4000",
+                }
+                toastr.error(jqXHR.responseText || errorThrown, textStatus)
             }
         })
     }

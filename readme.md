@@ -6,8 +6,7 @@ https://github.com/Orden14/RaidPlanner
 
 ## About
 RaidPlanner is a tool for planning Guild Wars 2 instanced content.  
-I have no plan to make an english translation of the app for now.  
-/!\ Application is still in early-stage development /!\
+I have no plan to make an english translation for the app as of now.  
 
 ## Project startup
 This is a Symfony project running on Symfony 7. To run the project easily, you need the following tools :

@@ -85,8 +85,8 @@ final readonly class PlayerSlotHtmlGenerator
         return "
             <span class='custom-link-primary text-decoration-none ge-slot-icon me-2 cursor-pointer {$cssHidenClass}'
                 title='Prendre le slot'
-                data-controller='guild-event--manage-event-actions'
-                data-guild-event--manage-event-actions-url-value='/guild-event/player-slot/battle/{$playerSlot->getEventBattle()?->getId()}/slot/assign/{$playerSlot->getId()}'
+                data-controller='guild-event--assign-battle-slot'
+                data-guild-event--assign-battle-slot-url-value='/guild-event/player-slot/battle/{$playerSlot->getEventBattle()?->getId()}/slot/assign/{$playerSlot->getId()}'
                 data-slot-assign-event-battle-id='{$playerSlot->getEventBattle()?->getId()}'
             >
                 <i class='bi bi-box-arrow-in-right'></i>

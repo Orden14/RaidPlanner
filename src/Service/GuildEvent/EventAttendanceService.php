@@ -4,10 +4,16 @@ namespace App\Service\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventAttendance;
+use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
+use App\Repository\EventAttendanceRepository;
 
 final readonly class EventAttendanceService
 {
+    public function __construct(
+        private EventAttendanceRepository $eventAttendanceRepository
+    ) {}
+
     public function getEventPlayerCount(GuildEvent $guildEvent): int
     {
         return count(array_filter(
@@ -29,5 +35,10 @@ final readonly class EventAttendanceService
                 return $attendance->getType() === $attendanceType;
             }
         );
+    }
+
+    public function isUserAttendingAsPlayer(GuildEvent $guildEvent, User $user): bool
+    {
+        return count($this->eventAttendanceRepository->findEventAttendancesByTypesForPlayer($guildEvent, $user, [AttendanceTypeEnum::PLAYER])) > 0;
     }
 }
