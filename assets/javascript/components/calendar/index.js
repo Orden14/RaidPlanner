@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import listPlugin from "@fullcalendar/list"
 import {addHours, setHours} from 'date-fns'
-import {setModalDates, setModalDatesForDateClick} from "../../util/Calendar/new_event_modal_helper"
+import {setModalDates, setModalDatesForDateClick} from "../../util/calendar/new_event_modal_helper"
 
 $(document).ready(function () {
     let calendarEl = $("#calendar-holder")

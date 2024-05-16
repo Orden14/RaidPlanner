@@ -32,9 +32,25 @@
                                     <div class="row">
                                         <div class="col ge-vertical-center">
                                             {% if player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
-                                                <a class="link-danger text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}" data-controller="guild-event--confirm-free-slot" data-current-user="{{ app.user.username }}" data-slot-user="{{ player_slot.player.username }}"><i class="bi bi-x-lg ps-2" title="Libérer le slot"></i></a>
-                                            {% elseif player_slot.player is null and can_user_signup %}
-                                                <a class="custom-link-primary text-decoration-none ge-slot-icon me-2" href="{{ path('player_slot_assign', {'eventBattle': event_battle.id, 'playerSlot': player_slot.id}) }}" title="Prendre le slot"><i class="bi bi-box-arrow-in-right"></i></a>
+                                                <span class="link-danger text-decoration-none ge-slot-icon me-2 cursor-pointer"
+                                                   data-controller="guild-event--confirm-free-slot"
+                                                   data-guild-event--confirm-free-slot-url-value="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}"
+                                                   data-current-user="{{ app.user.username }}"
+                                                   data-slot-user="{{ player_slot.player.username }}"
+                                                   data-free-slot-event-battle-id="{{ event_battle.id }}"
+                                                >
+                                                    <i class="bi bi-x-lg ps-2" title="Libérer le slot"></i>
+                                                </span>
+                                            {% endif  %}
+                                            {% if player_slot.player is null %}
+                                                <span class="custom-link-primary text-decoration-none ge-slot-icon me-2 cursor-pointer {{ player_slot.player is null and can_user_signup ? '' : 'd-none' }}"
+                                                      title="Prendre le slot"
+                                                      data-controller="guild-event--manage-event-actions"
+                                                      data-guild-event--manage-event-actions-url-value="{{ path('player_slot_assign', {'eventBattle': event_battle.id, 'playerSlot': player_slot.id}) }}"
+                                                      data-slot-assign-event-battle-id="{{ event_battle.id }}"
+                                                >
+                                                    <i class="bi bi-box-arrow-in-right"></i>
+                                                </span>
                                             {% endif %}
 
                                             {% if player_slot.tank == true %}
@@ -48,9 +64,7 @@
                                                     <img class="small-icon rounded-circle" src="{{ asset('profile_picture/' ~ player_slot.player.profilePicture) }}" alt="Profile">
                                                     {{ player_slot.player.username }}
                                                 </span>
-                                            {% endif %}
 
-                                            {% if player_slot.player is not null %}
                                                 </div>
                                                 <div class="col-auto ge-md-vertical-center">
                                             {% endif %}
@@ -67,10 +81,7 @@
                                                     <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon {{ player_slot.player is not null ? 'ge-secondary-img' : '' }}">
                                                 {% endfor %}
                                             </span>
-
-                                            {% if player_slot.player is not null %}
-                                                </div>
-                                            {% endif %}
+                                        </div>
                                     </div>
                                 </li>
                             {% else %}
