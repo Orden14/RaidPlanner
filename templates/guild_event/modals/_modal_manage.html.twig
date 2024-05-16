@@ -3,12 +3,14 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                {% if guild_event is defined %}
+                {% if guild_event.id is defined and guild_event.id is not null %}
                     {% set modal_title = 'Modifier un événement' %}
                     {% set modal_submit_text = 'Modifier' %}
+                    {% set is_new = false %}
                 {% else %}
                     {% set modal_title = 'Ajouter un événement' %}
                     {% set modal_submit_text = 'Ajouter' %}
+                    {% set is_new = true %}
                 {% endif %}
 
                 <h5 class="modal-title" id="manageGuildEventModalLabel">{{ modal_title }}</h5>
@@ -21,7 +23,7 @@
                         {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="row">
-                        {% if guild_event is not defined %}
+                        {% if form.type is defined %}
                             <div class="col-12 col-md-6 form-group mb-3">
                                 {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}

@@ -37,7 +37,7 @@ class GuildEventController extends AbstractController
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
-    #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
+    #[Route('/show/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, GuildEvent $guildEvent): Response
     {
         if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
