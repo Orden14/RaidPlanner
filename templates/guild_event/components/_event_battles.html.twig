@@ -7,11 +7,11 @@
 
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading{{ event_battle.id }}">
-                <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ event_battle.id }}" aria-expanded="true" aria-controls="collapse{{ event_battle.id }}">
+                <button class="accordion-button {{ loop.first ? '' : 'collapsed' }} p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ event_battle.id }}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="collapse{{ event_battle.id }}">
                     <span class="h4 p-1 m-0">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }}</span>
                 </button>
             </h2>
-            <div id="collapse{{ event_battle.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ event_battle.id }}" data-bs-parent="#eventBattlesAccordion">
+            <div id="collapse{{ event_battle.id }}" class="accordion-collapse collapse {{ loop.first ? 'show' : '' }}" aria-labelledby="heading{{ event_battle.id }}" data-bs-parent="#eventBattlesAccordion">
                 <div class="accordion-body">
                     {% if can_manage_event == true %}
                         <div class="mb-4 text-center text-md-start">
