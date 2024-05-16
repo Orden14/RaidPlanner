@@ -2,7 +2,7 @@ import {Controller} from '@hotwired/stimulus'
 import toastr from "toastr";
 
 export default class extends Controller {
-    static values = { url: String }
+    static values = {url: String}
 
     connect() {
         this.element.addEventListener('click', (event) => this.confirmDeletion(event))

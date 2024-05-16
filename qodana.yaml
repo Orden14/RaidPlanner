@@ -69,6 +69,10 @@ exclude:
   - name: MethodVisibilityInspection
     paths:
       - src\Command\DeleteOldLogsCommand.php
+  - name: ConstructorTwigExtensionHeavyConstructor
+    paths:
+      - src\Twig\Extension\GuildEvent\EventParticipationExtension.php
+      - src\Twig\Extension\GuildEvent\EventPermissionExtension.php
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)

@@ -1,8 +1,8 @@
-import { Controller } from "stimulus"
+import {Controller} from "stimulus"
 import toastr from 'toastr'
 
 export default class extends Controller {
-    static values = { url: String }
+    static values = {url: String}
 
     connect() {
         this.element.addEventListener('click', (event) => this.manageSlot(event))
