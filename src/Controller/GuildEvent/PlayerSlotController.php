@@ -32,7 +32,7 @@ class PlayerSlotController extends AbstractController
         $currentUser = $this->getUser();
 
         if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
-            return new JsonResponse("Erreur : vous ne pouvez pas modifier ce slot", Response::HTTP_FORBIDDEN);
+            return new JsonResponse('You are not allowed to perform this action', Response::HTTP_FORBIDDEN);
         }
 
         $playerSlot->setPlayer($currentUser);
@@ -42,20 +42,18 @@ class PlayerSlotController extends AbstractController
     }
 
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
-    final public function freeSlot(PlayerSlot $playerSlot): Response
+    final public function freeSlot(PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
-        if ($this->isGranted(RolesEnum::ADMIN->value) || $currentUser === $playerSlot->getPlayer()) {
-            $playerSlot->setPlayer(null);
-            $this->entityManager->flush();
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $currentUser !== $playerSlot->getPlayer()) {
+            return new JsonResponse('You are not allowed to perform this action.', Response::HTTP_FORBIDDEN);
         }
 
-        return $this->redirectToRoute(
-            'guild_event_show',
-            ['id' => $playerSlot->getEventBattle()?->getGuildEvent()?->getId()],
-            Response::HTTP_SEE_OTHER
-        );
+        $playerSlot->setPlayer(null);
+        $this->entityManager->flush();
+
+        return new JsonResponse($this->playerSlotHtmlGenerator->generateFreeSlotHtml($playerSlot), Response::HTTP_OK);
     }
 }

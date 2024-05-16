@@ -2,33 +2,36 @@
 
 namespace App\Util\GuildEvent;
 
+use App\Checker\SlotAssignmentPermission\SlotAssignmentPermissionChecker;
 use App\Entity\Build;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 
 final readonly class PlayerSlotHtmlGenerator
 {
+    public function __construct(
+        private SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
+    ) {}
+
     public function generateTakenSlotHtml(User $user, PlayerSlot $playerSlot): string
     {
         $userDiv = $this->getUserDivHtml($user, $playerSlot);
-        $buildDiv = $this->getBuildDivHtml($playerSlot->getBuild(), true);
+        $buildDiv = $this->getBuildDivHtml($playerSlot, true);
 
         return "$userDiv $buildDiv";
     }
 
     public function generateFreeSlotHtml(PlayerSlot $playerSlot): string
     {
-        return $this->getBuildDivHtml($playerSlot->getBuild(), false);
+        return $this->getBuildDivHtml($playerSlot, false);
     }
 
     private function getUserDivHtml(User $user, PlayerSlot $playerSlot): string
     {
         return "
             <div class='col ge-vertical-center'>
-                <a class='link-danger text-decoration-none ge-slot-icon me-2 cursor-pointer' href='/guild-event/player-slot/slot/free/{$playerSlot->getId()}' data-controller='guild-event--confirm-free-slot' data-current-user='{$user->getUsername()}' data-slot-user='{$playerSlot->getPlayer()?->getUsername()}'>
-                    <i class='bi bi-x-lg ps-2' title='Libérer le slot'></i>
-                </a>
                 
+                {$this->getFreeSlotButtonHtml($user, $playerSlot)}
                 {$this->getTankIconHtml($playerSlot)}
                 
                 
@@ -41,13 +44,21 @@ final readonly class PlayerSlotHtmlGenerator
         ";
     }
 
-    private function getBuildDivHtml(Build $build, bool $slotHasUser): string
+    private function getBuildDivHtml(PlayerSlot $playerSlot, bool $slotHasUser): string
     {
-        $specialization = $build->getSpecialization();
+        $shouldSlotAttributionButtonShow = !$slotHasUser && $this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($playerSlot->getEventBattle());
+        $slotAttributionButton = $this->getSlotAttributionIconHtml($playerSlot, $shouldSlotAttributionButtonShow);
+
         $buildTextSecondaryClass = $slotHasUser ? 'ge-secondary-text' : '';
+
+        /** @var Build $build */
+        $build = $playerSlot->getBuild();
+        $specialization = $build->getSpecialization();
 
         return "
             <div class='col-auto ge-md-vertical-center'>
+            
+                $slotAttributionButton
                                                         
                 <span class='pe-md-2'>
                     <a href='/build/{$build->getId()}'
@@ -64,6 +75,22 @@ final readonly class PlayerSlotHtmlGenerator
                     {$this->getBuildCategoryIconsHtml($build, $slotHasUser)}
                 </span>
             </div>
+        ";
+    }
+
+    private function getSlotAttributionIconHtml(PlayerSlot $playerSlot, bool $shouldButtonShow): string
+    {
+        $cssHidenClass = $shouldButtonShow ? '' : 'd-none';
+
+        return "
+            <span class='custom-link-primary text-decoration-none ge-slot-icon me-2 cursor-pointer {$cssHidenClass}'
+                title='Prendre le slot'
+                data-controller='guild-event--manage-event-actions'
+                data-guild-event--manage-event-actions-url-value='/guild-event/player-slot/event/{$playerSlot->getEventBattle()?->getGuildEvent()?->getId()}/slot/assign/{$playerSlot->getId()}'
+                data-slot-assign-event-battle-id='{$playerSlot->getEventBattle()?->getId()}'
+            >
+                <i class='bi bi-box-arrow-in-right'></i>
+            </span>
         ";
     }
 
@@ -88,5 +115,18 @@ final readonly class PlayerSlotHtmlGenerator
         }
 
         return '';
+    }
+
+    private function getFreeSlotButtonHtml(User $user, PlayerSlot $playerSlot): string
+    {
+        return "<span class='link-danger text-decoration-none ge-slot-icon me-2 cursor-pointer' 
+                      data-controller='guild-event--confirm-free-slot'
+                      data-guild-event--confirm-free-slot-url-value='/guild-event/player-slot/slot/free/{$playerSlot->getId()}'
+                      data-current-user='{$user->getUsername()}'
+                      data-slot-user='{$playerSlot->getPlayer()?->getUsername()}'
+                      data-free-slot-event-battle-id='{$playerSlot->getEventBattle()?->getId()}'
+                          >
+                    <i class='bi bi-x-lg ps-2' title='Libérer le slot'></i>
+                </span>";
     }
 }

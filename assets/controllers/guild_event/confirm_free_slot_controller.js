@@ -1,13 +1,16 @@
 import {Controller} from '@hotwired/stimulus'
+import toastr from "toastr";
 
 export default class extends Controller {
+    static values = { url: String }
+
     connect() {
         this.element.addEventListener('click', (event) => this.confirmDeletion(event))
     }
 
     confirmDeletion(event) {
         event.preventDefault()
-        const targetUrl = this.element.getAttribute('href')
+        const url = this.urlValue
         const slotUsername = this.element.dataset.slotUser;
         const currentUsername = this.element.dataset.currentUser;
 
@@ -29,7 +32,22 @@ export default class extends Controller {
                 confirm: {
                     text: 'Confirmer',
                     action: () => {
-                        window.location.href = targetUrl
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: (response) => {
+
+                                if (currentUsername === slotUsername) {
+                                    const eventBattleId = $(this.element).data('free-slot-event-battle-id')
+                                    $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).removeClass('d-none')
+                                }
+
+                                $(this.element).parent().parent().html(response);
+                            },
+                            error: () => {
+                                toastr.error('Erreur lors de la libération du slot', 'Erreur')
+                            }
+                        })
                     }
                 },
                 cancel: {

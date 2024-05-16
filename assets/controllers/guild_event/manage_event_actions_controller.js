@@ -1,4 +1,5 @@
 import { Controller } from "stimulus"
+import toastr from 'toastr'
 
 export default class extends Controller {
     static values = { url: String }
@@ -16,12 +17,12 @@ export default class extends Controller {
             method: 'GET',
             success: (response) => {
                 const eventBattleId = $(this.element).data('slot-assign-event-battle-id')
-                $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).not(this.element).remove()
+                $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).not(this.element).addClass('d-none')
 
-                this.element.parentElement.outerHTML = response
+                $(this.element).parent().replaceWith(response);
             },
-            error: (error) => {
-                alert(error.responseText)
+            error: () => {
+                toastr.error('Erreur lors de la modification du slot', 'Erreur')
             }
         })
     }

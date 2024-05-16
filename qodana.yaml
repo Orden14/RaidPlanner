@@ -38,7 +38,7 @@ exclude:
   -   name: JSUnusedGlobalSymbols
       paths:
         - assets/controllers
-        - assets\components\calendar\index.js
+        - assets\javascript\components\calendar\index.js
   -   name: JSUnresolvedReference
   -   name: LongInheritanceChainInspection
       paths:
@@ -59,12 +59,13 @@ exclude:
   - name: HtmlUnknownTarget
     paths:
       - src\Twig\Extension\UrlExtension.php
+      - src\Util\GuildEvent\PlayerSlotHtmlGenerator.php
   - name: JSCheckFunctionSignatures
     paths:
-      - assets\components\calendar\index.js
       - assets\controllers\datatable_controller.js
       - assets\controllers\build\table_controller.js
       - assets\controllers\user_activity_log\table_controller.js
+      - assets\javascript\components\calendar\index.js
   - name: MethodVisibilityInspection
     paths:
       - src\Command\DeleteOldLogsCommand.php

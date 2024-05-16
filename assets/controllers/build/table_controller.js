@@ -1,5 +1,5 @@
 import {Controller} from "stimulus"
-import {filterRow} from "../../util/build/table_filter_manager"
+import {filterRow} from "../../javascript/util/build/table_filter_manager"
 
 export default class extends Controller {
     initialize() {
