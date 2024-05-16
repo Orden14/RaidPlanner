@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Util\GuildEvent\PlayerSlotHtmlGenerator;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,10 @@ class PlayerSlotController extends AbstractController
         private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
     ) {}
 
-    #[Route('/event/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
+    /**
+     * @throws ORMException
+     */
+    #[Route('/battle/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
     final public function assignToSlot(EventBattle $eventBattle, PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
