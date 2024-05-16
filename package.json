@@ -21,6 +21,7 @@
     "datatables.net-responsive": "^3.0.2",
     "datatables.net-select-bs5": "^2.0.1",
     "date-fns": "^3.6.0",
+    "flatpickr": "^4.6.13",
     "jquery": "^3.7.1",
     "jquery-confirm": "^3.3.4",
     "regenerator-runtime": "^0.14.1",

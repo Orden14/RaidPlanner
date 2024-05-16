@@ -1,13 +1,8 @@
 import {addHours, setHours} from "date-fns";
 
 export function setModalDates(startDate, endDate) {
-    let localDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000)
-    let startStr = localDate.toISOString().split('.')[0]
-    localDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000)
-    let endStr = localDate.toISOString().split('.')[0]
-
-    $('#manageGuildEventModal input[name="guild_event[start]"]').val(startStr)
-    $('#manageGuildEventModal input[name="guild_event[end]"]').val(endStr)
+    $('#manageGuildEventModal input[name="guild_event[start]"]').val(formatDate(startDate))
+    $('#manageGuildEventModal input[name="guild_event[end]"]').val(formatDate(endDate))
 }
 
 export function setModalDatesForDateClick(info) {
@@ -22,4 +17,12 @@ export function setModalDatesForDateClick(info) {
     }
 
     setModalDates(startDate, endDate)
+}
+
+function formatDate(date) {
+    return date.getFullYear() + '-' +
+        ('0' + (date.getMonth()+1)).slice(-2) + '-' +
+        ('0' + date.getDate()).slice(-2) + ' ' +
+        ('0' + date.getHours()).slice(-2) + ':' +
+        ('0' + date.getMinutes()).slice(-2);
 }

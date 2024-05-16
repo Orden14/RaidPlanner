@@ -28,6 +28,7 @@ final class GuildEventType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date de début',
                 'attr' => [
+                    'data-controller' => 'datetime-picker',
                     'class' => 'form-control'
                 ]
             ])
@@ -35,6 +36,7 @@ final class GuildEventType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date de fin',
                 'attr' => [
+                    'data-controller' => 'datetime-picker',
                     'class' => 'form-control'
                 ]
             ])
