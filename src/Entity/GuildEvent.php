@@ -37,13 +37,16 @@ class GuildEvent
     private ?DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = InstanceTypeEnum::RAID->value;
+    private string $type = InstanceTypeEnum::RAID->value;
 
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
 
     #[ORM\Column(length: 255)]
-    private ?string $status = GuildEventStatusEnum::OPEN->value;
+    private string $status = GuildEventStatusEnum::OPEN->value;
+
+    #[ORM\Column]
+    private bool $guildRaid = true;
 
     public function __construct()
     {
@@ -137,6 +140,18 @@ class GuildEvent
     final public function setStatus(GuildEventStatusEnum $status): self
     {
         $this->status = $status->value;
+
+        return $this;
+    }
+
+    final public function isGuildRaid(): bool
+    {
+        return $this->guildRaid;
+    }
+
+    final public function setGuildRaid(bool $guildRaid): self
+    {
+        $this->guildRaid = $guildRaid;
 
         return $this;
     }
