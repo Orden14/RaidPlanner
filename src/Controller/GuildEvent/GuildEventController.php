@@ -165,7 +165,7 @@ class GuildEventController extends AbstractController
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
     }
 
-    #[IsGranted(RolesEnum::MEMBER->value)]
+    #[IsGranted(RolesEnum::TRIAL->value)]
     #[Route('/police', name: 'police', methods: ['GET'])]
     final public function police(GuildEventRepository $guildEventRepository, UserService $userService): Response
     {
