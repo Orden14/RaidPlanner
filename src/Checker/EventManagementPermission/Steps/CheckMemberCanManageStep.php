@@ -15,6 +15,7 @@ final readonly class CheckMemberCanManageStep implements EventManagementPermissi
 
     public function check(GuildEvent $guildEvent): bool
     {
-        return $guildEvent->canMembersManageEvent() && $this->security->isGranted(RolesEnum::MEMBER->value);
+        return $this->security->isGranted(RolesEnum::ADMIN->value)
+            || ($guildEvent->canMembersManageEvent() && $this->security->isGranted(RolesEnum::MEMBER->value));
     }
 }

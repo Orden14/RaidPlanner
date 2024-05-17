@@ -21,11 +21,11 @@ final readonly class CheckUserIsAllowedStep implements EventParticipationPermiss
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
-        $isCurrentUserOwner = $this->eventAttendanceRepository->findBy([
+        $isCurrentUserOwner = count($this->eventAttendanceRepository->findBy([
             'user' => $currentUser,
             'guildEvent' => $guildEvent,
             'eventOwner' => true
-        ]) > 0;
+        ])) > 0;
 
         return $this->security->isGranted(RolesEnum::TRIAL->value)
             || $isCurrentUserOwner

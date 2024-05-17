@@ -79,6 +79,13 @@ class EventAttendance
         return $this->comment;
     }
 
+    final public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
     final public function setEventOwner(bool $eventOwner): self
     {
         $this->eventOwner = $eventOwner;
@@ -90,12 +97,5 @@ class EventAttendance
     final public function isEventOwner(): bool
     {
         return $this->eventOwner;
-    }
-
-    final public function setComment(?string $comment): self
-    {
-        $this->comment = $comment;
-
-        return $this;
     }
 }

@@ -10,6 +10,7 @@ use App\Enum\AttendanceTypeEnum;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Factory\EventAttendanceFactory;
 use App\Factory\GuildEventFactory;
 use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
@@ -32,6 +33,7 @@ class GuildEventController extends AbstractController
         private readonly EntityManagerInterface              $entityManager,
         private readonly FormFlashHelper                     $formFlashHelper,
         private readonly GuildEventFactory                   $guildEventFactory,
+        private readonly EventAttendanceFactory              $eventAttendanceFactory,
         private readonly EventAttendanceRepository           $eventAttendanceRepository,
         private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
@@ -82,6 +84,7 @@ class GuildEventController extends AbstractController
             }
 
             $this->entityManager->persist($guildEvent);
+            $this->entityManager->persist($this->eventAttendanceFactory->generateEventAttendance($guildEvent, true));
             $this->entityManager->flush();
 
             $this->addFlash(

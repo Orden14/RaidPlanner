@@ -1,6 +1,6 @@
 {% set can_manage_event = can_user_manage_event(guild_event.id) %}
 
-<div class="accordion mt-4" id="eventBattlesAccordion">
+<div class="accordion mt-4 mb-2" id="eventBattlesAccordion">
     {% for event_battle in event_battles %}
         {% set can_user_signup = can_user_take_slot(event_battle.id) %}
         {% set invalid_slots = 0 %}
