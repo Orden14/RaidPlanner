@@ -17,7 +17,6 @@
                         {%  include 'components/navbar/links/_police.html.twig' %}
                         {% include 'components/navbar/links/_builds.html.twig' %}
                     {% endif %}
-
                     {% if is_granted('ROLE_ADMIN') %}
                         {% include 'components/navbar/links/admin/_administration.html.twig' %}
                     {% endif %}
