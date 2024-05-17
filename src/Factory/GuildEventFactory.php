@@ -18,7 +18,7 @@ final readonly class GuildEventFactory
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
-        $guildEvent =  (new GuildEvent())->setOwner($currentUser);
+        $guildEvent =  new GuildEvent();
 
         if ($currentUser->getRole() === RolesEnum::OLD_MEMBER) {
             $guildEvent->setOldMembersAllowed(true);

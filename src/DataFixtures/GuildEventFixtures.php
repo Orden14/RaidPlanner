@@ -33,7 +33,6 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
     private function createGuildEvent(ObjectManager $manager): void
     {
         $guildEvent = (new GuildEvent())
-            ->setOwner($this->userRepository->find(1))
             ->setTitle('Test event')
             ->setStart((new DateTime())->setTime(10, 0))
             ->setEnd((new DateTime())->setTime(15, 0))

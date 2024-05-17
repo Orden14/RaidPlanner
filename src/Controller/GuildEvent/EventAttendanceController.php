@@ -54,7 +54,7 @@ class EventAttendanceController extends AbstractController
     {
 //        @TODO
 
-        return $this->render('guild_event/graid_attendance_week.html.twig', [
+        return $this->render('guild_event/event_attendance/graid_attendance_week.html.twig', [
             'guild_members' => $userService->getActiveMembers(),
             'weekly_guild_raids' => $guildEventRepository->findWeeklyGuildRaids(),
         ]);

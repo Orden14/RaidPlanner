@@ -6,12 +6,14 @@ use App\Entity\GuildEvent;
 use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Interface\EventParticipationPermissionStepInterface;
+use App\Repository\EventAttendanceRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CheckUserIsAllowedStep implements EventParticipationPermissionStepInterface
 {
     public function __construct(
-        private Security $security
+        private Security $security,
+        private EventAttendanceRepository $eventAttendanceRepository
     ) {}
 
     public function check(GuildEvent $guildEvent): bool
@@ -19,8 +21,14 @@ final readonly class CheckUserIsAllowedStep implements EventParticipationPermiss
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
+        $isCurrentUserOwner = $this->eventAttendanceRepository->findBy([
+            'user' => $currentUser,
+            'guildEvent' => $guildEvent,
+            'eventOwner' => true
+        ]) > 0;
+
         return $this->security->isGranted(RolesEnum::TRIAL->value)
-            || $guildEvent->getOwner() === $currentUser
+            || $isCurrentUserOwner
             || ($guildEvent->isOldMembersAllowed() && $this->security->isGranted(RolesEnum::OLD_MEMBER->value));
     }
 }

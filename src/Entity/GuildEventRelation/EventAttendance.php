@@ -27,6 +27,9 @@ class EventAttendance
     #[ORM\Column(length: 255)]
     private ?string $type = AttendanceTypeEnum::BACKUP->value;
 
+    #[ORM\Column]
+    private bool $eventOwner = false;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
 
@@ -74,6 +77,19 @@ class EventAttendance
     final public function getComment(): ?string
     {
         return $this->comment;
+    }
+
+    final public function setEventOwner(bool $eventOwner): self
+    {
+        $this->eventOwner = $eventOwner;
+
+        return $this;
+
+    }
+
+    final public function isEventOwner(): bool
+    {
+        return $this->eventOwner;
     }
 
     final public function setComment(?string $comment): self

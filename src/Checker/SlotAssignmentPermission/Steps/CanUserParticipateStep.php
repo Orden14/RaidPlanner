@@ -7,7 +7,7 @@ use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Interface\SlotAssignmentPermissionStepInterface;
 
-final readonly class UserHasPermissionStep implements SlotAssignmentPermissionStepInterface
+final readonly class CanUserParticipateStep implements SlotAssignmentPermissionStepInterface
 {
     public function __construct(
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
