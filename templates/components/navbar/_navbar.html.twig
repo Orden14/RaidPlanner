@@ -14,7 +14,7 @@
                         {%  include 'components/navbar/links/_calendar.html.twig' %}
                     {% endif %}
                     {%  if is_granted('ROLE_TRIAL') %}
-                        {%  include 'components/navbar/links/_police.html.twig' %}
+                        {%  include 'components/navbar/links/_graid_attendance_week.html.twig' %}
                         {% include 'components/navbar/links/_builds.html.twig' %}
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}

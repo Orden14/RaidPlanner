@@ -27,6 +27,8 @@ final class GuildEventRepository extends ServiceEntityRepository
      */
     public function findWeeklyGuildRaids(): array
     {
+        // @TODO ADD TIME CHECK FOR THIS WEEK
+
         return $this->createQueryBuilder('ge')
             ->where('ge.guildRaid = true')
             ->andWhere('ge.status = :status')

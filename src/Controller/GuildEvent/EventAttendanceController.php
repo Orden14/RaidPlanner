@@ -7,6 +7,8 @@ use App\Entity\GuildEvent;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Repository\GuildEventRepository;
+use App\Service\UserService;
 use App\Util\GuildEvent\EventAttendanceManager;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,5 +46,17 @@ class EventAttendanceController extends AbstractController
         }
 
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted(RolesEnum::TRIAL->value)]
+    #[Route('/weekly_graid_attendance', name: 'graid_attendance_week', methods: ['GET'])]
+    final public function weeklyGuildRaidAttendance(GuildEventRepository $guildEventRepository, UserService $userService): Response
+    {
+//        @TODO
+
+        return $this->render('guild_event/graid_attendance_week.html.twig', [
+            'guild_members' => $userService->getActiveMembers(),
+            'weekly_guild_raids' => $guildEventRepository->findWeeklyGuildRaids(),
+        ]);
     }
 }
