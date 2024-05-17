@@ -10,8 +10,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if app.user %}
-                    {%  if is_granted('ROLE_MEMBER') %}
+                    {% if is_granted('ROLE_OLDMEMBER') %}
                         {%  include 'components/navbar/links/_calendar.html.twig' %}
+                    {% endif %}
+                    {%  if is_granted('ROLE_TRIAL') %}
+                        {%  include 'components/navbar/links/_police.html.twig' %}
                         {% include 'components/navbar/links/_builds.html.twig' %}
                     {% endif %}
 

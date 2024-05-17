@@ -14,12 +14,25 @@ enum RolesEnum: string
     public static function getRoleDisplayName(self $role): string
     {
         return match ($role) {
-            self::DEV => 'Développeur',
+            self::DEV => 'Dev',
             self::ADMIN => 'Officier',
             self::MEMBER => 'Membre',
             self::TRIAL => 'Trial',
             self::OLD_MEMBER => 'Ancien membre',
             self::GUEST => 'Guest',
         };
+    }
+
+    /**
+     * @return RolesEnum[]
+     */
+    public static function getActiveGuildRoles(): array
+    {
+        return [
+            self::DEV,
+            self::ADMIN,
+            self::MEMBER,
+            self::TRIAL,
+        ];
     }
 }

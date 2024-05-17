@@ -14,6 +14,9 @@ use App\Factory\GuildEventFactory;
 use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
 use App\Repository\EventAttendanceRepository;
+use App\Repository\GuildEventRepository;
+use App\Repository\UserRepository;
+use App\Service\UserService;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -160,5 +163,15 @@ class GuildEventController extends AbstractController
         $this->entityManager->flush();
 
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted(RolesEnum::MEMBER->value)]
+    #[Route('/police', name: 'police', methods: ['GET'])]
+    final public function police(GuildEventRepository $guildEventRepository, UserService $userService): Response
+    {
+        return $this->render('guild_event/police.html.twig', [
+            'guild_members' => $userService->getActiveMembers(),
+            'weekly_guild_raids' => $guildEventRepository->findWeeklyGuildRaids(),
+        ]);
     }
 }

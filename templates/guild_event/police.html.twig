@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    {% for guild_member in guild_members %}
+                        <li>{{ guild_member.role.value }} {{ guild_member.username }}</li>
+                    {% endfor %}
+                </ul>
+                <u>
+                    {% for weekly_guild_raid in weekly_guild_raids %}
+                        <li>{{ weekly_guild_raid.title }}</li>
+                    {% endfor %}
+                </u>
+            </div>
+        </div>
+    </div>
+{% endblock %}
