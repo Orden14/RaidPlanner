@@ -49,7 +49,7 @@ class EventAttendanceController extends AbstractController
     }
 
     #[IsGranted(RolesEnum::TRIAL->value)]
-    #[Route('/weekly_graid_attendance', name: 'graid_week', methods: ['GET'])]
+    #[Route('/graid_week', name: 'graid_week', methods: ['GET'])]
     final public function weeklyGuildRaidAttendance(GuildEventRepository $guildEventRepository, UserService $userService): Response
     {
 //        @TODO

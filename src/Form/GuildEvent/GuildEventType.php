@@ -65,7 +65,7 @@ final class GuildEventType extends AbstractType
                 ],
             ])
             ->add('guildRaid', ChoiceType::class, [
-                'label' => 'GRAID',
+                'label' => "GRAID",
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,

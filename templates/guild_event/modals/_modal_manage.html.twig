@@ -30,7 +30,7 @@
                             </div>
                         {% endif %}
                         <div class="col form-group mb-3">
-                            {{ form_label(form.guildRaid, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_label(form.guildRaid, null, {'label_attr': {'class': 'form-label'}}) }} <i class='bi bi-info-circle' title="Définir un évènement comme GRAID annule toutes les autorisations optionnelles. Seuls les officiers ont les droits de modification, et les anciens membres ne pourront pas voir l'évènement."></i>
                             {{ form_widget(form.guildRaid, {'attr': {'class': 'form-select'}}) }}
                         </div>
                         <div class="col-4 col-md-3 form-group mb-3">

@@ -2,19 +2,25 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <ul>
-                    {% for guild_member in guild_members %}
-                        <li>{{ guild_member.role.value }} {{ guild_member.username }}</li>
+        <table class="graid-table">
+            <thead>
+            <tr>
+                <th>Members</th>
+                {% for guild_raid in weekly_guild_raids %}
+                    <th>{{ guild_raid.title }}</th> {# Assuming each raid has a 'title' attribute #}
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for member in guild_members %}
+                <tr>
+                    <td>{{ member.username }}</td> {# Assuming each member has a 'username' attribute #}
+                    {% for raid in weekly_guild_raids %}
+                        <td>yes</td> {# Simplified for demonstration #}
                     {% endfor %}
-                </ul>
-                <u>
-                    {% for weekly_guild_raid in weekly_guild_raids %}
-                        <li>{{ weekly_guild_raid.title }}</li>
-                    {% endfor %}
-                </u>
-            </div>
-        </div>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

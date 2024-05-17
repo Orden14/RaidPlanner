@@ -69,8 +69,8 @@ $(document).ready(function () {
                 container.append(title)
 
                 let eventDetails = $(
-                    '<div></div>').html(`${arg.event.extendedProps.guildRaid ? 'GRAID <br>' : ''}
-                    ${arg.event.extendedProps.eventType}
+                    '<div></div>').html(`${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType}
+                    
                     <br>${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}`
                 )
 
@@ -87,7 +87,7 @@ $(document).ready(function () {
             } else {
                 container = $('<a></a>').attr("href", "/event/" + arg.event.extendedProps.eventId)
                 let title = `
-                    ${arg.event.extendedProps.eventType} -
+                    ${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType} -
                     ${arg.event.title}
                     ${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}
                 `
