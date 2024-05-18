@@ -5,7 +5,7 @@ export default class extends Controller {
     static values = {url: String}
 
     connect() {
-        this.element.addEventListener('click', (event) => this.manageSlot(event))
+        $(this.element).on('click', (event) => this.manageSlot(event));
     }
 
     manageSlot(event) {
@@ -27,6 +27,10 @@ export default class extends Controller {
                     "timeOut": "4000",
                 }
                 toastr.error(jqXHR.responseText || errorThrown, textStatus)
+
+                setTimeout(() => {
+                    location.reload()
+                }, 2000);
             }
         })
     }

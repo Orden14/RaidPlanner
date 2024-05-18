@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class EventPermissionExtension extends AbstractExtension
+final class EventPermissionExtension extends AbstractExtension
 {
     public function __construct(
         private readonly GuildEventRepository             $guildEventRepository,
@@ -25,7 +25,7 @@ class EventPermissionExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    final public function getFunctions(): array
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('can_user_manage_event', $this->canUserManageEvent(...)),
@@ -34,7 +34,7 @@ class EventPermissionExtension extends AbstractExtension
         ];
     }
 
-    final public function canUserManageEvent(int $guildEventId): bool
+    public function canUserManageEvent(int $guildEventId): bool
     {
         $guildEvent = $this->getGuildEvent($guildEventId);
 
@@ -44,7 +44,7 @@ class EventPermissionExtension extends AbstractExtension
     /**
      * @throws EntityNotFoundException
      */
-    final public function canUserTakeSlot(int $eventBattleId): bool
+    public function canUserTakeSlot(int $eventBattleId): bool
     {
         $eventBattle = $this->eventBattleRepository->find($eventBattleId);
 
@@ -55,7 +55,7 @@ class EventPermissionExtension extends AbstractExtension
         return $this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle);
     }
 
-    final public function canUserSignup(int $guildEventId): bool
+    public function canUserSignup(int $guildEventId): bool
     {
         $guildEvent = $this->getGuildEvent($guildEventId);
 

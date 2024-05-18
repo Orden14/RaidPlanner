@@ -51,7 +51,7 @@ class EventAttendanceController extends AbstractController
     #[Route('/graid_week', name: 'graid_week', methods: ['GET'])]
     final public function weeklyGuildRaidAttendance(GraidAttendanceTableDataBuilder $tableDataBuilder): Response
     {
-        return $this->render('guild_event/event_attendance/graid_attendance_week.html.twig', [
+        return $this->render('event_attendance/graid_attendance_week.html.twig', [
             'table_data' => $tableDataBuilder->build(),
         ]);
     }

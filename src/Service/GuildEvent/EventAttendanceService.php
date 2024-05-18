@@ -14,6 +14,20 @@ final readonly class EventAttendanceService
         private EventAttendanceRepository $eventAttendanceRepository
     ) {}
 
+    /**
+     * @return array<int, EventAttendance[]>
+     */
+    public function getCombinedAttendanceList(GuildEvent $guildEvent): array
+    {
+        $players = $this->getAttendanceListByType($guildEvent, AttendanceTypeEnum::PLAYER);
+        $backups = $this->getAttendanceListByType($guildEvent, AttendanceTypeEnum::BACKUP);
+        $absents = $this->getAttendanceListByType($guildEvent, AttendanceTypeEnum::ABSENT);
+
+        $combined = array_merge($players, $backups, $absents);
+
+        return array_chunk($combined, 7);
+    }
+
     public function getEventPlayerCount(GuildEvent $guildEvent): int
     {
         return count(array_filter(
