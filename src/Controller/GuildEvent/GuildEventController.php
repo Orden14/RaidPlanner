@@ -6,14 +6,14 @@ use App\Checker\EventManagementPermission\EventManagementPermissionChecker;
 use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
-use App\Enum\AttendanceTypeEnum;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Factory\EventAttendanceFactory;
 use App\Factory\GuildEventFactory;
 use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
-use App\Repository\EventAttendanceRepository;
+use App\Service\GuildEvent\EventAttendanceService;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,42 +32,13 @@ class GuildEventController extends AbstractController
         private readonly EntityManagerInterface              $entityManager,
         private readonly FormFlashHelper                     $formFlashHelper,
         private readonly GuildEventFactory                   $guildEventFactory,
-        private readonly EventAttendanceRepository           $eventAttendanceRepository,
+        private readonly EventAttendanceFactory              $eventAttendanceFactory,
+        private readonly EventAttendanceService              $eventAttendanceService,
         private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
-    {
-        $guildEvent = $this->guildEventFactory->generateGuildEvent();
-
-        $form = $this->createForm(GuildEventType::class, $guildEvent);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($guildEvent);
-            $this->entityManager->flush();
-
-            $this->addFlash(
-                'success',
-                "L'évènement {$guildEvent->getTitle()} a bien été créé"
-            );
-
-            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
-        }
-
-        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
-        $formErrors = $form->getErrors(true, false);
-        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
-
-        return $this->render('components/calendar/index.html.twig', [
-            'form' => $form->createView(),
-            'guild_event' => $guildEvent,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
+    #[Route('/show/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, GuildEvent $guildEvent): Response
     {
         if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
@@ -93,8 +64,42 @@ class GuildEventController extends AbstractController
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_battles' => $guildEvent->getEventBattles(),
-            'backups' => $this->eventAttendanceRepository->findEventAttendancesByType($guildEvent, AttendanceTypeEnum::BACKUP),
-            'absents' => $this->eventAttendanceRepository->findEventAttendancesByType($guildEvent, AttendanceTypeEnum::ABSENT),
+            'attendances' => $this->eventAttendanceService->getCombinedAttendanceList($guildEvent),
+        ]);
+    }
+
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    final public function new(Request $request): Response
+    {
+        $guildEvent = $this->guildEventFactory->generateGuildEvent();
+
+        $form = $this->createForm(GuildEventType::class, $guildEvent);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->isGranted(RolesEnum::ADMIN->value)) {
+                $guildEvent->setGuildRaid(false);
+            }
+
+            $this->entityManager->persist($guildEvent);
+            $this->entityManager->persist($this->eventAttendanceFactory->generateEventAttendanceForNewEvent($guildEvent));
+            $this->entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                "L'évènement {$guildEvent->getTitle()} a bien été créé"
+            );
+
+            return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
+        return $this->render('components/calendar/index.html.twig', [
+            'form' => $form->createView(),
+            'guild_event' => $guildEvent,
         ]);
     }
 

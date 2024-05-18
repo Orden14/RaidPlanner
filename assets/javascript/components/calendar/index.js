@@ -65,20 +65,30 @@ $(document).ready(function () {
 
             if (arg.view.type !== 'dayGridMonth' && arg.view.type !== 'listWeek') {
                 container = $('<div></div>')
-                let title = $('<div></div>').html(arg.event.title)
+                let title = $('<div class="fw-bold mb-2"></div>').html(arg.event.title)
                 container.append(title)
 
                 let eventDetails = $(
-                    '<div></div>').html(`<br><small>${arg.event.extendedProps.eventType}</small>
-                    <br><small>${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}</small>`
+                    '<div></div>').html(`${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType}
+                    
+                    <br>${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}`
                 )
 
                 container.append(eventDetails)
-            } else {
-                container = $('<a></a>').attr("href", "/event/" + arg.event.extendedProps.eventId)
+            } else if (arg.view.type === 'dayGridMonth') {
+                container = $('<div></div>')
+
                 let title = `
-                    ${arg.event.extendedProps.eventType} -
-                    ${arg.event.title}  
+                    <div class="fc-daygrid-event-dot d-inline-flex" style="border-color: ${arg.event.backgroundColor};"></div>
+                    <span class="fc-event-time">${arg.event.start.getHours()}:${arg.event.start.getMinutes()}</span>
+                    <span class="fc-event-title">${arg.event.title}</span>
+                `
+                container.append(title)
+            } else {
+                container = $('<a></a>').attr("href", "/event/show/" + arg.event.extendedProps.eventId)
+                let title = `
+                    ${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType} -
+                    ${arg.event.title}
                     ${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}
                 `
 

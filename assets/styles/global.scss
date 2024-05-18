@@ -4,6 +4,8 @@
 @import "datatables.net-bs5";
 @import "datatables.net-select-bs5";
 @import "toastr";
+@import "flatpickr/dist/themes/dark.css";
+@import "flatpickr/dist/plugins/confirmDate/confirmDate.css";
 
 @import "app.scss";
 @import "guild_event.scss";
@@ -15,3 +17,4 @@
 @import "icons.scss";
 @import "job.scss";
 @import "message.scss";
+@import "graid_attendance_table";

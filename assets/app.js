@@ -9,6 +9,6 @@ import 'datatables.net-responsive'
 // Toastr
 import 'toastr/build/toastr.min.js'
 
-
 require('bootstrap-icons/font/bootstrap-icons.css')
 require('bootstrap-select')
+require('flatpickr')

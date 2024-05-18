@@ -4,6 +4,8 @@ namespace App\Form\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Enum\InstanceTypeEnum;
+use App\Enum\RolesEnum;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
@@ -11,12 +13,19 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class GuildEventType extends AbstractType
 {
+    public function __construct(
+        private readonly Security $security
+    ) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $isEventNew = $options['data']->getId() === null;
+        $isUserAdmin = $this->security->isGranted(RolesEnum::ADMIN->value);
 
         $builder
             ->add('title', TextType::class, [
@@ -25,10 +34,18 @@ final class GuildEventType extends AbstractType
             ->add('start', null, [
                 'widget' => 'single_text',
                 'label' => 'Date de début',
+                'attr' => [
+                    'data-controller' => 'datetime-picker',
+                    'class' => 'form-control'
+                ]
             ])
             ->add('end', null, [
                 'widget' => 'single_text',
                 'label' => 'Date de fin',
+                'attr' => [
+                    'data-controller' => 'datetime-picker',
+                    'class' => 'form-control'
+                ]
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',
@@ -46,6 +63,15 @@ final class GuildEventType extends AbstractType
                     'Oui' => true,
                     'Non' => false,
                 ],
+            ])
+            ->add('guildRaid', ChoiceType::class, [
+                'label' => "GRAID",
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'data' => $isUserAdmin && $isEventNew,
+                'disabled' => !$isUserAdmin
             ]);
 
         if ($isEventNew) {
@@ -57,10 +83,20 @@ final class GuildEventType extends AbstractType
         }
     }
 
+    public function validate(GuildEvent $guildEvent, ExecutionContextInterface $context): void
+    {
+        if ($guildEvent->getEnd() <= $guildEvent->getStart()) {
+            $context->buildViolation('La date de fin doit être après la date de début.')
+                ->atPath('end')
+                ->addViolation();
+        }
+    }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => GuildEvent::class,
+            'constraints' => new Callback([$this, 'validate'])
         ]);
     }
 }

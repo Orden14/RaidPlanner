@@ -2,6 +2,7 @@
 
 namespace App\Controller\GuildEvent;
 
+use App\Builder\GraidAttendanceTableDataBuilder;
 use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\User;
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventAttendanceController extends AbstractController
 {
     public function __construct(
-        private readonly EventAttendanceManager    $eventAttendanceManager,
+        private readonly EventAttendanceManager              $eventAttendanceManager,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker
     ) {}
 
@@ -44,5 +45,14 @@ class EventAttendanceController extends AbstractController
         }
 
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted(RolesEnum::TRIAL->value)]
+    #[Route('/graid_week', name: 'graid_week', methods: ['GET'])]
+    final public function weeklyGuildRaidAttendance(GraidAttendanceTableDataBuilder $tableDataBuilder): Response
+    {
+        return $this->render('event_attendance/graid_attendance_week.html.twig', [
+            'table_data' => $tableDataBuilder->build(),
+        ]);
     }
 }

@@ -1,14 +1,16 @@
-<div class="modal fade" id="manageGuildEventModal" tabindex="-1" role="dialog" aria-labelledby="manageGuildEventModalLabel" aria-hidden="true">
+<div class="modal fade" id="manageGuildEventModal" tabindex="-1" role="dialog" aria-labelledby="manageGuildEventModalLabel" aria-hidden="true" data-bs-focus="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
 
-                {% if guild_event is defined %}
+                {% if guild_event.id is defined and guild_event.id is not null %}
                     {% set modal_title = 'Modifier un événement' %}
                     {% set modal_submit_text = 'Modifier' %}
+                    {% set is_new = false %}
                 {% else %}
                     {% set modal_title = 'Ajouter un événement' %}
                     {% set modal_submit_text = 'Ajouter' %}
+                    {% set is_new = true %}
                 {% endif %}
 
                 <h5 class="modal-title" id="manageGuildEventModalLabel">{{ modal_title }}</h5>
@@ -21,35 +23,39 @@
                         {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="row">
-                        {% if guild_event is not defined %}
-                            <div class="col-md-6 form-group mb-3">
+                        {% if form.type is defined %}
+                            <div class="col-12 col-md-6 form-group mb-3">
                                 {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
                             </div>
                         {% endif %}
-                        <div class="col-md-6 form-group mb-3">
+                        <div class="col form-group mb-3">
+                            {{ form_label(form.guildRaid, null, {'label_attr': {'class': 'form-label'}}) }} <i class='bi bi-info-circle' title="Définir un évènement comme GRAID annule toutes les autorisations optionnelles. Seuls les officiers ont les droits de modification, et les anciens membres ne pourront pas voir l'évènement."></i>
+                            {{ form_widget(form.guildRaid, {'attr': {'class': 'form-select'}}) }}
+                        </div>
+                        <div class="col-4 col-md-3 form-group mb-3">
                             {{ form_label(form.color, null, {'label_attr': {'class': 'form-label'}}) }}
                             {{ form_widget(form.color, {'attr': {'class': 'form-control form-control-color'}}) }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 form-group mb-3">
+                        <div class="col-12 col-md-6 form-group mb-3">
                             {{ form_label(form.start, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.start, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.start) }}
                         </div>
-                        <div class="col-md-6 form-group mb-3">
+                        <div class="col-12 col-md-6 form-group mb-3">
                             {{ form_label(form.end, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.end, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.end) }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 form-group mb-3">
+                        <div class="col-6 form-group mb-3">
                             {{ form_label(form.oldMembersAllowed, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.oldMembersAllowed, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.oldMembersAllowed, {'attr': {'class': 'form-select'}}) }}
                         </div>
-                        <div class="col-md-6 form-group mb-3">
+                        <div class="col-6 form-group mb-3">
                             {{ form_label(form.membersManageEvent, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.membersManageEvent, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.membersManageEvent, {'attr': {'class': 'form-select'}}) }}
                         </div>
                     </div>
             </div>

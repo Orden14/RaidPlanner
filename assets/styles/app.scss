@@ -69,22 +69,19 @@ input[type="color"] {
     padding: 0;
 }
 
-label.required:after {
-    content: " *";
-    color: rgb(255, 0, 0);
-}
-
 .small-head-text {
     font-size: 1rem;
     padding-left: 5px;
 }
 
-.cst-responsive-border-right {
-    border-right: 1px solid rgba(163, 163, 163, 0.32);
+.cst-border-left {
+    border-left: 1px solid rgba(163, 163, 163, 0.32);
 }
 
-@media screen and (max-width: 600px) {
-    .cst-responsive-border-right {
-      border-right: none;
+@media screen and (min-width: 600px) {
+    .centered-div {
+        margin-left: auto;
+        margin-right: auto;
+        width: 550px;
     }
 }

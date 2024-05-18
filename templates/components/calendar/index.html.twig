@@ -1,13 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block container %} {% endblock %}
+{% block container %}{% endblock %}
 {% block container_end %} {% endblock %}
 
 {% block body %}
+    <div class="container mt-4">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
     <div
         id="calendar-holder"
         data-events-url="{{ path('fc_load_events') }}"
-    ></div>
+    >
+    </div>
 
     {{ include('guild_event/modals/_modal_manage.html.twig') }}
 {% endblock %}

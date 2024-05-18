@@ -37,4 +37,15 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * @return User[]
+     */
+    public function findAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.username', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

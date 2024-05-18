@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container overflow-auto text-center">
+        <h1 class="">Présence Graid de la semaine</h1>
+        <i class="h5">Semaine du {{ table_data.startOfWeek|date('d') }} {{ ('month_names.' ~ table_data.startOfWeek|date('F'))|trans }} au {{ table_data.endOfWeek|date('d') }} {{ ('month_names.' ~ table_data.endOfWeek|date('F'))|trans }}</i>
+
+        {% if table_data.weeklyGuildRaids is not empty %}
+        <table class="graid-table mt-4">
+            <thead>
+            <tr>
+                <th class="graid-table-corner"></th>
+                {% for guild_raid in table_data.weeklyGuildRaids %}
+                    <th>{{ guild_raid.title }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for member_weekly_attendance in table_data.memberWeeklyAttendances %}
+                <tr>
+                    <td>{{ member_weekly_attendance.username }}</td>
+                    {% for attendance in member_weekly_attendance.attendances %}
+                        <td class="{{ attendance.value }}">{{ get_graid_attendance_string(attendance) }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="mt-5">Il n'y a aucun Graid de planifié cette semaine.</p>
+        {% endif %}
+    </div>
+{% endblock %}
