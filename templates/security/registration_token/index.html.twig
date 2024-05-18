@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container overflow-auto">
+        <h2 class="mb-4">Tokens d'enregistrement</h2>
+        <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#newTokenModal">Générer un token</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Token</th>
+                <th>Date d'expiration</th>
+                <th>Utilisations restantes</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for registration_token in registration_tokens %}
+                <tr>
+                    <td>{{ registration_token.token }}</td>
+                    <td>{{ registration_token.expiryDate|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ registration_token.uses == -1 ? 'Illimité' : registration_token.uses - registration_token.used }}</td>
+                    <td>
+                        <a href="#">Delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Il n'y a aucun token d'enregistrement actuellement</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ include('security/registration_token/_new_token_modal.html.twig') }}
+{% endblock %}

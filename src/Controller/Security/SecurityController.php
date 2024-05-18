@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Form\RegistrationType;
+use App\Form\Security\RegistrationType;
 use App\Security\AppAuthenticator;
 use App\Service\UserService;
+use App\Util\Form\FormFlashHelper;
+use App\Util\Security\RegistrationTokenHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,8 +26,10 @@ final class SecurityController extends AbstractController
         private readonly Security                    $security,
         private readonly UserService                 $userService,
         private readonly EntityManagerInterface      $entityManager,
+        private readonly FormFlashHelper             $formFlashHelper,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly AuthenticationUtils         $authenticationUtils,
+        private readonly RegistrationTokenHandler    $registrationTokenHandler,
     ) {}
 
     #[Route(path: '/login', name: 'app_login')]
@@ -56,7 +62,9 @@ final class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->registrationTokenHandler->checkToken($form->get('registrationToken')->getData())) {
+            $this->registrationTokenHandler->incrementTokenUsage($form->get('registrationToken')->getData());
+
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,
@@ -72,6 +80,14 @@ final class SecurityController extends AbstractController
 
             return $this->security->login($user, AppAuthenticator::class, 'main');
         }
+
+        if ($form->isSubmitted() && !$this->registrationTokenHandler->checkToken($form->get('registrationToken')->getData())) {
+            $form->get('registrationToken')->addError(new FormError("Token d'enregistrement invalide"));
+        }
+
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
 
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
