@@ -11,7 +11,7 @@ final readonly class DateHelper
      */
     public static function getStartOfWeek(): DateTime
     {
-        $date = new DateTime;
+        $date = new DateTime();
 
         $currentDayOfWeek = (int)$date->format('w');
 
@@ -29,7 +29,7 @@ final readonly class DateHelper
      */
     public static function getEndOfWeek(): DateTime
     {
-        $date = new DateTime;
+        $date = new DateTime();
 
         $currentDayOfWeek = (int)$date->format('w');
 

@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
 use App\Util\DateHelper;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

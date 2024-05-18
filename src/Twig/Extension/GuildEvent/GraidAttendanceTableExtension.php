@@ -11,7 +11,7 @@ final class GraidAttendanceTableExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
-    final public function getFunctions(): array
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('get_graid_attendance_string', $this->getGraidAttendanceString(...)),

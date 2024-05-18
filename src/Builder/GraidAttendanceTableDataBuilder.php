@@ -13,7 +13,6 @@ use App\Service\UserService;
 use App\Simple\GraidAttendanceTableData;
 use App\Simple\MemberWeeklyAttendance;
 use App\Util\DateHelper;
-use DateTime;
 
 final class GraidAttendanceTableDataBuilder
 {
