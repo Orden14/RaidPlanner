@@ -2,13 +2,12 @@
 
 namespace App\Controller\GuildEvent;
 
+use App\Builder\GraidAttendanceTableDataBuilder;
 use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
-use App\Repository\GuildEventRepository;
-use App\Service\UserService;
 use App\Util\GuildEvent\EventAttendanceManager;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +20,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventAttendanceController extends AbstractController
 {
     public function __construct(
-        private readonly EventAttendanceManager    $eventAttendanceManager,
+        private readonly EventAttendanceManager              $eventAttendanceManager,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker
     ) {}
 
@@ -50,13 +49,10 @@ class EventAttendanceController extends AbstractController
 
     #[IsGranted(RolesEnum::TRIAL->value)]
     #[Route('/graid_week', name: 'graid_week', methods: ['GET'])]
-    final public function weeklyGuildRaidAttendance(GuildEventRepository $guildEventRepository, UserService $userService): Response
+    final public function weeklyGuildRaidAttendance(GraidAttendanceTableDataBuilder $tableDataBuilder): Response
     {
-//        @TODO
-
         return $this->render('guild_event/event_attendance/graid_attendance_week.html.twig', [
-            'guild_members' => $userService->getActiveMembers(),
-            'weekly_guild_raids' => $guildEventRepository->findWeeklyGuildRaids(),
+            'table_data' => $tableDataBuilder->build(),
         ]);
     }
 }

@@ -43,7 +43,7 @@ final readonly class UserService
      */
     public function getActiveMembers(): array
     {
-        $users = $this->userRepository->findAll();
+        $users = $this->userRepository->findAllOrderedByName();
 
         return array_filter($users, static function (User $user) {
             if (in_array($user->getRole(), RolesEnum::getActiveGuildRoles())) {

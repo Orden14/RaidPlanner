@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
+use App\Util\DateHelper;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,27 +29,15 @@ final class GuildEventRepository extends ServiceEntityRepository
      */
     public function findWeeklyGuildRaids(): array
     {
-        $now = new \DateTime('now');
-        $dayOfWeek = (int) $now->format('w');
-
-        $startOfWeek = clone $now;
-        if ($dayOfWeek === 0) {
-            $startOfWeek->setTime(0, 0);
-        } else {
-            $startOfWeek->modify('Sunday last week midnight');
-        }
-
-        $endOfWeek = clone $startOfWeek;
-        $endOfWeek->modify('+1 week');
-
         return $this->createQueryBuilder('ge')
             ->where('ge.guildRaid = true')
             ->andWhere('ge.status = :status')
             ->andWhere('ge.start >= :startOfWeek')
             ->andWhere('ge.start < :endOfWeek')
             ->setParameter('status', GuildEventStatusEnum::OPEN->value)
-            ->setParameter('startOfWeek', $startOfWeek)
-            ->setParameter('endOfWeek', $endOfWeek)
+            ->setParameter('startOfWeek', DateHelper::getStartOfWeek())
+            ->setParameter('endOfWeek', DateHelper::getEndOfWeek())
+            ->orderBy('ge.start', 'ASC')
             ->getQuery()
             ->getResult();
     }
