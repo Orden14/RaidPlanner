@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="mb-4">{{ title }}</h1>
+
+    <div class="table-responsive mt-3">
+        {% if users is not empty %}
+            <table class="nowrap table table-striped table-hover border w-100" data-controller="user--table">
+                <caption class="d-none">Table des membres</caption>
+                <thead class="thead-dark">
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Role</th>
+                    <th>Date d'inscription</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <span class="d-inline">
+                                <img src="{{ asset('/profile_picture/' ~ user.profilePicture) }}" alt="{{ user.username }} icon" title="{{ user.username }}" class="small-icon rounded-circle">
+                                <span>{{ user.username }}</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="d-none">{{ get_role_importance(user.role) }}</span>
+                            <span>{{ get_role_display_name(user.role) }}</span>
+                        </td>
+                        <td>
+                            <span>{{ user.joinedAt|date('d/m/Y') }}</span>
+                        </td>
+                        <td>
+                            <div class="d-inline-flex float-end">
+                                <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
+                                    <i class="bi-pencil"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun utilisateur trouvé</td>
+            </tr>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -65,13 +65,16 @@ class EventAttendanceController extends AbstractController
     #[Route('/remove/{id}', name: 'remove', methods: ['GET', 'POST'])]
     final public function removePlayer(Request $request, EventAttendance $eventAttendance): Response
     {
-        if ($this->eventManagementPermissionChecker->checkIfUserCanManageEvent($eventAttendance->getGuildEvent())
+        /** @var GuildEvent $guildEvent */
+        $guildEvent = $eventAttendance->getGuildEvent();
+
+        if ($this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)
             && $this->isCsrfTokenValid('delete' . $eventAttendance->getId(), $request->getPayload()->get('_token'))
         ) {
             $eventAttendance->setType(AttendanceTypeEnum::UNDEFINED);
-            $this->slotService->emptyAllEventSlotsOfUser($eventAttendance->getGuildEvent(), $eventAttendance->getUser());
+            $this->slotService->emptyAllEventSlotsOfUser($guildEvent, $eventAttendance->getUser());
         }
 
-        return $this->redirectToRoute('guild_event_show', ['id' => $eventAttendance->getGuildEvent()?->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
     }
 }

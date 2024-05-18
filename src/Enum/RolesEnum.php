@@ -19,7 +19,7 @@ enum RolesEnum: string
             self::MEMBER => 'Membre',
             self::TRIAL => 'Trial',
             self::OLD_MEMBER => 'Ancien membre',
-            self::GUEST => 'Guest',
+            self::GUEST => 'Nouveau compte',
         };
     }
 
@@ -34,5 +34,17 @@ enum RolesEnum: string
             self::MEMBER,
             self::TRIAL,
         ];
+    }
+
+    public static function getRoleImportance(self $role): int
+    {
+        return match ($role) {
+            self::DEV => 1,
+            self::ADMIN => 2,
+            self::MEMBER => 3,
+            self::TRIAL => 4,
+            self::OLD_MEMBER => 5,
+            self::GUEST => 6,
+        };
     }
 }

@@ -79,4 +79,20 @@ class RegistrationTokenController extends AbstractController
 
         return $this->redirectToRoute('registration_token_index');
     }
+
+    #[IsGranted(RolesEnum::ADMIN->value)]
+    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
+    final public function delete(Request $request, RegistrationToken $registrationToken): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $registrationToken->getId(), $request->getPayload()->get('_token'))) {
+            $this->entityManager->remove($registrationToken);
+            $this->entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                "Le token a bien été supprimé"
+            );
+        }
+        return $this->redirectToRoute('registration_token_index', [], Response::HTTP_SEE_OTHER);
+    }
 }

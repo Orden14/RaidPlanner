@@ -20,7 +20,14 @@
                     <td>{{ registration_token.expiryDate|date('Y-m-d H:i:s') }}</td>
                     <td>{{ registration_token.uses == -1 ? 'Illimité' : registration_token.uses - registration_token.used }}</td>
                     <td>
-                        <a href="#">Delete</a>
+                        <div class="d-inline-flex float-end">
+                            <form id="delete{{ registration_token.id }}" method="post" action="{{ path('registration_token_delete', {'id': registration_token.id}) }}" data-controller="confirm">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ registration_token.id) }}">
+                                <a type="button" class="btn btn-danger flex-shrink-0" id="{{ registration_token.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
+                                    <i class="bi-trash"></i>
+                                </a>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             {% else %}

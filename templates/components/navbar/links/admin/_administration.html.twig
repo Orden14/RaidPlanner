@@ -1,5 +1,5 @@
 {% set route = app.request.attributes.get('_route') %}
-{% set user_admin_routes = ['registration_token_'] %}
+{% set user_admin_routes = ['registration_token_', 'user_members', 'user_guests'] %}
 {% set is_on_user_admin_page = user_admin_routes|filter(routeName => route starts with routeName)|length > 0 %}
 {% set admin_routes = ['specialization_', 'job_', 'buildcategory_', 'instance_', 'encounter_'] %}
 {% set is_on_admin_page = admin_routes|filter(routeName => route starts with routeName)|length > 0 %}
@@ -10,8 +10,8 @@
     </a>
     <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="{{ path('registration_token_index') }}">Tokens d'enregistrement</a></li>
-        <li><a class="dropdown-item" href="#">Liste des utilisateurs</a></li>
-        <li><a class="dropdown-item" href="#">Gérer les nouveaux comptes</a></li>
+        <li><a class="dropdown-item" href="{{ path('user_members') }}">Gérer les membres</a></li>
+        <li><a class="dropdown-item" href="{{ path('user_guests') }}">Gérer les nouveaux comptes</a></li>
     </ul>
 </li>
 <li class="nav-item dropdown">

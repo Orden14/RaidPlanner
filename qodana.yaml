@@ -66,6 +66,7 @@ exclude:
       - assets\controllers\build\table_controller.js
       - assets\controllers\user_activity_log\table_controller.js
       - assets\javascript\components\calendar\index.js
+      - assets\controllers\user\table_controller.js
   - name: MethodVisibilityInspection
     paths:
       - src\Command\DeleteOldLogsCommand.php
@@ -79,6 +80,9 @@ exclude:
     paths:
       - src\Twig\Extension\GuildEvent\EventParticipationExtension.php
       - src\Twig\Extension\GuildEvent\EventPermissionExtension.php
+  - name: PhpFeatureEnvyLocalInspection
+    paths:
+      - src\Controller\GuildEvent\EventAttendanceController.php
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)
