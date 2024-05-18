@@ -3,7 +3,6 @@
 namespace App\Twig\Extension\GuildEvent;
 
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventAttendance;
 use App\Enum\AttendanceTypeEnum;
 use App\Repository\GuildEventRepository;
 use App\Service\GuildEvent\EventAttendanceService;
@@ -52,10 +51,11 @@ final class EventParticipationExtension extends AbstractExtension
 
     public function getAttendanceIcon(AttendanceTypeEnum $attendanceType): string
     {
-        return match($attendanceType) {
+        return match ($attendanceType) {
             AttendanceTypeEnum::PLAYER => "<span class='text-success fw-bold' title='Joueur'>P </span>",
             AttendanceTypeEnum::BACKUP => "<span class='text-warning fw-bold' title='Backup'>B </span>",
-            AttendanceTypeEnum::ABSENT => "<span class='text-danger fw-bold' title='Absent'>ABS </span>",
+            AttendanceTypeEnum::ABSENT => "<span class='text-danger fw-bold' title='Absent'>A </span>",
+            AttendanceTypeEnum::UNDEFINED => ""
         };
     }
 

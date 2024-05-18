@@ -14,15 +14,15 @@ final readonly class EventAttendanceFactory
         private Security $security
     ) {}
 
-    public function generateEventAttendance(GuildEvent $guildEvent, bool $owner = false): EventAttendance
+    public function generateEventAttendanceForNewEvent(GuildEvent $guildEvent): EventAttendance
     {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
         return (new EventAttendance())
-            ->setType(AttendanceTypeEnum::PLAYER)
+            ->setType(AttendanceTypeEnum::UNDEFINED)
             ->setUser($currentUser)
             ->setGuildEvent($guildEvent)
-            ->setEventOwner($owner);
+            ->setEventOwner(true);
     }
 }

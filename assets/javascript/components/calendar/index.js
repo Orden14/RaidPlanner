@@ -85,7 +85,7 @@ $(document).ready(function () {
                 `
                 container.append(title)
             } else {
-                container = $('<a></a>').attr("href", "/event/" + arg.event.extendedProps.eventId)
+                container = $('<a></a>').attr("href", "/event/show/" + arg.event.extendedProps.eventId)
                 let title = `
                     ${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType} -
                     ${arg.event.title}

@@ -25,7 +25,7 @@ final readonly class EventAttendanceService
 
         $combined = array_merge($players, $backups, $absents);
 
-        return array_chunk($combined, 7);
+        return array_chunk($combined, (int)ceil(count($combined) / 2) ?: 1);
     }
 
     public function getEventPlayerCount(GuildEvent $guildEvent): int

@@ -1,43 +1,30 @@
-<div class="accordion" id="eventDetailsAccordion">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingEventDetails">
-            <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEventDetails" aria-expanded="true" aria-controls="collapseEventDetails">
-                <span class="h3 p-1 m-0">Participation</span>
-            </button>
-        </h2>
-        <div id="collapseEventDetails" class="accordion-collapse collapse" aria-labelledby="headingEventDetails" data-bs-parent="#eventDetailsAccordion">
-            <div class="accordion-body">
-                <div class="row">
-                    {% for column in attendances %}
-                        <div class="col text-center ms-0 me-0 p-0 {{ not loop.first ? 'cst-responsive-border-left' : '' }}">
-                            <ul class="list-group list-unstyled">
-                                {% for attendance in column %}
-                                    <li>{{ get_attendance_icon(attendance.type)|raw }} <span class="{{ attendance.user == app.user ? 'custom-link-primary' : '' }}">{{ attendance.user.username }}</span></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+<div class="row centered-div">
+        {% for column in attendances %}
+            <div class="col text-center ms-0 me-0 p-0 {{ not loop.first ? 'cst-border-left' : '' }}">
+                <ul class="list-group list-unstyled">
+                    {% for attendance in column %}
+                        <li>{{ get_attendance_icon(attendance.type)|raw }} <span class="{{ attendance.user == app.user ? 'custom-link-primary' : '' }}">{{ attendance.user.username }}</span></li>
                     {% endfor %}
-                </div>
-
-                <div class="row mt-5">
-                    {% set user_is_backup = does_user_have_attendance_of_type(guild_event.id, 'Backup', app.user.id) %}
-                    {% set user_is_absent = does_user_have_attendance_of_type(guild_event.id, 'Absent', app.user.id) %}
-
-                    <div class="col text-center mb-2">
-                        {% if can_user_signup(guild_event.id) %}
-                            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Inscrit'}) }}" class="btn btn-primary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="S'inscrire à l'évènement" data-id="signUpButton">S'inscrire</a>
-                        {% endif %}
-
-                        {% if not user_is_backup %}
-                            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Backup'}) }}" class="btn btn-secondary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Passer en backup">Passer backup</a>
-                        {% endif %}
-
-                        {% if not user_is_absent %}
-                            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Absent'}) }}" class="btn btn-danger ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Se déclarer absent">Passer absent</a>
-                        {% endif %}
-                    </div>
-                </div>
+                </ul>
             </div>
-        </div>
+        {% endfor %}
+</div>
+
+<div class="row mt-5">
+    {% set user_is_backup = does_user_have_attendance_of_type(guild_event.id, 'Backup', app.user.id) %}
+    {% set user_is_absent = does_user_have_attendance_of_type(guild_event.id, 'Absent', app.user.id) %}
+
+    <div class="col text-center mb-2">
+        {% if can_user_signup(guild_event.id) %}
+            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Inscrit'}) }}" class="btn btn-primary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="S'inscrire à l'évènement" data-id="signUpButton">S'inscrire</a>
+        {% endif %}
+
+        {% if not user_is_backup %}
+            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Backup'}) }}" class="btn btn-secondary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Passer en backup">Passer backup</a>
+        {% endif %}
+
+        {% if not user_is_absent %}
+            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Absent'}) }}" class="btn btn-danger ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Se déclarer absent">Passer absent</a>
+        {% endif %}
     </div>
 </div>
