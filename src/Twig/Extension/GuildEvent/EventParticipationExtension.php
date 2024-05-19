@@ -4,16 +4,14 @@ namespace App\Twig\Extension\GuildEvent;
 
 use App\Entity\GuildEvent;
 use App\Enum\AttendanceTypeEnum;
-use App\Repository\GuildEventRepository;
+use App\Enum\InstanceTypeEnum;
 use App\Service\GuildEvent\EventAttendanceService;
-use Doctrine\ORM\EntityNotFoundException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class EventParticipationExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly GuildEventRepository   $guildEventRepository,
         private readonly EventAttendanceService $eventAttendanceService,
     ) {}
 
@@ -24,21 +22,24 @@ final class EventParticipationExtension extends AbstractExtension
     {
         return [
             new TwigFunction('get_event_player_count', $this->getEventPlayerCount(...)),
+            new TwigFunction('get_event_max_player_count', $this->getEventMaxPlayerCount(...)),
             new TwigFunction('does_user_have_attendance_of_type', $this->doesUserHaveAttendanceOfType(...)),
             new TwigFunction('get_attendance_icon', $this->getAttendanceIcon(...)),
         ];
     }
 
-    public function getEventPlayerCount(int $guildEventId): int
+    public function getEventPlayerCount(GuildEvent $guildEvent): int
     {
-        $guildEvent = $this->getGuildEvent($guildEventId);
-
         return $this->eventAttendanceService->getEventPlayerCount($guildEvent);
     }
 
-    public function doesUserHaveAttendanceOfType(int $guildEventId, string $attendanceType, int $userId): bool
+    public function getEventMaxPlayerCount(GuildEvent $guildEvent): int
     {
-        $guildEvent = $this->getGuildEvent($guildEventId);
+        return InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType());
+    }
+
+    public function doesUserHaveAttendanceOfType(GuildEvent $guildEvent, string $attendanceType, int $userId): bool
+    {
         $attendances = $this->eventAttendanceService->getAttendanceListByType($guildEvent, AttendanceTypeEnum::from($attendanceType));
 
         return count(array_filter(
@@ -57,16 +58,5 @@ final class EventParticipationExtension extends AbstractExtension
             AttendanceTypeEnum::ABSENT => "<span class='text-danger fw-bold' title='Absent'>A </span>",
             AttendanceTypeEnum::UNDEFINED => ""
         };
-    }
-
-    private function getGuildEvent(int $guildEventId): GuildEvent
-    {
-        $guildEvent = $this->guildEventRepository->find($guildEventId);
-
-        if (!$guildEvent) {
-            throw new EntityNotFoundException(sprintf('Guild event with id %d not found', $guildEventId));
-        }
-
-        return $guildEvent;
     }
 }

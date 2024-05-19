@@ -5,7 +5,7 @@
                     {% for attendance in column %}
                         <li>
                             {{ get_attendance_icon(attendance.type)|raw }} <span class="{{ attendance.user == app.user ? 'custom-link-primary' : '' }}">{{ attendance.user.username }}</span>
-                            {% if attendance.type.value == 'Joueur' and can_user_manage_event(guild_event.id) %}
+                            {% if attendance.type.value == 'Joueur' and can_user_manage_event(guild_event) %}
                                 <form id="delete{{ attendance.id }}" method="post" action="{{ path('event_attendance_remove', {'id': attendance.id}) }}" data-controller="guild-event--remove-attendance" data-current-user="{{ app.user.username }}" data-attendance-user="{{ attendance.user.username }}" class="d-inline">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ attendance.id) }}">
                                     <a type="button" class="text-decoration-none link-danger" id="{{ attendance.id }}" data-action="guild-event--remove-attendance#confirmRemove" title="Enlever un joueur" data-bs-toggle="tooltip">
@@ -21,12 +21,14 @@
 </div>
 
 <div class="row mt-5">
-    {% set user_is_backup = does_user_have_attendance_of_type(guild_event.id, 'Backup', app.user.id) %}
-    {% set user_is_absent = does_user_have_attendance_of_type(guild_event.id, 'Absent', app.user.id) %}
+    {% set user_is_backup = does_user_have_attendance_of_type(guild_event, 'Backup', app.user.id) %}
+    {% set user_is_absent = does_user_have_attendance_of_type(guild_event, 'Absent', app.user.id) %}
 
     <div class="col text-center mb-2">
-        {% if can_user_signup(guild_event.id) %}
+        {% if can_user_signup(guild_event) %}
             <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Joueur'}) }}" class="btn btn-primary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="S'inscrire à l'évènement" data-id="signUpButton">S'inscrire</a>
+        {% elseif get_event_player_count(guild_event) >= get_event_max_player_count(guild_event) %}
+            <a href="#" class="btn btn-primary ge-attendance-text ps-1 pe-1 ms-1 me-1 disabled" title="S'inscrire à l'évènement" data-id="signUpButton" disabled>Complet</a>
         {% endif %}
 
         {% if not user_is_backup %}

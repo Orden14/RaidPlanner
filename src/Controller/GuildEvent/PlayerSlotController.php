@@ -3,6 +3,7 @@
 namespace App\Controller\GuildEvent;
 
 use App\Checker\SlotAssignmentPermission\SlotAssignmentPermissionChecker;
+use App\Checker\SlotManagementPermission\SlotManagementPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
@@ -28,6 +29,7 @@ class PlayerSlotController extends AbstractController
         private readonly EventAttendanceService          $eventAttendanceService,
         private readonly EventAttendanceManager          $eventAttendanceManager,
         private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
+        private readonly SlotManagementPermissionChecker $slotManagementPermissionChecker,
     ) {}
 
     #[Route('/battle/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
@@ -58,12 +60,9 @@ class PlayerSlotController extends AbstractController
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
     final public function freeSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
-        /** @var User $currentUser */
-        $currentUser = $this->getUser();
-
         $request->getSession()->set('eventBattleId', $playerSlot->getEventBattle()?->getId());
 
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $currentUser !== $playerSlot->getPlayer()) {
+        if (!$this->slotManagementPermissionChecker->checkIfUserCanManageSlot($playerSlot)) {
             return new JsonResponse('You are not allowed to perform this action.', Response::HTTP_FORBIDDEN);
         }
 

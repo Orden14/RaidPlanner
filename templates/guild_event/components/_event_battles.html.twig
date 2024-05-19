@@ -1,9 +1,9 @@
-{% set can_manage_event = can_user_manage_event(guild_event.id) %}
+{% set can_manage_event = can_user_manage_event(guild_event) %}
 
 <div class="accordion mt-4 mb-2" id="eventBattlesAccordion">
     {% for event_battle in event_battles %}
         {% set opened_event_battle = opened_event_battle_id is null ? loop.first : opened_event_battle_id == event_battle.id %}
-        {% set can_user_signup = can_user_take_slot(event_battle.id) %}
+        {% set can_user_signup = can_user_take_slot(event_battle) %}
         {% set invalid_slots = 0 %}
 
         <div class="accordion-item">
@@ -32,7 +32,7 @@
                                 <li class="list-group-item text-nowrap">
                                     <div class="row">
                                         <div class="col ge-vertical-center">
-                                            {% if player_slot.player is not null and (is_granted('ROLE_ADMIN') or player_slot.player == app.user) %}
+                                            {% if can_user_manage_slot(player_slot) and player_slot.player is not null %}
                                                 <span class="link-danger text-decoration-none ge-slot-icon me-2 cursor-pointer"
                                                    data-controller="guild-event--confirm-free-slot"
                                                    data-guild-event--confirm-free-slot-url-value="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}"
@@ -41,8 +41,7 @@
                                                 >
                                                     <i class="bi bi-x-lg ps-2" title="Libérer le slot"></i>
                                                 </span>
-                                            {% endif  %}
-                                            {% if player_slot.player is null %}
+                                            {% elseif player_slot.player is null %}
                                                 <span class="custom-link-primary text-decoration-none ge-slot-icon me-2 cursor-pointer {{ player_slot.player is null and can_user_signup ? '' : 'd-none' }}"
                                                       title="Prendre le slot"
                                                       data-controller="guild-event--assign-battle-slot"

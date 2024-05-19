@@ -1,4 +1,4 @@
-{% if is_granted("ROLE_ADMIN") or can_user_manage_event(guild_event.id) %}
+{% if is_granted("ROLE_ADMIN") or can_user_manage_event(guild_event) %}
     <div class="bg-dark-subtle p-2 border rounded-1 mt-2 d-inline-flex">
         <a href="#" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#manageGuildEventModal" title="Modifier"><i class="bi bi-pencil h5"></i></a>
         {% if guild_event.status.value != "Ouvert" %}
