@@ -19,11 +19,17 @@ final readonly class FormFlashHelper
     public function showFormErrorsAsFlash(FormErrorIterator $formErrors): void
     {
         if ($formErrors->count() > 0) {
+            /** @var Session $session */
             $session = $this->requestStack->getSession();
-            assert($session instanceof Session);
 
             foreach ($formErrors->current() as $formError) {
-                $session->getFlashBag()->add('danger', $formError->getMessage());
+                if ($formError instanceof FormError) {
+                    $session->getFlashBag()->add('danger', $formError->getMessage());
+                } else {
+                    foreach ($formError as $error) {
+                        $session->getFlashBag()->add('danger', $error->getMessage());
+                    }
+                }
             }
         }
     }

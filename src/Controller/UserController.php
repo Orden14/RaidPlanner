@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Form\Security\ChangePasswordType;
 use App\Form\UserEditProfileType;
 use App\Form\UserEditType;
 use App\Repository\EventAttendanceRepository;
@@ -96,8 +97,15 @@ class UserController extends AbstractController
         ]);
         $form->handleRequest($request);
 
+        $changePasswordForm = $this->createForm(ChangePasswordType::class, null, [
+            'action' => $this->generateUrl('app_change_password'),
+            'method' => 'POST'
+        ]);
+        $changePasswordForm->handleRequest($request);
+
         return $this->render('user/profile.html.twig', [
             'form' => $form->createView(),
+            'change_password_form' => $changePasswordForm->createView(),
             'user' => $currentUser,
             'attendances' => $this->eventAttendanceRepository->findAllUpcomingAttendancesByTypesforPlayer($currentUser, [AttendanceTypeEnum::PLAYER, AttendanceTypeEnum::BACKUP])
         ]);

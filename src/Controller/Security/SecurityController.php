@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Enum\RolesEnum;
+use App\Form\Security\ChangePasswordType;
 use App\Form\Security\RegistrationType;
 use App\Security\AppAuthenticator;
 use App\Service\UserService;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final class SecurityController extends AbstractController
@@ -92,5 +94,39 @@ final class SecurityController extends AbstractController
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    #[IsGranted(RolesEnum::GUEST->value)]
+    #[Route('/user/change_password', name: 'app_change_password')]
+    public function changePassword(Request $request): Response
+    {
+        $form = $this->createForm(ChangePasswordType::class);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
+
+            if (!$this->userPasswordHasher->isPasswordValid($user, $form->get('currentPassword')->getData())) {
+                $form->addError(new FormError('Le mot de passe saisi est incorrect'));
+            } else {
+                $user->setPassword(
+                    $this->userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+
+                $this->entityManager->flush();
+                $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
+            }
+        }
+
+        /** @var FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors */
+        $formErrors = $form->getErrors(true, false);
+        $this->formFlashHelper->showFormErrorsAsFlash($formErrors);
+
+        return $this->redirectToRoute('user_profile');
     }
 }

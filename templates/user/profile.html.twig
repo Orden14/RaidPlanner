@@ -9,11 +9,12 @@
                  title='{{ user.username }}'
             ><br>
             <span class="fw-bold h4">{{ user.username }}</span>
+            <p><a href="#" class="custom-link-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#editProfileModal">modifier</a></p>
 
             <div class="mt-4 p-2">
-                <p><Strong>Role : </Strong> {{ get_role_display_name(user.role) }}</p>
-                <p><strong>Date de création :</strong> {{ user.joinedAt|date('d-m-Y') }}</p>
-                <p><a href="#" class="custom-link-primary text-decoration-none h5" data-bs-toggle="modal" data-bs-target="#editProfileModal">modifier</a></p>
+                <span><Strong>Role : </Strong> {{ get_role_display_name(user.role) }}</span><br>
+                <span><strong>Date de création : </strong> {{ user.joinedAt|date('d-m-Y') }}</span><br>
+                <span><strong>Mot de passe : </strong><a href="#" class="custom-link-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#changePasswordModal">changer de mot de passe</a></span>
             </div>
         </div>
 
@@ -34,5 +35,6 @@
     </div>
 
     {{ include('user/modal/_edit_profile_modal.html.twig') }}
+    {{ include('security/_change_password_modal.html.twig') }}
 
 {% endblock %}

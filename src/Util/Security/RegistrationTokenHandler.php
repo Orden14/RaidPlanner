@@ -19,7 +19,7 @@ final readonly class RegistrationTokenHandler
 
          return $registrationToken !== null
             && ($registrationToken->getExpiryDate() > new DateTime())
-            && ($registrationToken->getUsed() - $registrationToken->getUses() < 0);
+            && ($registrationToken->getUsed() - $registrationToken->getUses() > 0);
     }
 
     public function incrementTokenUsage(string $token): void
