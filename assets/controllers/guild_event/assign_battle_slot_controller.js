@@ -15,12 +15,8 @@ export default class extends Controller {
         $.ajax({
             url: url,
             method: 'GET',
-            success: (response) => {
-                const eventBattleId = $(this.element).data('slot-assign-event-battle-id')
-                $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).not(this.element).addClass('d-none')
-                $("[data-id='signUpButton']").addClass("d-none")
-
-                $(this.element).parent().replaceWith(response);
+            success: () => {
+                location.reload()
             },
             error: (jqXHR, textStatus, errorThrown) => {
                 toastr.options = {

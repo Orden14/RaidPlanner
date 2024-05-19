@@ -35,13 +35,8 @@ export default class extends Controller {
                         $.ajax({
                             url: url,
                             method: 'GET',
-                            success: (response) => {
-                                if (currentUsername === slotUsername) {
-                                    const eventBattleId = $(this.element).data('free-slot-event-battle-id')
-                                    $(`[data-slot-assign-event-battle-id=${eventBattleId}]`).removeClass('d-none')
-                                }
-
-                                $(this.element).parent().parent().html(response);
+                            success: () => {
+                                location.reload()
                             },
                             error: (jqXHR, textStatus, errorThrown) => {
                                 toastr.options = {

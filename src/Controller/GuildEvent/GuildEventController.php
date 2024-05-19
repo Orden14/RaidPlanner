@@ -41,6 +41,12 @@ class GuildEventController extends AbstractController
     #[Route('/show/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, GuildEvent $guildEvent): Response
     {
+        // This is set in order to open the right accordion item on page reload
+        $openedEventBattleId = $request->getSession()->get('eventBattleId');
+        if ($openedEventBattleId) {
+            $request->getSession()->remove('eventBattleId');
+        }
+
         if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
@@ -65,6 +71,7 @@ class GuildEventController extends AbstractController
             'guild_event' => $guildEvent,
             'event_battles' => $guildEvent->getEventBattles(),
             'attendances' => $this->eventAttendanceService->getCombinedAttendanceList($guildEvent),
+            'opened_event_battle_id' => $openedEventBattleId,
         ]);
     }
 
