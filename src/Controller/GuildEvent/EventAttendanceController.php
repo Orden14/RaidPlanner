@@ -3,14 +3,18 @@
 namespace App\Controller\GuildEvent;
 
 use App\Builder\GraidAttendanceTableDataBuilder;
+use App\Checker\EventManagementPermission\EventManagementPermissionChecker;
 use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
+use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Service\GuildEvent\SlotService;
 use App\Util\GuildEvent\EventAttendanceManager;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -20,8 +24,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventAttendanceController extends AbstractController
 {
     public function __construct(
+        private readonly SlotService                         $slotService,
         private readonly EventAttendanceManager              $eventAttendanceManager,
-        private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker
+        private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
+        private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
     #[Route('/event/{guildEvent}/set_user/{attendanceType}', name: 'add_user', methods: ['GET', 'POST'])]
@@ -54,5 +60,21 @@ class EventAttendanceController extends AbstractController
         return $this->render('event_attendance/graid_attendance_week.html.twig', [
             'table_data' => $tableDataBuilder->build(),
         ]);
+    }
+
+    #[Route('/remove/{id}', name: 'remove', methods: ['GET', 'POST'])]
+    final public function removePlayer(Request $request, EventAttendance $eventAttendance): Response
+    {
+        /** @var GuildEvent $guildEvent */
+        $guildEvent = $eventAttendance->getGuildEvent();
+
+        if ($this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)
+            && $this->isCsrfTokenValid('delete' . $eventAttendance->getId(), $request->getPayload()->get('_token'))
+        ) {
+            $eventAttendance->setType(AttendanceTypeEnum::UNDEFINED);
+            $this->slotService->emptyAllEventSlotsOfUser($guildEvent, $eventAttendance->getUser());
+        }
+
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
     }
 }

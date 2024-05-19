@@ -8,9 +8,9 @@
             <span class="mr-2 d-lg-none d-lg-inline">{{ app.user.username }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="{{ path('user_profile') }}">
                 <i class="bi bi-person"></i>
-                Profile
+                Profil
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ path('app_logout') }}" data-toggle="modal" data-target="#logoutModal">

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row border rounded ms-1 me-1">
+        <div class="col-lg-6 responsive-border-right p-3 build-sheet overflow-auto text-center">
+            <img src='{{ asset('profile_picture/' ~ user.profilePicture) }}'
+                 class='profile-picture mt-3 mb-2'
+                 alt='{{ user.username }} profile pic'
+                 title='{{ user.username }}'
+            ><br>
+            <span class="fw-bold h4">{{ user.username }}</span>
+
+            <div class="mt-4 p-2">
+                <p><Strong>Role : </Strong> {{ get_role_display_name(user.role) }}</p>
+                <p><strong>Date de création :</strong> {{ user.joinedAt|date('d-m-Y') }}</p>
+                <p><a href="#" class="custom-link-primary text-decoration-none h5" data-bs-toggle="modal" data-bs-target="#editProfileModal">modifier</a></p>
+            </div>
+        </div>
+
+        <div class="col-lg-6 pt-2 ps-2 pe-2">
+            <h2 class="mb-3">Mes évènements à venir</h2>
+            <div class="row mb-3">
+            <div class="col-auto">
+                <ul class="list-group list-group-flush list-group-numbered">
+                    {% for attendance in attendances %}
+                        <li class="list-group-item"><a href="{{ path('guild_event_show', {'id': attendance.guildEvent.id}) }}" class="custom-link-primary">{{ attendance.guildEvent.title }}</a> ({{ attendance.type.value }}) - Le {{ attendance.guildEvent.start|date('d/m/Y à H:i') }} </li>
+                    {% else %}
+                        <li class="list-group-item">Vous n'êtes inscrit à aucun évènement à venir</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    {{ include('user/modal/_edit_profile_modal.html.twig') }}
+
+{% endblock %}

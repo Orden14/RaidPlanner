@@ -6,6 +6,7 @@ use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,7 +44,7 @@ final class EventAttendanceRepository extends ServiceEntityRepository
      *
      * @return EventAttendance[]
      */
-    public function findEventAttendancesByTypesForPlayer(GuildEvent $guildEvent, User $user, array $types): array
+    public function findEventAttendancesByTypesForUser(GuildEvent $guildEvent, User $user, array $types): array
     {
         return $this->createQueryBuilder('ea')
             ->where('ea.user = :user')
@@ -52,6 +53,25 @@ final class EventAttendanceRepository extends ServiceEntityRepository
             ->setParameter('types', $types)
             ->setParameter('guildEvent', $guildEvent)
             ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param AttendanceTypeEnum[] $types
+     *
+     * @return EventAttendance[]
+     */
+    public function findAllUpcomingAttendancesByTypesforPlayer(User $user, array $types): array
+    {
+        return $this->createQueryBuilder('ea')
+            ->where('ea.user = :user')
+            ->andWhere('ea.type IN (:types)')
+            ->andWhere('ge.start >= :now')
+            ->join('ea.guildEvent', 'ge')
+            ->setParameter('user', $user)
+            ->setParameter('types', $types)
+            ->setParameter('now', new DateTime())
             ->getQuery()
             ->getResult();
     }

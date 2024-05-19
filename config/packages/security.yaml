@@ -31,7 +31,6 @@ security:
                 #always_remember_me: true
 
     role_hierarchy:
-        ROLE_DEV: ROLE_ADMIN
         ROLE_ADMIN: ROLE_MEMBER
         ROLE_MEMBER: ROLE_TRIAL
         ROLE_TRIAL: ROLE_OLDMEMBER
@@ -39,7 +38,7 @@ security:
 
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/profile, roles: ROLE_GUEST }
 
 when@test:
     security:

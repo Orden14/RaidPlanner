@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set route = app.user.role.value == 'ROLE_GUEST' ? 'user_guests' : 'user_members' %}
+
+    <div class="row justify-content-center">
+        <div class="col-11 col-xs-11 col-sm-10 col-md-8 col-lg-6">
+            <div class="card rounded-0">
+                <div class="card-header text-center">
+                    <h4>Modifier un utilisateur</h4>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+                    <div class="form-group">
+                        {{ form_label(form.username, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="form-group mt-2">
+                        {{ form_label(form.role, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.role, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-2">
+                        <a class="btn btn-secondary me-2" href="{{ path(route) }}">Retour</a>
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
