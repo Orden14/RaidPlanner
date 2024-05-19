@@ -11,10 +11,10 @@ use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Service\GuildEvent\EventAttendanceService;
 use App\Util\GuildEvent\EventAttendanceManager;
-use App\Util\GuildEvent\PlayerSlotHtmlGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -27,18 +27,19 @@ class PlayerSlotController extends AbstractController
         private readonly EntityManagerInterface          $entityManager,
         private readonly EventAttendanceService          $eventAttendanceService,
         private readonly EventAttendanceManager          $eventAttendanceManager,
-        private readonly PlayerSlotHtmlGenerator         $playerSlotHtmlGenerator,
         private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
     ) {}
 
-    #[Route('/battle/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET', 'POST'])]
-    final public function assignToSlot(EventBattle $eventBattle, PlayerSlot $playerSlot): JsonResponse
+    #[Route('/battle/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
+    final public function assignToSlot(Request $request, EventBattle $eventBattle, PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();
+
+        $request->getSession()->set('eventBattleId', $eventBattle->getId());
 
         if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
             return new JsonResponse('You are not allowed to perform this action', Response::HTTP_FORBIDDEN);
@@ -51,14 +52,16 @@ class PlayerSlotController extends AbstractController
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
 
-        return new JsonResponse($this->playerSlotHtmlGenerator->generateTakenSlotHtml($currentUser, $playerSlot), Response::HTTP_OK);
+        return new JsonResponse('Slot assigned', Response::HTTP_OK);
     }
 
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
-    final public function freeSlot(PlayerSlot $playerSlot): JsonResponse
+    final public function freeSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
+
+        $request->getSession()->set('eventBattleId', $playerSlot->getEventBattle()?->getId());
 
         if (!$this->isGranted(RolesEnum::ADMIN->value) && $currentUser !== $playerSlot->getPlayer()) {
             return new JsonResponse('You are not allowed to perform this action.', Response::HTTP_FORBIDDEN);
@@ -67,6 +70,6 @@ class PlayerSlotController extends AbstractController
         $playerSlot->setPlayer(null);
         $this->entityManager->flush();
 
-        return new JsonResponse($this->playerSlotHtmlGenerator->generateFreeSlotHtml($playerSlot), Response::HTTP_OK);
+        return new JsonResponse('Slot freed', Response::HTTP_OK);
     }
 }

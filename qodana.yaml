@@ -59,7 +59,6 @@ exclude:
   - name: HtmlUnknownTarget
     paths:
       - src\Twig\Extension\UrlExtension.php
-      - src\Util\GuildEvent\PlayerSlotHtmlGenerator.php
   - name: JSCheckFunctionSignatures
     paths:
       - assets\controllers\datatable_controller.js

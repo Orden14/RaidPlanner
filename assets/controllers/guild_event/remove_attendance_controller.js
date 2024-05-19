@@ -8,7 +8,7 @@ export default class extends Controller {
 
         let message;
         if (slotUsername === currentUsername) {
-            message = 'Vous êtes sur le point de vous enlever de la liste des joueurs. Êtes-vous sûr de vouloir continuer ?'
+            message = 'Vous êtes sur le point de vous retirer de la liste des joueurs. Êtes-vous sûr de vouloir continuer ?'
         } else {
             message = 'Êtes-vous sûr de vouloir retirer ' + slotUsername + ' de la liste des joueurs ?'
         }
