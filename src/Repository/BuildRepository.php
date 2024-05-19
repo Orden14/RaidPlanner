@@ -38,13 +38,13 @@ final class BuildRepository extends ServiceEntityRepository
     /**
      * @return Build[]
      */
-    public function findAllExceptDefaults(): array
+    public function findByDefault(bool $isDefault = false): array
     {
         return $this->createQueryBuilder('b')
             ->join('b.specialization', 's')
             ->join('s.job', 'j')
             ->where('j.isDefault = :isDefault')
-            ->setParameter('isDefault', false)
+            ->setParameter('isDefault', $isDefault)
             ->getQuery()
             ->getResult();
     }

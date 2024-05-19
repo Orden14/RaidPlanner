@@ -37,4 +37,13 @@ final class SpecializationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findDefaultSpecialization(): Specialization
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.job', 'j')
+            ->andWhere('j.isDefault = true')
+            ->getQuery()
+            ->getSingleResult();
+    }
 }

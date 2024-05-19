@@ -32,7 +32,7 @@ class Job
      * Allows to display default general builds that are not dependent on a specific job/specialization
      */
     #[ORM\Column]
-    private ?bool $isDefault = false;
+    private bool $isDefault = false;
 
     public function __construct()
     {
@@ -107,7 +107,7 @@ class Job
         return $this;
     }
 
-    final public function isDefault(): ?bool
+    final public function isDefault(): bool
     {
         return $this->isDefault;
     }

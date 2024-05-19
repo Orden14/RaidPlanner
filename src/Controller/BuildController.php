@@ -49,7 +49,7 @@ class BuildController extends AbstractController
         return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
             'categories' => $this->buildCategoryRepository->findAll(),
-            'builds' => $this->buildRepository->findAllExceptDefaults(),
+            'builds' => $this->buildRepository->findByDefault(),
             'specializations' => $this->specializationRepository->findAllOrderedByJob(false),
         ]);
     }
@@ -86,7 +86,7 @@ class BuildController extends AbstractController
 
         return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
-            'builds' => $this->buildRepository->findAllExceptDefaults(),
+            'builds' => $this->buildRepository->findByDefault(),
         ]);
     }
 
@@ -117,6 +117,12 @@ class BuildController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, Build $build): Response
     {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefault() === true) {
+            $referer = $request->headers->get('referer');
+
+            return new RedirectResponse($referer ?: $this->generateUrl('app_home'), Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(BuildType::class, $build);
         $form->handleRequest($request);
 
@@ -163,7 +169,9 @@ class BuildController extends AbstractController
             "Le build {$build->getName()} a bien été supprimé"
         );
 
-        return $this->redirectToRoute('build_index', [], Response::HTTP_SEE_OTHER);
+        $route = $build->isDefault() ? 'default_build_index' : 'build_index';
+
+        return $this->redirectToRoute($route, [], Response::HTTP_SEE_OTHER);
     }
 
     #[IsGranted(RolesEnum::MEMBER->value)]

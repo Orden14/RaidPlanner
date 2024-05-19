@@ -10,6 +10,7 @@ use App\Enum\BuildStatusEnum;
 use App\Repository\BuildCategoryRepository;
 use App\Repository\SpecializationRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -30,7 +31,9 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
 
         $users = $this->userRepository->findAll();
         $categories = $this->buildCategoryRepository->findAll();
-        $specializations = $this->specializationRepository->findAll();
+        $specializations = array_filter($this->specializationRepository->findAll(), static function($specialization) {
+            return !$specialization->getJob()?->isDefault();
+        });
 
         for ($i = 0; $i < 40; $i++) {
             $manager->persist($this->generateBuild(
@@ -41,6 +44,8 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
                 $specializations[array_rand($specializations)]
             ));
         }
+
+        $this->generateDefaultBuilds($manager);
 
         $manager->flush();
     }
@@ -85,6 +90,66 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
         }
 
         return $status;
+    }
+
+    private function generateDefaultBuilds(ObjectManager $manager): void
+    {
+        $admin = $this->userRepository->findOneBy(['username' => 'admin']);
+        $defaultSpecialization = $this->specializationRepository->findOneBy(['name' => 'Default']);
+
+        foreach ($this->getDefaultBuildsData() as $data) {
+            $build = new Build();
+            $build->setName($data['name'])
+                ->setAuthor($admin)
+                ->setSpecialization($defaultSpecialization)
+                ->setLastEditedAt(new DateTime())
+                ->setStatus(BuildStatusEnum::META)
+                ->setBenchmark(0);
+            foreach ($data['categories'] as $category) {
+                $build->addCategory($category);
+            }
+
+            $manager->persist($build);
+        }
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function getDefaultBuildsData(): array
+    {
+        $pdps = $this->buildCategoryRepository->findOneBy(['name' => 'Pdps']);
+        $cdps = $this->buildCategoryRepository->findOneBy(['name' => 'Cdps']);
+        $heal = $this->buildCategoryRepository->findOneBy(['name' => 'Heal']);
+        $quickness = $this->buildCategoryRepository->findOneBy(['name' => 'Quickness']);
+        $alacrity = $this->buildCategoryRepository->findOneBy(['name' => 'Alacrity']);
+
+        return [
+            [
+                'name' => 'Pdps bis',
+                'categories' => [$pdps]
+            ],
+            [
+                'name' => 'Cdps bis',
+                'categories' => [$cdps]
+            ],
+            [
+                'name' => 'Heal alac',
+                'categories' => [$heal, $alacrity]
+            ],
+            [
+                'name' => 'Heal quick',
+                'categories' => [$heal, $quickness]
+            ],
+            [
+                'name' => 'Power alac',
+                'categories' => [$pdps, $alacrity]
+            ],
+            [
+                'name' => 'Condi quick',
+                'categories' => [$cdps, $quickness]
+            ]
+        ];
     }
 
     /**

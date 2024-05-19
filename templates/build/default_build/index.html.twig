@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Builds par défaut</h1>
+
+    <a href="#" class="btn btn-primary mt-3 me-2" data-bs-toggle="modal" data-bs-target="#newDefaultBuildModal">Ajouter un build par défaut</a>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover border w-100">
+            <caption class="d-none">Table des builds par défaut</caption>
+            <thead class="thead-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Catégories</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for build in builds %}
+                <tr>
+                    <td>{{ build.name }}</td>
+                    <td>
+                        {% for category in build.categories %}
+                            <img src="{{ asset('icon/' ~ category.icon) }}" alt="{{ category.name }} icon" title="{{ category.name }}" class="small-icon">
+                            <span style="display: none">{{ category.name }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <div class="d-inline-flex float-end">
+                            <a href="{{ path('default_build_edit', {id: build.id}) }}" class="btn btn-secondary flex-shrink-0 me-2">
+                                <i class="bi-pencil"></i>
+                            </a>
+                            <form id="delete{{ build.id }}" method="post" action="{{ path('build_delete', {'id': build.id}) }}" data-controller="confirm">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
+                                <a type="button" class="btn btn-danger flex-shrink-0" id="{{ build.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
+                                    <i class="bi-trash"></i>
+                                </a>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Il n'y a pas de spécialisations</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ include('build/default_build/_modal_new.html.twig') }}
+{% endblock %}

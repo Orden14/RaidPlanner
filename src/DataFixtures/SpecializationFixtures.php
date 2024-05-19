@@ -59,8 +59,8 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
     private function getSpecializationList(): array
     {
         return [
-            'General' => [
-                'General',
+            'Default' => [
+                'Default',
             ],
             'Warrior' => [
                 'Berserker',

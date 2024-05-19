@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Build;
-use App\Entity\BuildCategory;
 use App\Entity\Specialization;
 use App\Enum\BuildStatusEnum;
 use App\Repository\SpecializationRepository;
+use App\Util\Form\BuildFormFieldHelper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
@@ -20,6 +20,7 @@ final class BuildType extends AbstractType
 {
     public function __construct(
         private readonly Packages                 $packages,
+        private readonly BuildFormFieldHelper     $buildFormFieldHelper,
         private readonly SpecializationRepository $specializationRepository
     ) {}
 
@@ -77,27 +78,7 @@ final class BuildType extends AbstractType
                     > $name"];
                 }
             ])
-            ->add('categories', EntityType::class, [
-                'label' => 'Catégories',
-                'class' => BuildCategory::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'attr' => [
-                    'class' => 'selectpicker',
-                    'data-style-base' => 'form-control',
-                    'data-width' => '100%',
-                ],
-                'choice_attr' => function ($category) {
-                    $name = $category->getName();
-                    $iconPath = $this->packages->getUrl('icon/' . $category->getIcon());
-                    return ['data-content' => "<img
-                        src='$iconPath'
-                        class='select-icon'
-                        alt='$name icon'
-                        title='$name'
-                    > $name"];
-                }
-            ])
+            ->add('categories', EntityType::class, $this->buildFormFieldHelper->getCategoiesFieldOptions())
             ->add('benchmark', IntegerType::class, [
                 'label' => 'Benchmark',
                 'required' => false
