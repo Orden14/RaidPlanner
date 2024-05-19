@@ -53,6 +53,6 @@ final readonly class EventAttendanceService
 
     public function isUserAttendingAsPlayer(GuildEvent $guildEvent, User $user): bool
     {
-        return count($this->eventAttendanceRepository->findEventAttendancesByTypesForPlayer($guildEvent, $user, [AttendanceTypeEnum::PLAYER])) > 0;
+        return count($this->eventAttendanceRepository->findEventAttendancesByTypesForUser($guildEvent, $user, [AttendanceTypeEnum::PLAYER])) > 0;
     }
 }

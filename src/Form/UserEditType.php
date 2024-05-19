@@ -23,7 +23,6 @@ final class UserEditType extends AbstractType
             ])
             ->add('role', ChoiceType::class, [
                 'choices' => [
-                    RolesEnum::getRoleDisplayName(RolesEnum::DEV) => RolesEnum::DEV,
                     RolesEnum::getRoleDisplayName(RolesEnum::ADMIN) => RolesEnum::ADMIN,
                     RolesEnum::getRoleDisplayName(RolesEnum::MEMBER) => RolesEnum::MEMBER,
                     RolesEnum::getRoleDisplayName(RolesEnum::TRIAL) => RolesEnum::TRIAL,

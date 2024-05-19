@@ -11,7 +11,7 @@
             <tr>
                 <th class="graid-table-corner"></th>
                 {% for guild_raid in table_data.weeklyGuildRaids %}
-                    <th>{{ guild_raid.title }}</th>
+                    <th><a href="{{ path('guild_event_show', {'id': guild_raid.id}) }}" class="custom-link-primary">{{ guild_raid.title }}</a></th>
                 {% endfor %}
             </tr>
             </thead>

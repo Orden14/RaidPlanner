@@ -17,7 +17,7 @@
             {% for registration_token in registration_tokens %}
                 <tr>
                     <td>{{ registration_token.token }}</td>
-                    <td>{{ registration_token.expiryDate|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ registration_token.expiryDate|date('d/m/Y à H:i:s') }}</td>
                     <td>{{ registration_token.uses == -1 ? 'Illimité' : registration_token.uses - registration_token.used }}</td>
                     <td>
                         <div class="d-inline-flex float-end">
