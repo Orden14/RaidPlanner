@@ -11,6 +11,7 @@ use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Factory\EventAttendanceFactory;
 use App\Factory\GuildEventFactory;
+use App\Form\GuildEvent\AttendBackupType;
 use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
 use App\Service\GuildEvent\EventAttendanceService;
@@ -64,9 +65,15 @@ class GuildEventController extends AbstractController
         ]);
         $formAddBattle->handleRequest($request);
 
+        $formAttendAsBackup = $this->createForm(AttendBackupType::class, null, [
+            'action' => $this->generateUrl('event_attendance_add_user_as_backup', ['guildEvent' => $guildEvent->getId()]),
+            'method' => 'POST'
+        ]);
+
         return $this->render('guild_event/show.html.twig', [
             'form' => $form->createView(),
             'form_add_battle' => $formAddBattle->createView(),
+            'form_attend_backup' => $formAttendAsBackup->createView(),
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_battles' => $guildEvent->getEventBattles(),

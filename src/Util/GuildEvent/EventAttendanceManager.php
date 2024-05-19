@@ -20,10 +20,10 @@ final readonly class EventAttendanceManager
         private EventSignupPermissionChecker $eventSignupPermissionChecker,
     ) {}
 
-    public function setEventAttendanceForUser(User $user, GuildEvent $guildEvent, AttendanceTypeEnum $attendanceType): void
+    public function setEventAttendanceForUser(User $user, GuildEvent $guildEvent, AttendanceTypeEnum $attendanceType): ?EventAttendance
     {
         if ($attendanceType === AttendanceTypeEnum::PLAYER && !$this->eventSignupPermissionChecker->checkIfUserCanSignup($guildEvent)) {
-            return;
+            return null;
         }
 
         $eventAttendance = $this->eventAttendanceRepository->findOneBy([
@@ -39,6 +39,8 @@ final readonly class EventAttendanceManager
             $eventAttendance->setType($attendanceType);
             $this->entityManager->flush();
         }
+
+        return $eventAttendance;
     }
 
     private function createAttendanceForUser(User $user, GuildEvent $guildEvent, AttendanceTypeEnum $type): EventAttendance

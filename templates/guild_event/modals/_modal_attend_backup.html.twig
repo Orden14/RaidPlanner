@@ -1,0 +1,22 @@
+<div class="modal fade" id="attendBackupModal" tabindex="-1" role="dialog" aria-labelledby="attendBackupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="attendBackupModalLabel">Définir un commentaire de backup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form_attend_backup) }}
+                <div class="form-group mb-3">
+                    {{ form_label(form_attend_backup.comment, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form_attend_backup.comment) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </div>
+            {{ form_end(form_attend_backup) }}
+        </div>
+    </div>
+</div>

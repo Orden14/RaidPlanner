@@ -10,8 +10,10 @@ use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
+use App\Form\GuildEvent\AttendBackupType;
 use App\Service\GuildEvent\SlotService;
 use App\Util\GuildEvent\EventAttendanceManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,7 @@ class EventAttendanceController extends AbstractController
 {
     public function __construct(
         private readonly SlotService                         $slotService,
+        private readonly EntityManagerInterface              $entityManager,
         private readonly EventAttendanceManager              $eventAttendanceManager,
         private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
@@ -48,6 +51,38 @@ class EventAttendanceController extends AbstractController
             );
         } catch (Exception $e) {
             $this->addFlash('danger', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/event/{guildEvent}/add_as_backup', name: 'add_user_as_backup', methods: ['GET', 'POST'])]
+    final public function addUserAsBackup(Request $request, GuildEvent $guildEvent): Response
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $form = $this->createForm(AttendBackupType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $eventAttendance = $this->eventAttendanceManager->setEventAttendanceForUser(
+                    $currentUser,
+                    $guildEvent,
+                    AttendanceTypeEnum::BACKUP
+                );
+                if ($eventAttendance) {
+                    $eventAttendance->setComment($form->get('comment')->getData());
+                    $this->entityManager->flush();
+                }
+            } catch (Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
 
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);

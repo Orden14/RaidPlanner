@@ -13,6 +13,13 @@
                                     </a>
                                 </form>
                             {% endif %}
+                            {% if attendance.type.value == 'Backup' and attendance.comment is not null %}
+                                <span>({{ attendance.comment }})
+                                    {% if attendance.user == app.user %}
+                                        <a href="#" class="custom-link-primary" title="Modifier le commentiare" data-bs-toggle="modal" data-bs-target="#attendBackupModal"><i class="bi bi-pencil-fill"></i></a>
+                                    {% endif %}
+                                </span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
@@ -32,7 +39,7 @@
         {% endif %}
 
         {% if not user_is_backup %}
-            <a href="{{ path('event_attendance_add_user', {'guildEvent': guild_event.id, 'attendanceType': 'Backup'}) }}" class="btn btn-secondary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Passer en backup">Passer backup</a>
+            <a href="#" class="btn btn-secondary ge-attendance-text ps-1 pe-1 ms-1 me-1" title="Passer en backup" data-bs-toggle="modal" data-bs-target="#attendBackupModal">Passer backup</a>
         {% endif %}
 
         {% if not user_is_absent %}
