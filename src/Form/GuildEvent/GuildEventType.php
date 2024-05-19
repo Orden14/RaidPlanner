@@ -70,7 +70,7 @@ final class GuildEventType extends AbstractType
                     'Oui' => true,
                     'Non' => false,
                 ],
-                'data' => $isUserAdmin && $isEventNew,
+                'data' => $isEventNew ? $isUserAdmin : $options['data']->isGuildRaid(),
                 'disabled' => !$isUserAdmin
             ]);
 
