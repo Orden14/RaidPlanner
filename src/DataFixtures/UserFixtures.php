@@ -10,21 +10,25 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use FilesystemIterator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
     public function __construct(
+        private readonly KernelInterface             $kernel,
         private readonly UserService                 $userService,
         private readonly ParameterBagInterface       $parameterBag,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {}
 
     final public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
-        $this->purgeProfilePictureDirectory();
+        if ($this->kernel->getEnvironment() !== 'test') {
+            $this->purgeProfilePictureDirectory();
+        }
 
         for ($i = 0; $i < 10; $i++) {
             $manager->persist($this->generateUser($faker->userName, RolesEnum::MEMBER));
@@ -49,7 +53,12 @@ class UserFixtures extends Fixture
                 $user,
                 $username
             ));
-        $this->userService->setDefaultProfilePicture($user);
+
+        if ($this->kernel->getEnvironment() === 'test') {
+            $user->setProfilePicture('emptyFileForTest.png');
+        } else {
+            $this->userService->setDefaultProfilePicture($user);
+        }
 
         return $user;
     }

@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
@@ -27,6 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotNull(message: 'Le nom d\'utilisateur ne peut pas être vide.')]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
@@ -36,6 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string[] The user roles
      */
     #[ORM\Column]
+    #[Assert\Choice(
+        choices: [
+            RolesEnum::ADMIN->value,
+            RolesEnum::MEMBER->value,
+            RolesEnum::TRIAL->value,
+            RolesEnum::OLD_MEMBER->value,
+            RolesEnum::GUEST->value
+        ],
+        multiple: true,
+        max: 1,
+        maxMessage: "Un utilisateur doit avoir un seul rôle."
+    )]
     private array $roles = [];
 
     /**
@@ -45,7 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $joinedAt;
+    private DateTimeInterface $joinedAt;
 
     public function __construct()
     {

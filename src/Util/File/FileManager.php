@@ -2,6 +2,7 @@
 
 namespace App\Util\File;
 
+use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -28,6 +29,10 @@ final readonly class FileManager
 
     public function removeFile(string $fileName, string $directory): void
     {
-        unlink($directory . DIRECTORY_SEPARATOR . $fileName);
+        try {
+            unlink($directory . DIRECTORY_SEPARATOR . $fileName);
+        } catch (Exception) {
+            // Do nothing, file does not exist.
+        }
     }
 }

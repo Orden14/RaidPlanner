@@ -82,6 +82,9 @@ exclude:
   - name: PhpFeatureEnvyLocalInspection
     paths:
       - src\Controller\GuildEvent\EventAttendanceController.php
+  - name: PhpStanGlobal
+    paths:
+      - src\Util\Form\FormFlashHelper.php
 
 php:
   version: "8.3" #(Applied in CI/CD pipeline)
