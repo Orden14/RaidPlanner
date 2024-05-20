@@ -57,7 +57,7 @@ class UserTest extends EntityTest
     }
 
     #[Override]
-    final public function _testRelationPropertiesOf(mixed $generatedEntity): void
+    final public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {
         $this->tester->assertContains($this->eventAttendance, $generatedEntity->getEventAttendances());
         $this->tester->assertContains($this->playerSlot, $generatedEntity->getPlayerSlots());

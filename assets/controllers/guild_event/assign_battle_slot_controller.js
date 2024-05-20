@@ -5,11 +5,12 @@ export default class extends Controller {
     static values = {url: String}
 
     connect() {
-        $(this.element).on('click', (event) => this.manageSlot(event));
+        $(this.element).on('click', (event) => this.manageSlot(event))
     }
 
     manageSlot(event) {
         event.preventDefault()
+        $(this.element).addClass('d-none')
         const url = this.urlValue
 
         $.ajax({
@@ -26,7 +27,7 @@ export default class extends Controller {
 
                 setTimeout(() => {
                     location.reload()
-                }, 2000);
+                }, 2000)
             }
         })
     }

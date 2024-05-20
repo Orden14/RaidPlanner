@@ -1,5 +1,5 @@
 import {Controller} from '@hotwired/stimulus'
-import toastr from "toastr";
+import toastr from "toastr"
 
 export default class extends Controller {
     static values = {url: String}
@@ -11,10 +11,10 @@ export default class extends Controller {
     confirmDeletion(event) {
         event.preventDefault()
         const url = this.urlValue
-        const slotUsername = this.element.dataset.slotUser;
-        const currentUsername = this.element.dataset.currentUser;
+        const slotUsername = $(this.element).data('slot-user')
+        const currentUsername = $(this.element).data('current-user')
 
-        let message;
+        let message
         if (slotUsername === currentUsername) {
             message = 'Vous êtes sur le point de libérer votre slot. Êtes-vous sûr de vouloir continuer ?'
         } else {
@@ -32,6 +32,7 @@ export default class extends Controller {
                 confirm: {
                     text: 'Confirmer',
                     action: () => {
+                        $(this.element).addClass('d-none')
                         $.ajax({
                             url: url,
                             method: 'GET',
@@ -46,7 +47,7 @@ export default class extends Controller {
 
                                 setTimeout(() => {
                                     location.reload()
-                                }, 2000);
+                                }, 2000)
                             }
                         })
                     }
