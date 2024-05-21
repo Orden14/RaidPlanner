@@ -93,7 +93,7 @@ class BuildController extends AbstractController
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     final public function show(Request $request, Build $build): Response
     {
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefault() === true) {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefaultJob() === true) {
             $referer = $request->headers->get('referer');
 
             return new RedirectResponse($referer ?: $this->generateUrl('app_home'), Response::HTTP_SEE_OTHER);
@@ -117,7 +117,7 @@ class BuildController extends AbstractController
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
     final public function edit(Request $request, Build $build): Response
     {
-        if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefault() === true) {
+        if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefaultJob() === true) {
             $referer = $request->headers->get('referer');
 
             return new RedirectResponse($referer ?: $this->generateUrl('app_home'), Response::HTTP_SEE_OTHER);

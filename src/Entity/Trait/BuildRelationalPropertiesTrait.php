@@ -83,7 +83,7 @@ trait BuildRelationalPropertiesTrait
 
     final public function isDefault(): bool
     {
-        return $this->specialization->getJob()?->isDefault();
+        return $this->specialization->getJob()?->isDefaultJob();
     }
 
     /**

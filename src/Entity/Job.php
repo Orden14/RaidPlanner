@@ -6,6 +6,8 @@ use App\Repository\JobRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 class Job
@@ -15,9 +17,12 @@ class Job
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Le nom de la classe ne peut pas être vide.')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotNull(message: 'La couleur de la classe ne peut pas être vide.')]
+    #[Assert\CssColor(message: 'La couleur doit être un code couleur valide.')]
     #[ORM\Column(length: 255)]
     private ?string $color = null;
 
@@ -29,10 +34,10 @@ class Job
     private Collection $specializations;
 
     /**
-     * Allows to display default general builds that are not dependent on a specific job/specialization
+     * Allows to display default general builds that do not dependent on a specific job/specialization
      */
     #[ORM\Column]
-    private bool $isDefault = false;
+    private bool $defaultJob = false;
 
     public function __construct()
     {
@@ -49,7 +54,7 @@ class Job
         return $this->name;
     }
 
-    final public function setName(string $name): self
+    final public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -61,7 +66,7 @@ class Job
         return $this->color;
     }
 
-    final public function setColor(string $color): self
+    final public function setColor(?string $color): self
     {
         $this->color = $color;
 
@@ -107,14 +112,14 @@ class Job
         return $this;
     }
 
-    final public function isDefault(): bool
+    final public function isDefaultJob(): bool
     {
-        return $this->isDefault;
+        return $this->defaultJob;
     }
 
-    final public function setIsDefault(bool $isDefault): self
+    final public function setDefaultJob(bool $defaultJob): self
     {
-        $this->isDefault = $isDefault;
+        $this->defaultJob = $defaultJob;
 
         return $this;
     }

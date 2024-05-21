@@ -30,7 +30,7 @@ final class SpecializationRepository extends ServiceEntityRepository
             ->join('s.job', 'j');
 
         if (!$showDefault) {
-            $query->andWhere('j.isDefault = false');
+            $query->andWhere('j.defaultJob = false');
         }
 
         return $query->orderBy('s.job', 'ASC')
@@ -42,7 +42,7 @@ final class SpecializationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->join('s.job', 'j')
-            ->andWhere('j.isDefault = true')
+            ->andWhere('j.defaultJob = true')
             ->getQuery()
             ->getSingleResult();
     }

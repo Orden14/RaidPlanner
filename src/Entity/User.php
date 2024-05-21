@@ -27,8 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
     #[Assert\NotNull(message: 'Le nom d\'utilisateur ne peut pas être vide.')]
+    #[ORM\Column(length: 180)]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
@@ -37,7 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string[] The user roles
      */
-    #[ORM\Column]
     #[Assert\Choice(
         choices: [
             RolesEnum::ADMIN->value,
@@ -50,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         max: 1,
         maxMessage: "Un utilisateur doit avoir un seul rôle."
     )]
+    #[ORM\Column]
     private array $roles = [];
 
     /**

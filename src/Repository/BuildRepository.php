@@ -43,7 +43,7 @@ final class BuildRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')
             ->join('b.specialization', 's')
             ->join('s.job', 'j')
-            ->where('j.isDefault = :isDefault')
+            ->where('j.defaultJob = :isDefault')
             ->setParameter('isDefault', $isDefault)
             ->getQuery()
             ->getResult();

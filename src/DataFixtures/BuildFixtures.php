@@ -32,7 +32,7 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
         $users = $this->userRepository->findAll();
         $categories = $this->buildCategoryRepository->findAll();
         $specializations = array_filter($this->specializationRepository->findAll(), static function($specialization) {
-            return !$specialization->getJob()?->isDefault();
+            return !$specialization->getJob()?->isDefaultJob();
         });
 
         for ($i = 0; $i < 40; $i++) {

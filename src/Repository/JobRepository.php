@@ -27,7 +27,7 @@ final class JobRepository extends ServiceEntityRepository
     public function findAllWithoutDefault(): array
     {
         return $this->createQueryBuilder('j')
-            ->andWhere('j.isDefault = false')
+            ->andWhere('j.defaultJob = false')
             ->getQuery()
             ->getResult();
     }
