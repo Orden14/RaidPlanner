@@ -4,7 +4,9 @@ import {filterRow} from "../../javascript/util/build/table_filter_manager"
 export default class extends Controller {
     initialize() {
         let table = $(this.element).DataTable({
-            responsive: true,
+            responsive: {
+                details: false
+            },
             language: {
                 "lengthMenu": "Afficher _MENU_ builds par page",
                 "zeroRecords": "Aucun build trouvé",
@@ -24,13 +26,6 @@ export default class extends Controller {
                 {width: '20%', targets: 8, orderable: false, className: 'min-mobile-p'},
             ],
             order: [[2, 'desc']]
-        })
-
-        $(table.rows().nodes()).on('click', function () {
-            let url = $(this).data('url')
-            if (url) {
-                window.location.href = url
-            }
         })
 
         $.fn.dataTable.ext.search.push(
