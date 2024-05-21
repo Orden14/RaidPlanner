@@ -43,12 +43,13 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 
         $types = InstanceTypeEnum::cases();
 
-        for ($j = 0; $j < 15; $j++) {
-            $randomDate = (clone $lastMonday)->modify('+' . random_int(1, 15) . ' days')->setTime(random_int(9, 21), random_int(0, 59));
+        for ($j = 0; $j < 20; $j++) {
+            $date = $lastMonday->modify('+ 1 day')->setTime(random_int(9, 21), random_int(0, 59));
+
             $guildEvent = (new GuildEvent())
                 ->setTitle('Test event ' . $j)
-                ->setStart($randomDate)
-                ->setEnd((clone $randomDate)->modify('+2 hours'))
+                ->setStart(clone $date)
+                ->setEnd((clone $date)->modify('+2 hours'))
                 ->setType($types[array_rand($types)])
                 ->setGuildRaid((bool)random_int(0, 1));
             $manager->persist($guildEvent);

@@ -24,7 +24,7 @@ abstract class EntityTest extends Unit implements EntityTestInterface
     {
         $generatedEntity = $this->_generateEntity();
         $this->_testBasicPropertiesOf($generatedEntity);
-        $this->_testRelationPropertiesOf($generatedEntity);
+        $this->_testRelationalPropertiesOf($generatedEntity);
     }
 
     final public function testFalseEntity(): void

@@ -43,7 +43,7 @@ class JobTest extends EntityTest
     }
 
     #[Override]
-    final public function _testRelationPropertiesOf(mixed $generatedEntity): void
+    final public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {
         $this->tester->assertContains($this->specialization, $generatedEntity->getSpecializations());
     }
