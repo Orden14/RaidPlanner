@@ -7,6 +7,7 @@ use App\Repository\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InstanceRepository::class)]
 class Instance
@@ -16,12 +17,17 @@ class Instance
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Le nom ne peut pas être nul.')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $tag = null;
 
+    #[Assert\Choice(
+        callback: [InstanceTypeEnum::class, 'toArray'],
+        message: "Le type d'instance n'est pas valide."
+    )]
     #[ORM\Column(length: 255)]
     private string $type = InstanceTypeEnum::RAID->value;
 
@@ -46,7 +52,7 @@ class Instance
         return $this->name;
     }
 
-    final public function setName(string $name): self
+    final public function setName(?string $name): self
     {
         $this->name = $name;
 

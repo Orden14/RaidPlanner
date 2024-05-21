@@ -25,7 +25,7 @@ class EventAttendance
     private ?GuildEvent $guildEvent = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = AttendanceTypeEnum::BACKUP->value;
+    private string $type = AttendanceTypeEnum::BACKUP->value;
 
     #[ORM\Column]
     private bool $eventOwner = false;
@@ -62,7 +62,7 @@ class EventAttendance
         return $this;
     }
 
-    final public function getType(): ?AttendanceTypeEnum
+    final public function getType(): AttendanceTypeEnum
     {
         return AttendanceTypeEnum::from($this->type);
     }

@@ -26,4 +26,15 @@ enum InstanceTypeEnum: string
             self::FRACTAL, self::DUNGEON => 5,
         };
     }
+
+    /**
+     * @return string[]
+     */
+    public static function toArray(): array
+    {
+        return array_map(
+            static fn(self $eventType): string => $eventType->value,
+            self::cases()
+        );
+    }
 }

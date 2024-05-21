@@ -2,9 +2,8 @@
 
 namespace App\Entity\Trait;
 
-use App\Entity\CombatLog;
-use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\EventAttendance;
+use App\Entity\GuildEventRelation\EventBattle;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,12 +20,6 @@ trait GuildEventRelationalPropertiesTrait
      */
     #[ORM\OneToMany(targetEntity: EventAttendance::class, mappedBy: 'guildEvent', orphanRemoval: true)]
     private ?Collection $eventAttendances;
-
-    /**
-     * @var ?Collection<int, CombatLog>
-     */
-    #[ORM\OneToMany(targetEntity: CombatLog::class, mappedBy: 'guildEvent')]
-    private ?Collection $combatLogs;
 
     /**
      * @return Collection<int, EventBattle>
@@ -77,33 +70,6 @@ trait GuildEventRelationalPropertiesTrait
     {
         if ($this->eventAttendances->removeElement($eventAttendance) && $eventAttendance->getGuildEvent() === $this) {
             $eventAttendance->setGuildEvent(null);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CombatLog>
-     */
-    final public function getCombatLogs(): Collection
-    {
-        return $this->combatLogs;
-    }
-
-    final public function addCombatLog(CombatLog $combatLog): self
-    {
-        if (!$this->combatLogs->contains($combatLog)) {
-            $this->combatLogs->add($combatLog);
-            $combatLog->setGuildEvent($this);
-        }
-
-        return $this;
-    }
-
-    final public function removeCombatLog(CombatLog $combatLog): self
-    {
-        if ($this->combatLogs->removeElement($combatLog) && $combatLog->getGuildEvent() === $this) {
-            $combatLog->setGuildEvent(null);
         }
 
         return $this;

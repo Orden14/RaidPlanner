@@ -17,7 +17,7 @@ final readonly class FileMockUploader
 
     public function mockFileUpload(string $filename): string
     {
-        if ($this->kernel->getEnvironment() === 'test') {
+        if ($this->kernel->getEnvironment() !== 'dev') {
             return 'emptyFileForTest.png';
         }
 

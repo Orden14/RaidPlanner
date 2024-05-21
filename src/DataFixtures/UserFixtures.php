@@ -26,7 +26,7 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        if ($this->kernel->getEnvironment() !== 'test') {
+        if ($this->kernel->getEnvironment() === 'dev') {
             $this->purgeProfilePictureDirectory();
         }
 
@@ -54,7 +54,7 @@ class UserFixtures extends Fixture
                 $username
             ));
 
-        if ($this->kernel->getEnvironment() === 'test') {
+        if ($this->kernel->getEnvironment() !== 'dev') {
             $user->setProfilePicture('emptyFileForTest.png');
         } else {
             $this->userService->setDefaultProfilePicture($user);

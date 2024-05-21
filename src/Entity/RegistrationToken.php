@@ -23,10 +23,10 @@ class RegistrationToken
     private DateTimeInterface $expiryDate;
 
     #[ORM\Column]
-    private int $uses;
+    private int $uses = 1;
 
     #[ORM\Column]
-    private int $used;
+    private int $used = 0;
 
     /**
      * @throws RandomException
@@ -34,8 +34,6 @@ class RegistrationToken
     public function __construct()
     {
         $this->token = bin2hex(random_bytes(10));
-        $this->uses = 1;
-        $this->used = 0;
     }
 
     final public function getId(): ?int

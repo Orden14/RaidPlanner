@@ -50,7 +50,7 @@ enum RolesEnum: string
     public static function toArray(): array
     {
         return array_map(
-            static fn (RolesEnum $role): string => $role->value,
+            static fn(RolesEnum $role): string => $role->value,
             self::cases()
         );
     }

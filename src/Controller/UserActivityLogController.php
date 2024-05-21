@@ -23,7 +23,7 @@ class UserActivityLogController extends AbstractController
     {
         return $this->render('user_activity_log/index.html.twig', [
             'logs' => $this->userActivityLogRepository->findLatestLogs(),
-            'log_types' => UserActivityLogTypeEnum::getLogTypesAsArray(),
+            'log_types' => UserActivityLogTypeEnum::toArray(),
         ]);
     }
 }

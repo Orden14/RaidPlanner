@@ -8,17 +8,21 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use FilesystemIterator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class JobFixtures extends Fixture
 {
     public function __construct(
+        private readonly KernelInterface       $kernel,
         private readonly ParameterBagInterface $parameterBag,
         private readonly FileMockUploader      $fileMockUploader,
     ) {}
 
     final public function load(ObjectManager $manager): void
     {
-        $this->purgeIconDirectory();
+        if ($this->kernel->getEnvironment() === 'dev') {
+            $this->purgeIconDirectory();
+        }
 
         foreach ($this->getJobList() as $jobName => $jobColor) {
             $manager->persist($this->createJob($jobName, $jobColor));

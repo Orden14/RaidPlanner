@@ -26,7 +26,7 @@ enum BuildStatusEnum: string
     public static function toArray(): array
     {
         return array_map(
-            static fn (BuildStatusEnum $status): string => $status->value,
+            static fn(BuildStatusEnum $status): string => $status->value,
             self::cases()
         );
     }

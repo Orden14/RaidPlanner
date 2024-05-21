@@ -146,7 +146,7 @@ final readonly class UserActivitySubscriber
     private function getEventAttendancePersistMessage(EventAttendance $attendance, string $currentUserName): string
     {
         return match ($attendance->getType()) {
-            AttendanceTypeEnum::PLAYER => "Nouvelle participation à l'événement {$attendance->getGuildEvent()?->getTitle()} par {$attendance->getUser()?->getUsername()}",
+            AttendanceTypeEnum::PLAYER => "Nouvelle participation de {$attendance->getUser()?->getUsername()} à l'événement {$attendance->getGuildEvent()?->getTitle()}",
             AttendanceTypeEnum::BACKUP => "{$attendance->getUser()?->getUsername()} est ajouté en tant que backup à l'événement {$attendance->getGuildEvent()?->getTitle()}",
             AttendanceTypeEnum::ABSENT => "{$attendance->getUser()?->getUsername()} est ajouté en tant qu'absent à l'événement {$attendance->getGuildEvent()?->getTitle()}",
             default => "$currentUserName a ajouté son status pour l'évènement {$attendance->getGuildEvent()?->getTitle()}"

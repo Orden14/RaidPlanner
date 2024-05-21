@@ -11,6 +11,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GuildEventRepository::class)]
 class GuildEvent
@@ -23,6 +24,7 @@ class GuildEvent
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Le titre ne peut pas être nul.')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -32,12 +34,21 @@ class GuildEvent
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $end = null;
 
+    #[Assert\Choice(
+        callback: [InstanceTypeEnum::class, 'toArray'],
+        message: "Le type d'instance n'est pas valide."
+    )]
     #[ORM\Column(length: 255)]
     private string $type = InstanceTypeEnum::RAID->value;
 
+    #[Assert\CssColor(message: 'La couleur n\'est pas valide.')]
     #[ORM\Column(length: 255)]
     private string $color = '#4c64a8';
 
+    #[Assert\Choice(
+        callback: [GuildEventStatusEnum::class, 'toArray'],
+        message: "Le statut de l'événement n'est pas valide."
+    )]
     #[ORM\Column(length: 255)]
     private string $status = GuildEventStatusEnum::OPEN->value;
 
@@ -48,7 +59,6 @@ class GuildEvent
     {
         $this->eventBattles = new ArrayCollection();
         $this->eventAttendances = new ArrayCollection();
-        $this->combatLogs = new ArrayCollection();
     }
 
     final public function getId(): ?int
@@ -61,7 +71,7 @@ class GuildEvent
         return $this->title;
     }
 
-    final public function setTitle(string $title): self
+    final public function setTitle(?string $title): self
     {
         $this->title = $title;
 

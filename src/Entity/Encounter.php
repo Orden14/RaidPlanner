@@ -7,6 +7,7 @@ use App\Repository\EncounterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EncounterRepository::class)]
 class Encounter
@@ -16,6 +17,7 @@ class Encounter
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Le nom ne peut pas être nul.')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -44,7 +46,7 @@ class Encounter
         return $this->name;
     }
 
-    final public function setName(string $name): self
+    final public function setName(?string $name): self
     {
         $this->name = $name;
 

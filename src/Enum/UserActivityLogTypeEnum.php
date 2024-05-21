@@ -11,12 +11,11 @@ enum UserActivityLogTypeEnum: string
     /**
      * @return string[]
      */
-    public static function getLogTypesAsArray(): array
+    public static function toArray(): array
     {
-        return [
-            self::USER->value,
-            self::GUILD_EVENT->value,
-            self::BUILD->value
-        ];
+        return array_map(
+            static fn(self $type) => $type->value,
+            self::cases()
+        );
     }
 }
