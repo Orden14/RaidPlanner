@@ -56,6 +56,9 @@ final class UserTest extends EntityTest
         $this->tester->assertTrue($this->userPasswordHasher->isPasswordValid($generatedEntity, 'testPassword123'));
     }
 
+    /**
+     * @param User $generatedEntity
+     */
     #[Override]
     public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {

@@ -3,58 +3,52 @@
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\Build;
-use App\Entity\Job;
-use App\Entity\Specialization;
+use App\Entity\BuildCategory;
 use Override;
 
-final class SpecializationTest extends EntityTest
+final class BuildCategoryTest extends EntityTest
 {
-    private Job $job;
     private Build $build;
-
 
     public function _before(): void
     {
-        $this->job = $this->tester->grabEntityFromRepository(Job::class, ['id' => 1]);
         $this->build = $this->tester->grabEntityFromRepository(Build::class, ['id' => 1]);
     }
 
     /**
-     * @return Specialization
+     * @return BuildCategory
      */
     #[Override]
     public function _generateEntity(): object
     {
-        return (new Specialization())
-            ->setName('testSpecialization')
+        return (new BuildCategory())
+            ->setName('testCategory')
             ->setIcon('testIcon')
-            ->setJob($this->job)
             ->addBuild($this->build);
     }
 
     /**
-     * @param Specialization $generatedEntity
+     * @param BuildCategory $generatedEntity
      */
     #[Override]
     public function _testBasicPropertiesOf(mixed $generatedEntity): void
     {
-        $this->tester->assertSame('testSpecialization', $generatedEntity->getName());
+        $this->tester->assertSame('testCategory', $generatedEntity->getName());
         $this->tester->assertSame('testIcon', $generatedEntity->getIcon());
     }
 
     /**
-     * @param Specialization $generatedEntity
+     * @param BuildCategory $generatedEntity
      */
     #[Override]
     public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {
-        $this->tester->assertSame($this->job, $generatedEntity->getJob());
         $this->tester->assertContains($this->build, $generatedEntity->getBuilds());
     }
 
     #[Override]
     public function _expectedCountAssertionErrors(): int
     {
-        return 2;
+        return 1;
     }
 }

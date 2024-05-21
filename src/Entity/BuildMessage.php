@@ -6,6 +6,7 @@ use App\Repository\BuildMessageRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BuildMessageRepository::class)]
 class BuildMessage
@@ -15,6 +16,7 @@ class BuildMessage
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Le contenu du message est obligatoire.')]
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
@@ -39,7 +41,7 @@ class BuildMessage
         return $this->content;
     }
 
-    final public function setContent(string $content): self
+    final public function setContent(?string $content): self
     {
         $this->content = $content;
 

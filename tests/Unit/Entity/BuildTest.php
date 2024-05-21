@@ -49,6 +49,9 @@ final class BuildTest extends EntityTest
         return $build;
     }
 
+    /**
+     * @param Build $generatedEntity
+     */
     #[Override]
     public function _testBasicPropertiesOf(mixed $generatedEntity): void
     {
@@ -61,6 +64,9 @@ final class BuildTest extends EntityTest
         $this->tester->assertSame('https://test3.com', $generatedEntity->getBenchmarkLink());
     }
 
+    /**
+     * @param Build $generatedEntity
+     */
     #[Override]
     public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {

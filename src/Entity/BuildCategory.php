@@ -6,6 +6,7 @@ use App\Repository\BuildCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BuildCategoryRepository::class)]
 class BuildCategory
@@ -15,6 +16,7 @@ class BuildCategory
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotNull(message: 'Le nom de la catégorie est obligatoire.')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -42,7 +44,7 @@ class BuildCategory
         return $this->name;
     }
 
-    final public function setName(string $name): self
+    final public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -57,6 +59,25 @@ class BuildCategory
     final public function setIcon(string $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    final public function addBuild(Build $build): self
+    {
+        if (!$this->builds->contains($build)) {
+            $this->builds->add($build);
+            $build->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    final public function removeBuild(Build $build): self
+    {
+        if ($this->builds->removeElement($build) && $build->getCategories()->contains($this)) {
+            $build->removeCategory($this);
+        }
 
         return $this;
     }

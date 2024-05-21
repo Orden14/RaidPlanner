@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Entity\Trait\BuildExternalLinkPropertiesTrait;
 use App\Entity\Trait\BuildRelationalPropertiesTrait;
 use App\Enum\BuildStatusEnum;
-use App\Enum\RolesEnum;
 use App\Repository\BuildRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
