@@ -10,14 +10,14 @@ use DateTime;
 use Override;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserTest extends EntityTest
+final class UserTest extends EntityTest
 {
     private UserPasswordHasherInterface $userPasswordHasher;
     private EventAttendance $eventAttendance;
     private PlayerSlot $playerSlot;
 
 
-    final public function _before(): void
+    public function _before(): void
     {
         $this->userPasswordHasher = $this->tester->grabService(UserPasswordHasherInterface::class);
         $this->eventAttendance = $this->tester->grabEntityFromRepository(EventAttendance::class, ['id' => 1]);
@@ -28,7 +28,7 @@ class UserTest extends EntityTest
      * @return User
      */
     #[Override]
-    final public function _generateEntity(): object
+    public function _generateEntity(): object
     {
         $user = new User();
 
@@ -47,24 +47,24 @@ class UserTest extends EntityTest
      * @param User $generatedEntity
      */
     #[Override]
-    final public function _testBasicPropertiesOf(mixed $generatedEntity): void
+    public function _testBasicPropertiesOf(mixed $generatedEntity): void
     {
-        $this->tester->assertEquals('testUsername', $generatedEntity->getUsername());
-        $this->tester->assertEquals('profilepicture.jpg', $generatedEntity->getProfilePicture());
-        $this->tester->assertEquals(RolesEnum::MEMBER, $generatedEntity->getRole());
+        $this->tester->assertSame('testUsername', $generatedEntity->getUsername());
+        $this->tester->assertSame('profilepicture.jpg', $generatedEntity->getProfilePicture());
+        $this->tester->assertSame(RolesEnum::MEMBER, $generatedEntity->getRole());
         $this->tester->assertEquals((new DateTime())->setTime(23, 59, 59), $generatedEntity->getJoinedAt());
         $this->tester->assertTrue($this->userPasswordHasher->isPasswordValid($generatedEntity, 'testPassword123'));
     }
 
     #[Override]
-    final public function _testRelationalPropertiesOf(mixed $generatedEntity): void
+    public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {
         $this->tester->assertContains($this->eventAttendance, $generatedEntity->getEventAttendances());
         $this->tester->assertContains($this->playerSlot, $generatedEntity->getPlayerSlots());
     }
 
     #[Override]
-    final public function _expectedCountAssertionErrors(): int
+    public function _expectedCountAssertionErrors(): int
     {
         return 1;
     }

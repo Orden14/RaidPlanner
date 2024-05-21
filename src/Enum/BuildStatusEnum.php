@@ -25,10 +25,9 @@ enum BuildStatusEnum: string
      */
     public static function toArray(): array
     {
-        return [
-            self::META->value,
-            self::OUTDATED->value,
-            self::NOT_META->value,
-        ];
+        return array_map(
+            static fn (BuildStatusEnum $status): string => $status->value,
+            self::cases()
+        );
     }
 }

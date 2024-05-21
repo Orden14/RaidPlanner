@@ -43,4 +43,15 @@ enum RolesEnum: string
             self::GUEST => 5,
         };
     }
+
+    /**
+     * @return string[]
+     */
+    public static function toArray(): array
+    {
+        return array_map(
+            static fn (RolesEnum $role): string => $role->value,
+            self::cases()
+        );
+    }
 }

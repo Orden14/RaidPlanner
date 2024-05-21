@@ -38,15 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string[] The user roles
      */
     #[Assert\Choice(
-        choices: [
-            RolesEnum::ADMIN->value,
-            RolesEnum::MEMBER->value,
-            RolesEnum::TRIAL->value,
-            RolesEnum::OLD_MEMBER->value,
-            RolesEnum::GUEST->value
-        ],
+        callback: [RolesEnum::class, 'toArray'],
         multiple: true,
         max: 1,
+        message: "Un utilisateur doit avoir un rôle.",
         maxMessage: "Un utilisateur doit avoir un seul rôle."
     )]
     #[ORM\Column]

@@ -6,12 +6,12 @@ use App\Entity\Job;
 use App\Entity\Specialization;
 use Override;
 
-class JobTest extends EntityTest
+final class JobTest extends EntityTest
 {
     private Specialization $specialization;
 
 
-    final public function _before(): void
+    public function _before(): void
     {
         $this->specialization = $this->tester->grabEntityFromRepository(Specialization::class, ['id' => 1]);
     }
@@ -20,7 +20,7 @@ class JobTest extends EntityTest
      * @return Job
      */
     #[Override]
-    final public function _generateEntity(): object
+    public function _generateEntity(): object
     {
         return (new Job())
             ->setName('testJob')
@@ -34,22 +34,22 @@ class JobTest extends EntityTest
      * @param Job $generatedEntity
      */
     #[Override]
-    final public function _testBasicPropertiesOf(mixed $generatedEntity): void
+    public function _testBasicPropertiesOf(mixed $generatedEntity): void
     {
-        $this->tester->assertEquals('testJob', $generatedEntity->getName());
-        $this->tester->assertEquals('testColor', $generatedEntity->getColor());
-        $this->tester->assertEquals('testIcon', $generatedEntity->getIcon());
+        $this->tester->assertSame('testJob', $generatedEntity->getName());
+        $this->tester->assertSame('testColor', $generatedEntity->getColor());
+        $this->tester->assertSame('testIcon', $generatedEntity->getIcon());
         $this->tester->assertTrue($generatedEntity->isDefaultJob());
     }
 
     #[Override]
-    final public function _testRelationalPropertiesOf(mixed $generatedEntity): void
+    public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {
         $this->tester->assertContains($this->specialization, $generatedEntity->getSpecializations());
     }
 
     #[Override]
-    final public function _expectedCountAssertionErrors(): int
+    public function _expectedCountAssertionErrors(): int
     {
         return 2;
     }
