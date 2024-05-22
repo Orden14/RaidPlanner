@@ -13,21 +13,30 @@ export default class extends Controller {
         $(this.element).addClass('d-none')
         const url = this.urlValue
 
+        toastr.options = {
+            "timeOut": "4000",
+        }
+
         $.ajax({
             url: url,
             method: 'GET',
             success: () => {
-                location.reload()
+                this.reloadPage()
+                toastr.success('Slot assigné')
             },
-            error: (jqXHR, textStatus, errorThrown) => {
-                toastr.options = {
-                    "timeOut": "4000",
-                }
-                toastr.error(jqXHR.responseText || errorThrown, textStatus)
+            error: () => {
+                this.reloadPage()
+                toastr.error('Vous ne pouvez pas effectuer cette action')
+            }
+        })
+    }
 
-                setTimeout(() => {
-                    location.reload()
-                }, 2000)
+    reloadPage() {
+        $.ajax({
+            method: 'GET',
+            url: window.location.href,
+            success: (html) => {
+                $('#guildEventHelder').replaceWith($(html).find('#guildEventHelder'))
             }
         })
     }

@@ -21,6 +21,10 @@ export default class extends Controller {
             message = 'Êtes-vous sûr de vouloir libérer le slot appartenant à ' + slotUsername + ' ?'
         }
 
+        toastr.options = {
+            "timeOut": "4000",
+        }
+
         $.confirm({
             icon: 'bi bi-exclamation-triangle-fill',
             theme: 'supervan',
@@ -37,17 +41,12 @@ export default class extends Controller {
                             url: url,
                             method: 'GET',
                             success: () => {
-                                location.reload()
+                                this.reloadPage()
+                                toastr.success('Vous avez libéré un slot')
                             },
                             error: (jqXHR, textStatus, errorThrown) => {
-                                toastr.options = {
-                                    "timeOut": "4000",
-                                }
-                                toastr.error(jqXHR.responseText || errorThrown, textStatus)
-
-                                setTimeout(() => {
-                                    location.reload()
-                                }, 2000)
+                                this.reloadPage()
+                                toastr.error('Vous ne pouvez pas effectuer cette action')
                             }
                         })
                     }
@@ -55,6 +54,16 @@ export default class extends Controller {
                 cancel: {
                     text: 'Annuler'
                 }
+            }
+        })
+    }
+
+    reloadPage() {
+        $.ajax({
+            method: 'GET',
+            url: window.location.href,
+            success: (html) => {
+                $('#guildEventHelder').replaceWith($(html).find('#guildEventHelder'))
             }
         })
     }

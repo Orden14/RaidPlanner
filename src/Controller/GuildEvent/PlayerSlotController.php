@@ -44,7 +44,7 @@ class PlayerSlotController extends AbstractController
         $request->getSession()->set('eventBattleId', $eventBattle->getId());
 
         if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
-            return new JsonResponse('You are not allowed to perform this action', Response::HTTP_FORBIDDEN);
+            return new JsonResponse("Vous n'êtes pas autorisé à faire cette action.", Response::HTTP_FORBIDDEN);
         }
 
         if (!$this->eventAttendanceService->isUserAttendingAsPlayer($guildEvent, $currentUser)) {
@@ -54,7 +54,7 @@ class PlayerSlotController extends AbstractController
         $playerSlot->setPlayer($currentUser);
         $this->entityManager->flush();
 
-        return new JsonResponse('Slot assigned', Response::HTTP_OK);
+        return new JsonResponse('Slot assigné.', Response::HTTP_OK);
     }
 
     #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
@@ -63,12 +63,12 @@ class PlayerSlotController extends AbstractController
         $request->getSession()->set('eventBattleId', $playerSlot->getEventBattle()?->getId());
 
         if (!$this->slotManagementPermissionChecker->checkIfUserCanManageSlot($playerSlot)) {
-            return new JsonResponse('You are not allowed to perform this action.', Response::HTTP_FORBIDDEN);
+            return new JsonResponse("Vous n'êtes pas autorisé à faire cette action.", Response::HTTP_FORBIDDEN);
         }
 
         $playerSlot->setPlayer(null);
         $this->entityManager->flush();
 
-        return new JsonResponse('Slot freed', Response::HTTP_OK);
+        return new JsonResponse('Slot libéré', Response::HTTP_OK);
     }
 }
