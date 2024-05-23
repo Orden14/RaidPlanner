@@ -1,22 +1,25 @@
 {% set route = app.request.attributes.get('_route') %}
-{% set user_admin_routes = ['registration_token_', 'user_members', 'user_guests'] %}
+{% set user_admin_routes = ['registration_token_', 'user_members', 'user_guests', 'user_activity_log_'] %}
 {% set is_on_user_admin_page = user_admin_routes|filter(routeName => route starts with routeName)|length > 0 %}
 {% set admin_routes = ['specialization_', 'job_', 'buildcategory_', 'instance_', 'encounter_'] %}
 {% set is_on_admin_page = admin_routes|filter(routeName => route starts with routeName)|length > 0 %}
 
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle {{ is_on_user_admin_page ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Gestion des utilisateurs
+        Utilisateurs
     </a>
     <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="{{ path('registration_token_index') }}">Tokens d'enregistrement</a></li>
+        <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{{ path('user_members') }}">Gérer les membres</a></li>
         <li><a class="dropdown-item" href="{{ path('user_guests') }}">Gérer les nouveaux comptes</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{{ path('user_activity_log_index') }}">Logs</a></li>
     </ul>
 </li>
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle {{ is_on_admin_page ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Administration globale
+        Paramètres
     </a>
     <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="{{ path('job_index') }}">Paramètres de classes</a></li>
@@ -26,7 +29,5 @@
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{{ path('instance_index') }}">Liste des instances</a></li>
         <li><a class="dropdown-item" href="{{ path('encounter_index') }}">Liste des encounters</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="{{ path('user_activity_log_index') }}">Logs</a></li>
     </ul>
 </li>
