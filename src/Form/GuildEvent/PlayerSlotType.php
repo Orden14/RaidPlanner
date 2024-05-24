@@ -45,7 +45,8 @@ final class PlayerSlotType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                     'data-live-search' => 'true',
-                    'data-live-search-placeholder' => 'Rechercher un build...'
+                    'data-live-search-placeholder' => 'Rechercher un build...',
+                    'data-container' => 'body',
                 ],
                 'choice_attr' => function ($build) {
                     return $this->buildDisplayService->getBuildSelectDisplay($build);

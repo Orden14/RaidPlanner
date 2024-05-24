@@ -90,7 +90,7 @@
                         <div class="{{ get_status_style_class_name(build.status.value) }} align-middle" title="{{ build.status.value }}"></div>
                         <span class="d-none">{{ build.status.value }}</span>
                     </td>
-                    <td >{{ build.lastEditedAt|date('d/m/Y') }} à {{ build.lastEditedAt|date('H:i') }}</td>
+                    <td >{{ build.lastEditedAt|date('d/m/Y à H:i') }}</td>
                     <td class="text-center">{{ build.link ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-ban text-danger"></i>' }}</td>
                     <td class="text-center">{{ build.videoLink ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-ban text-danger"></i>' }}</td>
                     <td class="text-center">{{ build.benchmarkLink ? '<i class="bi bi-check-lg text-success"></i>' : '<i class="bi bi-ban text-danger"></i>' }}</td>

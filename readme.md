@@ -6,7 +6,7 @@ https://github.com/Orden14/RaidPlanner
 
 ## About
 RaidPlanner is a tool for planning Guild Wars 2 instanced content.  
-I have no plan to make an english translation for the app as of now.  
+Current version is made in French.
 
 ## Project startup
 This is a Symfony project running on Symfony 7. To run the project easily, you need the following tools :
@@ -14,28 +14,27 @@ This is a Symfony project running on Symfony 7. To run the project easily, you n
 - Symfony CLI
 - Composer
 - Yarn
-- Docker
 
-###### These are custom commands to help you run the project for the first time :
-- docker-compose up (this docker-compose contains a MariaDB database and phpmyadmin)
+###### These are custom commands to help you run the project for the first time in a development environment :
 - yarn dependencies (executes composer install, yarn install, and yarn build)
 - yarn truncate-database (clear database and loads data fixtures)
-- yarn server-start (starts a local dev server on port 8001)
+- symfony serve
 
-Project will be accessible on http://localhost:8001  
-MailDev will be accessible on http://localhost:1080/
+Don't forget to set up the .env and .env.test files with your own database credentials.
+
+Project will be accessible on http://localhost:8000  (or another port if 8000 is already in use)
 
 ###### These are custom commands to help you during development :
-- yarn build (builds CSS and JS with Webpack Encore)
+- yarn build (builds CSS and JS with Webpack)
 - yarn watch (constantly watches for changes in CSS and JS files and compile them on the go)
 
 ## Test users
 Among all the generated users, there are default users available for easier testing (passwords are the same as usernames) :
-- Admin
-- Member
-- Trial
-- Old Member
-- Guest
+- admin
+- member
+- trial
+- old_member
+- guest
 
 ## Test using Codeception
 This app uses Codeception for acceptance, functional and unit tests.
