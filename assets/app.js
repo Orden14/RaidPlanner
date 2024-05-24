@@ -6,6 +6,9 @@ import 'datatables.net-bs5'
 import 'datatables.net-select-bs5'
 import 'datatables.net-responsive'
 
+// Moment
+import 'moment'
+
 // Toastr
 import 'toastr/build/toastr.min.js'
 

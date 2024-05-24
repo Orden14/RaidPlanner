@@ -24,6 +24,7 @@
     "flatpickr": "^4.6.13",
     "jquery": "^3.7.1",
     "jquery-confirm": "^3.3.4",
+    "moment": "^2.30.1",
     "regenerator-runtime": "^0.14.1",
     "sass": "^1.72.0",
     "sass-loader": "^14.1.1",
