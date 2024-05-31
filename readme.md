@@ -13,7 +13,7 @@ This is a Symfony project running on Symfony 7. To run the project easily, you n
 - Php 8.3
 - Symfony CLI
 - Composer
-- Yarn
+- Yarn (with node >21)
 
 ###### These are custom commands to help you run the project for the first time in a development environment :
 - yarn dependencies (executes composer install, yarn install, and yarn build)
@@ -45,6 +45,9 @@ The Webdriver currently set up in the project is for windows x64. If you are usi
 - yarn test (executes all tests)
 - yarn test Acceptance/Functional/Unit (executes a specific test suite)
 
+#### Gitlab Action
+The project is set up with a Gitlab Action that runs the tests on every merge requests to the main branch.
+Action config file : .github/workflows/symfony.yml
+
 # Contact
 * Discord : orden14
-* In game : Jiho.1035
