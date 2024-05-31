@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies and build
         run: yarn dependencies
 
+      - name: Start database
+        run: docker-compose -f docker-compose.light.yml up -d
+
       - name: Truncate database
         run: yarn truncate-database
 
