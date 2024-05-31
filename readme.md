@@ -46,7 +46,7 @@ The Webdriver currently set up in the project is for windows x64. If you are usi
 - yarn test Acceptance/Functional/Unit (executes a specific test suite)
 
 #### Gitlab Action
-The project is set up with a Gitlab Action that runs the tests on every merge requests to the main branch.
+The project is set up with a Gitlab Action that runs the tests on every merge requests to the main branch.  
 Action config file : .github/workflows/symfony.yml
 
 # Contact
