@@ -35,7 +35,7 @@ jobs:
       - name: Install Symfony CLI
         run: |
           wget https://get.symfony.com/cli/installer -O - | bash
-          export PATH="$HOME/.symfony5/bin:$PATH"
+          sudo mv /home/runner/.symfony5/bin/symfony /usr/local/bin/symfony
 
       - name: Validate composer.json and composer.lock
         run: composer validate
