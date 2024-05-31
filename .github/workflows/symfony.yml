@@ -44,7 +44,7 @@ jobs:
         run: yarn dependencies
 
       - name: Start database
-        run: docker-compose -f docker-compose.light.yml up -d
+        run: docker-compose -f docker-compose.light.yaml up -d
 
       - name: Truncate database
         run: yarn truncate-database
