@@ -40,11 +40,11 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Install dependencies and build
-        run: yarn dependencies
-
       - name: Start database
         run: docker-compose -f docker-compose.light.yaml up -d
+
+      - name: Install dependencies and build
+        run: yarn dependencies
 
       - name: Truncate database
         run: yarn truncate-database
