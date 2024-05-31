@@ -44,7 +44,11 @@ jobs:
         run: yarn dependencies
 
       - name: Truncate database
-        run: yarn truncate-database
+        run: |
+          export PATH="$HOME/.symfony/bin:$PATH"
+          yarn truncate-database
 
       - name: Run tests
-        run: yarn test
+        run: |
+          export PATH="$HOME/.symfony/bin:$PATH"
+          yarn test
