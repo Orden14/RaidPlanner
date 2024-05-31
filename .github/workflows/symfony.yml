@@ -35,7 +35,7 @@ jobs:
       - name: Install Symfony CLI
         run: |
           wget https://get.symfony.com/cli/installer -O - | bash
-          export PATH="$HOME/.symfony/bin:$PATH"
+          sudo mv /home/runner/.symfony/bin/symfony /usr/local/bin/symfony
 
       - name: Validate composer.json and composer.lock
         run: composer validate
@@ -44,11 +44,7 @@ jobs:
         run: yarn dependencies
 
       - name: Truncate database
-        run: |
-          export PATH="$HOME/.symfony/bin:$PATH"
-          yarn truncate-database
+        run: yarn truncate-database
 
       - name: Run tests
-        run: |
-          export PATH="$HOME/.symfony/bin:$PATH"
-          yarn test
+        run: yarn test
