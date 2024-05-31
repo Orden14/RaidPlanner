@@ -1,4 +1,6 @@
 {
+    "name": "orden14/raidplanner",
+    "description": "Raidplanner is a web-app for managing instanced guild wars 2 content.",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
