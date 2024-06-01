@@ -62,7 +62,7 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
     ): Build
     {
         $build = new Build();
-        $build->setName($faker->words(2, true))
+        $build->setName($faker->words(1, true))
             ->setAuthor($user)
             ->setSpecialization($specialization)
             ->setLastEditedAt($faker->dateTimeBetween('-1 year'))
