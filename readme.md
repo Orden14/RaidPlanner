@@ -16,9 +16,10 @@ This is a Symfony project running on Symfony 7. To run the project easily, you n
 - Yarn (with node >21)
 
 ###### These are custom commands to help you run the project for the first time in a development environment :
+- docker-compose -f docker-compose.light.yaml up -d (docker-compose with the database only, for a full setup, check docker-compose.yaml)
 - yarn dependencies (executes composer install, yarn install, and yarn build)
 - yarn truncate-database (clear database and loads data fixtures)
-- symfony serve
+- symfony serve (starts the local development server)
 
 Don't forget to set up the .env and .env.test files with your own database credentials.
 
