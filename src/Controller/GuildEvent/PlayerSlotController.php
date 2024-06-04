@@ -10,7 +10,7 @@ use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
-use App\Service\GuildEvent\EventAttendanceManager;
+use App\Service\GuildEvent\EventAttendanceManagementService;
 use App\Service\GuildEvent\EventAttendanceDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,11 +25,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PlayerSlotController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface          $entityManager,
-        private readonly EventAttendanceDataService      $eventAttendanceService,
-        private readonly EventAttendanceManager          $eventAttendanceManager,
-        private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
-        private readonly SlotManagementPermissionChecker $slotManagementPermissionChecker,
+        private readonly EntityManagerInterface           $entityManager,
+        private readonly EventAttendanceDataService       $eventAttendanceService,
+        private readonly SlotAssignmentPermissionChecker  $slotAssignmentPermissionChecker,
+        private readonly SlotManagementPermissionChecker  $slotManagementPermissionChecker,
+        private readonly EventAttendanceManagementService $eventAttendanceManagementService,
     ) {}
 
     #[Route('/battle/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
@@ -48,7 +48,7 @@ class PlayerSlotController extends AbstractController
         }
 
         if (!$this->eventAttendanceService->isUserAttendingAsPlayer($guildEvent, $currentUser)) {
-            $this->eventAttendanceManager->setEventAttendanceForUser($currentUser, $guildEvent, AttendanceTypeEnum::PLAYER);
+            $this->eventAttendanceManagementService->setEventAttendanceForUser($currentUser, $guildEvent, AttendanceTypeEnum::PLAYER);
         }
 
         $playerSlot->setPlayer($currentUser);

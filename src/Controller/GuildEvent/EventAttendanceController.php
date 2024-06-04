@@ -11,8 +11,8 @@ use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEvent\AttendBackupType;
-use App\Service\GuildEvent\EventAttendanceManager;
-use App\Service\GuildEvent\PlayerSlotManager;
+use App\Service\GuildEvent\EventAttendanceManagementService;
+use App\Service\GuildEvent\PlayerSlotManagementService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,9 +27,9 @@ class EventAttendanceController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface              $entityManager,
-        private readonly PlayerSlotManager                   $playerSlotManager,
-        private readonly EventAttendanceManager              $eventAttendanceManager,
+        private readonly PlayerSlotManagementService         $playerSlotManagementService,
         private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
+        private readonly EventAttendanceManagementService    $eventAttendanceManagementService,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
@@ -44,7 +44,7 @@ class EventAttendanceController extends AbstractController
         }
 
         try {
-            $this->eventAttendanceManager->setEventAttendanceForUser(
+            $this->eventAttendanceManagementService->setEventAttendanceForUser(
                 $currentUser,
                 $guildEvent,
                 AttendanceTypeEnum::from($attendanceType)
@@ -71,7 +71,7 @@ class EventAttendanceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $eventAttendance = $this->eventAttendanceManager->setEventAttendanceForUser(
+                $eventAttendance = $this->eventAttendanceManagementService->setEventAttendanceForUser(
                     $currentUser,
                     $guildEvent,
                     AttendanceTypeEnum::BACKUP
@@ -107,7 +107,7 @@ class EventAttendanceController extends AbstractController
             && $this->isCsrfTokenValid('delete' . $eventAttendance->getId(), $request->getPayload()->get('_token'))
         ) {
             $eventAttendance->setType(AttendanceTypeEnum::UNDEFINED);
-            $this->playerSlotManager->emptyAllEventSlotsOfUser($guildEvent, $eventAttendance->getUser());
+            $this->playerSlotManagementService->emptyAllEventSlotsOfUser($guildEvent, $eventAttendance->getUser());
         }
 
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);

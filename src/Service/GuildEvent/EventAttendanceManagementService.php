@@ -10,12 +10,12 @@ use App\Enum\AttendanceTypeEnum;
 use App\Repository\EventAttendanceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class EventAttendanceManager
+final readonly class EventAttendanceManagementService
 {
     public function __construct(
         private EntityManagerInterface       $entityManager,
-        private PlayerSlotManager            $playerSlotManager,
         private EventAttendanceRepository    $eventAttendanceRepository,
+        private PlayerSlotManagementService  $playerSlotManagementService,
         private EventSignupPermissionChecker $eventSignupPermissionChecker,
     ) {}
 
@@ -32,7 +32,7 @@ final readonly class EventAttendanceManager
 
         if ($eventAttendance->getUser() === $user) {
             if ($attendanceType !== AttendanceTypeEnum::PLAYER && $eventAttendance->getType() === AttendanceTypeEnum::PLAYER) {
-                $this->playerSlotManager->emptyAllEventSlotsOfUser($guildEvent, $user);
+                $this->playerSlotManagementService->emptyAllEventSlotsOfUser($guildEvent, $user);
             }
 
             $eventAttendance->setType($attendanceType);

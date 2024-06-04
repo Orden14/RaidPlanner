@@ -8,7 +8,7 @@ use App\Entity\GuildEventRelation\EventBattle;
 use App\Enum\InstanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEvent\EventBattleType;
-use App\Service\GuildEvent\PlayerSlotManager;
+use App\Service\GuildEvent\PlayerSlotManagementService;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class EventBattleController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface           $entityManager,
         private readonly FormFlashHelper                  $formFlashHelper,
-        private readonly PlayerSlotManager                $playerSlotManager,
+        private readonly PlayerSlotManagementService      $playerSlotManagementService,
         private readonly EventManagementPermissionChecker $eventManagementPermissionChecker,
     ) {}
 
@@ -44,7 +44,7 @@ class EventBattleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($eventBattle);
             $this->entityManager->flush();
-            $this->playerSlotManager->createSlotsForEventBattle($eventBattle, $this->playerSlotManager->getPlayerSlotsFromForm($form));
+            $this->playerSlotManagementService->createSlotsForEventBattle($eventBattle, $this->playerSlotManagementService->getPlayerSlotsFromForm($form));
 
 
             $this->addFlash(

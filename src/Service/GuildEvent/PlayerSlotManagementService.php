@@ -10,7 +10,7 @@ use App\Repository\PlayerSlotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 
-final readonly class PlayerSlotManager
+final readonly class PlayerSlotManagementService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
