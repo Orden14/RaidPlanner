@@ -7,7 +7,7 @@ use App\Enum\RolesEnum;
 use App\Form\Security\ChangePasswordType;
 use App\Form\Security\RegistrationType;
 use App\Security\AppAuthenticator;
-use App\Service\UserService;
+use App\Service\User\UserProfileService;
 use App\Util\Form\FormFlashHelper;
 use App\Util\Security\RegistrationTokenHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,10 +26,10 @@ final class SecurityController extends AbstractController
 {
     public function __construct(
         private readonly Security                    $security,
-        private readonly UserService                 $userService,
         private readonly EntityManagerInterface      $entityManager,
         private readonly FormFlashHelper             $formFlashHelper,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly UserProfileService          $userProfileService,
         private readonly AuthenticationUtils         $authenticationUtils,
         private readonly RegistrationTokenHandler    $registrationTokenHandler,
     ) {}
@@ -74,7 +74,7 @@ final class SecurityController extends AbstractController
                 )
             );
 
-            $this->userService->setDefaultProfilePicture($user);
+            $this->userProfileService->setDefaultProfilePicture($user);
             $user->setRole(RolesEnum::GUEST);
 
             $this->entityManager->persist($user);

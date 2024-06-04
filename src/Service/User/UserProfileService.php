@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\User;
 
 use App\Entity\User;
-use App\Enum\RolesEnum;
-use App\Repository\UserRepository;
 use App\Util\File\FileManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
-final readonly class UserService
+final readonly class UserProfileService
 {
     public function __construct(
         private FileManager           $fileManager,
         private ParameterBagInterface $parameterBag,
-        private UserRepository        $userRepository
     ) {}
 
     public function setDefaultProfilePicture(User $user): void
@@ -36,21 +33,5 @@ final readonly class UserService
         );
 
         $user->setProfilePicture($defaultProfilePicture);
-    }
-
-    /**
-     * @return User[]
-     */
-    public function getActiveMembers(): array
-    {
-        $users = $this->userRepository->findAllOrderedByName();
-
-        return array_filter($users, static function (User $user) {
-            if (in_array($user->getRole(), RolesEnum::getActiveGuildRoles())) {
-                return true;
-            }
-
-            return false;
-        });
     }
 }

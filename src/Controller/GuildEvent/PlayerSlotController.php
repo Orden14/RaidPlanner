@@ -10,8 +10,8 @@ use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
-use App\Service\GuildEvent\EventAttendanceService;
-use App\Util\GuildEvent\EventAttendanceManager;
+use App\Service\GuildEvent\EventAttendanceManager;
+use App\Service\GuildEvent\EventAttendanceDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +26,7 @@ class PlayerSlotController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface          $entityManager,
-        private readonly EventAttendanceService          $eventAttendanceService,
+        private readonly EventAttendanceDataService      $eventAttendanceService,
         private readonly EventAttendanceManager          $eventAttendanceManager,
         private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
         private readonly SlotManagementPermissionChecker $slotManagementPermissionChecker,

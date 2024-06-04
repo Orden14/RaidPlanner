@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Repository\EventAttendanceRepository;
 
-final readonly class EventAttendanceService
+final readonly class EventAttendanceDataService
 {
     public function __construct(
         private EventAttendanceRepository $eventAttendanceRepository

@@ -14,7 +14,7 @@ use App\Factory\GuildEventFactory;
 use App\Form\GuildEvent\AttendBackupType;
 use App\Form\GuildEvent\EventBattleType;
 use App\Form\GuildEvent\GuildEventType;
-use App\Service\GuildEvent\EventAttendanceService;
+use App\Service\GuildEvent\EventAttendanceDataService;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +34,7 @@ class GuildEventController extends AbstractController
         private readonly FormFlashHelper                     $formFlashHelper,
         private readonly GuildEventFactory                   $guildEventFactory,
         private readonly EventAttendanceFactory              $eventAttendanceFactory,
-        private readonly EventAttendanceService              $eventAttendanceService,
+        private readonly EventAttendanceDataService          $eventAttendanceDataService,
         private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
@@ -77,7 +77,7 @@ class GuildEventController extends AbstractController
             'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()),
             'guild_event' => $guildEvent,
             'event_battles' => $guildEvent->getEventBattles(),
-            'attendances' => $this->eventAttendanceService->getCombinedAttendanceList($guildEvent),
+            'attendances' => $this->eventAttendanceDataService->getCombinedAttendanceList($guildEvent),
             'opened_event_battle_id' => $openedEventBattleId,
         ]);
     }

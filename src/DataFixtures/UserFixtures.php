@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use App\Enum\RolesEnum;
-use App\Service\UserService;
+use App\Service\User\UserProfileService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -17,8 +17,8 @@ class UserFixtures extends Fixture
 {
     public function __construct(
         private readonly KernelInterface             $kernel,
-        private readonly UserService                 $userService,
         private readonly ParameterBagInterface       $parameterBag,
+        private readonly UserProfileService          $userProfileService,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {}
 
@@ -57,7 +57,7 @@ class UserFixtures extends Fixture
         if ($this->kernel->getEnvironment() !== 'dev') {
             $user->setProfilePicture('emptyFileForTest.png');
         } else {
-            $this->userService->setDefaultProfilePicture($user);
+            $this->userProfileService->setDefaultProfilePicture($user);
         }
 
         return $user;

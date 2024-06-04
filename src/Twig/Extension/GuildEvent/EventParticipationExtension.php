@@ -5,14 +5,14 @@ namespace App\Twig\Extension\GuildEvent;
 use App\Entity\GuildEvent;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\InstanceTypeEnum;
-use App\Service\GuildEvent\EventAttendanceService;
+use App\Service\GuildEvent\EventAttendanceDataService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class EventParticipationExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly EventAttendanceService $eventAttendanceService,
+        private readonly EventAttendanceDataService $eventAttendanceDataService,
     ) {}
 
     /**
@@ -30,7 +30,7 @@ final class EventParticipationExtension extends AbstractExtension
 
     public function getEventPlayerCount(GuildEvent $guildEvent): int
     {
-        return $this->eventAttendanceService->getEventPlayerCount($guildEvent);
+        return $this->eventAttendanceDataService->getEventPlayerCount($guildEvent);
     }
 
     public function getEventMaxPlayerCount(GuildEvent $guildEvent): int
@@ -40,7 +40,7 @@ final class EventParticipationExtension extends AbstractExtension
 
     public function doesUserHaveAttendanceOfType(GuildEvent $guildEvent, string $attendanceType, int $userId): bool
     {
-        $attendances = $this->eventAttendanceService->getAttendanceListByType($guildEvent, AttendanceTypeEnum::from($attendanceType));
+        $attendances = $this->eventAttendanceDataService->getAttendanceListByType($guildEvent, AttendanceTypeEnum::from($attendanceType));
 
         return count(array_filter(
                 $attendances,

@@ -11,8 +11,8 @@ use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\RolesEnum;
 use App\Form\GuildEvent\AttendBackupType;
-use App\Service\GuildEvent\SlotService;
-use App\Util\GuildEvent\EventAttendanceManager;
+use App\Service\GuildEvent\EventAttendanceManager;
+use App\Service\GuildEvent\PlayerSlotManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,8 +26,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EventAttendanceController extends AbstractController
 {
     public function __construct(
-        private readonly SlotService                         $slotService,
         private readonly EntityManagerInterface              $entityManager,
+        private readonly PlayerSlotManager                   $playerSlotManager,
         private readonly EventAttendanceManager              $eventAttendanceManager,
         private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
@@ -107,7 +107,7 @@ class EventAttendanceController extends AbstractController
             && $this->isCsrfTokenValid('delete' . $eventAttendance->getId(), $request->getPayload()->get('_token'))
         ) {
             $eventAttendance->setType(AttendanceTypeEnum::UNDEFINED);
-            $this->slotService->emptyAllEventSlotsOfUser($guildEvent, $eventAttendance->getUser());
+            $this->playerSlotManager->emptyAllEventSlotsOfUser($guildEvent, $eventAttendance->getUser());
         }
 
         return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);

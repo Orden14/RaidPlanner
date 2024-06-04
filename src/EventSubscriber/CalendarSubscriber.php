@@ -7,7 +7,7 @@ use App\Entity\GuildEvent;
 use App\Enum\GuildEventStatusEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Repository\GuildEventRepository;
-use App\Service\GuildEvent\EventAttendanceService;
+use App\Service\GuildEvent\EventAttendanceDataService;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
@@ -19,7 +19,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
     public function __construct(
         private UrlGeneratorInterface               $router,
         private GuildEventRepository                $guildEventRepository,
-        private EventAttendanceService              $eventAttendanceService,
+        private EventAttendanceDataService          $eventAttendanceDataService,
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
@@ -81,7 +81,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             $event->addOption('eventId', $guildEvent->getId());
             $event->addOption('guildRaid', $guildEvent->isGuildRaid());
             $event->addOption('eventType', InstanceTypeEnum::getEventDisplayName($guildEvent->getType()));
-            $event->addOption('playerCount', $this->eventAttendanceService->getEventPlayerCount($guildEvent));
+            $event->addOption('playerCount', $this->eventAttendanceDataService->getEventPlayerCount($guildEvent));
             $event->addOption('maxSlots', InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType()));
 
             $calendar->addEvent($event);

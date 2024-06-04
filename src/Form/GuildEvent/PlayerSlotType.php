@@ -5,7 +5,7 @@ namespace App\Form\GuildEvent;
 use App\Entity\Build;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Repository\BuildRepository;
-use App\Service\BuildDisplayService;
+use App\Service\Build\BuildDisplayService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

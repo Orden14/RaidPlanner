@@ -44,7 +44,7 @@ export default class extends Controller {
                                 this.reloadPage()
                                 toastr.success('Vous avez libéré un slot')
                             },
-                            error: (jqXHR, textStatus, errorThrown) => {
+                            error: () => {
                                 this.reloadPage()
                                 toastr.error('Vous ne pouvez pas effectuer cette action')
                             }

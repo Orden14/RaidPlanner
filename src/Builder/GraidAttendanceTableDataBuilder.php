@@ -9,7 +9,7 @@ use App\Enum\AttendanceTypeEnum;
 use App\Enum\WeeklyGraidAttendanceTypeEnum;
 use App\Repository\EventAttendanceRepository;
 use App\Repository\GuildEventRepository;
-use App\Service\UserService;
+use App\Service\User\UserDataService;
 use App\Simple\GraidAttendanceTableData;
 use App\Simple\MemberWeeklyAttendance;
 use App\Util\DateHelper;
@@ -19,7 +19,7 @@ final class GraidAttendanceTableDataBuilder
     private GraidAttendanceTableData $graidAttendanceTable;
 
     public function __construct(
-        private readonly UserService               $userService,
+        private readonly UserDataService           $userDataService,
         private readonly GuildEventRepository      $guildEventRepository,
         private readonly EventAttendanceRepository $eventAttendanceRepository,
     )
@@ -32,7 +32,7 @@ final class GraidAttendanceTableDataBuilder
         $this->graidAttendanceTable->setWeeklyGuildRaids($this->guildEventRepository->findWeeklyGuildRaids());
         $this->setDates();
 
-        foreach ($this->userService->getActiveMembers() as $activeMember) {
+        foreach ($this->userDataService->getActiveMembers() as $activeMember) {
             $this->graidAttendanceTable->addMemberWeeklyAttendances($this->getMemberWeeklyAttendance($activeMember));
         }
 

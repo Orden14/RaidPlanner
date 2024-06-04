@@ -8,14 +8,14 @@ use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Interface\SlotAssignmentPermissionStepInterface;
-use App\Service\GuildEvent\EventAttendanceService;
+use App\Service\GuildEvent\EventAttendanceDataService;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CheckEventIsNotFullStep implements SlotAssignmentPermissionStepInterface
 {
     public function __construct(
-        private Security               $security,
-        private EventAttendanceService $eventAttendanceService,
+        private Security                   $security,
+        private EventAttendanceDataService $eventAttendanceDataService,
     ) {}
 
     public function check(EventBattle $eventBattle): bool
@@ -26,7 +26,7 @@ final readonly class CheckEventIsNotFullStep implements SlotAssignmentPermission
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();
 
-        return $this->eventAttendanceService->isUserAttendingAsPlayer($guildEvent, $currentUser)
-            || count($this->eventAttendanceService->getAttendanceListByType($guildEvent, AttendanceTypeEnum::PLAYER)) < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType());
+        return $this->eventAttendanceDataService->isUserAttendingAsPlayer($guildEvent, $currentUser)
+            || count($this->eventAttendanceDataService->getAttendanceListByType($guildEvent, AttendanceTypeEnum::PLAYER)) < InstanceTypeEnum::getMaxPlayersByType($guildEvent->getType());
     }
 }

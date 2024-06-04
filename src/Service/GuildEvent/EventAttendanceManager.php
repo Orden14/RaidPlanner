@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Util\GuildEvent;
+namespace App\Service\GuildEvent;
 
 use App\Checker\EventSignupPermission\EventSignupPermissionChecker;
 use App\Entity\GuildEvent;
@@ -8,14 +8,13 @@ use App\Entity\GuildEventRelation\EventAttendance;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Repository\EventAttendanceRepository;
-use App\Service\GuildEvent\SlotService;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class EventAttendanceManager
 {
     public function __construct(
-        private SlotService                  $slotService,
         private EntityManagerInterface       $entityManager,
+        private PlayerSlotManager            $playerSlotManager,
         private EventAttendanceRepository    $eventAttendanceRepository,
         private EventSignupPermissionChecker $eventSignupPermissionChecker,
     ) {}
@@ -33,7 +32,7 @@ final readonly class EventAttendanceManager
 
         if ($eventAttendance->getUser() === $user) {
             if ($attendanceType !== AttendanceTypeEnum::PLAYER && $eventAttendance->getType() === AttendanceTypeEnum::PLAYER) {
-                $this->slotService->emptyAllEventSlotsOfUser($guildEvent, $user);
+                $this->playerSlotManager->emptyAllEventSlotsOfUser($guildEvent, $user);
             }
 
             $eventAttendance->setType($attendanceType);
