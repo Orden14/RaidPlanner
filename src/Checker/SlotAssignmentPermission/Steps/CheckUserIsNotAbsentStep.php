@@ -3,6 +3,7 @@
 namespace App\Checker\SlotAssignmentPermission\Steps;
 
 use App\Entity\GuildEventRelation\EventBattle;
+use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Interface\SlotAssignmentPermissionStepInterface;
@@ -14,10 +15,13 @@ final readonly class CheckUserIsNotAbsentStep implements SlotAssignmentPermissio
         private Security $security
     ) {}
 
-    public function check(EventBattle $eventBattle): bool
+    public function check(PlayerSlot $playerSlot): bool
     {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
+
+        /** @var EventBattle $eventBattle */
+        $eventBattle = $playerSlot->getEventBattle();
 
         foreach ($eventBattle->getGuildEvent()?->getEventAttendances() as $eventAttendance) {
             if ($eventAttendance->getUser() === $currentUser) {

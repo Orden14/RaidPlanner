@@ -3,6 +3,7 @@
 namespace App\Checker\SlotAssignmentPermission;
 
 use App\Entity\GuildEventRelation\EventBattle;
+use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Interface\SlotAssignmentPermissionStepInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
@@ -14,10 +15,10 @@ final readonly class SlotAssignmentPermissionChecker
         private iterable $slotAssignmentPermissionStepInterfaces
     ) {}
 
-    public function checkIfUserCanTakeSlot(EventBattle $eventBattle): bool
+    public function checkIfUserCanTakeSlot(PlayerSlot $playerSlot): bool
     {
         foreach ($this->slotAssignmentPermissionStepInterfaces as $slotAssignementPermissionStepInterface) {
-            if (!$slotAssignementPermissionStepInterface->check($eventBattle)) {
+            if (!$slotAssignementPermissionStepInterface->check($playerSlot)) {
                 return false;
             }
         }

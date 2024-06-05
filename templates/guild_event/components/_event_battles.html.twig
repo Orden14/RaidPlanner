@@ -41,11 +41,11 @@
                                                 >
                                                     <i class="bi bi-x-lg ps-2" title="Libérer le slot"></i>
                                                 </span>
-                                            {% elseif can_user_take_slot(event_battle) %}
+                                            {% elseif can_user_take_slot(player_slot) %}
                                                 <span class="custom-link-primary text-decoration-none ge-slot-icon me-2 cursor-pointer"
                                                       title="Prendre le slot"
                                                       data-controller="guild-event--assign-battle-slot"
-                                                      data-guild-event--assign-battle-slot-url-value="{{ path('player_slot_assign', {'eventBattle': event_battle.id, 'playerSlot': player_slot.id}) }}"
+                                                      data-guild-event--assign-battle-slot-url-value="{{ path('player_slot_assign', {'playerSlot': player_slot.id}) }}"
                                                 >
                                                     <i class="bi bi-box-arrow-in-right"></i>
                                                 </span>

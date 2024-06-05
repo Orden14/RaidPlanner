@@ -45,9 +45,9 @@ final class EventPermissionExtension extends AbstractExtension
     /**
      * @throws EntityNotFoundException
      */
-    public function canUserTakeSlot(EventBattle $eventBattle): bool
+    public function canUserTakeSlot(PlayerSlot $playerSlot): bool
     {
-        return $this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle);
+        return $this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($playerSlot);
     }
 
     public function canUserManageSlot(PlayerSlot $playerSlot): bool

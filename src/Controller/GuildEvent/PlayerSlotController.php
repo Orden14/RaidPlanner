@@ -32,18 +32,21 @@ class PlayerSlotController extends AbstractController
         private readonly EventAttendanceManagementService $eventAttendanceManagementService,
     ) {}
 
-    #[Route('/battle/{eventBattle}/slot/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
-    final public function assignToSlot(Request $request, EventBattle $eventBattle, PlayerSlot $playerSlot): JsonResponse
+    #[Route('/battle/slot/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
+    final public function assignToSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
+
+        /** @var EventBattle $eventBattle */
+        $eventBattle = $playerSlot->getEventBattle();
 
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();
 
         $request->getSession()->set('eventBattleId', $eventBattle->getId());
 
-        if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($eventBattle)) {
+        if (!$this->slotAssignmentPermissionChecker->checkIfUserCanTakeSlot($playerSlot)) {
             return new JsonResponse("Vous n'êtes pas autorisé à faire cette action.", Response::HTTP_FORBIDDEN);
         }
 

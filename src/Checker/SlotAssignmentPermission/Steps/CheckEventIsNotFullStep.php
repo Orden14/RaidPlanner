@@ -4,6 +4,7 @@ namespace App\Checker\SlotAssignmentPermission\Steps;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
+use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\InstanceTypeEnum;
@@ -18,10 +19,13 @@ final readonly class CheckEventIsNotFullStep implements SlotAssignmentPermission
         private EventAttendanceDataService $eventAttendanceDataService,
     ) {}
 
-    public function check(EventBattle $eventBattle): bool
+    public function check(PlayerSlot $playerSlot): bool
     {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
+
+        /** @var EventBattle $eventBattle */
+        $eventBattle = $playerSlot->getEventBattle();
 
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();

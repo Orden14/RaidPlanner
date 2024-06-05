@@ -3,6 +3,8 @@
 namespace App\Checker\SlotAssignmentPermission\Steps;
 
 use App\Entity\GuildEventRelation\EventBattle;
+use App\Entity\GuildEventRelation\PlayerSlot;
+use App\Entity\User;
 use App\Interface\SlotAssignmentPermissionStepInterface;
 use App\Repository\PlayerSlotRepository;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -14,12 +16,15 @@ final readonly class CheckUserHasNoSlotStep implements SlotAssignmentPermissionS
         private PlayerSlotRepository $playerSlotRepository,
     ) {}
 
-    public function check(EventBattle $eventBattle): bool
+    public function check(PlayerSlot $playerSlot): bool
     {
-        $playerSlots = $this->playerSlotRepository->findBy(['eventBattle' => $eventBattle]);
+        $playerSlots = $this->playerSlotRepository->findBy(['eventBattle' => $playerSlot->getEventBattle()]);
+
+        /** @var User $currentUser */
+        $currentUser = $this->security->getUser();
 
         foreach ($playerSlots as $slot) {
-            if ($slot->getPlayer() === $this->security->getUser()) {
+            if ($slot->getPlayer() === $currentUser) {
                 return false;
             }
         }
