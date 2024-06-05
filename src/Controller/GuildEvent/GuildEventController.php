@@ -96,7 +96,7 @@ class GuildEventController extends AbstractController
             }
 
             $this->entityManager->persist($guildEvent);
-            $this->entityManager->persist($this->eventAttendanceFactory->generateEventAttendanceForNewEvent($guildEvent));
+            $this->entityManager->persist($this->eventAttendanceFactory->generateOwnerAttendanceForGuildEvent($guildEvent));
             $this->entityManager->flush();
 
             $this->addFlash(

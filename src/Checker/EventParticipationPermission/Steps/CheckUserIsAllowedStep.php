@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Enum\RolesEnum;
 use App\Interface\EventParticipationPermissionStepInterface;
 use App\Repository\EventAttendanceRepository;
+use Override;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CheckUserIsAllowedStep implements EventParticipationPermissionStepInterface
@@ -16,6 +17,7 @@ final readonly class CheckUserIsAllowedStep implements EventParticipationPermiss
         private EventAttendanceRepository $eventAttendanceRepository
     ) {}
 
+    #[Override]
     public function check(GuildEvent $guildEvent): bool
     {
         /** @var User $currentUser */

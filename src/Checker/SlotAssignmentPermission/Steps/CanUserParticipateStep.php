@@ -6,6 +6,7 @@ use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Interface\SlotAssignmentPermissionStepInterface;
+use Override;
 
 final readonly class CanUserParticipateStep implements SlotAssignmentPermissionStepInterface
 {
@@ -13,6 +14,7 @@ final readonly class CanUserParticipateStep implements SlotAssignmentPermissionS
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
     ) {}
 
+    #[Override]
     public function check(EventBattle $eventBattle): bool
     {
         /** @var GuildEvent $guildEvent */
