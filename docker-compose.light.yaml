@@ -15,7 +15,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin_raidplanner
-    restart: no
+    restart: 'no'
     depends_on:
       - db
     ports:
