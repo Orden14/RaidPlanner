@@ -30,10 +30,10 @@ abstract class EntityTest extends Unit implements EntityTestInterface
     final public function testFalseEntity(): void
     {
         $entityName = $this->_generateEntity()::class;
-        $this->assertCountErrors($this->_expectedCountAssertionErrors(), new $entityName());
+        $this->assertErrorCount($this->_expectedCountAssertionErrors(), new $entityName());
     }
 
-    final public function assertCountErrors(int $expected, mixed $entity): void
+    final public function assertErrorCount(int $expected, mixed $entity): void
     {
         $this->tester->assertCount($expected, $this->tester->grabValidator()->validate($entity));
     }

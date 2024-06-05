@@ -6,6 +6,7 @@ use App\Checker\EventManagementPermission\EventManagementPermissionChecker;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Interface\SlotManagementPermissionStepInterface;
+use Override;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CanUserManageSlotStep implements SlotManagementPermissionStepInterface
@@ -15,6 +16,7 @@ final readonly class CanUserManageSlotStep implements SlotManagementPermissionSt
         private EventManagementPermissionChecker $eventManagementPermissionChecker,
     ) {}
 
+    #[Override]
     public function check(PlayerSlot $playerSlot): bool
     {
         /** @var User $currentUser */

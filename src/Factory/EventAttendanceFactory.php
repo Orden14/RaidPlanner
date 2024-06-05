@@ -14,7 +14,7 @@ final readonly class EventAttendanceFactory
         private Security $security
     ) {}
 
-    public function generateEventAttendanceForNewEvent(GuildEvent $guildEvent): EventAttendance
+    public function generateOwnerAttendanceForGuildEvent(GuildEvent $guildEvent): EventAttendance
     {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();

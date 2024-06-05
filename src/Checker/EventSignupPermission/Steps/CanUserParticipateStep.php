@@ -5,6 +5,7 @@ namespace App\Checker\EventSignupPermission\Steps;
 use App\Checker\EventParticipationPermission\EventParticipationPermissionChecker;
 use App\Entity\GuildEvent;
 use App\Interface\EventAttendancePermissionStepInterface;
+use Override;
 
 final readonly class CanUserParticipateStep implements EventAttendancePermissionStepInterface
 {
@@ -12,6 +13,7 @@ final readonly class CanUserParticipateStep implements EventAttendancePermission
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker
     ) {}
 
+    #[Override]
     public function check(GuildEvent $guildEvent): bool
     {
         return $this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent);
