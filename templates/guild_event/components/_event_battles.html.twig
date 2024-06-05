@@ -3,7 +3,6 @@
 <div class="accordion mt-4 mb-2" id="eventBattlesAccordion">
     {% for event_battle in event_battles %}
         {% set opened_event_battle = opened_event_battle_id is null ? loop.first : opened_event_battle_id == event_battle.id %}
-        {% set can_user_signup = can_user_take_slot(event_battle) %}
         {% set invalid_slots = 0 %}
 
         <div class="accordion-item">

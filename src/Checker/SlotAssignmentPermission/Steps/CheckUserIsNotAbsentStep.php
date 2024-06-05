@@ -7,6 +7,7 @@ use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
 use App\Interface\SlotAssignmentPermissionStepInterface;
+use Override;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CheckUserIsNotAbsentStep implements SlotAssignmentPermissionStepInterface
@@ -15,6 +16,7 @@ final readonly class CheckUserIsNotAbsentStep implements SlotAssignmentPermissio
         private Security $security
     ) {}
 
+    #[Override]
     public function check(PlayerSlot $playerSlot): bool
     {
         /** @var User $currentUser */

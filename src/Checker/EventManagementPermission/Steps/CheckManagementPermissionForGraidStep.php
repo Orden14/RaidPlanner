@@ -5,6 +5,7 @@ namespace App\Checker\EventManagementPermission\Steps;
 use App\Entity\GuildEvent;
 use App\Enum\RolesEnum;
 use App\Interface\EventManagementPermissionStepInterface;
+use Override;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CheckManagementPermissionForGraidStep implements EventManagementPermissionStepInterface
@@ -13,6 +14,7 @@ final readonly class CheckManagementPermissionForGraidStep implements EventManag
         private Security $security,
     ) {}
 
+    #[Override]
     public function check(GuildEvent $guildEvent): bool
     {
         return !$guildEvent->isGuildRaid() || $this->security->isGranted(RolesEnum::ADMIN->value);

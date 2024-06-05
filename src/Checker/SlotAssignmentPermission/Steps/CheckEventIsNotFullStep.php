@@ -10,6 +10,7 @@ use App\Enum\AttendanceTypeEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Interface\SlotAssignmentPermissionStepInterface;
 use App\Service\GuildEvent\EventAttendanceDataService;
+use Override;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class CheckEventIsNotFullStep implements SlotAssignmentPermissionStepInterface
@@ -19,6 +20,7 @@ final readonly class CheckEventIsNotFullStep implements SlotAssignmentPermission
         private EventAttendanceDataService $eventAttendanceDataService,
     ) {}
 
+    #[Override]
     public function check(PlayerSlot $playerSlot): bool
     {
         /** @var User $currentUser */
