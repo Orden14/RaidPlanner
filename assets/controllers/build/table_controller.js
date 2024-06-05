@@ -17,9 +17,9 @@ export default class extends Controller {
             columnDefs: [
                 {width: '1%', targets: 0, className: 'min-mobile-p'},
                 {width: '27%', targets: 1, orderable: false, className: 'min-mobile-p'},
-                {width: '10%', targets: 2, className: 'min-mobile-p'},
-                {width: '1%', targets: 3, orderable: false, className: 'min-mobile-p'},
-                {width: '10%', targets: 4, type: 'datetime', className: 'min-mobile-p'},
+                {width: '10%', targets: 2, className: 'min-tablet-l'},
+                {width: '1%', targets: 3, orderable: false, className: 'min-tablet-l'},
+                {width: '10%', targets: 4, type: 'datetime', className: 'min-tablet-l'},
                 {width: '5%', targets: 5, orderable: false, className: 'min-tablet-l'},
                 {width: '5%', targets: 6, orderable: false, className: 'min-tablet-l'},
                 {width: '5%', targets: 7, orderable: false, className: 'min-tablet-l'},
