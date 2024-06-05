@@ -21,7 +21,6 @@ services:
   db:
     image: yobasystems/alpine-mariadb:10.11.6
     container_name: db_raidplanner
-    restart: no
     volumes:
       - db-data:/var/lib/mysql
     environment:
@@ -34,7 +33,6 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin_raidplanner
-    restart: no
     depends_on:
       - db
     ports:

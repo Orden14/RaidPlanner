@@ -13,15 +13,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserTest extends EntityTest
 {
     private UserPasswordHasherInterface $userPasswordHasher;
-    private EventAttendance $eventAttendance;
-    private PlayerSlot $playerSlot;
 
 
     public function _before(): void
     {
         $this->userPasswordHasher = $this->tester->grabService(UserPasswordHasherInterface::class);
-        $this->eventAttendance = $this->tester->grabEntityFromRepository(EventAttendance::class, ['id' => 1]);
-        $this->playerSlot = $this->tester->grabEntityFromRepository(PlayerSlot::class, ['id' => 1]);
     }
 
     /**
@@ -36,9 +32,7 @@ final class UserTest extends EntityTest
             ->setProfilePicture('profilepicture.jpg')
             ->setRole(RolesEnum::MEMBER)
             ->setPassword($this->userPasswordHasher->hashPassword($user, 'testPassword123'))
-            ->setJoinedAt((new DateTime())->setTime(23, 59, 59))
-            ->addEventAttendance($this->eventAttendance)
-            ->addPlayerSlot($this->playerSlot);
+            ->setJoinedAt((new DateTime())->setTime(23, 59, 59));
 
         return $user;
     }
@@ -62,8 +56,7 @@ final class UserTest extends EntityTest
     #[Override]
     public function _testRelationalPropertiesOf(mixed $generatedEntity): void
     {
-        $this->tester->assertContains($this->eventAttendance, $generatedEntity->getEventAttendances());
-        $this->tester->assertContains($this->playerSlot, $generatedEntity->getPlayerSlots());
+        // No relational properties to test
     }
 
     #[Override]

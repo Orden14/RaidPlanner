@@ -20,8 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: ['username'], message: "Un compte possède déjà ce nom d'utilisateur.")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use UserGuildEventPropertiesTrait;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -58,8 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->playerSlots = new ArrayCollection();
-        $this->eventAttendances = new ArrayCollection();
         $this->joinedAt = new DateTime();
     }
 
