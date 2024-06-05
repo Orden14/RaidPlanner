@@ -22,7 +22,7 @@ class PlayerSlot
     #[ORM\ManyToOne(inversedBy: 'playerSlots')]
     private ?User $player = null;
 
-    #[ORM\ManyToOne(inversedBy: 'playerSlots')]
+    #[ORM\ManyToOne]
     private ?Build $build = null;
 
     #[ORM\Column]
