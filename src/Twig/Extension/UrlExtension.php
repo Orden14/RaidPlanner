@@ -2,6 +2,7 @@
 
 namespace App\Twig\Extension;
 
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -10,6 +11,7 @@ final class UrlExtension extends AbstractExtension
     /**
      * @return TwigFilter[]
      */
+    #[Override]
     public function getFilters(): array
     {
         return [

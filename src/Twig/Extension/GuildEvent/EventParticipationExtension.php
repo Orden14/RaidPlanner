@@ -6,6 +6,7 @@ use App\Entity\GuildEvent;
 use App\Enum\AttendanceTypeEnum;
 use App\Enum\InstanceTypeEnum;
 use App\Service\GuildEvent\EventAttendanceDataService;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -18,6 +19,7 @@ final class EventParticipationExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
+    #[Override]
     public function getFunctions(): array
     {
         return [

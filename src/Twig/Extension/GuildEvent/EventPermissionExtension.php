@@ -10,6 +10,7 @@ use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use Doctrine\ORM\EntityNotFoundException;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -25,6 +26,7 @@ final class EventPermissionExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
+    #[Override]
     public function getFunctions(): array
     {
         return [

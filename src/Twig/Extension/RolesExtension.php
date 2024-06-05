@@ -3,6 +3,7 @@
 namespace App\Twig\Extension;
 
 use App\Enum\RolesEnum;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -11,6 +12,7 @@ final class RolesExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
+    #[Override]
     public function getFunctions(): array
     {
         return [

@@ -3,6 +3,7 @@
 namespace App\Twig\Extension\GuildEvent;
 
 use App\Enum\WeeklyGraidAttendanceTypeEnum;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -11,6 +12,7 @@ final class GraidAttendanceTableExtension extends AbstractExtension
     /**
      * @return TwigFunction[]
      */
+    #[Override]
     public function getFunctions(): array
     {
         return [
