@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\UserGuildEventPropertiesTrait;
 use App\Enum\RolesEnum;
 use App\Repository\UserRepository;
 use DateTime;
 use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
