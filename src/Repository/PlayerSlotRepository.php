@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\GuildEvent;
 use App\Entity\GuildEventRelation\PlayerSlot;
+use App\Entity\Specialization;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,6 +35,20 @@ final class PlayerSlotRepository extends ServiceEntityRepository
             ->andWhere('ps.player = :user')
             ->setParameter('guildEvent', $guildEvent)
             ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return PlayerSlot[]
+     */
+    public function findSlotsBySpecialization(Specialization $specialization): array
+    {
+        return $this->createQueryBuilder('ps')
+            ->join('ps.build', 'b')
+            ->join('b.specialization', 's')
+            ->where('s = :specialization')
+            ->setParameter('specialization', $specialization)
             ->getQuery()
             ->getResult();
     }
