@@ -1,4 +1,5 @@
 import {Controller} from '@hotwired/stimulus'
+import {confirm} from "../../javascript/components/confirm_modal"
 
 export default class extends Controller {
     confirmRemove(event) {
@@ -13,24 +14,6 @@ export default class extends Controller {
             message = 'Êtes-vous sûr de vouloir retirer ' + slotUsername + ' de la liste des joueurs ?'
         }
 
-        $.confirm({
-            icon: 'bi bi-exclamation-triangle-fill',
-            theme: 'supervan',
-            title: 'Enlever un joueur',
-            content: message,
-            type: 'red',
-            typeAnimated: true,
-            buttons: {
-                confirm: {
-                    text: 'Confirmer',
-                    action: () => {
-                        $(this.element).trigger('submit')
-                    }
-                },
-                cancel: {
-                    text: 'Annuler'
-                }
-            }
-        })
+        confirm(this.element, 'Attention !', message)
     }
 }

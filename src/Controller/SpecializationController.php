@@ -7,6 +7,7 @@ use App\Entity\Specialization;
 use App\Enum\RolesEnum;
 use App\Form\SpecializationType;
 use App\Repository\SpecializationRepository;
+use App\Service\Specialization\SpecializationDeletionService;
 use App\Util\File\FileManager;
 use App\Util\Form\FormFlashHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,10 +26,11 @@ class SpecializationController extends AbstractController
     private const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
 
     public function __construct(
-        private readonly FileManager              $fileManager,
-        private readonly EntityManagerInterface   $entityManager,
-        private readonly FormFlashHelper          $formFlashHelper,
-        private readonly SpecializationRepository $specializationRepository,
+        private readonly FileManager                   $fileManager,
+        private readonly EntityManagerInterface        $entityManager,
+        private readonly FormFlashHelper               $formFlashHelper,
+        private readonly SpecializationRepository      $specializationRepository,
+        private readonly SpecializationDeletionService $specializationDeletionService,
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
@@ -140,6 +142,7 @@ class SpecializationController extends AbstractController
             if ($specialization->getIcon()) {
                 $this->fileManager->removeFile($specialization->getIcon(), $this->getParameter('icon_directory'));
             }
+            $this->specializationDeletionService->unlinkPlayerSlots($specialization);
 
             $this->entityManager->remove($specialization);
             $this->entityManager->flush();
