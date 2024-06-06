@@ -2,7 +2,6 @@
 
 namespace App\Checker\SlotAssignmentPermission\Steps;
 
-use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Interface\SlotAssignmentPermissionStepInterface;

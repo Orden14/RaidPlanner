@@ -7,7 +7,6 @@ use App\Checker\EventSignupPermission\EventSignupPermissionChecker;
 use App\Checker\SlotAssignmentPermission\SlotAssignmentPermissionChecker;
 use App\Checker\SlotManagementPermission\SlotManagementPermissionChecker;
 use App\Entity\GuildEvent;
-use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use Doctrine\ORM\EntityNotFoundException;
 use Override;

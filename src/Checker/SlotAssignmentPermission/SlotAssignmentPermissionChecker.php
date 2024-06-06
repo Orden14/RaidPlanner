@@ -2,7 +2,6 @@
 
 namespace App\Checker\SlotAssignmentPermission;
 
-use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Interface\SlotAssignmentPermissionStepInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
