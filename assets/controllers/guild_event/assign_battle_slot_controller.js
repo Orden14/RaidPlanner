@@ -21,11 +21,11 @@ export default class extends Controller {
             url: url,
             method: 'GET',
             success: () => {
-                // this.reloadPage()
+                this.reloadPage()
                 toastr.success('Slot assigné')
             },
             error: () => {
-                // this.reloadPage()
+                this.reloadPage()
                 toastr.error('Vous ne pouvez pas effectuer cette action')
             }
         })
