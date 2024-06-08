@@ -86,7 +86,9 @@ class BuildController extends AbstractController
 
         return $this->render('build/index.html.twig', [
             'form' => $form->createView(),
+            'categories' => $this->buildCategoryRepository->findAll(),
             'builds' => $this->buildRepository->findByDefault(),
+            'specializations' => $this->specializationRepository->findAllOrderedByJob(false),
         ]);
     }
 
