@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::OLD_MEMBER->value)]
-#[Route('/guild-event/player-slot', name: 'player_slot_')]
+#[Route('/player-slot', name: 'player_slot_')]
 class PlayerSlotController extends AbstractController
 {
     public function __construct(
@@ -32,7 +32,7 @@ class PlayerSlotController extends AbstractController
         private readonly EventAttendanceManagementService $eventAttendanceManagementService,
     ) {}
 
-    #[Route('/battle/slot/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
+    #[Route('/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
     final public function assignToSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
@@ -60,8 +60,8 @@ class PlayerSlotController extends AbstractController
         return new JsonResponse('Slot assigné.', Response::HTTP_OK);
     }
 
-    #[Route('/slot/free/{playerSlot}', name: 'free', methods: ['GET'])]
-    final public function freeSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
+    #[Route('/unassign/{playerSlot}', name: 'unassign', methods: ['GET'])]
+    final public function unassignSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
         $request->getSession()->set('eventBattleId', $playerSlot->getEventBattle()?->getId());
 
