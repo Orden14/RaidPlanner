@@ -37,7 +37,7 @@ Among all the generated users, there are default users available for easier test
 - old_member
 - guest
 
-#### Custom commands related to tests :
+#### Commands related to tests :
 - vendor/bin/codecept build (runs the build command for Codeception)
 - yarn test
 
