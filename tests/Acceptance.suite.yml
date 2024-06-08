@@ -23,7 +23,7 @@ modules:
               capabilities:
                   acceptInsecureCerts: true
                   moz:firefoxOptions:
-#                      args: ["-headless"]
+                      args: ["-headless"]
 #                      binary: "path/to/your/firefox.exe" # Uncomment this line and fix the path if geckodriver is not starting properly
         - App\Tests\Support\Helper\Acceptance\AcceptanceHelper:
               app_path: 'src'
