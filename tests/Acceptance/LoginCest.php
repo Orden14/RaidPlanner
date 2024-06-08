@@ -15,7 +15,7 @@ final readonly class LoginCest
     public function testLoginWithInvalidCredentials(AcceptanceTester $I): void
     {
         $I->loginAs('invalidAccount');
-        $I->seeCurrentUrlEquals('/login');
+        $I->seeCurrentUrlEquals('/loginiugyhjgghjkkgjh');
         $I->seeElement('.alert.alert-danger');
     }
 }
