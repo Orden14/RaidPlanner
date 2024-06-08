@@ -7,7 +7,7 @@
             <a href="{{ path('guild_event_toggle_status', {'id': guild_event.id}) }}" class="btn btn-warning me-1" title="Annuler l'évènement"><i class="bi bi-ban h5"></i></a>
         {% endif %}
         {% if is_granted("ROLE_ADMIN") %}
-            <form id="delete{{ guild_event.id }}" method="post" action="{{ path('guild_event_delete', {'id': guild_event.id}) }}" data-controller="confirm">
+            <form id="delete{{ guild_event.id }}" name="delete" method="post" action="{{ path('guild_event_delete', {'id': guild_event.id}) }}" data-controller="confirm">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ guild_event.id) }}">
                 <a type="button" class="btn btn-danger" id="{{ guild_event.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
                     <i class="bi bi-trash h5"></i>
