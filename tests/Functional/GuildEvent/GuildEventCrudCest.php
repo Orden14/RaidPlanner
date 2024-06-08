@@ -8,7 +8,7 @@ use App\Tests\Support\FunctionalTester;
 use Codeception\Attribute\Depends;
 use DateTime;
 
-final class GuildEventManagementCest
+final class GuildEventCrudCest
 {
     private GuildEvent $guildEvent;
 
@@ -22,7 +22,7 @@ final class GuildEventManagementCest
         $I->logout();
     }
 
-    public function testGuildEventManagement(FunctionalTester $I): void
+    public function testGuildEventCrud(FunctionalTester $I): void
     {
         $this->_testCreation($I);
         $this->_testEdition($I);

@@ -55,7 +55,7 @@
                     {% endif %}
                     <div class="float-end">
                         {% if is_granted("ROLE_ADMIN") %}
-                            <form id="delete{{ build.id }}" method="post" action="{{ path('build_delete', {'id': build.id}) }}" data-controller="confirm">
+                            <form id="delete{{ build.id }}" name="delete" method="post" action="{{ path('build_delete', {'id': build.id}) }}" data-controller="confirm">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ build.id) }}">
                                 <a type="button" class="btn btn-danger" id="{{ build.id }}" data-action="confirm#confirmDeletion" title="Supprimer" data-bs-toggle="tooltip">
                                     <i class="bi bi-trash h5"></i>
