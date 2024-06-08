@@ -37,10 +37,6 @@ Among all the generated users, there are default users available for easier test
 - old_member
 - guest
 
-## Test using Codeception
-This app uses Codeception for acceptance, functional and unit tests.
-The Webdriver currently set up in the project is for windows x64. If you are using another OS, remove geckodriver.exe in the root directory of the project and use the corresponding geckodriver from https://github.com/mozilla/geckodriver/releases.
-
 ###### Custom commands related to tests :
 - vendor/bin/codecept build (runs the build command for Codeception)
 - yarn test (executes all tests)

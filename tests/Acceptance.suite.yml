@@ -13,9 +13,10 @@ modules:
         - Doctrine:
               depends: Symfony
               purge_mode: 1
+              cleanup: false
         - WebDriver:
               browser: firefox
-              url: "http://localhost:%CODECEPTION_PORT%"
+              url: "http://localhost:8044"
               window_size: 1680x1050
               path: ""
               wait: 10
@@ -24,6 +25,11 @@ modules:
                   moz:firefoxOptions:
                       args: ["-headless"]
 #                      binary: "path/to/your/firefox.exe" # Uncomment this line and fix the path if geckodriver is not starting properly
+        - App\Tests\Support\Helper\Acceptance\AcceptanceHelper:
+              app_path: 'src'
+              environment: 'test'
+
+
 extensions:
     enabled:
         - Codeception\Extension\RunProcess:

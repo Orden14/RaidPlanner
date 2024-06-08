@@ -125,7 +125,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
                     $eventSlot->setTank(true);
                 }
 
-                if ($i <= count($participants) - 1) {
+                if ($i < count($participants) - 1) {
                     $eventSlot->setPlayer($participants[$i]);
                 }
 
