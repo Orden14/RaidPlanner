@@ -39,8 +39,7 @@ Among all the generated users, there are default users available for easier test
 
 ###### Custom commands related to tests :
 - vendor/bin/codecept build (runs the build command for Codeception)
-- yarn test (executes all tests)
-- yarn test Acceptance/Functional/Unit (executes a specific test suite)
+- yarn test
 
 #### Gitlab Action
 The project is set up with a Gitlab Action that runs the tests on every merge requests to the main branch.  
