@@ -8,7 +8,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading{{ event_battle.id }}">
                 <button class="accordion-button {{ opened_event_battle ? '' : 'collapsed' }} p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ event_battle.id }}" aria-expanded="{{ opened_event_battle ? 'true' : 'false' }}" aria-controls="collapse{{ event_battle.id }}">
-                    <span class="h4 p-1 m-0">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }}</span>
+                    <span class="h4 p-1 m-0" data-battle-id="{{ event_battle.id }}">{{ event_battle.encounter.instance.tag }} - {{ event_battle.encounter.name }}</span>
                 </button>
             </h2>
             <div id="collapse{{ event_battle.id }}" class="accordion-collapse collapse {{ opened_event_battle ? 'show' : '' }}" aria-labelledby="heading{{ event_battle.id }}" data-bs-parent="#eventBattlesAccordion">
@@ -29,7 +29,7 @@
                         {% for player_slot in event_battle.playerSlots %}
                             {% if player_slot.build %}
                                 <li class="list-group-item text-nowrap">
-                                    <div class="row">
+                                    <div class="row" data-slot-id="{{ player_slot.id }}">
                                         <div class="col ge-vertical-center">
                                             {% if can_user_manage_slot(player_slot) and player_slot.player is not null %}
                                                 <span class="link-danger text-decoration-none ge-slot-icon me-2 cursor-pointer"

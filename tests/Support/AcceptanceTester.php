@@ -31,11 +31,17 @@ final class AcceptanceTester extends Actor
         $this->amOnPage('/login');
         $this->fillField('username', $username);
         $this->fillField('password', $username);
-        $this->click('Connexion');
+        $this->click('#login-button');
     }
 
     public function logout(): void
     {
         $this->amOnPage('/logout');
+    }
+
+    public function timedScrollTo(string $selector, bool $longScroll = false): void
+    {
+        $this->scrollTo($selector);
+        $this->wait($longScroll ? 2 : 1);
     }
 }

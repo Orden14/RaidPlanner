@@ -10,7 +10,7 @@
                     <h4>Connexion</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form method="post" id="login-form">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
@@ -34,7 +34,7 @@
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                         <div class="text-center">
-                            <button class="btn btn-primary btn-block mt-2" type="submit">Connexion</button>
+                            <button class="btn btn-primary btn-block mt-2" type="submit" id="login-button">Connexion</button>
                         </div>
                     </form>
                 </div>

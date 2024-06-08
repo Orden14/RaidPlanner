@@ -16,8 +16,8 @@ final readonly class SlotAssignmentPermissionChecker
 
     public function checkIfUserCanTakeSlot(PlayerSlot $playerSlot): bool
     {
-        foreach ($this->slotAssignmentPermissionStepInterfaces as $slotAssignementPermissionStepInterface) {
-            if (!$slotAssignementPermissionStepInterface->check($playerSlot)) {
+        foreach ($this->slotAssignmentPermissionStepInterfaces as $slotAssignmentPermissionStepInterface) {
+            if (!$slotAssignmentPermissionStepInterface->check($playerSlot)) {
                 return false;
             }
         }
