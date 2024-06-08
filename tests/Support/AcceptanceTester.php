@@ -42,6 +42,6 @@ final class AcceptanceTester extends Actor
     public function timedScrollTo(string $selector, bool $longScroll = false): void
     {
         $this->scrollTo($selector);
-        $this->wait($longScroll ? 2 : 1);
+        $this->wait($longScroll ? 2 : 0.5);
     }
 }

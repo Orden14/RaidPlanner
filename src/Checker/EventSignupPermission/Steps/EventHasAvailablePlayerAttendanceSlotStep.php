@@ -9,7 +9,7 @@ use App\Interface\EventAttendancePermissionStepInterface;
 use App\Repository\EventAttendanceRepository;
 use Override;
 
-final readonly class EventHasFreePlayerAttendanceSlotStep implements EventAttendancePermissionStepInterface
+final readonly class EventHasAvailablePlayerAttendanceSlotStep implements EventAttendancePermissionStepInterface
 {
     public function __construct(
         private EventAttendanceRepository $eventAttendanceRepository

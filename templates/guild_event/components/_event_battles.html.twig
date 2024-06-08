@@ -33,8 +33,8 @@
                                         <div class="col ge-vertical-center">
                                             {% if can_user_manage_slot(player_slot) and player_slot.player is not null %}
                                                 <span class="link-danger text-decoration-none ge-slot-icon me-2 cursor-pointer"
-                                                   data-controller="guild-event--confirm-free-slot"
-                                                   data-guild-event--confirm-free-slot-url-value="{{ path('player_slot_free', {'playerSlot': player_slot.id}) }}"
+                                                   data-controller="guild-event--confirm-unassign-slot"
+                                                   data-guild-event--confirm-unassign-slot-url-value="{{ path('player_slot_unassign', {'playerSlot': player_slot.id}) }}"
                                                    data-current-user="{{ app.user.username }}"
                                                    data-slot-user="{{ player_slot.player.username }}"
                                                 >
