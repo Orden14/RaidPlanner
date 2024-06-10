@@ -35,6 +35,6 @@ class HomeController extends AbstractController
     #[Route('/privacy', name: 'app_privacy', methods: ['GET'])]
     final public function privacy(): Response
     {
-        return $this->render('privacy/privacy_policy.html.twig');
+        return $this->render('privacy/privacy.html.twig');
     }
 }
