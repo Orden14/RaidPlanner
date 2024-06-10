@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[isGranted(RolesEnum::GUEST->value)]
 class HomeController extends AbstractController
 {
+    #[isGranted(RolesEnum::OLD_MEMBER->value)]
     #[Route('/', name: 'app_home', methods: ['GET'])]
     final public function index(): Response
     {
@@ -21,6 +21,7 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('calendar_index');
     }
 
+    #[isGranted(RolesEnum::GUEST->value)]
     #[Route('/guest', name: 'app_guest', methods: ['GET'])]
     final public function guestPage(): Response
     {
@@ -29,5 +30,11 @@ class HomeController extends AbstractController
         }
 
         return $this->render('home/guest_page.html.twig');
+    }
+
+    #[Route('/privacy', name: 'app_privacy', methods: ['GET'])]
+    final public function privacy(): Response
+    {
+        return $this->render('privacy/privacy_policy.html.twig');
     }
 }
