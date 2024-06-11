@@ -5,11 +5,13 @@ namespace App\Tests\Unit\Entity;
 use App\Tests\Support\UnitTester;
 use App\Tests\Unit\Entity\Interface\EntityTestInterface;
 use Codeception\Test\Unit;
+use Override;
 
 abstract class EntityTest extends Unit implements EntityTestInterface
 {
     protected UnitTester $tester;
 
+    #[Override]
     final public function testPersistEntity(): void
     {
         $entity = $this->_generateEntity();
@@ -20,6 +22,7 @@ abstract class EntityTest extends Unit implements EntityTestInterface
         $this->tester->seeInRepository($entity::class, ['id' => $entity->getId()]);
     }
 
+    #[Override]
     final public function testRightEntity(): void
     {
         $generatedEntity = $this->_generateEntity();
@@ -27,13 +30,14 @@ abstract class EntityTest extends Unit implements EntityTestInterface
         $this->_testRelationalPropertiesOf($generatedEntity);
     }
 
+    #[Override]
     final public function testFalseEntity(): void
     {
         $entityName = $this->_generateEntity()::class;
-        $this->assertErrorCount($this->_expectedCountAssertionErrors(), new $entityName());
+        $this->assertErrorCount($this->_expectedAssertionsErrorCount(), new $entityName());
     }
 
-    final public function assertErrorCount(int $expected, mixed $entity): void
+    private function assertErrorCount(int $expected, mixed $entity): void
     {
         $this->tester->assertCount($expected, $this->tester->grabValidator()->validate($entity));
     }

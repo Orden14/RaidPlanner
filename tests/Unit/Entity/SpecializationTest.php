@@ -27,7 +27,7 @@ final class SpecializationTest extends EntityTest
     {
         return (new Specialization())
             ->setName('testSpecialization')
-            ->setIcon('testIcon')
+            ->setIcon('testIcon.png')
             ->setJob($this->job)
             ->addBuild($this->build);
     }
@@ -39,7 +39,7 @@ final class SpecializationTest extends EntityTest
     public function _testBasicPropertiesOf(mixed $generatedEntity): void
     {
         $this->tester->assertSame('testSpecialization', $generatedEntity->getName());
-        $this->tester->assertSame('testIcon', $generatedEntity->getIcon());
+        $this->tester->assertSame('testIcon.png', $generatedEntity->getIcon());
     }
 
     /**
@@ -53,7 +53,7 @@ final class SpecializationTest extends EntityTest
     }
 
     #[Override]
-    public function _expectedCountAssertionErrors(): int
+    public function _expectedAssertionsErrorCount(): int
     {
         return 2;
     }

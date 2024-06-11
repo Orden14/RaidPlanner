@@ -10,6 +10,5 @@ interface EntityTestInterface
     public function _generateEntity(): object;
     public function _testBasicPropertiesOf(mixed $generatedEntity): void;
     public function _testRelationalPropertiesOf(mixed $generatedEntity): void;
-    public function _expectedCountAssertionErrors(): int;
-
+    public function _expectedAssertionsErrorCount(): int;
 }

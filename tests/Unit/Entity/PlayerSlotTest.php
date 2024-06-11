@@ -55,7 +55,7 @@ final class PlayerSlotTest extends EntityTest
     }
 
     #[Override]
-    public function _expectedCountAssertionErrors(): int
+    public function _expectedAssertionsErrorCount(): int
     {
         return 0;
     }
