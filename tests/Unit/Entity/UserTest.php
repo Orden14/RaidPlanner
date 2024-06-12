@@ -60,7 +60,7 @@ final class UserTest extends EntityTest
     }
 
     #[Override]
-    public function _expectedCountAssertionErrors(): int
+    public function _expectedAssertionsErrorCount(): int
     {
         return 1;
     }

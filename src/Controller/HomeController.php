@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
-    #[isGranted(RolesEnum::OLD_MEMBER->value)]
+    #[isGranted(RolesEnum::GUEST->value)]
     #[Route('/', name: 'app_home', methods: ['GET'])]
     final public function index(): Response
     {
