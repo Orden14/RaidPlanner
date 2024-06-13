@@ -26,7 +26,7 @@ class PlayerSlotController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface           $entityManager,
-        private readonly EventAttendanceDataService       $eventAttendanceService,
+        private readonly EventAttendanceDataService       $eventAttendanceDataService,
         private readonly SlotAssignmentPermissionChecker  $slotAssignmentPermissionChecker,
         private readonly SlotManagementPermissionChecker  $slotManagementPermissionChecker,
         private readonly EventAttendanceManagementService $eventAttendanceManagementService,
@@ -50,7 +50,7 @@ class PlayerSlotController extends AbstractController
             return new JsonResponse("Vous n'êtes pas autorisé à faire cette action.", Response::HTTP_FORBIDDEN);
         }
 
-        if (!$this->eventAttendanceService->isUserAttendingAsPlayer($guildEvent, $currentUser)) {
+        if (!$this->eventAttendanceDataService->isUserAttendingAsPlayer($guildEvent, $currentUser)) {
             $this->eventAttendanceManagementService->setEventAttendanceForUser($currentUser, $guildEvent, AttendanceTypeEnum::PLAYER);
         }
 
