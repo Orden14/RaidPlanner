@@ -69,6 +69,7 @@ exclude:
   - name: MethodVisibilityInspection
     paths:
       - src\Command\DeleteOldLogsCommand.php
+      - src\Command\ResetPasswordCommand.php
   - name: JSFileReferences
     paths:
       - assets\controllers\datetime_picker_controller.js
