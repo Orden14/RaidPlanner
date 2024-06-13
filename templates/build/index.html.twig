@@ -76,7 +76,7 @@
             {% for build in builds %}
                 <tr class="position-relative">
                     <td>
-                        <a href="{{ path('build_show', {'id': build.id}) }}"><span class="position-absolute" style="width: 97%; height: 100%"></span></a>
+                        <a href="{{ path('build_show', {'id': build.id}) }}"><span class="full-row-link"></span></a>
                         <div class="d-inline-flex float-end">
                             <img src="{{ asset('/icon/' ~ build.specialization.icon) }}" alt="{{ build.specialization.name }} icon" title="{{ build.specialization.name }}" class="small-icon">
                             <span style="display: none">{{ build.specialization.name }}</span>
