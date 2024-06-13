@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Enum\RolesEnum;
+use App\Exception\CustomAuthenticationException;
 use App\Form\Security\ChangePasswordType;
 use App\Form\Security\RegistrationType;
 use App\Security\AppAuthenticator;
@@ -18,6 +19,7 @@ use Symfony\Component\Form\FormErrorIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -32,19 +34,26 @@ final class SecurityController extends AbstractController
         private readonly UserProfileService          $userProfileService,
         private readonly AuthenticationUtils         $authenticationUtils,
         private readonly RegistrationTokenHandler    $registrationTokenHandler,
+        private readonly RateLimiterFactory          $authenticationRequestLimiter
     ) {}
 
     #[Route(path: '/login', name: 'app_login')]
-    public function login(): Response
+    public function login(Request $request): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
 
+        $limiter = $this->authenticationRequestLimiter->create($request->getClientIp());
+        if (!$limiter->consume()->isAccepted()) {
+            $rateLimitError = new CustomAuthenticationException("Too many login attempts.");
+            $rateLimitError->setMessageKey('Trop de tentatives de connexion. Veuillez réessayer plus tard.');
+        }
+
         $error = $this->authenticationUtils->getLastAuthenticationError();
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $rateLimitError ?? $error]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
