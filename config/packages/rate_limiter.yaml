@@ -4,3 +4,11 @@ framework:
             policy: 'fixed_window'
             limit: 3
             interval: '1 minute'
+
+when@test:
+    framework:
+        rate_limiter:
+            authentication_request:
+                policy: 'fixed_window'
+                limit: 999
+                interval: '1 minute'
