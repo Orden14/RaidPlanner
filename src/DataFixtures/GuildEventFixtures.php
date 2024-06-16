@@ -46,12 +46,16 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
         for ($j = 0; $j < 20; $j++) {
             $date = $lastMonday->modify('+ 1 day')->setTime(random_int(9, 21), random_int(0, 59));
 
+            $isGuildRaid = (bool)random_int(0, 1);
+
             $guildEvent = (new GuildEvent())
                 ->setTitle('Test event ' . $j)
                 ->setStart(clone $date)
                 ->setEnd((clone $date)->modify('+2 hours'))
                 ->setType($types[array_rand($types)])
-                ->setGuildRaid((bool)random_int(0, 1));
+                ->setGuildRaid($isGuildRaid)
+                ->setOldMembersAllowed(!$isGuildRaid && random_int(0, 1))
+                ->setMembersManageEvent(!$isGuildRaid && random_int(0, 1));
             $manager->persist($guildEvent);
 
             $participants = $this->setParticipants($guildEvent, $manager);
