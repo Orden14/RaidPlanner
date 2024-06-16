@@ -44,6 +44,11 @@
                                 {{ form_widget(registrationForm.registrationToken, {'attr': {'class': 'form-control'}}) }}
                             </div>
 
+                            <div class="form-group mt-3">
+                                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                                <span>J'accepte la <a href='http://localhost:8000/privacy' class="custom-link-primary" target="_blank">politique de confidentialité</a></span>
+                            </div>
+
                         <div class="text-end">
                             <button type="submit" class="btn btn-primary btn-block mt-2">S'enregistrer</button>
                         </div>
