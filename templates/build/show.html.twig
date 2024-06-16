@@ -20,7 +20,7 @@
 
 {% block container %}
     <div class="container mt-4">
-        <a href="{{ path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
+        <a href="{{ app.request.headers.get('referer') ?: path('build_index') }}" class="btn btn-secondary mb-3 ms-1" title="Retour"><i class="bi bi-arrow-left h4"></i></a>
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}" role="alert">

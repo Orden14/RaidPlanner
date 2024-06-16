@@ -67,10 +67,14 @@
                                             {% endif %}
 
                                             <span class="pe-md-2">
-                                                <a href="{{ path('build_show', {'id': player_slot.build.id}) }}" title="{{ player_slot.build.name }}" class="text-decoration-none {{ player_slot.player is not null ? 'ge-secondary-text' : '' }}" style="color: {{ player_slot.build.specialization.job.color }}">
-                                                    <img src="{{ asset('/icon/' ~ player_slot.build.specialization.icon) }}" alt="{{ player_slot.build.specialization.name }} icon" title="{{ player_slot.build.specialization.name }}" class="small-icon {{ player_slot.player is not null ? 'ge-secondary-img' : '' }}">
-                                                    {{ player_slot.build.name }}
-                                                </a>
+                                                {% if is_granted('ROLE_TRIAL') %}
+                                                    <a href="{{ path('build_show', {'id': player_slot.build.id}) }}" title="{{ player_slot.build.name }}" class="text-decoration-none {{ player_slot.player is not null ? 'ge-secondary-text' : '' }}">
+                                                {% endif %}
+                                                        <img src="{{ asset('/icon/' ~ player_slot.build.specialization.icon) }}" alt="{{ player_slot.build.specialization.name }} icon" title="{{ player_slot.build.specialization.name }}" class="small-icon {{ player_slot.player is not null ? 'ge-secondary-img' : '' }}">
+                                                        <span style="color: {{ player_slot.build.specialization.job.color }}">{{ player_slot.build.name }}</span>
+                                                {% if is_granted('ROLE_TRIAL') %}
+                                                    </a>
+                                                {% endif %}
                                             </span>
 
                                             <span>

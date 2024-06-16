@@ -6,6 +6,8 @@ import listPlugin from "@fullcalendar/list"
 import {addHours, setHours} from 'date-fns'
 import {setModalDates, setModalDatesForDateClick} from "../../util/calendar/new_event_modal_helper"
 
+let headerToolbarOptions
+
 $(document).ready(function () {
     let calendarEl = $("#calendar-holder")
 
@@ -46,11 +48,7 @@ $(document).ready(function () {
                 }
             }
         },
-        headerToolbar: {
-            left: "prev,next today",
-            center: "title",
-            right: "newGuildEvent dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-        },
+        headerToolbar: headerToolbarOptions,
         buttonText: {
             month: "Mois",
             today: "Aujourd'hui",
@@ -134,3 +132,17 @@ $(document).ready(function () {
     let addEventIcon = $('<i></i>').addClass('bi bi-calendar-plus')
     button.append(addEventIcon)
 })
+
+if (window.matchMedia("(max-width: 600px)").matches) {
+    headerToolbarOptions = {
+        left: "prev,next today",
+        center: "title",
+        right: "newGuildEvent timeGridWeek,timeGridDay,listWeek"
+    }
+} else {
+    headerToolbarOptions = {
+        left: "prev,next today",
+        center: "title",
+        right: "newGuildEvent dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+    }
+}
