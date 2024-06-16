@@ -12,25 +12,24 @@ export default class extends Controller {
             useUppercase: true,
             useNumbers: true,
             infoMessage: '',
-            style: "dark",
             fadeTime:300
         }
 
-        options.infoMessage = 'La taille minimum du mode de passe doit être de ' + options.numCharacters + ' caractères. Il doit contenir au moins 1 lowercase minuscule, 1 majuscule, et 1 chiffre.'
+        options.infoMessage = 'N\'utilisez pas votre mot de passe Guild Wars 2.'
 
-        let numCharactersUI = '<li class="pr-numCharacters"><span></span>10 caractères</li>',
+        let numCharactersUI = '<li class="pr-numCharacters"><span></span>Minimum 10 caractères</li>',
             useLowercaseUI = '',
             useUppercaseUI = '',
             useNumbersUI   = ''
 
         if (options.useLowercase === true) {
-            useLowercaseUI = '<li class="pr-useLowercase"><span></span>Minuscule</li>'
+            useLowercaseUI = '<li class="pr-useLowercase"><span></span>1 Minuscule</li>'
         }
         if (options.useUppercase === true) {
-            useUppercaseUI = '<li class="pr-useUppercase"><span></span>Majuscule</li>'
+            useUppercaseUI = '<li class="pr-useUppercase"><span></span>1 Majuscule</li>'
         }
         if (options.useNumbers === true) {
-            useNumbersUI = '<li class="pr-useNumbers"><span></span>Chiffre</li>'
+            useNumbersUI = '<li class="pr-useNumbers"><span></span>1 Chiffre</li>'
         }
 
         let messageDiv = '<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>'
@@ -47,7 +46,7 @@ export default class extends Controller {
                 if (prBoxElement.length === 0) {
                     $(this.element).parent().append(messageDiv)
                 }
-                prBoxElement.addClass(options.style).fadeIn(options.fadeTime)
+                prBoxElement.fadeIn(options.fadeTime)
             }
         }
 
