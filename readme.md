@@ -6,7 +6,8 @@ https://github.com/Orden14/RaidPlanner
 
 ## About
 RaidPlanner is a tool for planning Guild Wars 2 instanced content.  
-Current version is made in French.
+Current version is made in French for the guild Virtual Squirrels.  
+Virtual Squirrels official website: https://virtualsquirrels.fr/
 
 ## Project startup
 This is a Symfony project running on Symfony 7. To run the project easily, you need the following tools:
