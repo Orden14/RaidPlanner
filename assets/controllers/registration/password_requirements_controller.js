@@ -32,7 +32,7 @@ export default class extends Controller {
             useNumbersUI = '<li class="pr-useNumbers"><span></span>1 Chiffre</li>'
         }
 
-        let messageDiv = '<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>'
+        let messageDiv = $('<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>')
 
         let numCharactersDone = true,
             useLowercaseDone = true,
@@ -40,13 +40,18 @@ export default class extends Controller {
             useNumbersDone   = true
 
         let showMessage = () => {
-            const prBoxElement = $("#pr-box")
+            const prBoxElement = $("#pr-box");
 
             if (numCharactersDone === false || useLowercaseDone === false || useUppercaseDone === false || useNumbersDone === false) {
                 if (prBoxElement.length === 0) {
-                    $(this.element).parent().append(messageDiv)
+                    let parentOffset = $(this.element).offset();
+                    messageDiv.css({
+                        top: parentOffset.top + $(this.element).outerHeight(),
+                        left: parentOffset.left
+                    });
+                    $("body").append(messageDiv);
                 }
-                prBoxElement.fadeIn(options.fadeTime)
+                prBoxElement.fadeIn(options.fadeTime);
             }
         }
 
