@@ -1704,11 +1704,6 @@ bootstrap-select@1.14.0-beta3:
   resolved "https://registry.yarnpkg.com/bootstrap-select/-/bootstrap-select-1.14.0-beta3.tgz#dc15083fe51d0ac7b38a3b99dfd492dcc0a783b0"
   integrity sha512-wYUDY4NAYBcNydXybE7wh3+ucyf+AcUOhZ+e0TFIoZ38A+k/3BVT1RPl5f0CiPxAexP1IQuqALKMqI8wtZS71A==
 
-bootstrap-table@^1.22.4:
-  version "1.22.6"
-  resolved "https://registry.yarnpkg.com/bootstrap-table/-/bootstrap-table-1.22.6.tgz#b24a6e43337a9fa00d0e8f078b03bb49cf63ed1c"
-  integrity sha512-thyvL2B1J0rkRtHgfEAOiHZGXsGbxyd+uBPX/5JEB+RE+6Efu2+T67sd8I5kxdXkkoGAAPEsHH7iRI3iT8GkJg==
-
 bootstrap@^5.3.3:
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.3.tgz#de35e1a765c897ac940021900fcbb831602bac38"

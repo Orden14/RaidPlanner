@@ -1,17 +1,22 @@
 import './bootstrap.js'
 import './styles/global.scss'
 
-// DataTable
-import 'datatables.net-bs5'
-import 'datatables.net-select-bs5'
-import 'datatables.net-responsive'
+// DataTables
+import 'datatables.net-bs5/js/dataTables.bootstrap5.js'
+import 'datatables.net-responsive/js/dataTables.responsive.js'
 
 // Moment
-import 'moment'
+import 'moment/dist/moment.js'
+import 'moment/dist/locale/fr.js'
 
 // Toastr
-import 'toastr/build/toastr.min.js'
+import 'toastr/toastr.js'
 
-require('bootstrap-icons/font/bootstrap-icons.css')
-require('bootstrap-select')
-require('flatpickr')
+// Flatpickr
+import 'flatpickr/dist/flatpickr.js'
+
+// Bootstrap-select
+import 'bootstrap-select/dist/js/bootstrap-select.js'
+
+// jQuery-confirm
+import 'jquery-confirm/js/jquery-confirm.js'

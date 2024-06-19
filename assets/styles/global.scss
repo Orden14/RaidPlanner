@@ -1,12 +1,24 @@
-@import "bootstrap";
-@import "bootstrap/scss/utilities/api";
+// Bootstrap
+@import "bootstrap/scss/bootstrap.scss";
 @import "bootstrap-select/sass/bootstrap-select.scss";
-@import "datatables.net-bs5";
-@import "datatables.net-select-bs5";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+// jQuery-confirm
+@import "jquery-confirm/css/jquery-confirm.css";
+
+// DataTables
+@import "datatables.net-bs5/css/dataTables.bootstrap5.css";
+@import "datatables.net-select-bs5/css/select.bootstrap5.css";
+
+// Toastr
 @import "toastr";
+
+// Flatpickr
+@import "flatpickr/dist/flatpickr.css";
 @import "flatpickr/dist/themes/dark.css";
 @import "flatpickr/dist/plugins/confirmDate/confirmDate.css";
 
+// RaidPlanner
 @import "app.scss";
 @import "guild_event.scss";
 @import "accordion.scss";
