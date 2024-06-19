@@ -24,7 +24,7 @@ final class GraidAttendanceTableExtension extends AbstractExtension
     {
         return match ($graidAttendanceType) {
             WeeklyGraidAttendanceTypeEnum::SIGNEDUP => 'Inscrit',
-            WeeklyGraidAttendanceTypeEnum::INCOMPLETESIGNUP => 'Inscription incomplète',
+            WeeklyGraidAttendanceTypeEnum::INCOMPLETESIGNUP => 'Incomplet',
             WeeklyGraidAttendanceTypeEnum::BACKUP => 'Backup',
             WeeklyGraidAttendanceTypeEnum::ABSENT => 'Absent',
             WeeklyGraidAttendanceTypeEnum::NORESPONSE => ''
