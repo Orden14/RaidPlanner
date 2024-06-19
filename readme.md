@@ -10,7 +10,7 @@ Current version is made in French for the guild Virtual Squirrels.
 Virtual Squirrels official website: https://virtualsquirrels.fr/
 
 ## Project startup
-This is a Symfony project running on Symfony 7. To run the project easily, you need the following tools:
+This is a Symfony project running on Symfony 6.4. To run the project easily, you need the following tools:
 - Php 8.3
 - Symfony CLI
 - Composer
