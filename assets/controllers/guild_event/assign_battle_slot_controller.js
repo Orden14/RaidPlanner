@@ -1,4 +1,4 @@
-import {Controller  } from "stimulus"
+import { Controller  } from "stimulus"
 import toastr from 'toastr'
 
 export default class extends Controller {
