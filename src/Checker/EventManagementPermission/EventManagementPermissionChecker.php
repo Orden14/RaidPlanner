@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
 final readonly class EventManagementPermissionChecker
 
+
 {
     public function __construct (
         /** @var EventManagementPermissionStepInterface[] $eventManagementPermissionStepInterfaces */
