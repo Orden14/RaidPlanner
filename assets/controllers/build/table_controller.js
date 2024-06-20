@@ -5,7 +5,7 @@ export default class extends Controller {
     initialize () {
         const table = $(this.element).DataTable({
             responsive: {
-                details: fals
+                details: false
             },
             language: {
                 lengthMenu: 'Afficher _MENU_ builds par page',
