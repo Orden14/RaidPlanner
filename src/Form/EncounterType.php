@@ -24,7 +24,7 @@ final class EncounterType extends AbstractType
                 'label' => 'Nom'
             ])
             ->add('instance', EntityType::class, [
-                'label' => 'Spécialisation',
+                'label' => 'Instance',
                 'class' => Instance::class,
                 'choices' => $this->instanceRepository->findAll(),
                 'choice_label' => 'name',
