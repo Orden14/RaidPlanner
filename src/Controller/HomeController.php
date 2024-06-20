@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class HomeController extends AbstractController
+final class HomeController extends AbstractController
 {
     #[isGranted(RolesEnum::GUEST->value)]
     #[Route('/', name: 'app_home', methods: ['GET'])]
-    final public function index(): Response
+    public function index(): Response
     {
         if (!$this->isGranted(RolesEnum::OLD_MEMBER->value)) {
             return $this->redirectToRoute('app_guest');
@@ -23,7 +23,7 @@ class HomeController extends AbstractController
 
     #[isGranted(RolesEnum::GUEST->value)]
     #[Route('/guest', name: 'app_guest', methods: ['GET'])]
-    final public function guestPage(): Response
+    public function guestPage(): Response
     {
         if ($this->isGranted(RolesEnum::MEMBER->value)) {
             return $this->redirectToRoute('app_home');
@@ -33,7 +33,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/privacy', name: 'app_privacy', methods: ['GET'])]
-    final public function privacy(): Response
+    public function privacy(): Response
     {
         return $this->render('privacy/privacy.html.twig');
     }

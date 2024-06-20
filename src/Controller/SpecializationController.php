@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
 #[Route('/specialisation', name: 'specialization_')]
-class SpecializationController extends AbstractController
+final class SpecializationController extends AbstractController
 {
     private const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
 
@@ -34,7 +34,7 @@ class SpecializationController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    final public function index(Request $request): Response
+    public function index(Request $request): Response
     {
         $specialization = new Specialization();
         $form = $this->createForm(SpecializationType::class, $specialization, [
@@ -50,7 +50,7 @@ class SpecializationController extends AbstractController
     }
 
     #[Route('/sort/{id}', name: 'show_by_job', methods: ['GET', 'POST'])]
-    final public function showByJob(Job $job, Request $request): Response
+    public function showByJob(Job $job, Request $request): Response
     {
         $specializations = $this->specializationRepository->findBy(['job' => $job]);
         $specialization = new Specialization();
@@ -68,7 +68,7 @@ class SpecializationController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['POST'])]
-    final public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $specialization = new Specialization();
         $form = $this->createForm(SpecializationType::class, $specialization);
@@ -103,7 +103,7 @@ class SpecializationController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, Specialization $specialization): Response
+    public function edit(Request $request, Specialization $specialization): Response
     {
         $form = $this->createForm(SpecializationType::class, $specialization);
         $form->handleRequest($request);
@@ -136,7 +136,7 @@ class SpecializationController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, Specialization $specialization): Response
+    public function delete(Request $request, Specialization $specialization): Response
     {
         if ($this->isCsrfTokenValid('delete' . $specialization->getId(), $request->getPayload()->get('_token'))) {
             if ($specialization->getIcon()) {

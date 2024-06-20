@@ -17,7 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
     name: 'app:reset-password',
     description: 'Allows to change the password for the given user'
 )]
-class ResetPasswordCommand extends Command
+final class ResetPasswordCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface      $entityManager,
@@ -28,12 +28,12 @@ class ResetPasswordCommand extends Command
         parent::__construct();
     }
 
-    final protected function configure(): void
+    public function configure(): void
     {
         $this->addArgument('username', InputArgument::REQUIRED, 'The username of the user');
     }
 
-    final protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $helper = $this->getHelper('question');
         $username = $input->getArgument('username');

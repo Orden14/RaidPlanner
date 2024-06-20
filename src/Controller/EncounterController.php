@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
 #[Route('/encounter', name: 'encounter_')]
-class EncounterController extends AbstractController
+final class EncounterController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -27,7 +27,7 @@ class EncounterController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    final public function index(Request $request): Response
+    public function index(Request $request): Response
     {
         $encounter = new Encounter();
         $form = $this->createForm(EncounterType::class, $encounter, [
@@ -43,7 +43,7 @@ class EncounterController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $encounter = new Encounter();
         $form = $this->createForm(EncounterType::class, $encounter);
@@ -72,7 +72,7 @@ class EncounterController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, Encounter $encounter): Response
+    public function edit(Request $request, Encounter $encounter): Response
     {
         $form = $this->createForm(EncounterType::class, $encounter);
         $form->handleRequest($request);
@@ -99,7 +99,7 @@ class EncounterController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, Encounter $encounter): Response
+    public function delete(Request $request, Encounter $encounter): Response
     {
         if ($this->isCsrfTokenValid('delete' . $encounter->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($encounter);

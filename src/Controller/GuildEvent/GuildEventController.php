@@ -27,7 +27,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::OLD_MEMBER->value)]
 #[Route('/event', name: 'guild_event_')]
-class GuildEventController extends AbstractController
+final class GuildEventController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface              $entityManager,
@@ -40,7 +40,7 @@ class GuildEventController extends AbstractController
     ) {}
 
     #[Route('/show/{id}', name: 'show', methods: ['GET', 'POST'])]
-    final public function show(Request $request, GuildEvent $guildEvent): Response
+    public function show(Request $request, GuildEvent $guildEvent): Response
     {
         // This is set in order to open the right accordion item on page reload
         $openedEventBattleId = $request->getSession()->get('eventBattleId');
@@ -83,7 +83,7 @@ class GuildEventController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $guildEvent = $this->guildEventFactory->generateGuildEvent();
 
@@ -119,7 +119,7 @@ class GuildEventController extends AbstractController
 
     #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, GuildEvent $guildEvent): Response
+    public function edit(Request $request, GuildEvent $guildEvent): Response
     {
         if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
@@ -150,7 +150,7 @@ class GuildEventController extends AbstractController
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, GuildEvent $guildEvent): Response
+    public function delete(Request $request, GuildEvent $guildEvent): Response
     {
         if ($this->isCsrfTokenValid('delete' . $guildEvent->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($guildEvent);
@@ -162,7 +162,7 @@ class GuildEventController extends AbstractController
 
     #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/toggle/{id}', name: 'toggle_status', methods: ['GET', 'POST'])]
-    final public function toggleStatus(GuildEvent $guildEvent): Response
+    public function toggleStatus(GuildEvent $guildEvent): Response
     {
         if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);

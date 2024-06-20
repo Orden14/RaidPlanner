@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
 #[Route('/job', name: 'job_')]
-class JobController extends AbstractController
+final class JobController extends AbstractController
 {
     public function __construct(
         private readonly FileManager            $fileManager,
@@ -28,7 +28,7 @@ class JobController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    final public function index(JobRepository $jobRepository): Response
+    public function index(JobRepository $jobRepository): Response
     {
         return $this->render('job/index.html.twig', [
             'jobs' => $jobRepository->findAllWithoutDefault()
@@ -36,7 +36,7 @@ class JobController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, Job $job): Response
+    public function edit(Request $request, Job $job): Response
     {
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
