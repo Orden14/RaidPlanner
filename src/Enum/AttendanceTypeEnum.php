@@ -15,7 +15,7 @@ enum AttendanceTypeEnum: string
     public static function toArray(): array
     {
         return array_map(
-            static fn(self $type): string => $type->value,
+            static fn (self $type): string => $type->value,
             self::cases()
         );
     }

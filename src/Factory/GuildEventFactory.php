@@ -11,14 +11,15 @@ final readonly class GuildEventFactory
 {
     public function __construct(
         private Security $security,
-    ) {}
+    ) {
+    }
 
     public function generateGuildEvent(): GuildEvent
     {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
 
-        $guildEvent =  new GuildEvent();
+        $guildEvent = new GuildEvent();
 
         if ($currentUser->getRole() === RolesEnum::OLD_MEMBER) {
             $guildEvent->setOldMembersAllowed(true);

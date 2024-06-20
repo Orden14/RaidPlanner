@@ -13,16 +13,17 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixtures extends Fixture
+final class UserFixtures extends Fixture
 {
     public function __construct(
-        private readonly KernelInterface             $kernel,
-        private readonly ParameterBagInterface       $parameterBag,
-        private readonly UserProfileService          $userProfileService,
+        private readonly KernelInterface $kernel,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly UserProfileService $userProfileService,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-    ) {}
+    ) {
+    }
 
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
@@ -43,7 +44,6 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
-
     private function generateUser(string $username, RolesEnum $role): User
     {
         $user = new User();
@@ -52,7 +52,8 @@ class UserFixtures extends Fixture
             ->setPassword($this->userPasswordHasher->hashPassword(
                 $user,
                 $username
-            ));
+            ))
+        ;
 
         if ($this->kernel->getEnvironment() !== 'dev') {
             $user->setProfilePicture('emptyFileForTest.png');

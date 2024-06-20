@@ -26,12 +26,13 @@ final class SpecializationController extends AbstractController
     private const string SPECIALIZATION_INDEX_TEMPLATE = 'specialization/index.html.twig';
 
     public function __construct(
-        private readonly FileManager                   $fileManager,
-        private readonly EntityManagerInterface        $entityManager,
-        private readonly FormFlashHelper               $formFlashHelper,
-        private readonly SpecializationRepository      $specializationRepository,
+        private readonly FileManager $fileManager,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly SpecializationRepository $specializationRepository,
         private readonly SpecializationDeletionService $specializationDeletionService,
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -45,7 +46,7 @@ final class SpecializationController extends AbstractController
 
         return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'form' => $form->createView(),
-            'specializations' => $this->specializationRepository->findAllOrderedByJob(false)
+            'specializations' => $this->specializationRepository->findAllOrderedByJob(false),
         ]);
     }
 
@@ -98,7 +99,7 @@ final class SpecializationController extends AbstractController
 
         return $this->render(self::SPECIALIZATION_INDEX_TEMPLATE, [
             'form' => $form->createView(),
-            'specializations' => $this->specializationRepository->findAllOrderedByJob(false)
+            'specializations' => $this->specializationRepository->findAllOrderedByJob(false),
         ]);
     }
 
@@ -131,7 +132,7 @@ final class SpecializationController extends AbstractController
 
         return $this->render('specialization/edit.html.twig', [
             'form' => $form->createView(),
-            'specialization' => $specialization
+            'specialization' => $specialization,
         ]);
     }
 

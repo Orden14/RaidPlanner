@@ -20,7 +20,8 @@ final class GuildEventType extends AbstractType
 {
     public function __construct(
         private readonly Security $security
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -36,16 +37,16 @@ final class GuildEventType extends AbstractType
                 'label' => 'Date de début',
                 'attr' => [
                     'data-controller' => 'datetime-picker',
-                    'class' => 'form-control'
-                ]
+                    'class' => 'form-control',
+                ],
             ])
             ->add('end', null, [
                 'widget' => 'single_text',
                 'label' => 'Date de fin',
                 'attr' => [
                     'data-controller' => 'datetime-picker',
-                    'class' => 'form-control'
-                ]
+                    'class' => 'form-control',
+                ],
             ])
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',
@@ -65,20 +66,21 @@ final class GuildEventType extends AbstractType
                 ],
             ])
             ->add('guildRaid', ChoiceType::class, [
-                'label' => "GRAID",
+                'label' => 'GRAID',
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
                 'data' => $isEventNew ? $isUserAdmin : $options['data']->isGuildRaid(),
-                'disabled' => !$isUserAdmin
-            ]);
+                'disabled' => !$isUserAdmin,
+            ])
+        ;
 
         if ($isEventNew) {
             $builder->add('type', EnumType::class, [
                 'class' => InstanceTypeEnum::class,
                 'label' => 'Type d\'évènement',
-                'choice_label' => fn(InstanceTypeEnum $enum) => $enum->value,
+                'choice_label' => static fn (InstanceTypeEnum $enum) => $enum->value,
             ]);
         }
     }
@@ -88,7 +90,8 @@ final class GuildEventType extends AbstractType
         if ($guildEvent->getEnd() <= $guildEvent->getStart()) {
             $context->buildViolation('La date de fin doit être après la date de début.')
                 ->atPath('end')
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 
@@ -96,7 +99,7 @@ final class GuildEventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => GuildEvent::class,
-            'constraints' => new Callback([$this, 'validate'])
+            'constraints' => new Callback([$this, 'validate']),
         ]);
     }
 }

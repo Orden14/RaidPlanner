@@ -24,11 +24,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class EventBattleController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface           $entityManager,
-        private readonly FormFlashHelper                  $formFlashHelper,
-        private readonly PlayerSlotManagementService      $playerSlotManagementService,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PlayerSlotManagementService $playerSlotManagementService,
         private readonly EventManagementPermissionChecker $eventManagementPermissionChecker,
-    ) {}
+    ) {
+    }
 
     #[Route('/add/{guildEvent}', name: 'add', methods: ['GET', 'POST'])]
     public function addToEvent(Request $request, GuildEvent $guildEvent): Response
@@ -46,14 +47,13 @@ final class EventBattleController extends AbstractController
             $this->entityManager->flush();
             $this->playerSlotManagementService->createSlotsForEventBattle($eventBattle, $this->playerSlotManagementService->getPlayerSlotsFromForm($form));
 
-
             $this->addFlash(
                 'success',
                 "Un combat a bien été ajouté à l'événement."
             );
 
             return $this->redirectToRoute('guild_event_show', [
-                'id' => $guildEvent->getId()
+                'id' => $guildEvent->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,11 +81,11 @@ final class EventBattleController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Le combat a bien été modifié."
+                'Le combat a bien été modifié.'
             );
 
             return $this->redirectToRoute('guild_event_show', [
-                'id' => $eventBattle->getGuildEvent()?->getId()
+                'id' => $eventBattle->getGuildEvent()?->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -96,7 +96,7 @@ final class EventBattleController extends AbstractController
         return $this->render('guild_event/edit_event_battle.html.twig', [
             'form' => $form->createView(),
             'guild_event' => $eventBattle->getGuildEvent(),
-            'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($eventBattle->getGuildEvent()?->getType())
+            'max_player_slots' => InstanceTypeEnum::getMaxPlayersByType($eventBattle->getGuildEvent()?->getType()),
         ]);
     }
 
@@ -115,7 +115,7 @@ final class EventBattleController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash(
                 'success',
-                "Le combat a bien été supprimé."
+                'Le combat a bien été supprimé.'
             );
         }
 

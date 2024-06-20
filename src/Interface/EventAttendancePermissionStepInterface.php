@@ -2,7 +2,6 @@
 
 namespace App\Interface;
 
-
 use App\Entity\GuildEvent;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 

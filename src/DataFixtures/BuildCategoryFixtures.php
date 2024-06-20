@@ -8,13 +8,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class BuildCategoryFixtures extends Fixture implements DependentFixtureInterface
+final class BuildCategoryFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private readonly FileMockUploader $fileMockUploader
-    ) {}
+    ) {
+    }
 
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->getBuildCategoryList() as $categoryName) {
             $manager->persist($this->createCategory($categoryName));
@@ -29,7 +30,8 @@ class BuildCategoryFixtures extends Fixture implements DependentFixtureInterface
 
         return (new BuildCategory())
             ->setName($categoryName)
-            ->setIcon($filename);
+            ->setIcon($filename)
+        ;
     }
 
     /**
@@ -42,17 +44,17 @@ class BuildCategoryFixtures extends Fixture implements DependentFixtureInterface
             'Cdps',
             'Heal',
             'Quickness',
-            'Alacrity'
+            'Alacrity',
         ];
     }
 
     /**
      * @return string[]
      */
-    final public function getDependencies(): array
+    public function getDependencies(): array
     {
         return [
-            JobFixtures::class
+            JobFixtures::class,
         ];
     }
 }

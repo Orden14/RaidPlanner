@@ -11,8 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Specialization|null find($id, $lockMode = null, $lockVersion = null)
  * @method Specialization|null findOneBy(array $criteria, array $orderBy = null)
- * @method Specialization[]    findAll()
- * @method Specialization[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Specialization[] findAll()
+ * @method Specialization[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class SpecializationRepository extends ServiceEntityRepository
 {
@@ -27,7 +27,8 @@ final class SpecializationRepository extends ServiceEntityRepository
     public function findAllOrderedByJob(bool $showDefault): array
     {
         $query = $this->createQueryBuilder('s')
-            ->join('s.job', 'j');
+            ->join('s.job', 'j')
+        ;
 
         if (!$showDefault) {
             $query->andWhere('j.defaultJob = false');
@@ -35,7 +36,8 @@ final class SpecializationRepository extends ServiceEntityRepository
 
         return $query->orderBy('s.job', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function findDefaultSpecialization(): Specialization
@@ -44,6 +46,7 @@ final class SpecializationRepository extends ServiceEntityRepository
             ->join('s.job', 'j')
             ->andWhere('j.defaultJob = true')
             ->getQuery()
-            ->getSingleResult();
+            ->getSingleResult()
+        ;
     }
 }

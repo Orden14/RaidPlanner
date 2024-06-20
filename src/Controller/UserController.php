@@ -25,12 +25,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class UserController extends AbstractController
 {
     public function __construct(
-        private readonly FileManager               $fileManager,
-        private readonly EntityManagerInterface    $entityManager,
-        private readonly UserRepository            $userRepository,
-        private readonly FormFlashHelper           $formFlashHelper,
+        private readonly FileManager $fileManager,
+        private readonly UserRepository $userRepository,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
         private readonly EventAttendanceRepository $eventAttendanceRepository,
-    ) {}
+    ) {
+    }
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/members', name: 'members', methods: ['GET', 'POST'])]
@@ -38,7 +39,7 @@ final class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $this->userRepository->findAllMembers(),
-            'title' => 'Membres'
+            'title' => 'Membres',
         ]);
     }
 
@@ -48,7 +49,7 @@ final class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $this->userRepository->findAllGuests(),
-            'title' => 'Nouveaux comptes'
+            'title' => 'Nouveaux comptes',
         ]);
     }
 
@@ -80,7 +81,7 @@ final class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', [
             'form' => $form->createView(),
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -93,13 +94,13 @@ final class UserController extends AbstractController
 
         $form = $this->createForm(UserEditProfileType::class, $currentUser, [
             'action' => $this->generateUrl('user_profile_edit'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 
         $changePasswordForm = $this->createForm(ChangePasswordType::class, null, [
             'action' => $this->generateUrl('app_change_password'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $changePasswordForm->handleRequest($request);
 
@@ -107,7 +108,7 @@ final class UserController extends AbstractController
             'form' => $form->createView(),
             'change_password_form' => $changePasswordForm->createView(),
             'user' => $currentUser,
-            'attendances' => $this->eventAttendanceRepository->findAllUpcomingAttendancesByTypesforPlayer($currentUser, [AttendanceTypeEnum::PLAYER, AttendanceTypeEnum::BACKUP])
+            'attendances' => $this->eventAttendanceRepository->findAllUpcomingAttendancesByTypesforPlayer($currentUser, [AttendanceTypeEnum::PLAYER, AttendanceTypeEnum::BACKUP]),
         ]);
     }
 
@@ -123,7 +124,7 @@ final class UserController extends AbstractController
 
         $changePasswordForm = $this->createForm(ChangePasswordType::class, null, [
             'action' => $this->generateUrl('app_change_password'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $changePasswordForm->handleRequest($request);
 
@@ -136,7 +137,7 @@ final class UserController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Votre profil a bien été modifié"
+                'Votre profil a bien été modifié'
             );
 
             $this->entityManager->flush();
@@ -152,7 +153,7 @@ final class UserController extends AbstractController
             'form' => $form->createView(),
             'change_password_form' => $changePasswordForm->createView(),
             'user' => $currentUser,
-            'attendances' => $this->eventAttendanceRepository->findAllUpcomingAttendancesByTypesforPlayer($currentUser, [AttendanceTypeEnum::PLAYER, AttendanceTypeEnum::BACKUP])
+            'attendances' => $this->eventAttendanceRepository->findAllUpcomingAttendancesByTypesforPlayer($currentUser, [AttendanceTypeEnum::PLAYER, AttendanceTypeEnum::BACKUP]),
         ]);
     }
 }

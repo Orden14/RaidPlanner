@@ -8,7 +8,7 @@ final class MemberWeeklyAttendance
 {
     private string $username;
 
-    /** @var WeeklyGraidAttendanceTypeEnum[] $attendances */
+    /** @var WeeklyGraidAttendanceTypeEnum[] */
     private array $attendances = [];
 
     public function setUsername(string $username): self

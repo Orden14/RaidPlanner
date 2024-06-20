@@ -15,9 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class PlayerSlotType extends AbstractType
 {
     public function __construct(
-        private readonly BuildRepository     $buildRepository,
+        private readonly BuildRepository $buildRepository,
         private readonly BuildDisplayService $buildDisplayService,
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,8 +30,8 @@ final class PlayerSlotType extends AbstractType
                 'label' => 'Tank',
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-check-input'
-                ]
+                    'class' => 'form-check-input',
+                ],
             ])
             ->add('build', EntityType::class, [
                 'label' => false,
@@ -48,10 +49,9 @@ final class PlayerSlotType extends AbstractType
                     'data-live-search-placeholder' => 'Rechercher un build...',
                     'data-container' => 'body',
                 ],
-                'choice_attr' => function ($build) {
-                    return $this->buildDisplayService->getBuildSelectDisplay($build);
-                }
-            ]);
+                'choice_attr' => fn ($build) => $this->buildDisplayService->getBuildSelectDisplay($build),
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

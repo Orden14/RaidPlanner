@@ -18,18 +18,19 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Random\RandomException;
 
-class GuildEventFixtures extends Fixture implements DependentFixtureInterface
+final class GuildEventFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository      $userRepository,
-        private readonly BuildRepository     $buildRepository,
+        private readonly UserRepository $userRepository,
+        private readonly BuildRepository $buildRepository,
         private readonly EncounterRepository $encounterRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws RandomException
      */
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         $this->createGuildEvents($manager);
     }
@@ -46,7 +47,7 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
         for ($j = 0; $j < 20; $j++) {
             $date = $lastMonday->modify('+ 1 day')->setTime(random_int(9, 21), random_int(0, 59));
 
-            $isGuildRaid = (bool)random_int(0, 1);
+            $isGuildRaid = (bool) random_int(0, 1);
 
             $guildEvent = (new GuildEvent())
                 ->setTitle('Test event ' . $j)
@@ -55,7 +56,8 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
                 ->setType($types[array_rand($types)])
                 ->setGuildRaid($isGuildRaid)
                 ->setOldMembersAllowed(!$isGuildRaid && random_int(0, 1))
-                ->setMembersManageEvent(!$isGuildRaid && random_int(0, 1));
+                ->setMembersManageEvent(!$isGuildRaid && random_int(0, 1))
+            ;
             $manager->persist($guildEvent);
 
             $participants = $this->setParticipants($guildEvent, $manager);
@@ -80,7 +82,8 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
             $user = $this->userRepository->find($i + 1);
             $eventAttendance = (new EventAttendance())
                 ->setGuildEvent($guildEvent)
-                ->setUser($user);
+                ->setUser($user)
+            ;
 
             if ($i < $totalParticipants - 2) {
                 $eventAttendance->setType(AttendanceTypeEnum::PLAYER);
@@ -110,13 +113,15 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
             ->where('i.type = :type')
             ->setParameter('type', $guildEvent->getType()->value)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         $totalBattles = random_int(1, 6);
         for ($y = 0; $y < $totalBattles; $y++) {
             $eventBattle = (new EventBattle())
                 ->setGuildEvent($guildEvent)
-                ->setEncounter($encounters[array_rand($encounters)]);
+                ->setEncounter($encounters[array_rand($encounters)])
+            ;
 
             $manager->persist($eventBattle);
 
@@ -141,12 +146,12 @@ class GuildEventFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @return string[]
      */
-    final public function getDependencies(): array
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,
             BuildFixtures::class,
-            EncounterFixtures::class
+            EncounterFixtures::class,
         ];
     }
 }

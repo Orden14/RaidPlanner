@@ -17,10 +17,10 @@ final class JobType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('color', ColorType::class, [
-                'label' => 'Couleur'
+                'label' => 'Couleur',
             ])
             ->add('icon', FileType::class, [
                 'mapped' => false,
@@ -31,10 +31,11 @@ final class JobType extends AbstractType
                         'mimeTypes' => ['image/png'],
                         'maxSize' => '2048k',
                         'mimeTypesMessage' => 'Erreur : L\'icone uploadée doit être en format .png',
-                        'maxSizeMessage' => 'Erreur : L\'icone uploadée ne doit pas dépasser 2Mo'
-                    ])
-                ]
-            ]);
+                        'maxSizeMessage' => 'Erreur : L\'icone uploadée ne doit pas dépasser 2Mo',
+                    ]),
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

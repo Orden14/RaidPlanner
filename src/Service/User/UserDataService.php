@@ -10,7 +10,8 @@ final readonly class UserDataService
 {
     public function __construct(
         private UserRepository $userRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @return User[]
@@ -19,12 +20,6 @@ final readonly class UserDataService
     {
         $users = $this->userRepository->findAllOrderedByName();
 
-        return array_filter($users, static function (User $user) {
-            if (in_array($user->getRole(), RolesEnum::getActiveGuildRoles())) {
-                return true;
-            }
-
-            return false;
-        });
+        return array_filter($users, static fn (User $user) => in_array($user->getRole(), RolesEnum::getActiveGuildRoles(), true));
     }
 }

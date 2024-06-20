@@ -26,12 +26,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class EventAttendanceController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface              $entityManager,
-        private readonly PlayerSlotManagementService         $playerSlotManagementService,
-        private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
-        private readonly EventAttendanceManagementService    $eventAttendanceManagementService,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PlayerSlotManagementService $playerSlotManagementService,
+        private readonly EventManagementPermissionChecker $eventManagementPermissionChecker,
+        private readonly EventAttendanceManagementService $eventAttendanceManagementService,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
-    ) {}
+    ) {
+    }
 
     #[Route('/event/{guildEvent}/set_user/{attendanceType}', name: 'add_user', methods: ['GET', 'POST'])]
     public function addUserToEvent(GuildEvent $guildEvent, string $attendanceType): Response

@@ -13,8 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method GuildEvent|null find($id, $lockMode = null, $lockVersion = null)
  * @method GuildEvent|null findOneBy(array $criteria, array $orderBy = null)
- * @method GuildEvent[]    findAll()
- * @method GuildEvent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method GuildEvent[] findAll()
+ * @method GuildEvent[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class GuildEventRepository extends ServiceEntityRepository
 {
@@ -38,6 +38,7 @@ final class GuildEventRepository extends ServiceEntityRepository
             ->setParameter('endOfWeek', DateHelper::getEndOfWeek())
             ->orderBy('ge.start', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

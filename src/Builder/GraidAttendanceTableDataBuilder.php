@@ -19,11 +19,10 @@ final class GraidAttendanceTableDataBuilder
     private GraidAttendanceTableData $graidAttendanceTable;
 
     public function __construct(
-        private readonly UserDataService           $userDataService,
-        private readonly GuildEventRepository      $guildEventRepository,
+        private readonly UserDataService $userDataService,
+        private readonly GuildEventRepository $guildEventRepository,
         private readonly EventAttendanceRepository $eventAttendanceRepository,
-    )
-    {
+    ) {
         $this->graidAttendanceTable = new GraidAttendanceTableData();
     }
 
@@ -79,6 +78,7 @@ final class GraidAttendanceTableDataBuilder
                 return WeeklyGraidAttendanceTypeEnum::INCOMPLETESIGNUP;
             }
         }
+
         return WeeklyGraidAttendanceTypeEnum::SIGNEDUP;
     }
 

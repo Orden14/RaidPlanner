@@ -15,7 +15,8 @@ final class EventBattleType extends AbstractType
 {
     public function __construct(
         private readonly EncounterRepository $encounterRepository,
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,16 +33,17 @@ final class EventBattleType extends AbstractType
                 'data-style-base' => 'form-control',
                 'data-width' => '100%',
                 'data-live-search' => 'true',
-                'data-live-search-placeholder' => 'Rechercher un combat...'
+                'data-live-search-placeholder' => 'Rechercher un combat...',
             ],
-            'choice_attr' => function ($encounter) use ($eventBattle) {
+            'choice_attr' => static function ($encounter) use ($eventBattle) {
                 $prefix = $eventBattle->getGuildEvent()?->getType() === InstanceTypeEnum::RAID ? "{$encounter->getInstance()->getTag()} -" : '';
-                return ['data-content' => "$prefix {$encounter->getName()}"];
-            }
+
+                return ['data-content' => "{$prefix} {$encounter->getName()}"];
+            },
         ]);
 
         for ($i = 0; $i < InstanceTypeEnum::getMaxPlayersByType($eventBattle->getGuildEvent()?->getType()); $i++) {
-            $builder->add("playerSlot$i", PlayerSlotType::class, [
+            $builder->add("playerSlot{$i}", PlayerSlotType::class, [
                 'label' => false,
                 'mapped' => false,
                 'data' => $eventBattle->getPlayerSlots()[$i] ?? null,

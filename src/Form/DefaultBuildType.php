@@ -14,7 +14,8 @@ final class DefaultBuildType extends AbstractType
 {
     public function __construct(
         private readonly BuildFormFieldHelper $buildFormFieldHelper,
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -22,7 +23,8 @@ final class DefaultBuildType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom',
             ])
-            ->add('categories', EntityType::class, $this->buildFormFieldHelper->getCategoiesFieldOptions());
+            ->add('categories', EntityType::class, $this->buildFormFieldHelper->getCategoiesFieldOptions())
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -18,8 +18,7 @@ final class DeleteOldLogsCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -32,7 +31,8 @@ final class DeleteOldLogsCommand extends Command
             ->where('log.date < :date')
             ->setParameter('date', $date)
             ->getQuery()
-            ->execute();
+            ->execute()
+        ;
 
         $output->writeln('Old logs deleted.');
 

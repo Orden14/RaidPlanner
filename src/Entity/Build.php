@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: BuildRepository::class)]
 class Build
 {
-    use BuildRelationalPropertiesTrait;
     use BuildExternalLinkPropertiesTrait;
+    use BuildRelationalPropertiesTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -12,7 +12,8 @@ final readonly class EventSignupPermissionChecker
         /** @var EventAttendancePermissionStepInterface[] $eventSignupPermissionStepInterfaces */
         #[TaggedIterator(EventAttendancePermissionStepInterface::class)]
         private iterable $eventSignupPermissionStepInterfaces
-    ) {}
+    ) {
+    }
 
     public function checkIfUserCanSignup(GuildEvent $guildEvent): bool
     {

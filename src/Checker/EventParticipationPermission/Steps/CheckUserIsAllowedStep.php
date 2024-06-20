@@ -13,9 +13,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class CheckUserIsAllowedStep implements EventParticipationPermissionStepInterface
 {
     public function __construct(
-        private Security                  $security,
+        private Security $security,
         private EventAttendanceRepository $eventAttendanceRepository
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(GuildEvent $guildEvent): bool
@@ -24,10 +25,10 @@ final readonly class CheckUserIsAllowedStep implements EventParticipationPermiss
         $currentUser = $this->security->getUser();
 
         $isCurrentUserOwner = count($this->eventAttendanceRepository->findBy([
-                'user' => $currentUser,
-                'guildEvent' => $guildEvent,
-                'eventOwner' => true
-            ])) > 0;
+            'user' => $currentUser,
+            'guildEvent' => $guildEvent,
+            'eventOwner' => true,
+        ])) > 0;
 
         return $this->security->isGranted(RolesEnum::TRIAL->value)
             || $isCurrentUserOwner

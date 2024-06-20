@@ -16,11 +16,12 @@ use Twig\TwigFunction;
 final class EventPermissionExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly EventSignupPermissionChecker     $eventSignupPermissionChecker,
-        private readonly SlotAssignmentPermissionChecker  $slotAssignmentPermissionChecker,
-        private readonly SlotManagementPermissionChecker  $slotManagementPermissionChecker,
+        private readonly EventSignupPermissionChecker $eventSignupPermissionChecker,
+        private readonly SlotAssignmentPermissionChecker $slotAssignmentPermissionChecker,
+        private readonly SlotManagementPermissionChecker $slotManagementPermissionChecker,
         private readonly EventManagementPermissionChecker $eventManagementPermissionChecker,
-    ) {}
+    ) {
+    }
 
     /**
      * @return TwigFunction[]

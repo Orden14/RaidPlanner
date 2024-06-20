@@ -6,6 +6,7 @@ $finder = (new PhpCsFixer\Finder())
 ;
 
 $config = new PhpCsFixer\Config();
+
 return $config
     ->setRiskyAllowed(true)
     ->setRules([
@@ -14,7 +15,7 @@ return $config
         'array_indentation' => true,
         'assign_null_coalescing_to_coalesce_equal' => true,
         'blank_line_between_import_groups' => false,
-        'braces_position' => ['allow_single_line_anonymous_functions' => true,'allow_single_line_empty_anonymous_classes' => true],
+        'braces_position' => ['allow_single_line_anonymous_functions' => true, 'allow_single_line_empty_anonymous_classes' => true],
         'cast_spaces' => true,
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
@@ -44,7 +45,7 @@ return $config
         'no_extra_blank_lines' => true,
         'no_multiple_statements_per_line' => true,
         'no_superfluous_elseif' => true,
-        'no_unneeded_control_parentheses' => ['statements' => ['break','continue','return','yield','yield_from']],
+        'no_unneeded_control_parentheses' => ['statements' => ['break', 'continue', 'return', 'yield', 'yield_from']],
         'no_unneeded_final_method' => true,
         'no_useless_concat_operator' => false,
         'no_useless_else' => true,
@@ -71,10 +72,10 @@ return $config
         'string_line_ending' => true,
         'ternary_to_elvis_operator' => true,
         'ternary_to_null_coalescing' => true,
-        'trailing_comma_in_multiline' => ['after_heredoc' => false],
+        'trailing_comma_in_multiline' => true,
         'use_arrow_functions' => true,
         'void_return' => true,
-        'yoda_style' => ['equal' => false,'identical' => false,'less_and_greater' => false]
+        'yoda_style' => ['equal' => false, 'identical' => false, 'less_and_greater' => false],
     ])
     ->setFinder($finder)
 ;

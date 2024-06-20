@@ -11,8 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method UserActivityLog|null find($id, $lockMode = null, $lockVersion = null)
  * @method UserActivityLog|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserActivityLog[]    findAll()
- * @method UserActivityLog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserActivityLog[] findAll()
+ * @method UserActivityLog[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class UserActivityLogRepository extends ServiceEntityRepository
 {
@@ -30,6 +30,7 @@ final class UserActivityLogRepository extends ServiceEntityRepository
             ->orderBy('log.date', 'DESC')
             ->setMaxResults(1000)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

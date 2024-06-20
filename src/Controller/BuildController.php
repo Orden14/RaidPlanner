@@ -28,13 +28,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class BuildController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface   $entityManager,
-        private readonly FormFlashHelper          $formFlashHelper,
-        private readonly BuildRepository          $buildRepository,
-        private readonly BuildMessageRepository   $buildMessageRepository,
-        private readonly BuildCategoryRepository  $buildCategoryRepository,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly BuildRepository $buildRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly BuildMessageRepository $buildMessageRepository,
+        private readonly BuildCategoryRepository $buildCategoryRepository,
         private readonly SpecializationRepository $specializationRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -42,7 +43,7 @@ final class BuildController extends AbstractController
         $build = new Build();
         $form = $this->createForm(BuildType::class, $build, [
             'action' => $this->generateUrl('build_new'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 
@@ -111,7 +112,7 @@ final class BuildController extends AbstractController
         return $this->render('build/show.html.twig', [
             'form' => $form->createView(),
             'build' => $build,
-            'messages' => $this->buildMessageRepository->findBy(['build' => $build])
+            'messages' => $this->buildMessageRepository->findBy(['build' => $build]),
         ]);
     }
 
@@ -139,7 +140,7 @@ final class BuildController extends AbstractController
             );
 
             return $this->redirectToRoute('build_show', [
-                'id' => $build->getId()
+                'id' => $build->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -150,7 +151,7 @@ final class BuildController extends AbstractController
         return $this->render('build/show.html.twig', [
             'form' => $form->createView(),
             'build' => $build,
-            'messages' => $this->buildMessageRepository->findBy(['build' => $build])
+            'messages' => $this->buildMessageRepository->findBy(['build' => $build]),
         ]);
     }
 

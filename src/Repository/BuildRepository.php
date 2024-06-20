@@ -12,8 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Build|null find($id, $lockMode = null, $lockVersion = null)
  * @method Build|null findOneBy(array $criteria, array $orderBy = null)
- * @method Build[]    findAll()
- * @method Build[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Build[] findAll()
+ * @method Build[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class BuildRepository extends ServiceEntityRepository
 {
@@ -32,7 +32,8 @@ final class BuildRepository extends ServiceEntityRepository
             ->setParameter('status', BuildStatusEnum::META->value)
             ->orderBy('b.specialization', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -46,6 +47,7 @@ final class BuildRepository extends ServiceEntityRepository
             ->where('j.defaultJob = :isDefault')
             ->setParameter('isDefault', $isDefault)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

@@ -25,14 +25,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 final class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly Security                    $security,
-        private readonly EntityManagerInterface      $entityManager,
-        private readonly FormFlashHelper             $formFlashHelper,
+        private readonly Security $security,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UserProfileService $userProfileService,
+        private readonly AuthenticationUtils $authenticationUtils,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly UserProfileService          $userProfileService,
-        private readonly AuthenticationUtils         $authenticationUtils,
-        private readonly RegistrationTokenHandler    $registrationTokenHandler,
-    ) {}
+        private readonly RegistrationTokenHandler $registrationTokenHandler,
+    ) {
+    }
 
     #[Route(path: '/login', name: 'app_login')]
     public function login(): Response
@@ -102,7 +103,6 @@ final class SecurityController extends AbstractController
     {
         $form = $this->createForm(ChangePasswordType::class);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var User $user */

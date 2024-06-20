@@ -14,8 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method PlayerSlot|null find($id, $lockMode = null, $lockVersion = null)
  * @method PlayerSlot|null findOneBy(array $criteria, array $orderBy = null)
- * @method PlayerSlot[]    findAll()
- * @method PlayerSlot[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PlayerSlot[] findAll()
+ * @method PlayerSlot[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class PlayerSlotRepository extends ServiceEntityRepository
 {
@@ -36,7 +36,8 @@ final class PlayerSlotRepository extends ServiceEntityRepository
             ->setParameter('guildEvent', $guildEvent)
             ->setParameter('user', $user)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -50,6 +51,7 @@ final class PlayerSlotRepository extends ServiceEntityRepository
             ->where('s = :specialization')
             ->setParameter('specialization', $specialization)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

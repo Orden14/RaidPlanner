@@ -17,7 +17,8 @@ final class BuildCategoryType extends AbstractType
 {
     public function __construct(
         private readonly Packages $packages
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -28,8 +29,8 @@ final class BuildCategoryType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => 'Nom de la catégorie'
-                ]
+                    'placeholder' => 'Nom de la catégorie',
+                ],
             ])
             ->add('builds', EntityType::class, [
                 'class' => Build::class,
@@ -43,18 +44,19 @@ final class BuildCategoryType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                     'data-live-search' => 'true',
-                    'data-live-search-placeholder' => 'Rechercher un build...'
+                    'data-live-search-placeholder' => 'Rechercher un build...',
                 ],
                 'choice_attr' => function ($category) {
                     $name = $category->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $category->getSpecialization()->getIcon());
+
                     return ['data-content' => "<img
-                                    src='$iconPath'
+                                    src='{$iconPath}'
                                     class='select-icon'
-                                    alt='$name icon'
-                                    title='$name'
-                                > $name"];
-                }
+                                    alt='{$name} icon'
+                                    title='{$name}'
+                                > {$name}"];
+                },
             ])
             ->add('icon', FileType::class, [
                 'mapped' => false,
@@ -65,10 +67,11 @@ final class BuildCategoryType extends AbstractType
                         'mimeTypes' => ['image/png'],
                         'maxSize' => '2048k',
                         'mimeTypesMessage' => 'Erreur : L\'icone uploadée doit être en format .png',
-                        'maxSizeMessage' => 'Erreur : L\'icone uploadée ne doit pas dépasser 2Mo'
-                    ])
-                ]
-            ]);
+                        'maxSizeMessage' => 'Erreur : L\'icone uploadée ne doit pas dépasser 2Mo',
+                    ]),
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -19,10 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class BuildType extends AbstractType
 {
     public function __construct(
-        private readonly Packages                 $packages,
-        private readonly BuildFormFieldHelper     $buildFormFieldHelper,
+        private readonly Packages $packages,
+        private readonly BuildFormFieldHelper $buildFormFieldHelper,
         private readonly SpecializationRepository $specializationRepository
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,11 +33,11 @@ final class BuildType extends AbstractType
             ])
             ->add('link', TextType::class, [
                 'label' => 'Lien build',
-                'required' => false
+                'required' => false,
             ])
             ->add('videoLink', TextType::class, [
                 'label' => 'Lien vidéo',
-                'required' => false
+                'required' => false,
             ])
             ->add('status', ChoiceType::class, [
                 'label' => 'Status',
@@ -50,10 +51,11 @@ final class BuildType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                 ],
-                'choice_attr' => function ($status) {
+                'choice_attr' => static function ($status) {
                     $styleClass = BuildStatusEnum::getStatusStyleClassName($status->value) . ' ' . 'align-middle';
-                    return ['data-content' => "<span class='$styleClass'></span> " . $status->value];
-                }
+
+                    return ['data-content' => "<span class='{$styleClass}'></span> " . $status->value];
+                },
             ])
             ->add('specialization', EntityType::class, [
                 'label' => 'Spécialisation',
@@ -65,28 +67,30 @@ final class BuildType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                     'data-live-search' => 'true',
-                    'data-live-search-placeholder' => 'Rechercher une spécialisation...'
+                    'data-live-search-placeholder' => 'Rechercher une spécialisation...',
                 ],
                 'choice_attr' => function ($specialization) {
                     $name = $specialization->getName();
                     $iconPath = $this->packages->getUrl('icon/' . $specialization->getIcon());
+
                     return ['data-content' => "<img
-                        src='$iconPath'
+                        src='{$iconPath}'
                         class='select-icon'
-                        alt='$name icon'
-                        title='$name'
-                    > $name"];
-                }
+                        alt='{$name} icon'
+                        title='{$name}'
+                    > {$name}"];
+                },
             ])
             ->add('categories', EntityType::class, $this->buildFormFieldHelper->getCategoiesFieldOptions())
             ->add('benchmark', IntegerType::class, [
                 'label' => 'Benchmark',
-                'required' => false
+                'required' => false,
             ])
             ->add('benchmarkLink', TextType::class, [
                 'label' => 'Log du benchmark',
-                'required' => false
-            ]);
+                'required' => false,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

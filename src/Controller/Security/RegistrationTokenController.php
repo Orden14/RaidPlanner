@@ -25,11 +25,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class RegistrationTokenController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface      $entityManager,
-        private readonly FormFlashHelper             $formFlashHelper,
-        private readonly RegistrationTokenHandler    $registrationTokenHandler,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly RegistrationTokenHandler $registrationTokenHandler,
         private readonly RegistrationTokenRepository $registrationTokenRepository,
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -38,13 +39,13 @@ final class RegistrationTokenController extends AbstractController
 
         $form = $this->createForm(RegistrationTokenType::class, new RegistrationToken(), [
             'action' => $this->generateUrl('registration_token_new'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 
         return $this->render('security/registration_token/index.html.twig', [
             'form' => $form->createView(),
-            'registration_tokens' => $this->registrationTokenRepository->findAll()
+            'registration_tokens' => $this->registrationTokenRepository->findAll(),
         ]);
     }
 
@@ -90,9 +91,10 @@ final class RegistrationTokenController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Le token a bien été supprimé"
+                'Le token a bien été supprimé'
             );
         }
+
         return $this->redirectToRoute('registration_token_index', [], Response::HTTP_SEE_OTHER);
     }
 }

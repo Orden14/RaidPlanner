@@ -8,13 +8,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class EncounterFixtures extends Fixture implements DependentFixtureInterface
+final class EncounterFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private readonly InstanceRepository $instanceRepository
-    ) {}
+    ) {
+    }
 
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->getEncountersList() as $instanceTag => $encounters) {
             $instance = $this->instanceRepository->findOneBy(['tag' => $instanceTag]);
@@ -22,7 +23,8 @@ class EncounterFixtures extends Fixture implements DependentFixtureInterface
             foreach ($encounters as $encounter) {
                 $encounter = (new Encounter())
                     ->setName($encounter)
-                    ->setInstance($instance);
+                    ->setInstance($instance)
+                ;
 
                 $manager->persist($encounter);
             }
@@ -115,7 +117,7 @@ class EncounterFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @return string[]
      */
-    final public function getDependencies(): array
+    public function getDependencies(): array
     {
         return [
             InstanceFixtures::class,

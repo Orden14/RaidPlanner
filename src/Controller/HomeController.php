@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class HomeController extends AbstractController
 {
-    #[isGranted(RolesEnum::GUEST->value)]
+    #[IsGranted(RolesEnum::GUEST->value)]
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(): Response
     {
@@ -21,7 +21,7 @@ final class HomeController extends AbstractController
         return $this->redirectToRoute('calendar_index');
     }
 
-    #[isGranted(RolesEnum::GUEST->value)]
+    #[IsGranted(RolesEnum::GUEST->value)]
     #[Route('/guest', name: 'app_guest', methods: ['GET'])]
     public function guestPage(): Response
     {

@@ -22,9 +22,10 @@ final class EncounterController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly FormFlashHelper        $formFlashHelper,
-        private readonly EncounterRepository    $encounterRepository
-    ) {}
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EncounterRepository $encounterRepository
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -32,7 +33,7 @@ final class EncounterController extends AbstractController
         $encounter = new Encounter();
         $form = $this->createForm(EncounterType::class, $encounter, [
             'action' => $this->generateUrl('encounter_new'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 

@@ -27,7 +27,8 @@ final readonly class UserActivitySubscriber
 {
     public function __construct(
         private Security $security
-    ) {}
+    ) {
+    }
 
     public function postPersist(PostPersistEventArgs $args): void
     {
@@ -82,12 +83,12 @@ final readonly class UserActivitySubscriber
     {
         /** @var ?User $currentUser */
         $currentUser = $this->security->getUser();
-        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+        $currentUserName = $currentUser?->getUsername() ?? 'Unknown';
 
         return match ($eventType) {
             DoctrineEventTypeEnum::POST_PERSIST => "Nouvel utilisateur : {$user->getUsername()}",
-            DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de l'utilisateur {$user->getUsername()} par $currentUserName",
-            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de l'utilisateur {$user->getUsername()} par $currentUserName"
+            DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de l'utilisateur {$user->getUsername()} par {$currentUserName}",
+            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de l'utilisateur {$user->getUsername()} par {$currentUserName}"
         };
     }
 
@@ -95,12 +96,12 @@ final readonly class UserActivitySubscriber
     {
         /** @var ?User $currentUser */
         $currentUser = $this->security->getUser();
-        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+        $currentUserName = $currentUser?->getUsername() ?? 'Unknown';
 
         return match ($eventType) {
             DoctrineEventTypeEnum::POST_PERSIST => "Nouveau build {$build->getName()} créé par {$build->getAuthor()?->getUsername()}",
-            DoctrineEventTypeEnum::POST_UPDATE => "Le build {$build->getName()} a été modifié par $currentUserName",
-            DoctrineEventTypeEnum::POST_REMOVE => "Le build {$build->getName()} a été supprimé par $currentUserName"
+            DoctrineEventTypeEnum::POST_UPDATE => "Le build {$build->getName()} a été modifié par {$currentUserName}",
+            DoctrineEventTypeEnum::POST_REMOVE => "Le build {$build->getName()} a été supprimé par {$currentUserName}"
         };
     }
 
@@ -108,12 +109,12 @@ final readonly class UserActivitySubscriber
     {
         /** @var ?User $currentUser */
         $currentUser = $this->security->getUser();
-        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+        $currentUserName = $currentUser?->getUsername() ?? 'Unknown';
 
         return match ($eventType) {
             DoctrineEventTypeEnum::POST_PERSIST => "Build {$message->getBuild()?->getName()} : nouveau message par {$message->getAuthor()?->getUsername()}",
-            DoctrineEventTypeEnum::POST_UPDATE => "Build {$message->getBuild()?->getName()} : $currentUserName a modifié un message",
-            DoctrineEventTypeEnum::POST_REMOVE => "Build {$message->getBuild()?->getName()} : $currentUserName a supprimé un message"
+            DoctrineEventTypeEnum::POST_UPDATE => "Build {$message->getBuild()?->getName()} : {$currentUserName} a modifié un message",
+            DoctrineEventTypeEnum::POST_REMOVE => "Build {$message->getBuild()?->getName()} : {$currentUserName} a supprimé un message"
         };
     }
 
@@ -121,12 +122,12 @@ final readonly class UserActivitySubscriber
     {
         /** @var ?User $currentUser */
         $currentUser = $this->security->getUser();
-        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+        $currentUserName = $currentUser?->getUsername() ?? 'Unknown';
 
         return match ($eventType) {
             DoctrineEventTypeEnum::POST_PERSIST => "Nouvel événement de guilde : {$event->getTitle()}",
-            DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de l'événement de guilde {$event->getTitle()} par $currentUserName",
-            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de l'événement de guilde {$event->getTitle()} par $currentUserName"
+            DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de l'événement de guilde {$event->getTitle()} par {$currentUserName}",
+            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de l'événement de guilde {$event->getTitle()} par {$currentUserName}"
         };
     }
 
@@ -134,12 +135,12 @@ final readonly class UserActivitySubscriber
     {
         /** @var ?User $currentUser */
         $currentUser = $this->security->getUser();
-        $currentUserName = $currentUser?->getUsername() ?? "Unknown";
+        $currentUserName = $currentUser?->getUsername() ?? 'Unknown';
 
         return match ($eventType) {
             DoctrineEventTypeEnum::POST_PERSIST => $this->getEventAttendancePersistMessage($attendance, $currentUserName),
             DoctrineEventTypeEnum::POST_UPDATE => "Mise à jour de la participation de {$attendance->getUser()?->getUsername()} à l'événement {$attendance->getGuildEvent()?->getTitle()} : {$attendance->getType()->value}",
-            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de la participation à l'événement {$attendance->getGuildEvent()?->getTitle()} de {$attendance->getUser()?->getUsername()} par $currentUserName"
+            DoctrineEventTypeEnum::POST_REMOVE => "Suppression de la participation à l'événement {$attendance->getGuildEvent()?->getTitle()} de {$attendance->getUser()?->getUsername()} par {$currentUserName}"
         };
     }
 
@@ -149,7 +150,7 @@ final readonly class UserActivitySubscriber
             AttendanceTypeEnum::PLAYER => "Nouvelle participation de {$attendance->getUser()?->getUsername()} à l'événement {$attendance->getGuildEvent()?->getTitle()}",
             AttendanceTypeEnum::BACKUP => "{$attendance->getUser()?->getUsername()} est ajouté en tant que backup à l'événement {$attendance->getGuildEvent()?->getTitle()}",
             AttendanceTypeEnum::ABSENT => "{$attendance->getUser()?->getUsername()} est ajouté en tant qu'absent à l'événement {$attendance->getGuildEvent()?->getTitle()}",
-            default => "$currentUserName a ajouté son status pour l'évènement {$attendance->getGuildEvent()?->getTitle()}"
+            default => "{$currentUserName} a ajouté son status pour l'évènement {$attendance->getGuildEvent()?->getTitle()}"
         };
     }
 }

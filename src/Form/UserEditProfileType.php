@@ -16,7 +16,7 @@ final class UserEditProfileType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => 'Nom de compte'
+                'label' => 'Nom de compte',
             ])
             ->add('profilePicture', FileType::class, [
                 'mapped' => false,
@@ -27,10 +27,11 @@ final class UserEditProfileType extends AbstractType
                         'mimeTypes' => ['image/png', 'image/jpeg'],
                         'maxSize' => '5120k',
                         'mimeTypesMessage' => 'Erreur : L\'image uploadée doit être en format .png ou .jpg',
-                        'maxSizeMessage' => 'Erreur : L\'image uploadée ne doit pas dépasser 5Mo'
-                    ])
-                ]
-            ]);
+                        'maxSizeMessage' => 'Erreur : L\'image uploadée ne doit pas dépasser 5Mo',
+                    ]),
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

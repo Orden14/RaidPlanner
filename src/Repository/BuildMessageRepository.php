@@ -11,8 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method BuildMessage|null find($id, $lockMode = null, $lockVersion = null)
  * @method BuildMessage|null findOneBy(array $criteria, array $orderBy = null)
- * @method BuildMessage[]    findAll()
- * @method BuildMessage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BuildMessage[] findAll()
+ * @method BuildMessage[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class BuildMessageRepository extends ServiceEntityRepository
 {

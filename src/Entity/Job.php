@@ -33,7 +33,7 @@ class Job
     private Collection $specializations;
 
     /**
-     * Allows to display default general builds that do not dependent on a specific job/specialization
+     * Allows to display default general builds that do not dependent on a specific job/specialization.
      */
     #[ORM\Column]
     private bool $defaultJob = false;

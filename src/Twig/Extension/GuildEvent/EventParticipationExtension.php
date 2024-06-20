@@ -14,7 +14,8 @@ final class EventParticipationExtension extends AbstractExtension
 {
     public function __construct(
         private readonly EventAttendanceDataService $eventAttendanceDataService,
-    ) {}
+    ) {
+    }
 
     /**
      * @return TwigFunction[]
@@ -45,11 +46,9 @@ final class EventParticipationExtension extends AbstractExtension
         $attendances = $this->eventAttendanceDataService->getAttendanceListByType($guildEvent, AttendanceTypeEnum::from($attendanceType));
 
         return count(array_filter(
-                $attendances,
-                static function ($attendance) use ($userId) {
-                    return $attendance->getUser()?->getId() === $userId;
-                }
-            )) > 0;
+            $attendances,
+            static fn ($attendance) => $attendance->getUser()?->getId() === $userId
+        )) > 0;
     }
 
     public function getAttendanceIcon(AttendanceTypeEnum $attendanceType): string
@@ -58,7 +57,7 @@ final class EventParticipationExtension extends AbstractExtension
             AttendanceTypeEnum::PLAYER => "<span class='text-success fw-bold' title='Joueur'>P </span>",
             AttendanceTypeEnum::BACKUP => "<span class='text-warning fw-bold' title='Backup'>B </span>",
             AttendanceTypeEnum::ABSENT => "<span class='text-danger fw-bold' title='Absent'>A </span>",
-            AttendanceTypeEnum::UNDEFINED => ""
+            AttendanceTypeEnum::UNDEFINED => ''
         };
     }
 }

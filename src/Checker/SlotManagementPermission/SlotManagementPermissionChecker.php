@@ -12,7 +12,8 @@ final readonly class SlotManagementPermissionChecker
         /** @var SlotManagementPermissionStepInterface[] $slotManagementPermissionStepInterfaces */
         #[TaggedIterator(SlotManagementPermissionStepInterface::class)]
         private iterable $slotManagementPermissionStepInterfaces
-    ) {}
+    ) {
+    }
 
     public function checkIfUserCanManageSlot(PlayerSlot $playerSlot): bool
     {

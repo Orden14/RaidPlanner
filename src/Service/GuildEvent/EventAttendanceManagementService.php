@@ -13,11 +13,12 @@ use Doctrine\ORM\EntityManagerInterface;
 final readonly class EventAttendanceManagementService
 {
     public function __construct(
-        private EntityManagerInterface       $entityManager,
-        private EventAttendanceRepository    $eventAttendanceRepository,
-        private PlayerSlotManagementService  $playerSlotManagementService,
+        private EntityManagerInterface $entityManager,
+        private EventAttendanceRepository $eventAttendanceRepository,
+        private PlayerSlotManagementService $playerSlotManagementService,
         private EventSignupPermissionChecker $eventSignupPermissionChecker,
-    ) {}
+    ) {
+    }
 
     public function setEventAttendanceForUser(User $user, GuildEvent $guildEvent, AttendanceTypeEnum $attendanceType): ?EventAttendance
     {
@@ -27,7 +28,7 @@ final readonly class EventAttendanceManagementService
 
         $eventAttendance = $this->eventAttendanceRepository->findOneBy([
             'guildEvent' => $guildEvent,
-            'user' => $user
+            'user' => $user,
         ]) ?? $this->createAttendanceForUser($user, $guildEvent, $attendanceType);
 
         if ($eventAttendance->getUser() === $user) {
@@ -47,7 +48,8 @@ final readonly class EventAttendanceManagementService
         $eventAttendance = (new EventAttendance())
             ->setType($type)
             ->setGuildEvent($guildEvent)
-            ->setUser($user);
+            ->setUser($user)
+        ;
 
         $this->entityManager->persist($eventAttendance);
         $this->entityManager->flush();

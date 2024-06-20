@@ -16,7 +16,8 @@ final class UserActivityLogController extends AbstractController
 {
     public function __construct(
         private readonly UserActivityLogRepository $userActivityLogRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(): Response

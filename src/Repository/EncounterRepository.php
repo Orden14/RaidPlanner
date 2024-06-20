@@ -12,8 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Encounter|null find($id, $lockMode = null, $lockVersion = null)
  * @method Encounter|null findOneBy(array $criteria, array $orderBy = null)
- * @method Encounter[]    findAll()
- * @method Encounter[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Encounter[] findAll()
+ * @method Encounter[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class EncounterRepository extends ServiceEntityRepository
 {
@@ -23,17 +23,17 @@ final class EncounterRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param ?InstanceTypeEnum $type Default value = RAID
      * @return Encounter[]
      */
-    public function findAllByType(?InstanceTypeEnum $type = null): array
+    public function findAllByType(InstanceTypeEnum $type = InstanceTypeEnum::RAID): array
     {
         return $this->createQueryBuilder('e')
             ->join('e.instance', 'i')
             ->where('i.type = :type')
-            ->setParameter('type', $type->value ?? InstanceTypeEnum::RAID->value)
+            ->setParameter('type', $type->value)
             ->orderBy('i.tag', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }
