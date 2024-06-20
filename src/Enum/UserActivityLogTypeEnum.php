@@ -14,7 +14,7 @@ enum UserActivityLogTypeEnum: string
     public static function toArray(): array
     {
         return array_map(
-            static fn(self $type) => $type->value,
+            static fn (self $type) => $type->value,
             self::cases()
         );
     }

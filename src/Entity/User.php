@@ -37,8 +37,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         callback: [RolesEnum::class, 'toArray'],
         multiple: true,
         max: 1,
-        message: "Un utilisateur doit avoir un rôle.",
-        maxMessage: "Un utilisateur doit avoir un seul rôle."
+        message: 'Un utilisateur doit avoir un rôle.',
+        maxMessage: 'Un utilisateur doit avoir un seul rôle.'
     )]
     #[ORM\Column]
     private array $roles = [];
@@ -76,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     final public function getUserIdentifier(): string
     {
-        return (string)$this->username;
+        return (string) $this->username;
     }
 
     final public function getProfilePicture(): ?string
@@ -93,10 +93,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @return array<int, string>
+     *
      * @see UserInterface
-     *
      * @deprecated use singular method getRole() instead
-     *
      */
     final public function getRoles(): array
     {
@@ -105,10 +104,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @param array<int, string> $roles
+     *
      * @see UserInterface
-     *
      * @deprecated use singular method setRole() instead
-     *
      */
     final public function setRoles(array $roles): self
     {
@@ -146,9 +144,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
-     *
      */
-    final public function eraseCredentials(): void {}
+    final public function eraseCredentials(): void
+    {
+    }
 
     final public function getJoinedAt(): DateTimeInterface
     {

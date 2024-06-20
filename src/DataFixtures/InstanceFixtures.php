@@ -7,15 +7,16 @@ use App\Enum\InstanceTypeEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class InstanceFixtures extends Fixture
+final class InstanceFixtures extends Fixture
 {
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->getInstanceList() as $name => [$tag, $type]) {
             $instance = (new Instance())
                 ->setName($name)
                 ->setTag($tag)
-                ->setType($type);
+                ->setType($type)
+            ;
 
             $manager->persist($instance);
         }

@@ -1,24 +1,24 @@
-import {Controller} from "stimulus"
+import { Controller } from 'stimulus'
 import toastr from 'toastr'
 
 export default class extends Controller {
-    static values = {url: String}
+    static values = { url: String }
 
-    connect() {
+    connect () {
         $(this.element).on('click', (event) => this.manageSlot(event))
     }
 
-    manageSlot(event) {
+    manageSlot (event) {
         event.preventDefault()
         $(this.element).addClass('d-none')
         const url = this.urlValue
 
         toastr.options = {
-            "timeOut": "4000",
+            timeOut: '4000'
         }
 
         $.ajax({
-            url: url,
+            url,
             method: 'GET',
             success: () => {
                 this.reloadPage()
@@ -31,7 +31,7 @@ export default class extends Controller {
         })
     }
 
-    reloadPage() {
+    reloadPage () {
         $.ajax({
             method: 'GET',
             url: window.location.href,

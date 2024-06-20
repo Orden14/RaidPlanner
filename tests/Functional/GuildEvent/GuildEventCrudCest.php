@@ -5,7 +5,6 @@ namespace App\Tests\Functional\GuildEvent;
 use App\Entity\GuildEvent;
 use App\Enum\InstanceTypeEnum;
 use App\Tests\Support\FunctionalTester;
-use Codeception\Attribute\Depends;
 use DateTime;
 
 final class GuildEventCrudCest
@@ -91,7 +90,7 @@ final class GuildEventCrudCest
         $I->seeResponseCodeIsSuccessful();
 
         $csrfToken = $I->grabValueFrom('input[name="_token"]');
-        $I->submitSymfonyForm("delete", ['_token' => $csrfToken]);
+        $I->submitSymfonyForm('delete', ['_token' => $csrfToken]);
         $I->seeResponseCodeIsSuccessful();
 
         $I->dontSeeInRepository(GuildEvent::class, ['id' => $this->guildEvent->getId()]);

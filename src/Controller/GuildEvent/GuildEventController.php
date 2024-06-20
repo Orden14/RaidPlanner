@@ -30,14 +30,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class GuildEventController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface              $entityManager,
-        private readonly FormFlashHelper                     $formFlashHelper,
-        private readonly GuildEventFactory                   $guildEventFactory,
-        private readonly EventAttendanceFactory              $eventAttendanceFactory,
-        private readonly EventAttendanceDataService          $eventAttendanceDataService,
-        private readonly EventManagementPermissionChecker    $eventManagementPermissionChecker,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly GuildEventFactory $guildEventFactory,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EventAttendanceFactory $eventAttendanceFactory,
+        private readonly EventAttendanceDataService $eventAttendanceDataService,
+        private readonly EventManagementPermissionChecker $eventManagementPermissionChecker,
         private readonly EventParticipationPermissionChecker $eventParticipationPermissionChecker,
-    ) {}
+    ) {
+    }
 
     #[Route('/show/{id}', name: 'show', methods: ['GET', 'POST'])]
     public function show(Request $request, GuildEvent $guildEvent): Response
@@ -54,20 +55,20 @@ final class GuildEventController extends AbstractController
 
         $form = $this->createForm(GuildEventType::class, $guildEvent, [
             'action' => $this->generateUrl('guild_event_edit', ['id' => $guildEvent->getId()]),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 
         $eventBattle = (new EventBattle())->setGuildEvent($guildEvent);
         $formAddBattle = $this->createForm(EventBattleType::class, $eventBattle, [
             'action' => $this->generateUrl('guild_event_battle_add', ['guildEvent' => $guildEvent->getId()]),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $formAddBattle->handleRequest($request);
 
         $formAttendAsBackup = $this->createForm(AttendBackupType::class, null, [
             'action' => $this->generateUrl('event_attendance_add_user_as_backup', ['guildEvent' => $guildEvent->getId()]),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
 
         return $this->render('guild_event/show.html.twig', [
@@ -137,7 +138,7 @@ final class GuildEventController extends AbstractController
             );
 
             return $this->redirectToRoute('guild_event_show', [
-                'id' => $guildEvent->getId()
+                'id' => $guildEvent->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 

@@ -22,9 +22,10 @@ final class InstanceController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly FormFlashHelper        $formFlashHelper,
-        private readonly InstanceRepository     $instanceRepository
-    ) {}
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly InstanceRepository $instanceRepository
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -32,7 +33,7 @@ final class InstanceController extends AbstractController
         $instance = new Instance();
         $form = $this->createForm(InstanceType::class, $instance, [
             'action' => $this->generateUrl('instance_new'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 

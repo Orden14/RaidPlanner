@@ -5,8 +5,4 @@ global.$ = $
 global.jQuery = $
 global.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js')
 
-export const app = startStimulusApp(require.context(
-    '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
-    true,
-    /\.[jt]sx?$/
-))
+export const app = startStimulusApp(require.context('@symfony/stimulus-bridge/lazy-controller-loader!./controllers', true, /\.[jt]sx?$/))

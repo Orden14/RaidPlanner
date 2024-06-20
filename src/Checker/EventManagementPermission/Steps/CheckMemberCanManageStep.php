@@ -13,9 +13,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class CheckMemberCanManageStep implements EventManagementPermissionStepInterface
 {
     public function __construct(
-        private Security                  $security,
+        private Security $security,
         private EventAttendanceRepository $eventAttendanceRepository,
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(GuildEvent $guildEvent): bool
@@ -25,7 +26,7 @@ final readonly class CheckMemberCanManageStep implements EventManagementPermissi
 
         $eventAttendance = $this->eventAttendanceRepository->findOneBy([
             'guildEvent' => $guildEvent,
-            'user'     => $currentUser,
+            'user' => $currentUser,
         ]);
 
         return $this->security->isGranted(RolesEnum::ADMIN->value)

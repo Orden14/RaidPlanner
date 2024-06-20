@@ -14,7 +14,8 @@ final readonly class CheckUserIsNotAbsentStep implements SlotAssignmentPermissio
 {
     public function __construct(
         private Security $security
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(PlayerSlot $playerSlot): bool

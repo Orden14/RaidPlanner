@@ -10,10 +10,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final readonly class FileMockUploader
 {
     public function __construct(
-        private KernelInterface       $kernel,
-        private FileManager           $fileManager,
+        private KernelInterface $kernel,
+        private FileManager $fileManager,
         private ParameterBagInterface $parameterBag,
-    ) {}
+    ) {
+    }
 
     public function mockFileUpload(string $filename): string
     {

@@ -2,8 +2,6 @@
 
 namespace App\Tests\Unit\Entity;
 
-use App\Entity\GuildEventRelation\EventAttendance;
-use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\RolesEnum;
 use DateTime;
@@ -13,7 +11,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserTest extends EntityTest
 {
     private UserPasswordHasherInterface $userPasswordHasher;
-
 
     public function _before(): void
     {
@@ -32,7 +29,8 @@ final class UserTest extends EntityTest
             ->setProfilePicture('profilepicture.jpg')
             ->setRole(RolesEnum::MEMBER)
             ->setPassword($this->userPasswordHasher->hashPassword($user, 'testPassword123'))
-            ->setJoinedAt((new DateTime())->setTime(23, 59, 59));
+            ->setJoinedAt((new DateTime())->setTime(23, 59, 59))
+        ;
 
         return $user;
     }

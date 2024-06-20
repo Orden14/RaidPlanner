@@ -13,7 +13,8 @@ final readonly class EventHasAvailablePlayerAttendanceSlotStep implements EventA
 {
     public function __construct(
         private EventAttendanceRepository $eventAttendanceRepository
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(GuildEvent $guildEvent): bool

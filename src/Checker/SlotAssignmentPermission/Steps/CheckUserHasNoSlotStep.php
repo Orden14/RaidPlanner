@@ -12,9 +12,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class CheckUserHasNoSlotStep implements SlotAssignmentPermissionStepInterface
 {
     public function __construct(
-        private Security             $security,
+        private Security $security,
         private PlayerSlotRepository $playerSlotRepository,
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(PlayerSlot $playerSlot): bool

@@ -20,7 +20,8 @@ final class BuildMessageController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
-    ) {}
+    ) {
+    }
 
     #[Route('/post/{id}', name: 'post', methods: ['POST'])]
     public function post(Build $build, Request $request): Response
@@ -53,6 +54,7 @@ final class BuildMessageController extends AbstractController
 
         if (!$this->isGranted(RolesEnum::ADMIN->value) && $currentUser !== $buildMessage->getAuthor()) {
             $this->addFlash('danger', 'Vous n\'avez pas les droits pour supprimer ce message.');
+
             return $this->redirectToRoute('build_show', ['id' => $build->getId()]);
         }
 
@@ -62,7 +64,7 @@ final class BuildMessageController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Message supprimé avec succès"
+                'Message supprimé avec succès'
             );
         }
 

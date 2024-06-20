@@ -10,15 +10,16 @@ use FilesystemIterator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class JobFixtures extends Fixture
+final class JobFixtures extends Fixture
 {
     public function __construct(
-        private readonly KernelInterface       $kernel,
+        private readonly KernelInterface $kernel,
+        private readonly FileMockUploader $fileMockUploader,
         private readonly ParameterBagInterface $parameterBag,
-        private readonly FileMockUploader      $fileMockUploader,
-    ) {}
+    ) {
+    }
 
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         if ($this->kernel->getEnvironment() === 'dev') {
             $this->purgeIconDirectory();
@@ -50,7 +51,8 @@ class JobFixtures extends Fixture
 
         return (new Job())->setName($name)
             ->setIcon($filename)
-            ->setColor($color);
+            ->setColor($color)
+        ;
     }
 
     /**
@@ -67,7 +69,7 @@ class JobFixtures extends Fixture
             'Ranger' => '#95c34a',
             'Revenant' => '#860000',
             'Thief' => '#89676d',
-            'Warrior' => '#c2a056'
+            'Warrior' => '#c2a056',
         ];
     }
 }

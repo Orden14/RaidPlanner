@@ -10,14 +10,15 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 
-class SpecializationFixtures extends Fixture implements DependentFixtureInterface
+final class SpecializationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly JobRepository    $jobRepository,
+        private readonly JobRepository $jobRepository,
         private readonly FileMockUploader $fileMockUploader
-    ) {}
+    ) {
+    }
 
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->getSpecializationList() as $jobName => $specializations) {
             $this->createSpecializationsByJob($jobName, $specializations, $manager);
@@ -45,7 +46,8 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
             $specialization = (new Specialization())
                 ->setName($specializationName)
                 ->setJob($job)
-                ->setIcon($filename);
+                ->setIcon($filename)
+            ;
 
             $manager->persist($specialization);
         }
@@ -113,10 +115,10 @@ class SpecializationFixtures extends Fixture implements DependentFixtureInterfac
     /**
      * @return string[]
      */
-    final public function getDependencies(): array
+    public function getDependencies(): array
     {
         return [
-            JobFixtures::class
+            JobFixtures::class,
         ];
     }
 }

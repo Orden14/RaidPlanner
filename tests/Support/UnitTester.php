@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Tests\Support;
 
@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Inherited Methods
+ * Inherited Methods.
  *
  * @method void wantTo($text)
  * @method void wantToTest($text)

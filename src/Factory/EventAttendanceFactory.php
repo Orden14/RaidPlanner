@@ -12,7 +12,8 @@ final readonly class EventAttendanceFactory
 {
     public function __construct(
         private Security $security
-    ) {}
+    ) {
+    }
 
     public function generateOwnerAttendanceForGuildEvent(GuildEvent $guildEvent): EventAttendance
     {
@@ -23,6 +24,7 @@ final readonly class EventAttendanceFactory
             ->setType(AttendanceTypeEnum::UNDEFINED)
             ->setUser($currentUser)
             ->setGuildEvent($guildEvent)
-            ->setEventOwner(true);
+            ->setEventOwner(true)
+        ;
     }
 }

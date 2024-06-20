@@ -31,7 +31,8 @@ final class EventAttendanceTest extends EntityTest
             ->setGuildEvent($this->guildEvent)
             ->setType(AttendanceTypeEnum::ABSENT)
             ->setEventOwner(false)
-            ->setComment('testComment');
+            ->setComment('testComment')
+        ;
 
         return $eventAttendance;
     }

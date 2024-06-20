@@ -12,17 +12,18 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Random\RandomException;
 
-class BuildMessageFixtures extends Fixture implements DependentFixtureInterface
+final class BuildMessageFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository  $userRepository,
+        private readonly UserRepository $userRepository,
         private readonly BuildRepository $buildRepository
-    ) {}
+    ) {
+    }
 
     /**
      * @throws RandomException
      */
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
@@ -39,7 +40,8 @@ class BuildMessageFixtures extends Fixture implements DependentFixtureInterface
                 $message->setAuthor($users[array_rand($users)])
                     ->setBuild($build)
                     ->setContent($faker->sentence(10))
-                    ->setPostedAt($date);
+                    ->setPostedAt($date)
+                ;
 
                 $manager->persist($message);
             }
@@ -51,10 +53,10 @@ class BuildMessageFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @return string[]
      */
-    final public function getDependencies(): array
+    public function getDependencies(): array
     {
         return [
-            BuildFixtures::class
+            BuildFixtures::class,
         ];
     }
 }

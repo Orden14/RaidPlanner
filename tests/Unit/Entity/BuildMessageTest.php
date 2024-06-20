@@ -29,7 +29,8 @@ final class BuildMessageTest extends EntityTest
             ->setContent('testContent')
             ->setPostedAt((new DateTime())->setTime(23, 59, 59))
             ->setAuthor($this->author)
-            ->setBuild($this->build);
+            ->setBuild($this->build)
+        ;
     }
 
     /**

@@ -1,8 +1,8 @@
-export function confirm(element, title, message) {
+export function confirm (element, title, message) {
     $.confirm({
         icon: 'bi bi-exclamation-triangle-fill',
         theme: 'supervan',
-        title: title,
+        title,
         content: message,
         type: 'red',
         typeAnimated: true,

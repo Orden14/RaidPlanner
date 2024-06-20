@@ -11,8 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Job|null find($id, $lockMode = null, $lockVersion = null)
  * @method Job|null findOneBy(array $criteria, array $orderBy = null)
- * @method Job[]    findAll()
- * @method Job[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Job[] findAll()
+ * @method Job[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class JobRepository extends ServiceEntityRepository
 {
@@ -29,6 +29,7 @@ final class JobRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('j')
             ->andWhere('j.defaultJob = false')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

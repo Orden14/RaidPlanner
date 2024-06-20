@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\File\File;
 final readonly class UserProfileService
 {
     public function __construct(
-        private FileManager           $fileManager,
+        private FileManager $fileManager,
         private ParameterBagInterface $parameterBag,
-    ) {}
+    ) {
+    }
 
     public function setDefaultProfilePicture(User $user): void
     {

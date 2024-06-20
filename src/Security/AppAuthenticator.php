@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class AppAuthenticator extends AbstractLoginFormAuthenticator
+final class AppAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
@@ -26,10 +26,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly RateLimiterFactory    $authenticationRequestLimiter
-    ) {}
+        private readonly RateLimiterFactory $authenticationRequestLimiter
+    ) {
+    }
 
-    final public function authenticate(Request $request): Passport
+    public function authenticate(Request $request): Passport
     {
         $limiter = $this->authenticationRequestLimiter->create($request->getClientIp());
         if (!$limiter->consume()->isAccepted()) {
@@ -49,12 +50,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
-    final public function onAuthenticationSuccess(
-        Request        $request,
+    public function onAuthenticationSuccess(
+        Request $request,
         TokenInterface $token,
-        string         $firewallName
-    ): ?Response
-    {
+        string $firewallName
+    ): ?Response {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
@@ -62,7 +62,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
-    final public function getLoginUrl(Request $request): string
+    public function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }

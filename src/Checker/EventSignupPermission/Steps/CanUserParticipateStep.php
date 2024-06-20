@@ -11,7 +11,8 @@ final readonly class CanUserParticipateStep implements EventAttendancePermission
 {
     public function __construct(
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(GuildEvent $guildEvent): bool

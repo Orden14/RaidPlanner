@@ -24,11 +24,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class DefaultBuildController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface   $entityManager,
-        private readonly FormFlashHelper          $formFlashHelper,
-        private readonly BuildRepository          $buildRepository,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly BuildRepository $buildRepository,
+        private readonly EntityManagerInterface $entityManager,
         private readonly SpecializationRepository $specializationRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function defaultBuildsIndex(Request $request): Response
@@ -36,7 +37,7 @@ final class DefaultBuildController extends AbstractController
         $defaultBuild = (new Build())->setSpecialization($this->specializationRepository->findDefaultSpecialization());
         $form = $this->createForm(DefaultBuildType::class, $defaultBuild, [
             'action' => $this->generateUrl('default_build_new'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 
@@ -106,7 +107,7 @@ final class DefaultBuildController extends AbstractController
 
         return $this->render('build/default_build/edit.html.twig', [
             'form' => $form->createView(),
-            'build' => $build
+            'build' => $build,
         ]);
     }
 }

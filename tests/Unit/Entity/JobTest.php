@@ -10,7 +10,6 @@ final class JobTest extends EntityTest
 {
     private Specialization $specialization;
 
-
     public function _before(): void
     {
         $this->specialization = $this->tester->grabEntityFromRepository(Specialization::class, ['id' => 1]);
@@ -27,7 +26,8 @@ final class JobTest extends EntityTest
             ->setColor('testColor')
             ->setIcon('testIcon')
             ->addSpecialization($this->specialization)
-            ->setDefaultJob(true);
+            ->setDefaultJob(true)
+        ;
     }
 
     /**

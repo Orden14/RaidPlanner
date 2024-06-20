@@ -9,7 +9,8 @@ final readonly class BuildFormFieldHelper
 {
     public function __construct(
         private Packages $packages
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, mixed>
@@ -29,13 +30,14 @@ final readonly class BuildFormFieldHelper
             'choice_attr' => function ($category) {
                 $name = $category->getName();
                 $iconPath = $this->packages->getUrl('icon/' . $category->getIcon());
+
                 return ['data-content' => "<img
-                        src='$iconPath'
+                        src='{$iconPath}'
                         class='select-icon'
-                        alt='$name icon'
-                        title='$name'
-                    > $name"];
-            }
+                        alt='{$name} icon'
+                        title='{$name}'
+                    > {$name}"];
+            },
         ];
     }
 }

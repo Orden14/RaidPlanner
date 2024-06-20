@@ -12,7 +12,8 @@ final readonly class EventParticipationPermissionChecker
         /** @var EventParticipationPermissionStepInterface[] $eventParticipationPermissionStepInterfaces */
         #[TaggedIterator(EventParticipationPermissionStepInterface::class)]
         private iterable $eventParticipationPermissionStepInterfaces
-    ) {}
+    ) {
+    }
 
     public function checkIfUserIsAllowedInEvent(GuildEvent $guildEvent): bool
     {

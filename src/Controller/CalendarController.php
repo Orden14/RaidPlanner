@@ -17,7 +17,8 @@ final class CalendarController extends AbstractController
 {
     public function __construct(
         private readonly GuildEventFactory $guildEventFactory,
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -26,7 +27,7 @@ final class CalendarController extends AbstractController
 
         $form = $this->createForm(GuildEventType::class, $guildEvent, [
             'action' => $this->generateUrl('guild_event_new'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 

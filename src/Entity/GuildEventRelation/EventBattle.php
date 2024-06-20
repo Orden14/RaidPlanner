@@ -37,7 +37,6 @@ class EventBattle
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $createdAt;
 
-
     public function __construct()
     {
         $this->createdAt = new DateTime();

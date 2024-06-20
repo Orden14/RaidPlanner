@@ -8,11 +8,12 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
 final readonly class EventManagementPermissionChecker
 {
-    public function __construct (
+    public function __construct(
         /** @var EventManagementPermissionStepInterface[] $eventManagementPermissionStepInterfaces */
         #[TaggedIterator(EventManagementPermissionStepInterface::class)]
         private iterable $eventManagementPermissionStepInterfaces
-    ) {}
+    ) {
+    }
 
     public function checkIfUserCanManageEvent(GuildEvent $guildEvent): bool
     {

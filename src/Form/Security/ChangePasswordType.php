@@ -26,7 +26,8 @@ final class ChangePasswordType extends AbstractType
                 'first_options' => ['label' => 'Nouveau mot de passe'],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
                 'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => PasswordConstraintUtil::getPasswordConstraints()
-            ]);
+                'constraints' => PasswordConstraintUtil::getPasswordConstraints(),
+            ])
+        ;
     }
 }

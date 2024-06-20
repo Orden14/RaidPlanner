@@ -1,66 +1,68 @@
 @import url("https://fonts.googleapis.com/css?family=Muli:400,900&display=swap");
 
 :root {
-  --fc-border-color: rgb(39, 55, 72) !important;
+    --fc-border-color: rgb(39, 55, 72) !important;
 }
 
 .fc-list-day-cushion {
-  background-color: rgb(39, 55, 72) !important;
+    background-color: rgb(39, 55, 72) !important;
 }
 
 #calendar-holder {
-  font-family: "Muli", sans-serif;
-  width: 80%;
-  margin: 15px auto 0;
+    font-family: "Muli", sans-serif;
+    width: 80%;
+    margin: 15px auto 0;
 }
 
-.fc-timegrid-body, .fc-daygrid-day {
-  cursor: pointer;
+.fc-timegrid-body,
+.fc-daygrid-day {
+    cursor: pointer;
 }
 
 .fc-toolbar h2,
 .fc th {
-  font-weight: inherit;
+    font-weight: inherit;
 }
 
 #calendar-holder a {
-  color: inherit; /* changes the link color to the inherited color */
-  text-decoration: none; /* removes the underline */
+    color: inherit; /* changes the link color to the inherited color */
+    text-decoration: none; /* removes the underline */
 }
 
 .fc-list-table .fc-list-event:hover td {
-  background-color: rgb(63, 58, 58);
+    background-color: rgb(63, 58, 58);
 }
 
 @media screen and (max-width: 900px) {
-  #calendar-holder {
-    width: 100%;
-  }
+    #calendar-holder {
+        width: 100%;
+    }
 
-  .fc-header-toolbar {
-    flex-direction: column; /* stack the toolbar sections vertically */
-  }
+    .fc-header-toolbar {
+        flex-direction: column; /* stack the toolbar sections vertically */
+    }
 
-  .fc-header-toolbar .fc-toolbar-chunk {
-    margin-bottom: 10px; /* add some space between the sections */
-  }
+    .fc-header-toolbar .fc-toolbar-chunk {
+        margin-bottom: 10px; /* add some space between the sections */
+    }
 
-  .fc-button {
-    font-size: 0.8em; /* reduce the font size of the buttons */
-    padding: 0.5em 1em; /* reduce the padding of the buttons */
-  }
+    .fc-button {
+        font-size: 0.8em; /* reduce the font size of the buttons */
+        padding: 0.5em 1em; /* reduce the padding of the buttons */
+    }
 
-  #calendar-holder .fc-event, #calendar-holder .fc-day {
-    font-size: 0.7em; /* reduce the font size */
-    padding: 2px; /* reduce padding */
-  }
+    #calendar-holder .fc-event,
+    #calendar-holder .fc-day {
+        font-size: 0.7em; /* reduce the font size */
+        padding: 2px; /* reduce padding */
+    }
 
-  #calendar-holder .fc-toolbar h2 {
-    font-size: 1em; /* reduce the font size of the title */
-  }
+    #calendar-holder .fc-toolbar h2 {
+        font-size: 1em; /* reduce the font size of the title */
+    }
 
-  #calendar-holder .fc-button {
-    font-size: 0.8em; /* reduce the font size of the buttons */
-    padding: 0.5em 1em; /* reduce the padding of the buttons */
-  }
+    #calendar-holder .fc-button {
+        font-size: 0.8em; /* reduce the font size of the buttons */
+        padding: 0.5em 1em; /* reduce the padding of the buttons */
+    }
 }

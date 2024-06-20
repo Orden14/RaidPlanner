@@ -17,23 +17,22 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 
-class BuildFixtures extends Fixture implements DependentFixtureInterface
+final class BuildFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly UserRepository           $userRepository,
-        private readonly BuildCategoryRepository  $buildCategoryRepository,
+        private readonly UserRepository $userRepository,
+        private readonly BuildCategoryRepository $buildCategoryRepository,
         private readonly SpecializationRepository $specializationRepository
-    ) {}
+    ) {
+    }
 
-    final public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
 
         $users = $this->userRepository->findAll();
         $categories = $this->buildCategoryRepository->findAll();
-        $specializations = array_filter($this->specializationRepository->findAll(), static function($specialization) {
-            return !$specialization->getJob()?->isDefaultJob();
-        });
+        $specializations = array_filter($this->specializationRepository->findAll(), static fn ($specialization) => !$specialization->getJob()?->isDefaultJob());
 
         for ($i = 0; $i < 40; $i++) {
             $manager->persist($this->generateBuild(
@@ -54,13 +53,12 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
      * @param BuildCategory[] $categories
      */
     private function generateBuild(
-        Generator       $faker,
-        User            $user,
+        Generator $faker,
+        User $user,
         BuildStatusEnum $status,
-        array           $categories,
-        Specialization  $specialization
-    ): Build
-    {
+        array $categories,
+        Specialization $specialization
+    ): Build {
         $build = new Build();
         $build->setName($faker->words(1, true))
             ->setAuthor($user)
@@ -70,7 +68,8 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
             ->setBenchmark($faker->numberBetween(20000, 50000))
             ->setLink($faker->optional()->url)
             ->setBenchmarkLink($faker->optional()->url)
-            ->setVideoLink($faker->optional()->url);
+            ->setVideoLink($faker->optional()->url)
+        ;
         $randomKeys = array_rand($categories, 2);
         foreach ($randomKeys as $key) {
             $build->addCategory($categories[$key]);
@@ -104,7 +103,8 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
                 ->setSpecialization($defaultSpecialization)
                 ->setLastEditedAt(new DateTime())
                 ->setStatus(BuildStatusEnum::META)
-                ->setBenchmark(0);
+                ->setBenchmark(0)
+            ;
             foreach ($data['categories'] as $category) {
                 $build->addCategory($category);
             }
@@ -127,40 +127,40 @@ class BuildFixtures extends Fixture implements DependentFixtureInterface
         return [
             [
                 'name' => 'Pdps bis',
-                'categories' => [$pdps]
+                'categories' => [$pdps],
             ],
             [
                 'name' => 'Cdps bis',
-                'categories' => [$cdps]
+                'categories' => [$cdps],
             ],
             [
                 'name' => 'Heal alac',
-                'categories' => [$heal, $alacrity]
+                'categories' => [$heal, $alacrity],
             ],
             [
                 'name' => 'Heal quick',
-                'categories' => [$heal, $quickness]
+                'categories' => [$heal, $quickness],
             ],
             [
                 'name' => 'Power alac',
-                'categories' => [$pdps, $alacrity]
+                'categories' => [$pdps, $alacrity],
             ],
             [
                 'name' => 'Condi quick',
-                'categories' => [$cdps, $quickness]
-            ]
+                'categories' => [$cdps, $quickness],
+            ],
         ];
     }
 
     /**
      * @return string[]
      */
-    final public function getDependencies(): array
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,
             SpecializationFixtures::class,
-            BuildCategoryFixtures::class
+            BuildCategoryFixtures::class,
         ];
     }
 }

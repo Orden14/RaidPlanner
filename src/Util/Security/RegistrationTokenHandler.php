@@ -9,17 +9,18 @@ use Doctrine\ORM\EntityManagerInterface;
 final readonly class RegistrationTokenHandler
 {
     public function __construct(
-        private EntityManagerInterface      $entityManager,
+        private EntityManagerInterface $entityManager,
         private RegistrationTokenRepository $registrationTokenRepository,
-    ) {}
+    ) {
+    }
 
     public function checkToken(string $token): bool
     {
         $registrationToken = $this->registrationTokenRepository->findOneBy(['token' => $token]);
 
-         return $registrationToken !== null
-            && ($registrationToken->getExpiryDate() > new DateTime())
-            && ($registrationToken->getUses() - $registrationToken->getUsed() > 0 || $registrationToken->getUses() === -1);
+        return $registrationToken !== null
+           && ($registrationToken->getExpiryDate() > new DateTime())
+           && ($registrationToken->getUses() - $registrationToken->getUsed() > 0 || $registrationToken->getUses() === -1);
     }
 
     public function incrementTokenUsage(string $token): void
@@ -42,5 +43,4 @@ final readonly class RegistrationTokenHandler
 
         $this->entityManager->flush();
     }
-
 }

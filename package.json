@@ -1,48 +1,71 @@
 {
-  "license": "UNLICENSED",
-  "dependencies": {
-    "@babel/core": "^7.24.3",
-    "@babel/preset-env": "^7.24.3",
-    "@fullcalendar/core": "^6.1.11",
-    "@fullcalendar/daygrid": "^6.1.11",
-    "@fullcalendar/interaction": "^6.1.11",
-    "@fullcalendar/list": "^6.1.11",
-    "@fullcalendar/timegrid": "^6.1.11",
-    "@hotwired/stimulus": "^3.2.2",
-    "@popperjs/core": "^2.11.8",
-    "@symfony/stimulus-bridge": "^3.2.2",
-    "@symfony/webpack-encore": "^4.6.1",
-    "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.3",
-    "bootstrap-select": "1.14.0-beta3",
-    "core-js": "^3.36.1",
-    "datatables.net-bs5": "^2.0.5",
-    "datatables.net-responsive": "^3.0.2",
-    "datatables.net-select-bs5": "^2.0.1",
-    "date-fns": "^3.6.0",
-    "flatpickr": "^4.6.13",
-    "jquery": "^3.7.1",
-    "jquery-confirm": "^3.3.4",
-    "moment": "^2.30.1",
-    "regenerator-runtime": "^0.14.1",
-    "sass": "^1.72.0",
-    "sass-loader": "^14.1.1",
-    "stimulus": "^3.2.2",
-    "toastr": "^2.1.4",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-notifier": "^1.15.0"
-  },
-  "scripts": {
-    "server-start": "symfony server:start --port=8001",
-    "watch": "encore dev --watch",
-    "build": "encore production --progress",
-    "dependencies": "composer install && yarn install && yarn build",
-    "truncate-database": "symfony console d:d:d --if-exists --force && symfony console d:d:c && symfony console d:s:u --force && symfony console d:f:l -n",
-    "truncate-database-test": "symfony console --env=test d:d:d --if-exists --force && symfony console --env=test d:d:c && symfony console --env=test d:s:u --force && symfony console --env=test d:f:l -n",
-    "test": "vendor/bin/codecept clean && yarn truncate-database-test && vendor/bin/codecept run --ext DotReporter"
-  },
-  "devDependencies": {
-    "@hotwired/turbo": "^7.1.1 || ^8.0"
-  }
+    "license": "UNLICENSED",
+    "dependencies": {
+        "@babel/core": "^7.24.3",
+        "@babel/preset-env": "^7.24.3",
+        "@fullcalendar/core": "^6.1.11",
+        "@fullcalendar/daygrid": "^6.1.11",
+        "@fullcalendar/interaction": "^6.1.11",
+        "@fullcalendar/list": "^6.1.11",
+        "@fullcalendar/timegrid": "^6.1.11",
+        "@hotwired/stimulus": "^3.2.2",
+        "@popperjs/core": "^2.11.8",
+        "@symfony/stimulus-bridge": "^3.2.2",
+        "@symfony/webpack-encore": "^4.6.1",
+        "bootstrap": "^5.3.3",
+        "bootstrap-icons": "^1.11.3",
+        "bootstrap-select": "1.14.0-beta3",
+        "core-js": "^3.36.1",
+        "datatables.net-bs5": "^2.0.5",
+        "datatables.net-responsive": "^3.0.2",
+        "datatables.net-select-bs5": "^2.0.1",
+        "date-fns": "^3.6.0",
+        "flatpickr": "^4.6.13",
+        "jquery": "^3.7.1",
+        "jquery-confirm": "^3.3.4",
+        "moment": "^2.30.1",
+        "regenerator-runtime": "^0.14.1",
+        "sass": "^1.72.0",
+        "sass-loader": "^14.1.1",
+        "stimulus": "^3.2.2",
+        "toastr": "^2.1.4",
+        "webpack": "^5.91.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-notifier": "^1.15.0"
+    },
+    "scripts": {
+        "server-start": "symfony server:start --port=8001",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress",
+        "dependencies": "composer install && yarn install && yarn build",
+        "truncate-database": "symfony console d:d:d --if-exists --force && symfony console d:d:c && symfony console d:s:u --force && symfony console d:f:l -n",
+        "truncate-database-test": "symfony console --env=test d:d:d --if-exists --force && symfony console --env=test d:d:c && symfony console --env=test d:s:u --force && symfony console --env=test d:f:l -n",
+        "test": "vendor/bin/codecept clean && yarn truncate-database-test && vendor/bin/codecept run --ext DotReporter",
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "@hotwired/turbo": "^7.1.1 || ^8.0",
+        "eslint": "^8.30.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-n": "^16.6.2",
+        "eslint-plugin-promise": "^6.2.0",
+        "husky": "^9.0.11",
+        "lint-staged": "^15.2.7",
+        "prettier": "^3.3.2"
+    },
+    "lint-staged": {
+        "*.php": [
+            "vendor/bin/php-cs-fixer fix --config .php-cs-fixer.dist.php"
+        ],
+        "*.(js|html|css)": [
+            "prettier --write --tab-width 4"
+        ],
+        "*.js": [
+            "eslint --fix"
+        ]
+    },
+    "prettier": {
+        "printWidth": 200
+    }
 }

@@ -7,10 +7,10 @@ use DateTime;
 
 final class GraidAttendanceTableData
 {
-    /** @var GuildEvent[] $weeklyGuildRaids */
+    /** @var GuildEvent[] */
     private array $weeklyGuildRaids = [];
 
-    /** @var MemberWeeklyAttendance[] $memberWeeklyAttendances */
+    /** @var MemberWeeklyAttendance[] */
     private array $memberWeeklyAttendances = [];
 
     private DateTime $startOfWeek;

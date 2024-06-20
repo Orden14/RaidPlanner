@@ -24,11 +24,12 @@ final class BuildCategoryController extends AbstractController
     private const string BUILD_CATEGORY_INDEX_TEMPLATE = 'build_category/index.html.twig';
 
     public function __construct(
-        private readonly FileManager             $fileManager,
-        private readonly EntityManagerInterface  $entityManager,
-        private readonly FormFlashHelper         $formFlashHelper,
+        private readonly FileManager $fileManager,
+        private readonly FormFlashHelper $formFlashHelper,
+        private readonly EntityManagerInterface $entityManager,
         private readonly BuildCategoryRepository $buildCategoryRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(): Response
@@ -41,7 +42,7 @@ final class BuildCategoryController extends AbstractController
 
         return $this->render(self::BUILD_CATEGORY_INDEX_TEMPLATE, [
             'form' => $form->createView(),
-            'build_categories' => $this->buildCategoryRepository->findAll()
+            'build_categories' => $this->buildCategoryRepository->findAll(),
         ]);
     }
 
@@ -80,7 +81,7 @@ final class BuildCategoryController extends AbstractController
 
         return $this->render(self::BUILD_CATEGORY_INDEX_TEMPLATE, [
             'form' => $form->createView(),
-            'build_categories' => $this->buildCategoryRepository->findAll()
+            'build_categories' => $this->buildCategoryRepository->findAll(),
         ]);
     }
 

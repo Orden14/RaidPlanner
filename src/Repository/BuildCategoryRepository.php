@@ -11,8 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method BuildCategory|null find($id, $lockMode = null, $lockVersion = null)
  * @method BuildCategory|null findOneBy(array $criteria, array $orderBy = null)
- * @method BuildCategory[]    findAll()
- * @method BuildCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BuildCategory[] findAll()
+ * @method BuildCategory[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class BuildCategoryRepository extends ServiceEntityRepository
 {

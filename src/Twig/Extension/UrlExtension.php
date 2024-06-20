@@ -16,7 +16,7 @@ final class UrlExtension extends AbstractExtension
     {
         return [
             new TwigFilter('auto_link', $this->autoLink(...)),
-            new TwigFilter('shorten_url', $this->shortenUrl(...))
+            new TwigFilter('shorten_url', $this->shortenUrl(...)),
         ];
     }
 

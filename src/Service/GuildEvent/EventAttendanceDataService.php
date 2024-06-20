@@ -12,7 +12,8 @@ final readonly class EventAttendanceDataService
 {
     public function __construct(
         private EventAttendanceRepository $eventAttendanceRepository
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<int, EventAttendance[]>
@@ -25,16 +26,14 @@ final readonly class EventAttendanceDataService
 
         $combined = array_merge($players, $backups, $absents);
 
-        return array_chunk($combined, (int)ceil(count($combined) / 2) ?: 1);
+        return array_chunk($combined, (int) ceil(count($combined) / 2) ?: 1);
     }
 
     public function getEventPlayerCount(GuildEvent $guildEvent): int
     {
         return count(array_filter(
             $guildEvent->getEventAttendances()->toArray(),
-            static function ($attendance) {
-                return $attendance->getType() === AttendanceTypeEnum::PLAYER;
-            }
+            static fn ($attendance) => $attendance->getType() === AttendanceTypeEnum::PLAYER
         ));
     }
 
@@ -45,9 +44,7 @@ final readonly class EventAttendanceDataService
     {
         return array_filter(
             $guildEvent->getEventAttendances()->toArray(),
-            static function ($attendance) use ($attendanceType) {
-                return $attendance->getType() === $attendanceType;
-            }
+            static fn ($attendance) => $attendance->getType() === $attendanceType
         );
     }
 

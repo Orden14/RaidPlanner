@@ -27,7 +27,8 @@ final class EncounterTest extends EntityTest
         return (new Encounter())
             ->setName('testEncounter')
             ->setInstance($this->instance)
-            ->addEventBattle($this->eventBattle);
+            ->addEventBattle($this->eventBattle)
+        ;
     }
 
     /**

@@ -9,7 +9,8 @@ final readonly class BuildDisplayService
 {
     public function __construct(
         private Packages $packages,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, string>
@@ -19,9 +20,9 @@ final readonly class BuildDisplayService
         $iconPath = $this->packages->getUrl('icon/' . $build->getSpecialization()?->getIcon());
 
         $name = $build->getName();
-        $profilePictureHtml = "<img src='$iconPath' class='select-icon' alt='$name icon' title='$name'>";
+        $profilePictureHtml = "<img src='{$iconPath}' class='select-icon' alt='{$name} icon' title='{$name}'>";
 
-        return ["data-content" => "$profilePictureHtml $name {$this->getCategoryIconsHtml($build)}"];
+        return ['data-content' => "{$profilePictureHtml} {$name} {$this->getCategoryIconsHtml($build)}"];
     }
 
     private function getCategoryIconsHtml(Build $build): string
@@ -30,7 +31,7 @@ final readonly class BuildDisplayService
 
         foreach ($build->getCategories() as $category) {
             $iconPath = $this->packages->getUrl('icon/' . $category->getIcon());
-            $icons .= "<img src='$iconPath' alt='{$category->getName()} icon' title='{$category->getName()}' class='select-icon'>";
+            $icons .= "<img src='{$iconPath}' alt='{$category->getName()} icon' title='{$category->getName()}' class='select-icon'>";
         }
 
         return $icons;

@@ -20,11 +20,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class ResetPasswordCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface      $entityManager,
-        private readonly UserRepository              $userRepository,
+        private readonly UserRepository $userRepository,
+        private readonly EntityManagerInterface $entityManager,
         private readonly UserPasswordHasherInterface $userPasswordHasher
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -41,6 +40,7 @@ final class ResetPasswordCommand extends Command
 
         if (!$user) {
             $output->writeln('<fg=red>Error : User not found.' . PHP_EOL . 'Aborting... </>');
+
             return Command::FAILURE;
         }
 
@@ -50,6 +50,7 @@ final class ResetPasswordCommand extends Command
         );
         if (!$helper->ask($input, $output, $question)) {
             $output->writeln('<fg=yellow>Aborting...</>');
+
             return Command::SUCCESS;
         }
 
@@ -65,6 +66,7 @@ final class ResetPasswordCommand extends Command
         $this->entityManager->flush();
 
         $output->writeln('<fg=green>SUCCESS : Password updated successfully.</>');
+
         return Command::SUCCESS;
     }
 }

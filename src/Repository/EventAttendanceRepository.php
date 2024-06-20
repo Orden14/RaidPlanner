@@ -15,8 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method EventAttendance|null find($id, $lockMode = null, $lockVersion = null)
  * @method EventAttendance|null findOneBy(array $criteria, array $orderBy = null)
- * @method EventAttendance[]    findAll()
- * @method EventAttendance[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EventAttendance[] findAll()
+ * @method EventAttendance[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class EventAttendanceRepository extends ServiceEntityRepository
 {
@@ -36,7 +36,8 @@ final class EventAttendanceRepository extends ServiceEntityRepository
             ->setParameter('eventId', $eventId)
             ->setParameter('type', $type->value)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -54,7 +55,8 @@ final class EventAttendanceRepository extends ServiceEntityRepository
             ->setParameter('guildEvent', $guildEvent)
             ->setParameter('user', $user)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -73,6 +75,7 @@ final class EventAttendanceRepository extends ServiceEntityRepository
             ->setParameter('types', $types)
             ->setParameter('now', new DateTime())
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

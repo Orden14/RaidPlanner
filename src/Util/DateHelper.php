@@ -13,7 +13,7 @@ final readonly class DateHelper
     {
         $date = new DateTime();
 
-        $currentDayOfWeek = (int)$date->format('w');
+        $currentDayOfWeek = (int) $date->format('w');
 
         if ($currentDayOfWeek === 0) {
             $date->setTime(0, 0);
@@ -31,7 +31,7 @@ final readonly class DateHelper
     {
         $date = new DateTime();
 
-        $currentDayOfWeek = (int)$date->format('w');
+        $currentDayOfWeek = (int) $date->format('w');
 
         if ($currentDayOfWeek === 6) {
             $date->setTime(23, 59, 59);

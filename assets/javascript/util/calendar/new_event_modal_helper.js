@@ -1,11 +1,11 @@
-import {addHours, format, setHours} from "date-fns";
+import { addHours, format, setHours } from 'date-fns'
 
-export function setModalDates(startDate, endDate) {
+export function setModalDates (startDate, endDate) {
     $('#manageGuildEventModal input[name="guild_event[start]"]').val(format(startDate, 'yyyy-MM-dd HH:mm'))
     $('#manageGuildEventModal input[name="guild_event[end]"]').val(format(endDate, 'yyyy-MM-dd HH:mm'))
 }
 
-export function setModalDatesForDateClick(info) {
+export function setModalDatesForDateClick (info) {
     let startDate = new Date(info.dateStr)
     let endDate
 

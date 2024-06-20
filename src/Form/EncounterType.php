@@ -15,13 +15,14 @@ final class EncounterType extends AbstractType
 {
     public function __construct(
         private readonly InstanceRepository $instanceRepository
-    ) {}
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('instance', EntityType::class, [
                 'label' => 'Instance',
@@ -33,12 +34,11 @@ final class EncounterType extends AbstractType
                     'data-style-base' => 'form-control',
                     'data-width' => '100%',
                     'data-live-search' => 'true',
-                    'data-live-search-placeholder' => 'Rechercher une instance...'
+                    'data-live-search-placeholder' => 'Rechercher une instance...',
                 ],
-                'choice_attr' => function ($instance) {
-                    return ['data-content' => $instance->getName()];
-                }
-            ]);
+                'choice_attr' => static fn ($instance) => ['data-content' => $instance->getName()],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -22,16 +22,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class JobController extends AbstractController
 {
     public function __construct(
-        private readonly FileManager            $fileManager,
+        private readonly FileManager $fileManager,
+        private readonly FormFlashHelper $formFlashHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly FormFlashHelper        $formFlashHelper,
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(JobRepository $jobRepository): Response
     {
         return $this->render('job/index.html.twig', [
-            'jobs' => $jobRepository->findAllWithoutDefault()
+            'jobs' => $jobRepository->findAllWithoutDefault(),
         ]);
     }
 

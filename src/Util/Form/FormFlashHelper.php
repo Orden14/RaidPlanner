@@ -11,7 +11,8 @@ final readonly class FormFlashHelper
 {
     public function __construct(
         private RequestStack $requestStack
-    ) {}
+    ) {
+    }
 
     /**
      * @param FormErrorIterator<FormError|FormErrorIterator<FormError>> $formErrors

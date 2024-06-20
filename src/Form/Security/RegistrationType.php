@@ -27,7 +27,7 @@ final class RegistrationType extends AbstractType
                 'second_options' => ['label' => 'Confirm Password'],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => PasswordConstraintUtil::getPasswordConstraints()
+                'constraints' => PasswordConstraintUtil::getPasswordConstraints(),
             ])
             ->add('registrationToken', TextType::class, [
                 'mapped' => false,
@@ -35,8 +35,9 @@ final class RegistrationType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
-                'required' => true
-            ]);
+                'required' => true,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

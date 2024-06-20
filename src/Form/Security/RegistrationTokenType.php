@@ -19,7 +19,7 @@ final class RegistrationTokenType extends AbstractType
                     '15 minutes' => 900,
                     '1 heure' => 3600,
                     '1 jour' => 86400,
-                    '1 semaine' => 604800
+                    '1 semaine' => 604800,
                 ],
                 'required' => true,
                 'data' => 900,
@@ -39,7 +39,8 @@ final class RegistrationTokenType extends AbstractType
                 'required' => true,
                 'data' => 1,
                 'label' => "Nombre d'utilisations",
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

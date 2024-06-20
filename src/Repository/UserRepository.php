@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  *
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method User[] findAll()
+ * @method User[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
@@ -47,7 +47,8 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
         return $this->createQueryBuilder('u')
             ->orderBy('u.username', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -57,9 +58,10 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
     {
         return $this->createQueryBuilder('u')
             ->where('u.roles NOT LIKE :role')
-            ->setParameter('role', "%" . RolesEnum::GUEST->value . "%")
+            ->setParameter('role', '%' . RolesEnum::GUEST->value . '%')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -69,8 +71,9 @@ final class UserRepository extends ServiceEntityRepository implements PasswordUp
     {
         return $this->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
-            ->setParameter('role', "%" . RolesEnum::GUEST->value . "%")
+            ->setParameter('role', '%' . RolesEnum::GUEST->value . '%')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

@@ -38,7 +38,8 @@ final class GuildEventTest extends EntityTest
             ->setOldMembersAllowed(true)
             ->setMembersManageEvent(true)
             ->addEventBattle($this->eventBattle)
-            ->addEventAttendance($this->eventAttendance);
+            ->addEventAttendance($this->eventAttendance)
+        ;
     }
 
     /**

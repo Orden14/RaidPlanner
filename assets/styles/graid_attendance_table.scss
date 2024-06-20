@@ -1,44 +1,45 @@
 .graid-table {
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 
-  td, th {
-    border: 1px solid #ffffff;
-    padding: 10px;
-    text-align: center;
-  }
+    td,
+    th {
+        border: 1px solid #ffffff;
+        padding: 10px;
+        text-align: center;
+    }
 
-  .graid-table-corner {
-    border: none;
-  }
+    .graid-table-corner {
+        border: none;
+    }
 
-  .signed-up {
-    background-color: #58bd1b;
-    color: #000000;
-  }
+    .signed-up {
+        background-color: #58bd1b;
+        color: #000000;
+    }
 
-  .incomplete-signup {
-    background-color: #ca7c31;
-    color: #000000;
-  }
+    .incomplete-signup {
+        background-color: #ca7c31;
+        color: #000000;
+    }
 
-  .backup {
-    background-color: #046e6b;
-    color: #ffffff;
-  }
+    .backup {
+        background-color: #046e6b;
+        color: #ffffff;
+    }
 
-  .absent {
-      background-color: #ff4848;
-      color: #000000;
-  }
+    .absent {
+        background-color: #ff4848;
+        color: #000000;
+    }
 
-  .no-response {
-    background-color: rgba(106, 63, 63, 0.17);
-    color: #ffffff;
-  }
+    .no-response {
+        background-color: rgba(106, 63, 63, 0.17);
+        color: #ffffff;
+    }
 }
 
 .graid-table-column {
-  width: 150px;
+    width: 150px;
 }

@@ -24,8 +24,8 @@ final readonly class PasswordConstraintUtil
             ]),
             new Regex([
                 'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{10,}$/',
-                'message' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule et un chiffre.'
-            ])
+                'message' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule et un chiffre.',
+            ]),
         ];
     }
 }

@@ -16,7 +16,8 @@ final class UserActivityLogTest extends EntityTest
     {
         return (new UserActivityLog())
             ->setLogMessage('testLogMessage')
-            ->setType(UserActivityLogTypeEnum::BUILD);
+            ->setType(UserActivityLogTypeEnum::BUILD)
+        ;
     }
 
     /**

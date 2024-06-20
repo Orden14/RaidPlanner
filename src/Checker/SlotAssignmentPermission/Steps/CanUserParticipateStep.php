@@ -13,7 +13,8 @@ final readonly class CanUserParticipateStep implements SlotAssignmentPermissionS
 {
     public function __construct(
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(PlayerSlot $playerSlot): bool

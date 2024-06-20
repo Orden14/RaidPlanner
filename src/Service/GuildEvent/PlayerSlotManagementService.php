@@ -14,8 +14,9 @@ final readonly class PlayerSlotManagementService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private PlayerSlotRepository   $playerSlotRepository,
-    ) {}
+        private PlayerSlotRepository $playerSlotRepository,
+    ) {
+    }
 
     /**
      * @param PlayerSlot[] $playerSlots
@@ -36,8 +37,8 @@ final readonly class PlayerSlotManagementService
     public function getPlayerSlotsFromForm(FormInterface $form): array
     {
         return array_filter(
-            array_map(static fn($form) => $form->getData(), $form->all()),
-            static fn($data) => $data instanceof PlayerSlot
+            array_map(static fn ($form) => $form->getData(), $form->all()),
+            static fn ($data) => $data instanceof PlayerSlot
         );
     }
 

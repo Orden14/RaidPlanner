@@ -8,8 +8,9 @@ use App\Repository\PlayerSlotRepository;
 final readonly class SpecializationDeletionService
 {
     public function __construct(
-        private PlayerSlotRepository   $playerSlotRepository,
-    ) {}
+        private PlayerSlotRepository $playerSlotRepository,
+    ) {
+    }
 
     public function unlinkPlayerSlots(Specialization $specialization): void
     {

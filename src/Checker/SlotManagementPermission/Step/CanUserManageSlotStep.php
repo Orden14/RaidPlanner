@@ -12,9 +12,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class CanUserManageSlotStep implements SlotManagementPermissionStepInterface
 {
     public function __construct(
-        private Security                         $security,
+        private Security $security,
         private EventManagementPermissionChecker $eventManagementPermissionChecker,
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(PlayerSlot $playerSlot): bool

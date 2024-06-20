@@ -8,14 +8,12 @@ use App\Entity\GuildEventRelation\EventBattle;
 use App\Entity\GuildEventRelation\PlayerSlot;
 use App\Entity\User;
 use App\Enum\AttendanceTypeEnum;
-use App\Enum\InstanceTypeEnum;
 use App\Tests\Support\AcceptanceTester;
-use Codeception\Attribute\Depends;
 use LogicException;
 
 final class PlayerSlotCest
 {
-    private const string USER_NAME = "member";
+    private const string USER_NAME = 'member';
 
     private User $user;
     private GuildEvent $guildEvent;
@@ -39,7 +37,7 @@ final class PlayerSlotCest
         $I->amOnPage("/event/show/{$this->guildEvent->getId()}");
         $I->see($this->guildEvent->getTitle());
 
-        $firstBattleId = (int)$I->grabAttributeFrom('button.accordion-button[aria-expanded="true"] span', 'data-battle-id');
+        $firstBattleId = (int) $I->grabAttributeFrom('button.accordion-button[aria-expanded="true"] span', 'data-battle-id');
 
         foreach ($this->guildEvent->getEventBattles() as $eventBattle) {
             $this->assignToSlotOnBattle($I, $eventBattle, $eventBattle->getId() === $firstBattleId);
@@ -52,7 +50,7 @@ final class PlayerSlotCest
         $I->amOnPage("/event/show/{$this->guildEvent->getId()}");
         $I->see($this->guildEvent->getTitle());
 
-        $firstBattleId = (int)$I->grabAttributeFrom('button.accordion-button[aria-expanded="true"] span', 'data-battle-id');
+        $firstBattleId = (int) $I->grabAttributeFrom('button.accordion-button[aria-expanded="true"] span', 'data-battle-id');
         $eventBattle = $I->grabEntityFromRepository(EventBattle::class, ['id' => $firstBattleId]);
         $this->unassignAllSlotsForBattle($I, $eventBattle);
     }
@@ -79,7 +77,6 @@ final class PlayerSlotCest
             if ($playerSlot->getPlayer() !== null) {
                 $assignedUser = $playerSlot->getPlayer();
                 $unassignmentButtonSelector = $this->getSelectorForPlayerSlotButton($playerSlot, true);
-
 
                 $I->timedScrollTo($unassignmentButtonSelector);
                 $I->see($assignedUser->getUsername(), "div[data-slot-id=\"{$playerSlot->getId()}\"]");
@@ -137,7 +134,7 @@ final class PlayerSlotCest
     {
         $potentialEventAttendances = $I->grabEntitiesFromRepository(EventAttendance::class, [
             'guildEvent' => $this->guildEvent,
-            'user' => $this->user
+            'user' => $this->user,
         ]);
 
         if (reset($potentialEventAttendances)) {
@@ -147,7 +144,7 @@ final class PlayerSlotCest
             foreach ($this->guildEvent->getEventBattles() as $eventBattle) {
                 $assignedPlayerSlots = $I->grabEntitiesFromRepository(PlayerSlot::class, [
                     'player' => $this->user,
-                    'eventBattle' => $eventBattle
+                    'eventBattle' => $eventBattle,
                 ]);
 
                 foreach ($assignedPlayerSlots as $assignedPlayerSlot) {

@@ -14,14 +14,15 @@ use CalendarBundle\Event\CalendarEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-readonly class CalendarSubscriber implements EventSubscriberInterface
+final readonly class CalendarSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UrlGeneratorInterface               $router,
-        private GuildEventRepository                $guildEventRepository,
-        private EventAttendanceDataService          $eventAttendanceDataService,
+        private UrlGeneratorInterface $router,
+        private GuildEventRepository $guildEventRepository,
+        private EventAttendanceDataService $eventAttendanceDataService,
         private EventParticipationPermissionChecker $eventParticipationPermissionChecker,
-    ) {}
+    ) {
+    }
 
     /**
      * @return string[]
@@ -33,7 +34,7 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
         ];
     }
 
-    final public function onCalendarSetData(CalendarEvent $calendar): void
+    public function onCalendarSetData(CalendarEvent $calendar): void
     {
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
@@ -45,7 +46,8 @@ readonly class CalendarSubscriber implements EventSubscriberInterface
             ->setParameter('start', $start->format('Y-m-d H:i:s'))
             ->setParameter('end', $end->format('Y-m-d H:i:s'))
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         foreach ($guildEvents as $guildEvent) {
             if (!$this->eventParticipationPermissionChecker->checkIfUserIsAllowedInEvent($guildEvent)) {

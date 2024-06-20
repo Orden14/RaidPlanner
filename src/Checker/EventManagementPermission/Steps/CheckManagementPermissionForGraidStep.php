@@ -12,7 +12,8 @@ final readonly class CheckManagementPermissionForGraidStep implements EventManag
 {
     public function __construct(
         private Security $security,
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(GuildEvent $guildEvent): bool

@@ -12,7 +12,8 @@ final readonly class SlotAssignmentPermissionChecker
         /** @var SlotAssignmentPermissionStepInterface[] $slotAssignmentPermissionStepInterfaces */
         #[TaggedIterator(SlotAssignmentPermissionStepInterface::class)]
         private iterable $slotAssignmentPermissionStepInterfaces
-    ) {}
+    ) {
+    }
 
     public function checkIfUserCanTakeSlot(PlayerSlot $playerSlot): bool
     {

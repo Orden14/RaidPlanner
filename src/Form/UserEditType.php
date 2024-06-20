@@ -19,7 +19,7 @@ final class UserEditType extends AbstractType
 
         $builder
             ->add('username', TextType::class, [
-                'label' => "Nom d'utilisateur"
+                'label' => "Nom d'utilisateur",
             ])
             ->add('role', ChoiceType::class, [
                 'choices' => [
@@ -31,8 +31,9 @@ final class UserEditType extends AbstractType
                 ],
                 'data' => $user->getRole(),
                 'label' => 'Rôle',
-                'mapped' => false
-            ]);
+                'mapped' => false,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

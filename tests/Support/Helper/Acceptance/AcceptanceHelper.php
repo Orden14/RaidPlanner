@@ -18,5 +18,4 @@ final class AcceptanceHelper extends Module
         $webDriver->waitForJS('return !!window.jQuery && window.jQuery.active === 0;', $timeout);
         $webDriver->wait(1);
     }
-
 }

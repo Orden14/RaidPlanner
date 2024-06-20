@@ -14,11 +14,12 @@ final class InstanceType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('tag', TextType::class, [
-                'label' => 'Tag'
-            ]);
+                'label' => 'Tag',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -13,9 +13,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final readonly class UserIsNotAlreadySignedUpStep implements EventAttendancePermissionStepInterface
 {
     public function __construct(
-        private Security                   $security,
+        private Security $security,
         private EventAttendanceDataService $eventAttendanceDataService,
-    ) {}
+    ) {
+    }
 
     #[Override]
     public function check(GuildEvent $guildEvent): bool

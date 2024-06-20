@@ -12,8 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method RegistrationToken|null find($id, $lockMode = null, $lockVersion = null)
  * @method RegistrationToken|null findOneBy(array $criteria, array $orderBy = null)
- * @method RegistrationToken[]    findAll()
- * @method RegistrationToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RegistrationToken[] findAll()
+ * @method RegistrationToken[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 final class RegistrationTokenRepository extends ServiceEntityRepository
 {
@@ -34,6 +34,7 @@ final class RegistrationTokenRepository extends ServiceEntityRepository
             ->orWhere('t.used >= t.uses AND t.uses >= 0')
             ->setParameter('dateTime', $now)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

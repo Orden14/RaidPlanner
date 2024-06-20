@@ -44,7 +44,8 @@ final class BuildTest extends EntityTest
             ->setSpecialization($this->specialization)
             ->addCategory($this->buildCategory)
             ->addBuildMessage($this->buildMessage)
-            ->setAuthor($this->author);
+            ->setAuthor($this->author)
+        ;
 
         return $build;
     }
