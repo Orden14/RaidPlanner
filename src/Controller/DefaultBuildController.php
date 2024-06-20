@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
 #[Route('/default_build', name: 'default_build_')]
-class DefaultBuildController extends AbstractController
+final class DefaultBuildController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface   $entityManager,
@@ -31,7 +31,7 @@ class DefaultBuildController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    final public function defaultBuildsIndex(Request $request): Response
+    public function defaultBuildsIndex(Request $request): Response
     {
         $defaultBuild = (new Build())->setSpecialization($this->specializationRepository->findDefaultSpecialization());
         $form = $this->createForm(DefaultBuildType::class, $defaultBuild, [
@@ -47,7 +47,7 @@ class DefaultBuildController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function newDefaultBuild(Request $request): Response
+    public function newDefaultBuild(Request $request): Response
     {
         $defaultBuild = new Build();
         $form = $this->createForm(DefaultBuildType::class, $defaultBuild);
@@ -83,7 +83,7 @@ class DefaultBuildController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function editDefaultBuild(Request $request, Build $build): Response
+    public function editDefaultBuild(Request $request, Build $build): Response
     {
         $form = $this->createForm(DefaultBuildType::class, $build);
         $form->handleRequest($request);

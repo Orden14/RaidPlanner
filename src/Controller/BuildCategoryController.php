@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
 #[Route('/category', name: 'buildcategory_')]
-class BuildCategoryController extends AbstractController
+final class BuildCategoryController extends AbstractController
 {
     private const string BUILD_CATEGORY_INDEX_TEMPLATE = 'build_category/index.html.twig';
 
@@ -31,7 +31,7 @@ class BuildCategoryController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    final public function index(): Response
+    public function index(): Response
     {
         $buildCategory = new BuildCategory();
         $form = $this->createForm(BuildCategoryType::class, $buildCategory, [
@@ -46,7 +46,7 @@ class BuildCategoryController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $buildCategory = new BuildCategory();
         $form = $this->createForm(BuildCategoryType::class, $buildCategory);
@@ -85,7 +85,7 @@ class BuildCategoryController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, BuildCategory $buildCategory): Response
+    public function edit(Request $request, BuildCategory $buildCategory): Response
     {
         $form = $this->createForm(BuildCategoryType::class, $buildCategory);
         $form->handleRequest($request);
@@ -131,7 +131,7 @@ class BuildCategoryController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, BuildCategory $buildCategory): Response
+    public function delete(Request $request, BuildCategory $buildCategory): Response
     {
         if ($this->isCsrfTokenValid('delete' . $buildCategory->getId(), $request->getPayload()->get('_token'))) {
             if ($buildCategory->getIcon()) {

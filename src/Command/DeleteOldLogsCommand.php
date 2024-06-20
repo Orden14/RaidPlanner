@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     name: 'app:delete-old-logs',
     description: 'Delete logs older than 30 days'
 )]
-class DeleteOldLogsCommand extends Command
+final class DeleteOldLogsCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
@@ -23,7 +23,7 @@ class DeleteOldLogsCommand extends Command
         parent::__construct();
     }
 
-    final protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $date = (new DateTime())->modify('-30 days');
 

@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::TRIAL->value)]
 #[Route('/build', name: 'build_')]
-class BuildController extends AbstractController
+final class BuildController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface   $entityManager,
@@ -37,7 +37,7 @@ class BuildController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    final public function index(Request $request): Response
+    public function index(Request $request): Response
     {
         $build = new Build();
         $form = $this->createForm(BuildType::class, $build, [
@@ -56,7 +56,7 @@ class BuildController extends AbstractController
 
     #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $build = new Build();
         $form = $this->createForm(BuildType::class, $build);
@@ -93,7 +93,7 @@ class BuildController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
-    final public function show(Request $request, Build $build): Response
+    public function show(Request $request, Build $build): Response
     {
         if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefaultJob() === true) {
             $referer = $request->headers->get('referer');
@@ -117,7 +117,7 @@ class BuildController extends AbstractController
 
     #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, Build $build): Response
+    public function edit(Request $request, Build $build): Response
     {
         if (!$this->isGranted(RolesEnum::ADMIN->value) && $build->getSpecialization()?->getJob()?->isDefaultJob() === true) {
             $referer = $request->headers->get('referer');
@@ -156,7 +156,7 @@ class BuildController extends AbstractController
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, Build $build): Response
+    public function delete(Request $request, Build $build): Response
     {
         if ($this->isCsrfTokenValid('delete' . $build->getId(), $request->getPayload()->get('_token'))) {
             foreach ($build->getPlayerSlots() as $playerSlot) {
@@ -178,7 +178,7 @@ class BuildController extends AbstractController
 
     #[IsGranted(RolesEnum::MEMBER->value)]
     #[Route('/status/{id}/{statusString}', name: 'status', methods: ['GET', 'POST'])]
-    final public function setStatus(int $id, string $statusString): Response
+    public function setStatus(int $id, string $statusString): Response
     {
         $build = $this->buildRepository->find($id);
 

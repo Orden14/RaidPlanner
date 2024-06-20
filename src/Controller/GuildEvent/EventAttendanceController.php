@@ -23,7 +23,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::OLD_MEMBER->value)]
 #[Route('/attendance', name: 'event_attendance_')]
-class EventAttendanceController extends AbstractController
+final class EventAttendanceController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface              $entityManager,
@@ -34,7 +34,7 @@ class EventAttendanceController extends AbstractController
     ) {}
 
     #[Route('/event/{guildEvent}/set_user/{attendanceType}', name: 'add_user', methods: ['GET', 'POST'])]
-    final public function addUserToEvent(GuildEvent $guildEvent, string $attendanceType): Response
+    public function addUserToEvent(GuildEvent $guildEvent, string $attendanceType): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -57,7 +57,7 @@ class EventAttendanceController extends AbstractController
     }
 
     #[Route('/event/{guildEvent}/add_as_backup', name: 'add_user_as_backup', methods: ['GET', 'POST'])]
-    final public function addUserAsBackup(Request $request, GuildEvent $guildEvent): Response
+    public function addUserAsBackup(Request $request, GuildEvent $guildEvent): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -90,7 +90,7 @@ class EventAttendanceController extends AbstractController
 
     #[IsGranted(RolesEnum::TRIAL->value)]
     #[Route('/graid_week', name: 'graid_week', methods: ['GET'])]
-    final public function weeklyGuildRaidAttendance(GraidAttendanceTableDataBuilder $tableDataBuilder): Response
+    public function weeklyGuildRaidAttendance(GraidAttendanceTableDataBuilder $tableDataBuilder): Response
     {
         return $this->render('event_attendance/graid_attendance_week.html.twig', [
             'table_data' => $tableDataBuilder->build(),
@@ -98,7 +98,7 @@ class EventAttendanceController extends AbstractController
     }
 
     #[Route('/remove/{id}', name: 'remove', methods: ['GET', 'POST'])]
-    final public function removePlayer(Request $request, EventAttendance $eventAttendance): Response
+    public function removePlayer(Request $request, EventAttendance $eventAttendance): Response
     {
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventAttendance->getGuildEvent();

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::OLD_MEMBER->value)]
 #[Route('/player-slot', name: 'player_slot_')]
-class PlayerSlotController extends AbstractController
+final class PlayerSlotController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface           $entityManager,
@@ -33,7 +33,7 @@ class PlayerSlotController extends AbstractController
     ) {}
 
     #[Route('/assign/{playerSlot}', name: 'assign', methods: ['GET'])]
-    final public function assignToSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
+    public function assignToSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -61,7 +61,7 @@ class PlayerSlotController extends AbstractController
     }
 
     #[Route('/unassign/{playerSlot}', name: 'unassign', methods: ['GET'])]
-    final public function unassignSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
+    public function unassignSlot(Request $request, PlayerSlot $playerSlot): JsonResponse
     {
         $request->getSession()->set('eventBattleId', $playerSlot->getEventBattle()?->getId());
 

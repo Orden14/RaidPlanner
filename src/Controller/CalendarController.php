@@ -13,14 +13,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::OLD_MEMBER->value)]
 #[Route('/planning', name: 'calendar_')]
-class CalendarController extends AbstractController
+final class CalendarController extends AbstractController
 {
     public function __construct(
         private readonly GuildEventFactory $guildEventFactory,
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    final public function index(Request $request): Response
+    public function index(Request $request): Response
     {
         $guildEvent = $this->guildEventFactory->generateGuildEvent();
 

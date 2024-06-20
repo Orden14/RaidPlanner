@@ -16,14 +16,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::TRIAL->value)]
 #[Route('/buildMessage', name: 'build_message_')]
-class BuildMessageController extends AbstractController
+final class BuildMessageController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
     ) {}
 
     #[Route('/post/{id}', name: 'post', methods: ['POST'])]
-    final public function post(Build $build, Request $request): Response
+    public function post(Build $build, Request $request): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -43,7 +43,7 @@ class BuildMessageController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, BuildMessage $buildMessage): Response
+    public function delete(Request $request, BuildMessage $buildMessage): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();

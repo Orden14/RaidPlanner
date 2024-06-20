@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::MEMBER->value)]
 #[Route('/event-battle', name: 'guild_event_battle_')]
-class EventBattleController extends AbstractController
+final class EventBattleController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface           $entityManager,
@@ -31,7 +31,7 @@ class EventBattleController extends AbstractController
     ) {}
 
     #[Route('/add/{guildEvent}', name: 'add', methods: ['GET', 'POST'])]
-    final public function addToEvent(Request $request, GuildEvent $guildEvent): Response
+    public function addToEvent(Request $request, GuildEvent $guildEvent): Response
     {
         if (!$this->eventManagementPermissionChecker->checkIfUserCanManageEvent($guildEvent)) {
             return $this->redirectToRoute('guild_event_show', ['id' => $guildEvent->getId()], Response::HTTP_SEE_OTHER);
@@ -65,7 +65,7 @@ class EventBattleController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function editForEvent(Request $request, EventBattle $eventBattle): Response
+    public function editForEvent(Request $request, EventBattle $eventBattle): Response
     {
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();
@@ -101,7 +101,7 @@ class EventBattleController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', methods: ['GET', 'POST'])]
-    final public function delete(Request $request, EventBattle $eventBattle): Response
+    public function delete(Request $request, EventBattle $eventBattle): Response
     {
         /** @var GuildEvent $guildEvent */
         $guildEvent = $eventBattle->getGuildEvent();

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(RolesEnum::ADMIN->value)]
 #[Route('/registration-token', name: 'registration_token_')]
-class RegistrationTokenController extends AbstractController
+final class RegistrationTokenController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface      $entityManager,
@@ -32,7 +32,7 @@ class RegistrationTokenController extends AbstractController
     ) {}
 
     #[Route('/', name: 'index', methods: ['GET', 'POST'])]
-    final public function index(Request $request): Response
+    public function index(Request $request): Response
     {
         $this->registrationTokenHandler->clearExpiredTokens();
 
@@ -52,7 +52,7 @@ class RegistrationTokenController extends AbstractController
      * @throws Exception
      */
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    final public function new(Request $request): Response
+    public function new(Request $request): Response
     {
         $registrationToken = new RegistrationToken();
 
@@ -82,7 +82,7 @@ class RegistrationTokenController extends AbstractController
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
-    final public function delete(Request $request, RegistrationToken $registrationToken): Response
+    public function delete(Request $request, RegistrationToken $registrationToken): Response
     {
         if ($this->isCsrfTokenValid('delete' . $registrationToken->getId(), $request->getPayload()->get('_token'))) {
             $this->entityManager->remove($registrationToken);

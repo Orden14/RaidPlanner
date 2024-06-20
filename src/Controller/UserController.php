@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('', name: 'user_')]
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
     public function __construct(
         private readonly FileManager               $fileManager,
@@ -34,7 +34,7 @@ class UserController extends AbstractController
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/members', name: 'members', methods: ['GET', 'POST'])]
-    final public function members(): Response
+    public function members(): Response
     {
         return $this->render('user/index.html.twig', [
             'users' => $this->userRepository->findAllMembers(),
@@ -44,7 +44,7 @@ class UserController extends AbstractController
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/nouveaux_comptes', name: 'guests', methods: ['GET', 'POST'])]
-    final public function guests(): Response
+    public function guests(): Response
     {
         return $this->render('user/index.html.twig', [
             'users' => $this->userRepository->findAllGuests(),
@@ -54,7 +54,7 @@ class UserController extends AbstractController
 
     #[IsGranted(RolesEnum::ADMIN->value)]
     #[Route('/user/edit/{id}', name: 'edit', methods: ['GET', 'POST'])]
-    final public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user): Response
     {
         $route = $user->getRole() === RolesEnum::GUEST ? 'user_guests' : 'user_members';
 
@@ -86,7 +86,7 @@ class UserController extends AbstractController
 
     #[IsGranted(RolesEnum::GUEST->value)]
     #[Route('/profile', name: 'profile', methods: ['GET', 'POST'])]
-    final public function profile(Request $request): Response
+    public function profile(Request $request): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -113,7 +113,7 @@ class UserController extends AbstractController
 
     #[IsGranted(RolesEnum::GUEST->value)]
     #[Route('/profile/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
-    final public function editProfile(Request $request): Response
+    public function editProfile(Request $request): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
