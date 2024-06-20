@@ -1,26 +1,26 @@
-import {Controller} from 'stimulus'
+import { Controller } from 'stimulus'
 
 export default class extends Controller {
-    connect() {
+    connect () {
         this.passwordRequirements()
     }
 
-    passwordRequirements() {
-        let options = {
+    passwordRequirements () {
+        const options = {
             numCharacters: 10,
             useLowercase: true,
             useUppercase: true,
             useNumbers: true,
             infoMessage: '',
-            fadeTime:300
+            fadeTime: 300
         }
 
         options.infoMessage = 'N\'utilisez pas votre mot de passe Guild Wars 2.'
 
-        let numCharactersUI = '<li class="pr-numCharacters"><span></span>Minimum 10 caractères</li>',
-            useLowercaseUI = '',
-            useUppercaseUI = '',
-            useNumbersUI   = ''
+        const numCharactersUI = '<li class="pr-numCharacters"><span></span>Minimum 10 caractères</li>'
+        let useLowercaseUI = ''
+        let useUppercaseUI = ''
+        let useNumbersUI = ''
 
         if (options.useLowercase === true) {
             useLowercaseUI = '<li class="pr-useLowercase"><span></span>1 Minuscule</li>'
@@ -32,37 +32,37 @@ export default class extends Controller {
             useNumbersUI = '<li class="pr-useNumbers"><span></span>1 Chiffre</li>'
         }
 
-        let messageDiv = $('<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>')
+        const messageDiv = $('<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>')
 
-        let numCharactersDone = true,
-            useLowercaseDone = true,
-            useUppercaseDone = true,
-            useNumbersDone   = true
+        let numCharactersDone = true
+        let useLowercaseDone = true
+        let useUppercaseDone = true
+        let useNumbersDone = true
 
-        let showMessage = () => {
-            const prBoxElement = $("#pr-box");
+        const showMessage = () => {
+            const prBoxElement = $('#pr-box')
 
             if (numCharactersDone === false || useLowercaseDone === false || useUppercaseDone === false || useNumbersDone === false) {
                 if (prBoxElement.length === 0) {
-                    let parentOffset = $(this.element).offset();
+                    const parentOffset = $(this.element).offset()
                     messageDiv.css({
                         top: parentOffset.top + $(this.element).outerHeight(),
                         left: parentOffset.left
-                    });
-                    $("body").append(messageDiv);
+                    })
+                    $('body').append(messageDiv)
                 }
-                prBoxElement.fadeIn(options.fadeTime);
+                prBoxElement.fadeIn(options.fadeTime)
             }
         }
 
-        let deleteMessage = () => {
-            let targetMessage = $("#pr-box")
-            targetMessage.fadeOut(options.fadeTime, function(){
+        const deleteMessage = () => {
+            const targetMessage = $('#pr-box')
+            targetMessage.fadeOut(options.fadeTime, function () {
                 $(this).remove()
             })
         }
 
-        let checkCompleted = () => {
+        const checkCompleted = () => {
             if (numCharactersDone === true && useLowercaseDone === true && useUppercaseDone === true && useNumbersDone === true) {
                 deleteMessage()
             } else {
@@ -70,57 +70,57 @@ export default class extends Controller {
             }
         }
 
-        $(this.element).on("focus", () => {
+        $(this.element).on('focus', () => {
             showMessage()
         })
 
-        $(this.element).on("blur", () => {
+        $(this.element).on('blur', () => {
             deleteMessage()
         })
 
-        let lowerCase = /[a-z]/,
-            upperCase = /[A-Z]/,
-            numbers = /\d/
+        const lowerCase = /[a-z]/
+        const upperCase = /[A-Z]/
+        const numbers = /\d/
 
-        $(this.element).on("keyup focus", function (){
-            let thisVal = $(this).val()
+        $(this.element).on('keyup focus', function () {
+            const thisVal = $(this).val()
 
             checkCompleted()
 
-            if ( thisVal.length >= options.numCharacters ) {
-                $(".pr-numCharacters span").addClass("pr-ok")
+            if (thisVal.length >= options.numCharacters) {
+                $('.pr-numCharacters span').addClass('pr-ok')
                 numCharactersDone = true
             } else {
-                $(".pr-numCharacters span").removeClass("pr-ok")
+                $('.pr-numCharacters span').removeClass('pr-ok')
                 numCharactersDone = false
             }
 
             if (options.useLowercase === true) {
-                if ( thisVal.match(lowerCase) ) {
-                    $(".pr-useLowercase span").addClass("pr-ok")
+                if (thisVal.match(lowerCase)) {
+                    $('.pr-useLowercase span').addClass('pr-ok')
                     useLowercaseDone = true
                 } else {
-                    $(".pr-useLowercase span").removeClass("pr-ok")
+                    $('.pr-useLowercase span').removeClass('pr-ok')
                     useLowercaseDone = false
                 }
             }
 
             if (options.useUppercase === true) {
-                if ( thisVal.match(upperCase) ) {
-                    $(".pr-useUppercase span").addClass("pr-ok")
+                if (thisVal.match(upperCase)) {
+                    $('.pr-useUppercase span').addClass('pr-ok')
                     useUppercaseDone = true
                 } else {
-                    $(".pr-useUppercase span").removeClass("pr-ok")
+                    $('.pr-useUppercase span').removeClass('pr-ok')
                     useUppercaseDone = false
                 }
             }
 
             if (options.useNumbers === true) {
-                if ( thisVal.match(numbers) ) {
-                    $(".pr-useNumbers span").addClass("pr-ok")
+                if (thisVal.match(numbers)) {
+                    $('.pr-useNumbers span').addClass('pr-ok')
                     useNumbersDone = true
                 } else {
-                    $(".pr-useNumbers span").removeClass("pr-ok")
+                    $('.pr-useNumbers span').removeClass('pr-ok')
                     useNumbersDone = false
                 }
             }

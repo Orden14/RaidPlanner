@@ -31,7 +31,7 @@ export default class extends Controller {
         })
     }
 
-    reloadPage() {
+    reloadPage () {
         $.ajax({
             method: 'GET',
             url: window.location.href,

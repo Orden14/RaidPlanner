@@ -1,13 +1,13 @@
-import {Controller} from '@hotwired/stimulus'
-import {confirm} from "../../javascript/components/confirm_modal"
+import { Controller } from '@hotwired/stimulus'
+import { confirm } from '../../javascript/components/confirm_modal'
 
 export default class extends Controller {
-    confirmRemove(event) {
+    confirmRemove (event) {
         event.preventDefault()
-        const slotUsername = this.element.dataset.attendanceUser;
-        const currentUsername = this.element.dataset.currentUser;
+        const slotUsername = this.element.dataset.attendanceUser
+        const currentUsername = this.element.dataset.currentUser
 
-        let message;
+        let message
         if (slotUsername === currentUsername) {
             message = 'Vous êtes sur le point de vous retirer de la liste des joueurs. Êtes-vous sûr de vouloir continuer ?'
         } else {
