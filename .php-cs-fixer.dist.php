@@ -72,7 +72,7 @@ return $config
         'string_line_ending' => true,
         'ternary_to_elvis_operator' => true,
         'ternary_to_null_coalescing' => true,
-        'trailing_comma_in_multiline' => true,
+        'trailing_comma_in_multiline' => false,
         'use_arrow_functions' => true,
         'void_return' => true,
         'yoda_style' => ['equal' => false, 'identical' => false, 'less_and_greater' => false],
