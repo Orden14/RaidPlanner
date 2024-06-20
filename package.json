@@ -44,7 +44,12 @@
     },
     "devDependencies": {
         "@hotwired/turbo": "^7.1.1 || ^8.0",
-        "eslint": "^9.5.0",
+        "eslint": "^8.30.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-n": "^16.6.2",
+        "eslint-plugin-promise": "^6.2.0",
+        "husky": "^9.0.11",
         "lint-staged": "^15.2.7",
         "prettier": "^3.3.2"
     },
