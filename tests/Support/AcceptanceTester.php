@@ -1,13 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Tests\Support;
 
 use Codeception\Actor;
 
 /**
- * Inherited Methods
+ * Inherited Methods.
  *
  * @method void wantTo($text)
  * @method void wantToTest($text)
@@ -21,7 +21,7 @@ use Codeception\Actor;
  * @method void pause($vars = [])
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 final class AcceptanceTester extends Actor
 {
     use _generated\AcceptanceTesterActions;

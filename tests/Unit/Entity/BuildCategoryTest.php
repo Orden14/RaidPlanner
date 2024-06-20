@@ -24,7 +24,8 @@ final class BuildCategoryTest extends EntityTest
         return (new BuildCategory())
             ->setName('testCategory')
             ->setIcon('testIcon')
-            ->addBuild($this->build);
+            ->addBuild($this->build)
+        ;
     }
 
     /**

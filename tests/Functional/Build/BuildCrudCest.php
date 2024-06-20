@@ -106,7 +106,7 @@ final class BuildCrudCest
         $I->seeResponseCodeIsSuccessful();
 
         $csrfToken = $I->grabValueFrom('input[name="_token"]');
-        $I->submitSymfonyForm("delete", ['_token' => $csrfToken]);
+        $I->submitSymfonyForm('delete', ['_token' => $csrfToken]);
         $I->seeResponseCodeIsSuccessful();
 
         $I->dontSeeInRepository(Build::class, ['id' => $this->build->getId()]);

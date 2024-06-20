@@ -17,7 +17,8 @@ final class RegistrationTokenTest extends EntityTest
         return (new RegistrationToken())
             ->setExpiryDate((new DateTime())->setTime(23, 59, 59))
             ->setUses(10)
-            ->setUsed(2);
+            ->setUsed(2)
+        ;
     }
 
     /**

@@ -31,7 +31,8 @@ final class EventBattleTest extends EntityTest
 
         $eventBattle->setGuildEvent($this->guildEvent)
             ->setEncounter($this->encounter)
-            ->addPlayerSlot($this->playerSlot);
+            ->addPlayerSlot($this->playerSlot)
+        ;
 
         return $eventBattle;
     }

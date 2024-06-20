@@ -26,7 +26,8 @@ final class InstanceTest extends EntityTest
             ->setName('testInstance')
             ->setTag('testTag')
             ->setType(InstanceTypeEnum::STRIKE)
-            ->addEncounter($this->encounter);
+            ->addEncounter($this->encounter)
+        ;
     }
 
     /**

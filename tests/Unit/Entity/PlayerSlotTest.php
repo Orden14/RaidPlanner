@@ -31,7 +31,8 @@ final class PlayerSlotTest extends EntityTest
             ->setPlayer($this->player)
             ->setBuild($this->build)
             ->setEventBattle($this->eventBattle)
-            ->setTank(true);
+            ->setTank(true)
+        ;
     }
 
     /**
