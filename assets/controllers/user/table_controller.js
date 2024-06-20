@@ -12,10 +12,7 @@ export default class extends Controller {
                 infoFiltered: '(filtré à partir de _MAX_ résultats)'
             },
             order: [[1, 'asc']],
-            columnDefs: [
-                { targets: [1] },
-                { targets: 3, orderable: false }
-            ]
+            columnDefs: [{ targets: [1] }, { targets: 3, orderable: false }]
         })
     }
 }

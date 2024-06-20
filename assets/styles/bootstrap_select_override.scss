@@ -1,11 +1,12 @@
 .bootstrap-select button.dropdown-toggle:focus {
-  outline: none !important;
+    outline: none !important;
 }
 
 .bootstrap-select .no-results {
-  background: rgb(33, 37, 41) !important;
+    background: rgb(33, 37, 41) !important;
 }
 
-.bootstrap-select .dropdown-item.active, .bootstrap-select .dropdown-item:active {
-  background-color: rgb(46, 53, 56) !important;
+.bootstrap-select .dropdown-item.active,
+.bootstrap-select .dropdown-item:active {
+    background-color: rgb(46, 53, 56) !important;
 }

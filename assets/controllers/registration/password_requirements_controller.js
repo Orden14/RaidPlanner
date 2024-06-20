@@ -15,7 +15,7 @@ export default class extends Controller {
             fadeTime: 300
         }
 
-        options.infoMessage = 'N\'utilisez pas votre mot de passe Guild Wars 2.'
+        options.infoMessage = "N'utilisez pas votre mot de passe Guild Wars 2."
 
         const numCharactersUI = '<li class="pr-numCharacters"><span></span>Minimum 10 caractères</li>'
         let useLowercaseUI = ''
@@ -32,7 +32,9 @@ export default class extends Controller {
             useNumbersUI = '<li class="pr-useNumbers"><span></span>1 Chiffre</li>'
         }
 
-        const messageDiv = $('<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>')
+        const messageDiv = $(
+            '<div id="pr-box"><i></i><div id="pr-box-inner"><p>' + options.infoMessage + '</p><ul>' + numCharactersUI + useLowercaseUI + useUppercaseUI + useNumbersUI + '</ul></div></div>'
+        )
 
         let numCharactersDone = true
         let useLowercaseDone = true

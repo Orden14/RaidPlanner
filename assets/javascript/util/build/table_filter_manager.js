@@ -23,9 +23,7 @@ function categoryFilter (rowCategoriesData) {
 
     return selectedCategories.length === 0
         ? true
-        : selectedCategories.every(
-            function (category) {
-                return rowCategoriesData.includes(category)
-            }
-        )
+        : selectedCategories.every(function (category) {
+            return rowCategoriesData.includes(category)
+        })
 }

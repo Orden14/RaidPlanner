@@ -15,11 +15,9 @@ export default class extends Controller {
             order: [[0, 'desc']]
         })
 
-        $.fn.dataTable.ext.search.push(
-            function (settings, data) {
-                return filterRow(settings, data)
-            }
-        )
+        $.fn.dataTable.ext.search.push(function (settings, data) {
+            return filterRow(settings, data)
+        })
 
         $('#logTypeFilter').on('change', function () {
             table.draw()

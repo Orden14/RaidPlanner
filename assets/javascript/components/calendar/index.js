@@ -66,11 +66,9 @@ $(document).ready(function () {
                 const title = $('<div class="fw-bold mb-2"></div>').html(arg.event.title)
                 container.append(title)
 
-                const eventDetails = $(
-                    '<div></div>').html(`${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType}
+                const eventDetails = $('<div></div>').html(`${arg.event.extendedProps.guildRaid ? 'GRAID' : arg.event.extendedProps.eventType}
                     
-                    <br>${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}`
-                )
+                    <br>${arg.event.extendedProps.playerCount}/${arg.event.extendedProps.maxSlots}`)
 
                 container.append(eventDetails)
             } else if (arg.view.type === 'dayGridMonth') {

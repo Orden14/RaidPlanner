@@ -1,47 +1,47 @@
 .ge-slot-icon {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .ge-vertical-center {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .ge-md-vertical-center {
-  display: inline-flex;
-  align-items: center;
+    display: inline-flex;
+    align-items: center;
 }
 
 @media screen and (max-width: 600px) {
-  .ge-secondary-text {
-    font-size: 0.8rem !important;
-  }
+    .ge-secondary-text {
+        font-size: 0.8rem !important;
+    }
 
-  .ge-secondary-img {
-    width: 20px !important;
-    height: 20px !important;
-  }
+    .ge-secondary-img {
+        width: 20px !important;
+        height: 20px !important;
+    }
 
-  .ge-md-vertical-center {
-    display: block;
-    align-items: center;
-  }
+    .ge-md-vertical-center {
+        display: block;
+        align-items: center;
+    }
 }
 
 @-webkit-keyframes redShade {
-  0% {
-    color: #701010;
-  }
-  50% {
-    color: #970303;
-  }
-  100% {
-    color: #701010;
-  }
+    0% {
+        color: #701010;
+    }
+    50% {
+        color: #970303;
+    }
+    100% {
+        color: #701010;
+    }
 }
 
 .ge-txt-blocked {
-  -webkit-animation: redShade 1s infinite;
+    -webkit-animation: redShade 1s infinite;
 }
 
 .ge-attendance-title {
@@ -53,11 +53,11 @@
 }
 
 @media screen and (max-width: 600px) {
-  .ge-attendance-title {
-    font-size: 0.8rem;
-  }
+    .ge-attendance-title {
+        font-size: 0.8rem;
+    }
 
-  .ge-attendance-text {
-    font-size: 0.6rem;
-  }
+    .ge-attendance-text {
+        font-size: 0.6rem;
+    }
 }
