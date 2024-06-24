@@ -30,8 +30,8 @@ final class SecurityController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly UserProfileService $userProfileService,
         private readonly AuthenticationUtils $authenticationUtils,
-        private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly RegistrationTokenHandler $registrationTokenHandler,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
@@ -65,8 +65,10 @@ final class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $this->registrationTokenHandler->checkToken($form->get('registrationToken')->getData())) {
-            $this->registrationTokenHandler->incrementTokenUsage($form->get('registrationToken')->getData());
+        $registrationToken = $form->get('registrationToken')->getData();
+
+        if ($form->isSubmitted() && $form->isValid() && $this->registrationTokenHandler->checkToken($registrationToken)) {
+            $this->registrationTokenHandler->incrementTokenUsage($registrationToken);
 
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
@@ -84,7 +86,7 @@ final class SecurityController extends AbstractController
             return $this->security->login($user, AppAuthenticator::class, 'main');
         }
 
-        if ($form->isSubmitted() && !$this->registrationTokenHandler->checkToken($form->get('registrationToken')->getData())) {
+        if ($form->isSubmitted() && !$this->registrationTokenHandler->checkToken($registrationToken)) {
             $form->get('registrationToken')->addError(new FormError("Token d'enregistrement invalide"));
         }
 
