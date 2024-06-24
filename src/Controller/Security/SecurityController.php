@@ -65,6 +65,7 @@ final class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
+        /** @var string $registrationToken */
         $registrationToken = $form->get('registrationToken')->getData();
 
         if ($form->isSubmitted() && $form->isValid() && $this->registrationTokenHandler->checkToken($registrationToken)) {
