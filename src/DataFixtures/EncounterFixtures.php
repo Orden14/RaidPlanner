@@ -90,16 +90,10 @@ final class EncounterFixtures extends Fixture implements DependentFixtureInterfa
             'strike' => [
                 'Cold War',
                 'Voice of the Fallen and Claw of the Fallen',
-                'Fraenir of Jormag',
-                'Boneskinner',
                 'Whisper of Jormag',
                 'Shiverpeaks Pass',
-                'Cold War',
-                'Voice of the Fallen and Claw of the Fallen',
                 'Fraenir of Jormag',
                 'Boneskinner',
-                'Whisper of Jormag',
-                'Shiverpeaks Pass',
             ],
             'donjon' => [
                 'Ascalonian Catacombs',
